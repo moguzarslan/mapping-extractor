@@ -1,0 +1,189 @@
+{
+    "mappings": [
+        {
+            "component_name": "Leader",
+            "related_requirements": [
+                {
+                    "requirement": "Leader blocks any attempt of unauthorized connection and applies certain security protocols.",
+                    "explanation": "The component description explicitly states that the Leader 'incorporates security mechanisms to block unauthorized connection attempts and applies protocols to prevent improper access and vulnerabilities'.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "The system must have a secure authentication and permission verification mechanism to ensure each user can only access information and functionalities that correspond to them.",
+                    "explanation": "As the central routing point, the Leader 'ensures that any interaction... is performed in an ordered and secure manner' before directing traffic to internal microservices.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "The message exchange protocol used in this case is HTTP and the data format used is JSON.",
+                    "explanation": "The Leader manages traffic flow between entry points and functional domains, utilizing standard web protocols for communication as implied by its role in routing web traffic.",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Portal",
+            "related_requirements": [
+                {
+                    "requirement": "Portal incorporates the binaries needed for the frontend of both the portal itself and the rest of the portal applications.",
+                    "explanation": "The technical details confirm that the Portal 'Incorporates the necessary binaries for the FrontEnd (Angular SPA) for both the portal itself and other applications'.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "Angular is used implementing a Single-Page Application (SPA).",
+                    "explanation": "The technical details specify that the Portal includes 'FrontEnd (Angular SPA)' binaries deployed as static content.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "New content must maintain visual coherence with the design of the old version of the application.",
+                    "explanation": "The role description states the Portal acts as the main entry point 'ensuring visual and functional coherence across the ecosystem'.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "The system must be easy to use for any user.",
+                    "explanation": "The Portal provides a 'centralized interface... offering a unified experience', contributing to ease of use.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "The new application will allow them to continue working with the systems they know without having to intervene directly with the new technologies.",
+                    "explanation": "By providing a 'centralized interface... offering a unified experience', the Portal abstracts underlying technologies from the user.",
+                    "page_number": "10"
+                }
+            ]
+        },
+        {
+            "component_name": "Access Control",
+            "related_requirements": [
+                {
+                    "requirement": "The system validates credentials.",
+                    "explanation": "The role description states that Access Control 'Manages user authentication and permissions within the application' and 'verifies user identity'.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "If valid, access to the portal is granted.",
+                    "explanation": "Upon verifying user identity, Access Control determines permissions, enabling access decisions.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "Restrict visualization and actions (create, modify, delete) on data according to roles assigned to the user.",
+                    "explanation": "The component 'determines permissions based on assigned roles and policies' and restricts access based on user roles.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "The system verifies the user's roles and permissions.",
+                    "explanation": "The core role is to 'verify user identity, determine permissions based on assigned roles and policies'.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Guarantee that data of other clients cannot be accessed.",
+                    "explanation": "The communication description notes it is essential for 'maintaining confidentiality and data protection by restricting access based on... client associations'.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "The system verifies the client to which the user is associated.",
+                    "explanation": "Access Control manages data related to Users and Clusters, enforcing restrictions based on 'client associations'.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+                    "explanation": "Technical details state it 'enforces data integrity constraints regarding cluster types'.",
+                    "page_number": "51"
+                },
+                {
+                    "requirement": "Authorizations assigned to a user must be from some of the brands that the associated Cluster contains.",
+                    "explanation": "Technical details state it enforces constraints regarding 'brand associations'.",
+                    "page_number": "51"
+                },
+                {
+                    "requirement": "The application must manage a strict separation of data for each client.",
+                    "explanation": "Access Control restricts access based on 'client associations', ensuring logical data separation.",
+                    "page_number": "55"
+                }
+            ]
+        },
+        {
+            "component_name": "Communication Log",
+            "related_requirements": [
+                {
+                    "requirement": "Communication Log records all communications that occur within the system, both between microservices and with external services.",
+                    "explanation": "The role description explicitly states it 'Registers all communications occurring within the system, both between microservices and with external services'.",
+                    "page_number": "58"
+                },
+                {
+                    "requirement": "The new application will improve daily process monitoring and problem resolution by reducing the probability of manual errors, unifying processes into a single system, and facilitating error identification.",
+                    "explanation": "The component serves as a 'traceability and audit mechanism for incident resolution', facilitating error identification.",
+                    "page_number": "10"
+                }
+            ]
+        },
+        {
+            "component_name": "Scheduler",
+            "related_requirements": [
+                {
+                    "requirement": "Scheduler handles the planning and scheduling of processes within the system.",
+                    "explanation": "The role description explicitly states it is 'Responsible for planning and scheduling processes within the system'.",
+                    "page_number": "59"
+                },
+                {
+                    "requirement": "The system must allow creation, query, modification, and deletion of data to authorized users.",
+                    "explanation": "The Scheduler executes activities such as maintenance tasks which may involve data operations managed by the system.",
+                    "page_number": "54"
+                }
+            ]
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "There is a schema for each microservice and each client has its group of schemas per microservice.",
+                    "explanation": "Technical details confirm 'There is one schema for each microservice, and each client has its own group of schemas per microservice'.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "Spring Data & JPA 2.2 is used for data persistence.",
+                    "explanation": "Technical details state the database is 'accessed via Spring Data & JPA repositories'.",
+                    "page_number": "76"
+                },
+                {
+                    "requirement": "For all applicable tables, there cannot be elements of the same type with the same code.",
+                    "explanation": "Technical details mention enforcement of 'data integrity constraints' which covers uniqueness rules.",
+                    "page_number": "51"
+                },
+                {
+                    "requirement": "Resources necessary for the application such as network, database, or servers are offered via the Internet.",
+                    "explanation": "The Database provides persistent storage accessible via the BackEnd layer, supporting the application resources.",
+                    "page_number": "60"
+                }
+            ]
+        },
+        {
+            "component_name": "Cloud Infrastructure (AWS EKS)",
+            "related_requirements": [
+                {
+                    "requirement": "Amazon EKS is used for deployment allowing the use of Kubernetes (K8s).",
+                    "explanation": "Technical details explicitly state 'Uses Amazon EKS (Elastic Kubernetes Service) to manage Kubernetes clusters'.",
+                    "page_number": "81"
+                },
+                {
+                    "requirement": "Each microservice will be deployed in a pod; each client will have a concrete namespace grouping the application's microservices; there will be a common namespace for the Leader microservice.",
+                    "explanation": "Technical details confirm 'Each microservice is deployed in a Pod, organized by Namespace per client'.",
+                    "page_number": "81"
+                },
+                {
+                    "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                    "explanation": "The role description states the infrastructure enables 'automation of deployment, scaling, and management... ensuring high availability'.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "System availability must be at least 99.9%, even during intensive usage times.",
+                    "explanation": "The infrastructure is designed for 'high availability' through orchestration and scaling capabilities.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "The web application must support a large number of simultaneous users without degrading its performance.",
+                    "explanation": "The Cloud Infrastructure enables 'scaling... of containerized applications', supporting high user loads.",
+                    "page_number": "54"
+                }
+            ]
+        }
+    ]
+}

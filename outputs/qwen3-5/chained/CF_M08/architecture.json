@@ -1,0 +1,89 @@
+{
+    "components": [
+        {
+            "component_name": "Security Service (Traefik)",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the entry point for the system, functioning as a reverse proxy and load balancer. It manages the routing of HTTP and HTTPS requests towards the application and exposes ports 80 and 443 to the outside world.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Implemented using Traefik v2.2 running in a Docker container. It handles SSL/TLS certificate resolution using Let's Encrypt (ACME) and redirects insecure HTTP traffic (Port 80) to secure HTTPS (Port 443). Configuration is managed via docker-compose.yml labels.",
+                    "page_number": "43"
+                },
+                "communication": {
+                    "explanation": "Receives incoming traffic from Users on ports 80 and 443. Routes this traffic internally to the System Service (Next.js) based on configured rules. Does not communicate directly with the Data Service.",
+                    "page_number": "41"
+                }
+            }
+        },
+        {
+            "component_name": "System Service (Next.js)",
+            "description": {
+                "role": {
+                    "explanation": "The core application service that serves the web interface and handles business logic. It manages user interactions, authentication, product/route management, and integrates with external APIs.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Built using Next.js framework with React for UI and TypeScript for type safety. Utilizes Server Components for data fetching and Client Components for interactivity. Implements Server Actions for mutations. Uses Prisma Client for database access and various libraries for specific features (Auth.js, Stripe, Brevo, etc.).",
+                    "page_number": "44"
+                },
+                "communication": {
+                    "explanation": "Receives routed requests from the Security Service (Traefik). Communicates with the Data Service (PostgreSQL) via Prisma ORM. Interacts with multiple Third-Party Services (Google, S3, Stripe, etc.) via their respective APIs. Exposes endpoints for client interaction.",
+                    "page_number": "42"
+                }
+            }
+        },
+        {
+            "component_name": "Data Service (PostgreSQL)",
+            "description": {
+                "role": {
+                    "explanation": "Provides the relational database storage for the application, persisting all user data, company information, products, routes, and transaction records.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Runs on PostgreSQL version 13.2 within a Docker container. The schema is defined and managed using Prisma ORM (schema.prisma file), which generates SQL automatically. Includes tables for users, companies, products, routes, returns, and authentication sessions.",
+                    "page_number": "68"
+                },
+                "communication": {
+                    "explanation": "Communicates exclusively with the System Service through the Prisma ORM layer. It does not expose direct network ports to external clients or other services outside the internal Docker network.",
+                    "page_number": "42"
+                }
+            }
+        },
+        {
+            "component_name": "Third-Party Services (External Integrations)",
+            "description": {
+                "role": {
+                    "explanation": "A collection of external cloud services delegated to handle specific functionalities such as authentication, file storage, payments, analytics, error tracking, and email marketing.",
+                    "page_number": "42"
+                },
+                "technical_details": {
+                    "explanation": "Includes Google OAuth (Authentication), Amazon S3 (Storage), Stripe (Payments), Google Analytics (Analytics), Sentry (Error Tracking), and Brevo (Email/Marketing). Access is managed via API keys and environment variables stored securely.",
+                    "page_number": "73"
+                },
+                "communication": {
+                    "explanation": "Interacted with directly by the System Service via HTTP APIs. The System Service sends requests to these services (e.g., uploading files to S3, processing payments via Stripe) and receives responses.",
+                    "page_number": "42"
+                }
+            }
+        },
+        {
+            "component_name": "Infrastructure & Orchestration",
+            "description": {
+                "role": {
+                    "explanation": "Provides the hosting environment, containerization management, and continuous integration/deployment pipeline necessary to run and maintain the system across different environments (Local, Dev, Pre, Prod).",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Hosted on Amazon EC2 instances. Uses Docker and Docker Compose to containerize and orchestrate the Security, System, and Data services. GitLab CI/CD pipelines automate building, testing, and deploying code changes using Terraform for infrastructure management.",
+                    "page_number": "70"
+                },
+                "communication": {
+                    "explanation": "Manages the lifecycle of the Docker containers hosting the other components. The CI/CD pipeline triggers deployments when code is pushed to GitLab repositories, updating the infrastructure configuration and service instances.",
+                    "page_number": "89"
+                }
+            }
+        }
+    ]
+}

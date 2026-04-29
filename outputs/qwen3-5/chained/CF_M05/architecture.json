@@ -1,0 +1,125 @@
+{
+    "components": [
+        {
+            "component_name": "Leader",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the central routing point for all communications within the system architecture. It ensures that any interaction, whether with external services or internal microservices, is performed in an ordered and secure manner.",
+                    "page_number": "57"
+                },
+                "technical_details": {
+                    "explanation": "This microservice does not have a user interface as it acts solely as an intermediary. It incorporates security mechanisms to block unauthorized connection attempts and applies protocols to prevent improper access and vulnerabilities.",
+                    "page_number": "57"
+                },
+                "communication": {
+                    "explanation": "Routes traffic from the Portals (SEAT/VGED gateways) to the corresponding internal microservices (Access Control, Portal, Communication Log, Scheduler). It manages the flow between the entry points and the functional domains.",
+                    "page_number": "61"
+                }
+            }
+        },
+        {
+            "component_name": "Portal",
+            "description": {
+                "role": {
+                    "explanation": "Provides a centralized interface for accessing the different VWGS applications. It acts as the main entry point for users, offering a unified experience and ensuring visual and functional coherence across the ecosystem.",
+                    "page_number": "57"
+                },
+                "technical_details": {
+                    "explanation": "Incorporates the necessary binaries for the FrontEnd (Angular SPA) for both the portal itself and other applications. These binaries are deployed as static content within the microservice, reducing dependency on external elements.",
+                    "page_number": "57"
+                },
+                "communication": {
+                    "explanation": "Receives user requests via web browsers through the Internet and Commercial Cloud Gateways. It communicates with the Leader microservice for authentication checks and routing decisions before directing users to specific applications.",
+                    "page_number": "61"
+                }
+            }
+        },
+        {
+            "component_name": "Access Control",
+            "description": {
+                "role": {
+                    "explanation": "Manages user authentication and permissions within the application. It verifies user identity, determines permissions based on assigned roles and policies, and manages the creation and maintenance of these roles.",
+                    "page_number": "58"
+                },
+                "technical_details": {
+                    "technical_details": {
+                        "explanation": "Handles data related to Users, Clusters (Retailer, Cluster, Importer, Admin), Brands, Roles, and Authorities. It enforces data integrity constraints regarding cluster types and brand associations.",
+                        "page_number": "51"
+                    },
+                    "communication": {
+                        "explanation": "Interacts with other microservices to validate access rights. It is essential for maintaining confidentiality and data protection by restricting access based on user roles and client associations.",
+                        "page_number": "58"
+                    }
+                }
+            }
+        },
+        {
+            "component_name": "Communication Log",
+            "description": {
+                "role": {
+                    "explanation": "Registers all communications occurring within the system, both between microservices and with external services. It serves as a traceability and audit mechanism for incident resolution and regulatory compliance.",
+                    "page_number": "58"
+                },
+                "technical_details": {
+                    "explanation": "Offers functionality for generating interactive graphs and panels representing communication statistics, traffic volume, response times, and incidents to facilitate intuitive analysis.",
+                    "page_number": "59"
+                },
+                "communication": {
+                    "explanation": "Logs interactions involving other microservices. It operates in parallel to business logic to record transactional data without blocking the primary flow.",
+                    "page_number": "58"
+                }
+            }
+        },
+        {
+            "component_name": "Scheduler",
+            "description": {
+                "role": {
+                    "explanation": "Responsible for planning and scheduling processes within the system. It allows defining, automating, and executing tasks at specific times to ensure operations run orderly according to temporal requirements.",
+                    "page_number": "59"
+                },
+                "technical_details": {
+                    "explanation": "Executes activities such as maintenance tasks (cleaning old logs) or monitoring tasks (periodic tests to verify microservice status).",
+                    "page_number": "59"
+                },
+                "communication": {
+                    "explanation": "Triggers automated tasks that may interact with other microservices or perform internal housekeeping operations independently.",
+                    "page_number": "59"
+                }
+            }
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "description": {
+                "role": {
+                    "explanation": "Provides persistent storage for the application data. It supports the decoupling of data schemas per microservice and client to ensure data separation and integrity.",
+                    "page_number": "60"
+                },
+                "technical_details": {
+                    "explanation": "There is one schema for each microservice, and each client has its own group of schemas per microservice. It is accessed via Spring Data & JPA repositories.",
+                    "page_number": "60"
+                },
+                "communication": {
+                    "explanation": "Connected to the internal microservices (Access Control, Portal, etc.) via the BackEnd layer (Repositories) to store and retrieve entity data.",
+                    "page_number": "74"
+                }
+            }
+        },
+        {
+            "component_name": "Cloud Infrastructure (AWS EKS)",
+            "description": {
+                "role": {
+                    "explanation": "Serves as the orchestration and deployment environment for the application. It enables automation of deployment, scaling, and management of containerized applications ensuring high availability.",
+                    "page_number": "81"
+                },
+                "technical_details": {
+                    "explanation": "Uses Amazon EKS (Elastic Kubernetes Service) to manage Kubernetes clusters. Each microservice is deployed in a Pod, organized by Namespace per client (SEAT/VGED) and Environment (DEV, QA, PROD). Images are stored in Amazon ECR.",
+                    "page_number": "81"
+                },
+                "communication": {
+                    "explanation": "Hosts the microservices and manages network traffic between Pods and external gateways. It facilitates the connection between the deployed services and the Amazon RDS database.",
+                    "page_number": "81"
+                }
+            }
+        }
+    ]
+}

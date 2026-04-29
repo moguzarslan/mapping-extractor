@@ -1,0 +1,8 @@
+# OS
+.DS*
+# IDE
+.idea*
+# Python
+__pycache__/
+
+.env

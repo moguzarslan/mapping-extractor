@@ -1,0 +1,169 @@
+{
+    "mappings": [
+        {
+            "component_name": "Leader Microservice",
+            "related_requirements": [
+                {
+                    "requirement": "RF03: Accés a aplicacions des del portal",
+                    "explanation": "The Leader acts as the central routing point, deciding which functional domain (client) a user should be directed to after passing the portal layer.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "RF05: Restriccions d'accés entre clients",
+                    "explanation": "It verifies the client associated with the user and routes traffic accordingly to ensure data isolation between different client domains (SEAT vs VGED).",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "NFR08: Accés (Seguretat)",
+                    "explanation": "Incorporates protection mechanisms to block unauthorized connection attempts and applies security protocols to prevent improper access.",
+                    "page_number": "57"
+                }
+            ]
+        },
+        {
+            "component_name": "Portal Microservice",
+            "related_requirements": [
+                {
+                    "requirement": "RF01: Accés al portal amb autentificació",
+                    "explanation": "Provides the centralized interface and login screen where users enter credentials to access the system.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "RF02: Visualització d'aplicacions segons l'usuari",
+                    "explanation": "Acts as the entry point providing a unified experience where users view the list of applications they have access to.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "RF06: Visualització del nou nom",
+                    "explanation": "Hosts the frontend binaries ensuring that any mention of the old name is converted to the new name across screens and data.",
+                    "page_number": "57"
+                },
+                {
+                    "requirement": "NFR01: Aparença (Coherència visual)",
+                    "explanation": "Ensures the presentation layer is available and updated, guaranteeing visual and functional coherence across the ecosystem consistent with the old version.",
+                    "page_number": "57"
+                }
+            ]
+        },
+        {
+            "component_name": "Access Control Microservice",
+            "related_requirements": [
+                {
+                    "requirement": "RF01: Accés al portal amb autentificació",
+                    "explanation": "Responsible for verifying user identity through authentication mechanisms.",
+                    "page_number": "58"
+                },
+                {
+                    "requirement": "RF04: Visualització de dades segons rols",
+                    "explanation": "Determines permissions associated with each user based on defined roles and policies, allowing or denying actions on data screens.",
+                    "page_number": "58"
+                },
+                {
+                    "requirement": "RF07: Assignar o revocar accés a aplicacions",
+                    "explanation": "Manages the creation and maintenance of roles and allows administrators to assign or revoke application access for users.",
+                    "page_number": "58"
+                },
+                {
+                    "requirement": "NFR08: Accés (Seguretat)",
+                    "explanation": "Essential for maintaining confidentiality and data protection by managing secure authentication and permission verification.",
+                    "page_number": "58"
+                },
+                {
+                    "requirement": "NFR09: Integritat (Separació estricta de dades)",
+                    "explanation": "Ensures users belong to a specific Cluster and can only see brands/data contained within that Cluster, enforcing strict data separation.",
+                    "page_number": "58"
+                }
+            ]
+        },
+        {
+            "component_name": "Communication Log Microservice",
+            "related_requirements": [
+                {
+                    "requirement": "NFR05: Velocitat i latència",
+                    "explanation": "Generates interactive panels representing statistics such as response times, facilitating analysis to ensure operations meet latency criteria.",
+                    "page_number": "59"
+                },
+                {
+                    "requirement": "NFR06: Disponibilitat",
+                    "explanation": "Acts as an audit mechanism documenting every interaction, which aids in incident resolution and system stability monitoring.",
+                    "page_number": "59"
+                }
+            ]
+        },
+        {
+            "component_name": "Scheduler Microservice",
+            "related_requirements": [
+                {
+                    "requirement": "NFR06: Disponibilitat",
+                    "explanation": "Schedules and automates maintenance tasks (like cleaning old logs) and periodic tests to verify microservice status, ensuring continuous operation.",
+                    "page_number": "59"
+                }
+            ]
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "RF05: Restriccions d'accés entre clients",
+                    "explanation": "Uses a decoupled schema structure where each client has its own group of schemas per microservice, physically separating client data.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "NFR09: Integritat (Separació estricta de dades)",
+                    "explanation": "The database architecture enforces strict data separation per client to protect confidential information and comply with data protection regulations.",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Cloud Infrastructure (AWS EKS)",
+            "related_requirements": [
+                {
+                    "requirement": "NFR06: Disponibilitat",
+                    "explanation": "Kubernetes orchestration on AWS ensures high availability and automated deployment, scaling, and management of containers.",
+                    "page_number": "81"
+                },
+                {
+                    "requirement": "NFR07: Capacitat",
+                    "explanation": "Allows running thousands of containers on different servers, supporting a large number of simultaneous users without performance degradation.",
+                    "page_number": "81"
+                }
+            ]
+        },
+        {
+            "component_name": "Frontend (Angular SPA)",
+            "related_requirements": [
+                {
+                    "requirement": "NFR03: Internacionalització",
+                    "explanation": "Implements internationalization features allowing the application to be available in multiple languages with complete translations.",
+                    "page_number": "62"
+                },
+                {
+                    "requirement": "NFR05: Velocitat i latència",
+                    "explanation": "As a Single-Page Application (SPA), it renders dynamic views and manages internal navigation without reloading pages, improving fluidity and response time.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "NFR02: Facilitat d'ús",
+                    "explanation": "Provides a dynamic and interactive user interface that keeps the user informed of procedures, contributing to ease of use.",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Backend (Spring Boot)",
+            "related_requirements": [
+                {
+                    "requirement": "NFR05: Velocitat i latència",
+                    "explanation": "Organizes code in layers (Presentation, Logic, Data) to process requests efficiently and optimize query performance.",
+                    "page_number": "68"
+                },
+                {
+                    "requirement": "NFR08: Accés (Seguretat)",
+                    "explanation": "Focuses on business logic, security, and data integrity on the server side, ensuring safe processing of authorized data operations.",
+                    "page_number": "61"
+                }
+            ]
+        }
+    ]
+}

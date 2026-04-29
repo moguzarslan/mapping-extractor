@@ -1,0 +1,307 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de estar disponible en distintos idiomas",
+                        "explanation": "The Microservices Architecture allows for the implementation of language-specific services or modules that can handle localization and internationalization independently, ensuring the system is available in multiple languages."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
+                        "explanation": "As part of the Microservices Architecture, the Security Service (a dedicated microservice) handles authentication logic, including email-based authentication, ensuring secure user access."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir cerrar sesión a los usuarios.",
+                        "explanation": "The Microservices Architecture supports session management through the Security Service, which can handle logout functionality by invalidating user sessions."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir registrar usuarios nuevos al sistema.",
+                        "explanation": "The System Service, as part of the Microservices Architecture, can handle user registration logic, interacting with the Data Service to store new user information."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
+                        "explanation": "The Microservices Architecture allows for specialized services (e.g., an image storage service) to handle media files, ensuring scalability and efficient storage of product and user images."
+                    },
+                    {
+                        "requirement": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quiera tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
+                        "explanation": "The Microservices Architecture enables the implementation of a subscription or plan management service that can handle different tiers of service offerings, such as free, basic, and premium plans."
+                    },
+                    {
+                        "requirement": "El sistema debe proteger la información de los usuarios mediante la autenticación segura.",
+                        "explanation": "The Microservices Architecture supports secure communication between services, with the Security Service handling authentication and authorization, ensuring user data protection."
+                    },
+                    {
+                        "requirement": "El sistema debe tener un tiempo de actividad del 99.9% y ser capaz de recuperarse de fallos en menos de 1 hora.",
+                        "explanation": "The Microservices Architecture promotes fault isolation and independent deployment, allowing for high availability and quick recovery from failures by isolating issues to specific services."
+                    },
+                    {
+                        "requirement": "El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+                        "explanation": "The modular nature of the Microservices Architecture simplifies maintenance and updates, as each service can be developed, tested, and deployed independently, reducing complexity."
+                    },
+                    {
+                        "requirement": "El sistema debe ser compatible con los navegadores web más comunes (Chrome, Firefox, Safari, Edge) y dispositivos móviles.",
+                        "explanation": "The Microservices Architecture supports a decoupled frontend (React) and backend (Next.js), allowing for browser and device compatibility testing and optimization at the presentation layer."
+                    },
+                    {
+                        "requirement": "El sistema debe ser escalable para manejar un aumento en el número de usuarios y volumen de datos.",
+                        "explanation": "The Microservices Architecture allows for horizontal scaling of individual services, enabling the system to handle increased load by adding more instances of specific services like the System Service or Data Service."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Un usuario puede ser tanto un donante como una empresa.",
+                        "explanation": "The Client-Server Architecture supports flexible user roles, where the System Service (server) can manage different types of users (donors and companies) and their respective functionalities."
+                    },
+                    {
+                        "requirement": "El sistema ha de estar disponible tanto en castellano como en inglés.",
+                        "explanation": "The Client-Server Architecture allows for language-specific rendering on the client side (React frontend), enabling the system to display content in multiple languages based on user preferences."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir ver los perfiles de las distintas empresas así como sus productos.",
+                        "explanation": "The Client-Server Architecture facilitates the retrieval and display of company profiles and products by the System Service (server) and their presentation to the client (React frontend)."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+                        "explanation": "The Client-Server Architecture supports real-time updates and previews by leveraging the System Service to handle data modifications and the React frontend to render changes instantly."
+                    },
+                    {
+                        "requirement": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
+                        "explanation": "The Client-Server Architecture enables the System Service to provide dashboard data and functionality to the client, allowing companies to access internal tools and statistics securely."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+                        "explanation": "The Client-Server Architecture supports the creation and visibility of products by the System Service, which handles data storage and retrieval, and the React frontend, which displays the product on the company's profile."
+                    },
+                    {
+                        "requirement": "Un usuario ha de poder devolver un producto dado de alta en una empresa mediante el uso de sus rutas.",
+                        "explanation": "The Client-Server Architecture allows the System Service to manage product returns and routes, while the React frontend provides the interface for users to initiate returns."
+                    },
+                    {
+                        "requirement": "Todo producto ha de tener una ruta predeterminada en la que el usuario lo devuelve por su cuenta y con sus propios medios.",
+                        "explanation": "The Client-Server Architecture supports the definition and management of return routes by the System Service, ensuring that users can follow predefined paths for product returns."
+                    },
+                    {
+                        "requirement": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+                        "explanation": "The Client-Server Architecture enables the System Service to handle route budgets and payment processing, integrating with external payment services like Stripe for seamless transactions."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Layered Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "La interfaz de usuario debe ser intuitiva y fácil de usar para usuarios no técnicos.",
+                        "explanation": "The Layered Architecture separates concerns, allowing the Presentation Layer (React frontend) to focus on creating an intuitive and user-friendly interface, while the Application Layer (Next.js backend) handles complex logic."
+                    },
+                    {
+                        "requirement": "Para mejorar la adopción y satisfacción del usuario.",
+                        "explanation": "The Layered Architecture supports iterative development and testing of the frontend (Presentation Layer) to improve user experience, leading to higher adoption and satisfaction."
+                    },
+                    {
+                        "requirement": "Realización de pruebas de usabilidad con al menos 10 usuarios representativos, logrando una puntuación de satisfacción mínima de 8/10.",
+                        "explanation": "The Layered Architecture allows for focused usability testing on the Presentation Layer, ensuring that the frontend meets user expectations and achieves high satisfaction scores."
+                    },
+                    {
+                        "requirement": "El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+                        "explanation": "The Layered Architecture improves maintainability by clearly separating responsibilities across layers, making it easier to update and maintain each component independently."
+                    },
+                    {
+                        "requirement": "El sistema debe ser compatible con los navegadores web más comunes (Chrome, Firefox, Safari, Edge) y dispositivos móviles.",
+                        "explanation": "The Layered Architecture supports cross-browser and cross-device compatibility by isolating browser-specific logic in the Presentation Layer (React frontend)."
+                    },
+                    {
+                        "requirement": "El sistema debe ser escalable para manejar un aumento en el número de usuarios y volumen de datos.",
+                        "explanation": "The Layered Architecture allows for scalable development, as each layer can be optimized independently to handle increased load and data volume."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Security Service",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de proteger la información de los usuarios mediante la autenticación segura.",
+                        "explanation": "The Security Service is responsible for implementing secure authentication mechanisms, such as email-based login and OAuth, ensuring that user data is protected."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
+                        "explanation": "The Security Service handles email-based authentication, validating user credentials and managing session tokens."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir cerrar sesión a los usuarios.",
+                        "explanation": "The Security Service manages user sessions and provides functionality to invalidate them, enabling secure logout."
+                    },
+                    {
+                        "requirement": "Los productos/rutas/perfil de una empresa solo pueden ser editables y accesibles por esa empresa.",
+                        "explanation": "The Security Service enforces access control policies, ensuring that only authorized users (companies) can modify or view their own products, routes, and profiles."
+                    },
+                    {
+                        "requirement": "Comprobar que solo los usuario empresa pueda acceder a sus productos/rutas/perfil.",
+                        "explanation": "The Security Service verifies user roles and permissions, restricting access to company-specific data to prevent unauthorized access."
+                    }
+                ]
+            },
+            {
+                "component_name": "System Service",
+                "related_requirements": [
+                    {
+                        "requirement": "Un usuario puede ser tanto un donante como una empresa.",
+                        "explanation": "The System Service manages user roles and permissions, allowing users to have dual roles as both donors and companies."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir registrar usuarios nuevos al sistema.",
+                        "explanation": "The System Service handles user registration logic, interacting with the Data Service to store new user information."
+                    },
+                    {
+                        "requirement": "El sistema ha de permitir ver los perfiles de las distintas empresas así como sus productos.",
+                        "explanation": "The System Service retrieves and presents company profiles and products from the Data Service, displaying them to users."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+                        "explanation": "The System Service processes edits made by companies and updates the Data Service accordingly, while also providing real-time previews to users."
+                    },
+                    {
+                        "requirement": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
+                        "explanation": "The System Service provides the backend logic for the dashboard, retrieving and presenting internal data and functionalities to companies."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+                        "explanation": "The System Service handles product creation and storage, ensuring that newly added products are visible on the company's profile."
+                    },
+                    {
+                        "requirement": "Un usuario ha de poder devolver un producto dado de alta en una empresa mediante el uso de sus rutas.",
+                        "explanation": "The System Service manages product returns and routes, coordinating with the Data Service to track returns and update product status."
+                    },
+                    {
+                        "requirement": "Todo producto ha de tener una ruta predeterminada en la que el usuario lo devuelve por su cuenta y con sus propios medios.",
+                        "explanation": "The System Service defines and manages return routes, ensuring that products have predefined paths for returns."
+                    },
+                    {
+                        "requirement": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+                        "explanation": "The System Service handles budget management for routes and integrates with payment services like Stripe to process payments during product returns."
+                    },
+                    {
+                        "requirement": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quiera tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
+                        "explanation": "The System Service implements the subscription and plan management logic, allowing companies to choose and upgrade between different service tiers."
+                    }
+                ]
+            },
+            {
+                "component_name": "Data Service",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
+                        "explanation": "The Data Service stores all product and user images in the PostgreSQL database, ensuring they are accessible when needed."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+                        "explanation": "The Data Service stores company profile information and updates it in real-time as companies make edits."
+                    },
+                    {
+                        "requirement": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
+                        "explanation": "The Data Service provides the backend data for the dashboard, storing and retrieving statistics and other internal information for companies."
+                    },
+                    {
+                        "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+                        "explanation": "The Data Service stores product information and makes it visible on the company's profile by retrieving and serving the data to the System Service."
+                    },
+                    {
+                        "requirement": "Los productos/rutas/perfil de una empresa solo pueden ser editables y accesibles por esa empresa.",
+                        "explanation": "The Data Service enforces access control by storing data with ownership metadata, ensuring that only the respective company can edit or access its products, routes, and profiles."
+                    },
+                    {
+                        "requirement": "Comprobar que solo los usuario empresa pueda acceder a sus productos/rutas/perfil.",
+                        "explanation": "The Data Service ensures that only authorized companies can access their own products, routes, and profiles by enforcing role-based access control."
+                    }
+                ]
+            },
+            {
+                "component_name": "External Services",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de estar disponible tanto en castellano como en inglés.",
+                        "explanation": "External services like Google Analytics and Brevo can support multilingual content delivery and tracking, enhancing the system's availability in multiple languages."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
+                        "explanation": "External services like Google OAuth provide secure email-based authentication, which the System Service can integrate with for user login."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
+                        "explanation": "External services like Amazon S3 provide scalable and secure storage for images, allowing the System Service to offload image storage to these services."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+                        "explanation": "External services like Stripe enable seamless payment processing for product returns, allowing users to pay associated costs directly through the system."
+                    },
+                    {
+                        "requirement": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quiera tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
+                        "explanation": "External services like Stripe can handle subscription management and billing for different service tiers, supporting the system's affiliate plan functionality."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Observer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+                        "explanation": "The Observer Pattern allows the System Service to notify other components when a company modifies its profile, enabling real-time updates and previews."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Singleton Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de ser fácil de mantener y actualizar con una documentación clara y completa.",
+                        "explanation": "The Singleton Pattern ensures that only one instance of the Prisma Client exists, simplifying maintenance and reducing complexity in the Data Service."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Repository Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Los productos/rutas/perfil de una empresa solo pueden ser editables y accesibles por esa empresa.",
+                        "explanation": "The Repository Pattern abstracts data access logic, allowing the System Service to enforce access control and ensure that only the respective company can modify or view its data."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Factory Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+                        "explanation": "The Factory Pattern allows the System Service to create different types of products based on specific conditions, ensuring flexibility in product creation."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Strategy Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+                        "explanation": "The Strategy Pattern enables the System Service to handle different payment strategies (e.g., credit card, PayPal) for product returns, allowing users to choose their preferred payment method."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Adapter Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+                        "explanation": "The Adapter Pattern allows the System Service to adapt external payment service interfaces (e.g., Stripe) to match the internal data structure used by the application, enabling seamless integration."
+                    }
+                ]
+            }
+        ]
+    }
+}

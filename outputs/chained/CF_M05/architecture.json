@@ -1,0 +1,267 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices Architecture",
+            "explanation": "The system is designed with a microservices architecture, where the application is divided into small, independent, and autonomous services. Each microservice handles a specific functionality and communicates with others via messaging systems. This structure contrasts with traditional monolithic architectures, allowing for independent deployment, scaling, and maintenance of each service.",
+            "page_number": [
+                "56"
+            ]
+        },
+        {
+            "pattern_name": "Client-Server Architecture",
+            "explanation": "The system follows a client-server architectural pattern, organizing code into two distinct components: the client (frontend) which formulates service requests, and the server (backend) which receives, processes, and returns responses. This separation of responsibilities allows the client to focus on presentation and user experience, while the server handles business logic, security, data integrity, and persistence.",
+            "page_number": [
+                "61"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Leader",
+            "description": {
+                "role": {
+                    "explanation": "The Leader microservice is responsible for routing all communications to the corresponding microservice within the system architecture. It acts as a central point of traffic management, ensuring that any interaction, whether with external services or between internal microservices, is carried out in an orderly and secure manner.",
+                    "page_number": [
+                        "56"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The Leader component is implemented as a microservice that uses a routing mechanism to direct requests to the appropriate microservice. It incorporates protection mechanisms to ensure the integrity and confidentiality of communications, blocking unauthorized connection attempts and applying security protocols to prevent unauthorized access and potential vulnerabilities.",
+                    "page_number": [
+                        "56"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Leader communicates with other microservices such as Access Control, Communication Log, Portal, and Scheduler. It routes incoming requests from users through the Internet to the appropriate gateway (VGED or SEAT), which then directs the request to the Leader. The Leader then forwards the request to the relevant microservice based on the request type. Responses are routed back through the Leader to the gateway and then to the user.",
+                    "page_number": [
+                        "56",
+                        "80"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Portal",
+            "description": {
+                "role": {
+                    "explanation": "The Portal microservice provides a centralized interface for accessing the different applications of VWGS. This component acts as the entry point for users, offering a unified experience.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The Portal component is implemented as a microservice that includes the necessary binaries for the front-end of both the portal itself and the rest of the portal applications. This ensures that the presentation layer is available and up-to-date, facilitating deployment and reducing dependency on external elements.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Portal communicates with the Leader to handle user authentication and authorization. It also interacts with other microservices like Access Control and Communication Log to manage user sessions and log communication activities. The Portal serves as the primary interface for users to access various applications, providing a consistent and unified experience.",
+                    "page_number": [
+                        "57"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Access Control",
+            "description": {
+                "role": {
+                    "explanation": "The Access Control microservice is primarily responsible for user authentication and managing permissions within the application. This component verifies user identities through authentication mechanisms, determines associated permissions based on roles and policies defined, and manages the creation and maintenance of these roles.",
+                    "page_number": [
+                        "58"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The Access Control component is implemented as a microservice that uses authentication mechanisms to verify user identities. It defines and enforces role-based access control (RBAC) policies, determining what actions users can perform based on their assigned roles. The service also manages the lifecycle of user roles, including their creation, modification, and deletion.",
+                    "page_number": [
+                        "58"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Access Control microservice communicates with the Leader to handle authentication requests and authorize user access. It interacts with the Portal to provide authenticated user sessions and with other microservices to enforce access control policies. The service also communicates with the database to store and retrieve user credentials and role information.",
+                    "page_number": [
+                        "58"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Communication Log",
+            "description": {
+                "role": {
+                    "explanation": "The Communication Log microservice's main purpose is to register all communications that occur within the system, both between microservices and with external services. This component acts as a tracing and auditing mechanism, ensuring that each interaction is documented for analysis, incident resolution, and compliance purposes.",
+                    "page_number": [
+                        "59"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The Communication Log component is implemented as a microservice that captures and stores logs of all system communications. It provides functionality for generating statistics and interactive dashboards that represent communication statistics, traffic volume, response time, and incidents, facilitating intuitive and rapid analysis.",
+                    "page_number": [
+                        "59"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Communication Log microservice communicates with the Leader to capture and log all inter-service communications. It also interacts with other microservices to record their interactions and with the database to store log data. The service provides APIs for querying and analyzing communication logs, enabling monitoring and troubleshooting.",
+                    "page_number": [
+                        "59"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Scheduler",
+            "description": {
+                "role": {
+                    "explanation": "The Scheduler microservice's main function is to plan and schedule processes within the system. This component allows defining, automating, and executing tasks at specific times, ensuring that operations are performed in an orderly and according to the specified temporal requirements.",
+                    "page_number": [
+                        "60"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The Scheduler component is implemented as a microservice that defines, automates, and executes tasks at specific intervals. It supports various scheduling strategies, including cron jobs and time-based triggers. The service also provides monitoring and reporting capabilities to track task execution status and performance.",
+                    "page_number": [
+                        "60"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Scheduler microservice communicates with the Leader to receive scheduling instructions and trigger tasks at the appropriate times. It interacts with other microservices to execute scheduled tasks and with the database to store task definitions and execution history. The service also provides APIs for managing and querying scheduled tasks.",
+                    "page_number": [
+                        "60"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Amazon RDS",
+            "description": {
+                "role": {
+                    "explanation": "Amazon RDS (Relational Database Service) is a managed relational database service provided by Amazon Web Services (AWS). It offers a fully managed database infrastructure, allowing users to easily set up, operate, and scale a relational database in the cloud without the need for manual setup, patching, and backups.",
+                    "page_number": [
+                        "80"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Amazon RDS is implemented as a cloud-based database service that supports multiple database engines, including MySQL, PostgreSQL, Oracle, and SQL Server. It provides automated backups, patch management, and high availability configurations. Users can easily provision and manage databases using the AWS Management Console or APIs.",
+                    "page_number": [
+                        "80"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Amazon RDS communicates with the backend microservices to store and retrieve application data. It provides APIs for connecting to the database, executing queries, and managing database resources. The service also integrates with other AWS services, such as CloudWatch for monitoring and CloudTrail for logging database activities.",
+                    "page_number": [
+                        "80"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Frontend (Angular)",
+            "description": {
+                "role": {
+                    "explanation": "The frontend component, built with Angular, is responsible for the presentation and user experience of the application. It encapsulates the UI logic and coordinates calls to the backend API, providing a dynamic and responsive user interface.",
+                    "page_number": [
+                        "62"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The frontend is implemented using Angular, a popular JavaScript framework for building single-page applications (SPAs). It utilizes the MVVM (Model-View-ViewModel) architectural pattern, with components and services structured around this pattern. The frontend uses TypeScript for type safety and leverages Angular's powerful features like two-way data binding, dependency injection, and reactive forms.",
+                    "page_number": [
+                        "62"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The frontend communicates with the backend microservices via RESTful APIs exposed by Spring Boot. It sends HTTP requests to the backend for data retrieval, creation, update, and deletion operations. The frontend also handles user interactions, validates input, and updates the UI in real-time using Angular's change detection mechanism.",
+                    "page_number": [
+                        "62"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Backend (Spring Boot)",
+            "description": {
+                "role": {
+                    "explanation": "The backend component, built with Spring Boot, is responsible for handling business logic, data access, and API exposure. It organizes code into layers, separating concerns such as presentation, business logic, data access, and domain models.",
+                    "page_number": [
+                        "68"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "The backend is implemented using Spring Boot, a framework that simplifies the development of Java-based applications. It follows a layered architecture with controllers, services, repositories, and domain models. The backend exposes RESTful APIs using Spring MVC and integrates with Spring Data JPA for database access. It also includes security features like OAuth2 and JWT for authentication and authorization.",
+                    "page_number": [
+                        "68"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The backend communicates with the frontend via HTTP requests and responses. It processes incoming requests from the frontend, performs business logic operations, and interacts with the database through the repository layer. The backend also communicates with other microservices when necessary, using synchronous or asynchronous communication patterns.",
+                    "page_number": [
+                        "68"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Repository Pattern",
+            "associated_components": [
+                "Backend"
+            ],
+            "explanation": "The Repository pattern is used in the Backend component to abstract the data access logic. It provides a clean separation between the business logic and the data access layer, allowing developers to work with collections of objects without worrying about the underlying data storage mechanism. This pattern is implemented using Spring Data JPA, which provides default operations like findByCode and allows for custom query definitions.",
+            "page_number": [
+                "73"
+            ]
+        },
+        {
+            "pattern_name": "Service Layer Pattern",
+            "associated_components": [
+                "Backend"
+            ],
+            "explanation": "The Service Layer pattern is used in the Backend component to encapsulate business logic. Services act as intermediaries between the Controller layer and the Repository layer, handling complex operations that involve multiple entities or require coordination between different parts of the system. This pattern helps maintain a clear separation of concerns and promotes reusability and testability.",
+            "page_number": [
+                "70"
+            ]
+        },
+        {
+            "pattern_name": "DTO (Data Transfer Object) Pattern",
+            "associated_components": [
+                "Backend"
+            ],
+            "explanation": "The DTO pattern is used in the Backend component to transfer data between layers. DTOs are simple data structures that contain only data and no behavior, making them ideal for transferring data between the frontend and backend or between different layers of the backend. This pattern helps reduce coupling between layers and improves performance by minimizing the amount of data transferred.",
+            "page_number": [
+                "72"
+            ]
+        },
+        {
+            "pattern_name": "Mapper Pattern",
+            "associated_components": [
+                "Backend"
+            ],
+            "explanation": "The Mapper pattern is used in the Backend component to convert between DTOs and domain models. Mappers are responsible for transforming data from one format to another, ensuring that data is correctly formatted for transmission or storage. This pattern helps maintain consistency between different representations of data and simplifies the process of converting between them.",
+            "page_number": [
+                "73"
+            ]
+        },
+        {
+            "pattern_name": "Observer Pattern",
+            "associated_components": [
+                "Frontend"
+            ],
+            "explanation": "The Observer pattern is used in the Frontend component to handle changes in data and update the UI accordingly. Angular's two-way data binding mechanism is an implementation of the Observer pattern, where changes in the model automatically trigger updates in the view. This pattern helps maintain a responsive and dynamic user interface by keeping the UI in sync with the underlying data.",
+            "page_number": [
+                "66"
+            ]
+        },
+        {
+            "pattern_name": "Strategy Pattern",
+            "associated_components": [
+                "Backend"
+            ],
+            "explanation": "The Strategy pattern is used in the Backend component to handle different algorithms or behaviors dynamically. For example, the Access Control service might use different authentication strategies based on the user's role or the type of request. This pattern allows the system to be flexible and adaptable, enabling the use of different strategies without modifying the core logic.",
+            "page_number": [
+                "70"
+            ]
+        }
+    ]
+}

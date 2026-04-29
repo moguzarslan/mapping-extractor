@@ -1,0 +1,234 @@
+{
+    "requirements": [
+        {
+            "requirement": "A user can be either a donor or a company.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must be available in both Spanish and English.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must allow registering new users to the system.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must be able to authenticate existing users via email.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must allow users to log out.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must allow logged-in or non-logged-in users to view the profiles of the various companies as well as their products.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must be able to save all images of all products/users of the system.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "A company must be able to modify its public profile/page at any time, as well as preview it while editing.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "A company must have access to the system dashboard to use the various internal functionalities and additional information (statistics, values, etc.).",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "A company must be able to register a product and have it visible on its public profile/page.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "A company must be able to register a route to link it to its products.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "A user must be able to return a product registered in a company using its routes.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "Every product must have a default route where the user returns it on their own and with their own means.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "Every route must have an associated budget (can be 0) which the user must be able to pay using the system when returning the product.",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must have an affiliation/plans system for companies that want certain advantages (includes three plans: free, basic, and premium).",
+            "page_number": "30",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must be available in different languages.",
+            "page_number": "31",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+            "page_number": "31",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Usability tests must be conducted with at least 10 representative users, achieving a minimum satisfaction score of 8/10.",
+            "page_number": "31",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must protect user information via secure authentication.",
+            "page_number": "32",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must pass security audits without critical vulnerabilities.",
+            "page_number": "32",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+            "page_number": "32",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+            "page_number": "32",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Average implementation time of updates and problem resolution must not exceed 2 hours.",
+            "page_number": "32",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+            "page_number": "33",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+            "page_number": "33",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be capable of increasing server resources and maintaining performance with a 50% workload increase.",
+            "page_number": "33",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Products/routes/company profile can only be editable and accessible by that company.",
+            "page_number": "33",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "All users (Donor/Company) can register by creating an account in the system as a company or donor.",
+            "page_number": "34",
+            "type": "functional"
+        },
+        {
+            "requirement": "All registered users can log in to the system with their email via a MagicLink.",
+            "page_number": "34",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any logged-in user has the option to log out at any time.",
+            "page_number": "34",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any logged-in user has the possibility to change language between Spanish and English.",
+            "page_number": "34",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any application user (logged in or not) can view the profiles of the various companies registered and with active profile in the system.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any application user (logged in or not) can view the products published in the profiles of the various companies of the system.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any donor user can return any product available for return in the profiles of the various companies of the system.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "When returning a product, the user must choose the route and make the corresponding payment for the product return (which can be 0 and pay nothing).",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any company user has access to the main dashboard of the system with general information of their profile and access to the various functionalities of the system.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "Dashboard information includes: percentage of completion of the company's public profile, certification status, quantity of products registered, quantity of routes created, total number of products received, number of chains started, and amount of waste avoided.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any company user can edit their public profile at any time, editing fields such as: Public Profile URL, Entity Web Address (up to four), Locations (up to six), Logo and Corporate Image, Description, Sustainability Information, and Publish toggle.",
+            "page_number": "37",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any company user has access to a table with all created products, from where they can create, edit, and delete products.",
+            "page_number": "37",
+            "type": "functional"
+        },
+        {
+            "requirement": "Creating a new product requires: Name, Category and Subcategory, Approximate Weight (kg), Approximate Dimensions (cm), Up to four images (min 1, max 5MB), Description, Repair Service Indication, Reward Indication, Other Brands Reception Indication, Reception Method, Published Status, and Association with routes.",
+            "page_number": "37",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any company user has access to a table with all created routes, from where they can create, edit, and delete routes.",
+            "page_number": "38",
+            "type": "functional"
+        },
+        {
+            "requirement": "Creating a new route requires: Name, Reception Channel, Market Zone, Reception Point, and Associated Products.",
+            "page_number": "38",
+            "type": "functional"
+        },
+        {
+            "requirement": "The company user can change the plan at any time (the three plans are - free, basic and premium) (when changing the plan the user must make the corresponding payment).",
+            "page_number": "38",
+            "type": "functional"
+        },
+        {
+            "requirement": "The route of a return must be of the same product that is being returned.",
+            "page_number": "39",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The name attribute cannot repeat among Companies.",
+            "page_number": "39",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The name attribute cannot repeat among Products of the same Company.",
+            "page_number": "39",
+            "type": "constraint"
+        }
+    ]
+}

@@ -1,0 +1,204 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                        "explanation": "The system is designed as a collection of small, independent services that communicate with each other, allowing individual services to scale based on demand."
+                    },
+                    {
+                        "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                        "explanation": "Each service runs in its own Docker container and handles specific responsibilities, promoting modularity which aids in maintenance and updates."
+                    },
+                    {
+                        "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                        "explanation": "Independent services running in separate containers isolate failures, preventing a single point of failure from taking down the entire system."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                        "explanation": "Follows the standard web client-server model where the browser (client) requests resources and renders the interface, ensuring compatibility across devices."
+                    },
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+                        "explanation": "Utilizes Client Components rendered in the browser that are interactable, separating presentation from server-side logic to optimize user experience."
+                    },
+                    {
+                        "requirement": "The system must allow logged-in or non-logged-in users to view the profiles of the various companies as well as their products.",
+                        "explanation": "The server processes logic and data while the client displays the requested resources, enabling public access to specific data views."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Security Service (Traefik)",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must protect user information through secure authentication.",
+                        "explanation": "Acts as a reverse proxy handling SSL termination and redirects HTTP to HTTPS, securing data transmission."
+                    },
+                    {
+                        "requirement": "The system must allow logged-in or non-logged-in users to view the profiles of the various companies as well as their products.",
+                        "explanation": "Manages routing of HTTP/HTTPS requests from the outside world to the internal System Service based on defined routing rules."
+                    }
+                ]
+            },
+            {
+                "component_name": "System Service (Next.js)",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must allow registering new users to the system.",
+                        "explanation": "Handles business logic and authentication as the core application logic and user interface."
+                    },
+                    {
+                        "requirement": "The system must be able to authenticate existing users via email.",
+                        "explanation": "Integrates with external services (Google Auth, Brevo) and handles authentication logic within the application."
+                    },
+                    {
+                        "requirement": "A company must be able to modify its public profile/page at any time, as well as preview it while editing.",
+                        "explanation": "Serves the web application and handles business logic required for profile modification and preview functionality."
+                    },
+                    {
+                        "requirement": "The system must be available in different languages.",
+                        "explanation": "As the core application serving the web application, it manages the UI rendering which supports language availability."
+                    },
+                    {
+                        "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                        "explanation": "Built with Next.js framework utilizing Client Components rendered in the browser, ensuring cross-browser compatibility."
+                    }
+                ]
+            },
+            {
+                "component_name": "Data Service (PostgreSQL)",
+                "related_requirements": [
+                    {
+                        "requirement": "RT1 - External Keys(User, id) (Company, User:id), (Donor, User:id), (Product, name + User:id), (Route, id), (MarketZone, name + type), (Return, id).",
+                        "explanation": "Schema managed via Prisma ORM includes tables for users, accounts, sessions, companies, profiles, products, routes, etc., enforcing data relationships."
+                    },
+                    {
+                        "requirement": "RT3 - The name attribute cannot be repeated among the Companies.",
+                        "explanation": "Provides persistent relational storage where schema definitions enforce uniqueness constraints on attributes like company names."
+                    },
+                    {
+                        "requirement": "RT4 - The name attribute cannot be repeated among the Products of the same Company.",
+                        "explanation": "Database schema manages tables for products linked to companies, ensuring data integrity and uniqueness rules."
+                    },
+                    {
+                        "requirement": "Products/routes/company profile can only be editable and accessible by that company.",
+                        "explanation": "Persistent storage holds the data that is accessed and modified according to access control logic enforced by the system service querying this database."
+                    }
+                ]
+            },
+            {
+                "component_name": "Google OAuth Service",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to authenticate existing users via email.",
+                        "explanation": "Handles user authentication via third-party identity provider integrated via Next-auth/Auth.js libraries."
+                    },
+                    {
+                        "requirement": "The system must protect user information through secure authentication.",
+                        "explanation": "Uses established identity providers (Google) to manage secure authentication tokens and callbacks."
+                    }
+                ]
+            },
+            {
+                "component_name": "Amazon S3 Service",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to save all images of all products/users of the system.",
+                        "explanation": "Provides cloud storage specifically for user-uploaded files such as product images and logos."
+                    }
+                ]
+            },
+            {
+                "component_name": "Stripe Service",
+                "related_requirements": [
+                    {
+                        "requirement": "Every route must have an associated budget (which can be 0) which the user must be able to pay using the system when returning the product.",
+                        "explanation": "Processes payments for product return fees initiated by the System Service."
+                    },
+                    {
+                        "requirement": "The system must have an affiliation/plan system for companies that want certain advantages (it has three plans: free, basic, and premium).",
+                        "explanation": "Processes payments for subscription plans and handles webhooks for subscription changes."
+                    }
+                ]
+            },
+            {
+                "component_name": "Brevo Service",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to authenticate existing users via email.",
+                        "explanation": "Manages transactional emails (e.g., MagicLinks) which facilitate email-based authentication flows."
+                    },
+                    {
+                        "requirement": "The system must allow registering new users to the system.",
+                        "explanation": "Manages email communications required during the registration process."
+                    }
+                ]
+            },
+            {
+                "component_name": "Sentry Service",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                        "explanation": "Monitors and tracks errors and exceptions, providing visibility necessary for rapid recovery and maintaining uptime."
+                    }
+                ]
+            },
+            {
+                "component_name": "Docker",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                        "explanation": "Uses docker-compose.yml to define and orchestrate multiple containers, simplifying deployment and maintenance."
+                    },
+                    {
+                        "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                        "explanation": "Containerization platform packages and runs application services, facilitating horizontal scaling of containers."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Component-Based Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+                        "explanation": "Used to build the User Interface by creating independent, reusable components that encapsulate logic and styles, promoting a consistent and usable UI."
+                    },
+                    {
+                        "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                        "explanation": "Promotes modularity and maintainability by allowing components to be updated independently."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Observer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+                        "explanation": "Implemented using event listeners where observers subscribe to a subject to receive notifications of state changes, ensuring responsive UI updates."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Singleton Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                        "explanation": "Ensures a class has only one instance (specifically Prisma Client) to prevent multiple connections to the database, enhancing stability during development and hot-reload."
+                    }
+                ]
+            }
+        ]
+    }
+}

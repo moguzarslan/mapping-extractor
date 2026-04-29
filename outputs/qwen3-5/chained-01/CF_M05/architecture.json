@@ -1,0 +1,285 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices",
+            "explanation": "The system is structured as a set of small, independent, and autonomous services where each microservice is responsible for a specific functionality. They communicate via messaging systems and can be deployed, scaled, and maintained independently.",
+            "page_number": [
+                "56",
+                "60"
+            ]
+        },
+        {
+            "pattern_name": "Cloud Architecture",
+            "explanation": "The application is designed, deployed, and executed using cloud computing services (Amazon Web Services) instead of local physical servers. This allows for high scalability, availability, and accessibility via the internet.",
+            "page_number": [
+                "60",
+                "81"
+            ]
+        },
+        {
+            "pattern_name": "Client-Server",
+            "explanation": "The code is organized into two differentiated components: the client (Angular SPA) that formulates service requests, and the server (Spring Boot) that receives, processes, and returns responses via HTTP/JSON.",
+            "page_number": [
+                "61"
+            ]
+        },
+        {
+            "pattern_name": "Layered Architecture",
+            "explanation": "The backend server organizes code into separated responsibility layers: Presentation (Controllers), Business Logic (Services), Domain (Models), Contract (DTO/Mappers), and Data Access (Repositories).",
+            "page_number": [
+                "68"
+            ]
+        },
+        {
+            "pattern_name": "MVVM (Model-View-ViewModel)",
+            "explanation": "The Angular frontend implements this pattern where the View consists of HTML/SCSS files, the ViewModel contains TypeScript components and services, and the Models define the data contracts. Data binding synchronizes the View and ViewModel.",
+            "page_number": [
+                "62",
+                "66"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Leader",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the central routing point for all communications within the system architecture. It manages traffic between external services and internal microservices, ensuring ordered and secure interaction.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Does not have a user interface. Incorporates security mechanisms to block unauthorized connection attempts and applies security protocols.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Routes interactions between users (via Portals) and internal microservices (Access Control, Portal, Communication Log, Scheduler).",
+                    "page_number": [
+                        "57",
+                        "61"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Portal",
+            "description": {
+                "role": {
+                    "explanation": "Provides a centralized interface for accessing different VWGS applications. Acts as the entry point for users, offering a unified experience.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Incorporates the necessary binaries for the frontend of the portal and other applications. Ensures the presentation layer is available and updated.",
+                    "page_number": [
+                        "57"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives user requests via web browsers and routes them through the Leader microservice to internal services.",
+                    "page_number": [
+                        "57",
+                        "61"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Access Control",
+            "description": {
+                "role": {
+                    "explanation": "Manages user authentication and permissions within the application. Verifies identity and determines permissions based on roles and policies.",
+                    "page_number": [
+                        "58"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Handles creation and maintenance of roles. Essential for maintaining confidentiality and data protection.",
+                    "page_number": [
+                        "58"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Interacts with the Leader for routing and the Database for storing user/role data.",
+                    "page_number": [
+                        "58",
+                        "60"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Communication Log",
+            "description": {
+                "role": {
+                    "explanation": "Registers all communications produced within the system, both between microservices and with external services. Acts as a traceability and audit mechanism.",
+                    "page_number": [
+                        "58"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Generates graphs and interactive panels representing communication statistics, traffic volume, response times, and incidents.",
+                    "page_number": [
+                        "59"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Logs interactions involving other microservices and external services.",
+                    "page_number": [
+                        "58"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Scheduler",
+            "description": {
+                "role": {
+                    "explanation": "Plans and schedules processes within the system. Allows defining, automating, and executing tasks at specific moments.",
+                    "page_number": [
+                        "59"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Executes maintenance tasks (e.g., cleaning old logs) and monitoring tasks (e.g., periodic tests).",
+                    "page_number": [
+                        "59"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Executes automated tasks internally without direct user interface interaction.",
+                    "page_number": [
+                        "59"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "description": {
+                "role": {
+                    "explanation": "Stores persistent data for the system. Decoupled by microservice and client.",
+                    "page_number": [
+                        "60"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "There is one schema per microservice, and each client has its own group of schemas per microservice.",
+                    "page_number": [
+                        "60"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Connected to by all internal microservices for data persistence and retrieval.",
+                    "page_number": [
+                        "60"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Frontend (Angular SPA)",
+            "description": {
+                "role": {
+                    "explanation": "Responsible for presentation and user experience. Encapsulates interface logic and coordinates calls to the server API.",
+                    "page_number": [
+                        "62"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Developed with Angular 11+, using TypeScript, HTML, and SCSS. Implements Single-Page Application (SPA) behavior.",
+                    "page_number": [
+                        "61",
+                        "62"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Communicates with the Backend via HTTP requests exchanging JSON data.",
+                    "page_number": [
+                        "61"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Backend (Spring Boot)",
+            "description": {
+                "role": {
+                    "explanation": "Handles business logic, security, data integrity, and persistence. Exposes a REST API.",
+                    "page_number": [
+                        "61"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Developed with Spring Boot 2.2.2 and Java OpenJDK 17. Organized in layers (Controllers, Services, Repositories, etc.).",
+                    "page_number": [
+                        "61",
+                        "68"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives requests from the Frontend and interacts with the Database.",
+                    "page_number": [
+                        "61"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Repository",
+            "associated_components": [
+                "Backend (Spring Boot)"
+            ],
+            "explanation": "Encapsulates the data access logic. Provides default operations (e.g., findByCode) and allows explicit SQL query definitions for advanced needs.",
+            "page_number": [
+                "74"
+            ]
+        },
+        {
+            "pattern_name": "DTO (Data Transfer Object)",
+            "associated_components": [
+                "Backend (Spring Boot)"
+            ],
+            "explanation": "Acts as containers of information to structure data needed for each request, providing a customized format based on response requirements. Separates the internal model from the external API representation.",
+            "page_number": [
+                "73"
+            ]
+        },
+        {
+            "pattern_name": "Mapper",
+            "associated_components": [
+                "Backend (Spring Boot)"
+            ],
+            "explanation": "Responsible for converting between DTOs and Models. Guarantees correct and efficient transformation of data when transferring information to the presentation layer or persistence layer.",
+            "page_number": [
+                "73"
+            ]
+        },
+        {
+            "pattern_name": "Service",
+            "associated_components": [
+                "Backend (Spring Boot)"
+            ],
+            "explanation": "Offers the interface and implementation of all business logic. Executes complex operations combining validation, processing, and data flow between components after receiving requests from Controllers.",
+            "page_number": [
+                "70"
+            ]
+        },
+        {
+            "pattern_name": "Controller",
+            "associated_components": [
+                "Backend (Spring Boot)"
+            ],
+            "explanation": "Processes received requests, manages information validation, and channels requests to corresponding modules/services in the data layer. Defines REST operations for each model.",
+            "page_number": [
+                "69"
+            ]
+        }
+    ]
+}

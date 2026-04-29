@@ -1,0 +1,274 @@
+{
+    "requirements": [
+        {
+            "requirement": "NiX will automatically transform these files without users having to make any changes.",
+            "page_number": "10",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The new application will allow them to continue working with the systems they know without having to intervene directly with the new technologies.",
+            "page_number": "10",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The new application will improve daily process monitoring and problem resolution by reducing the probability of manual errors, unifying processes into a single system, and facilitating error identification.",
+            "page_number": "10",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The system validates credentials.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "If valid, access to the portal is granted.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system queries the list of applications to which the user has access.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The user only sees the applications to which they have access.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "If the user has access to only one application, they are redirected to its main page.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "If the user has access to more than one application, they select the application they want to access and are redirected to its main page.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Restrict visualization and actions (create, modify, delete) on data according to roles assigned to the user.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system verifies the user's roles and permissions.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Actions and accesses corresponding to roles are allowed or denied.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Guarantee that data of other clients cannot be accessed.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system verifies the client to which the user is associated.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Only data of the same client is shown.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Convert any mention of the old name to the new name.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The new name is shown wherever mentioned.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The user only sees mentions of the new name both on screens and in data.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Give or remove access to applications to users.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Allow the administrator to navigate the user application management screen.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Select or deselect from the list of available applications the applications to which the user should have access.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system updates the data of the affected user.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Each language_id of each content table belongs to an existing Language.",
+            "page_number": "51",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Dates must be valid and cannot be later than the present.",
+            "page_number": "51",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "For all applicable tables, there cannot be elements of the same type with the same code.",
+            "page_number": "51",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+            "page_number": "51",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Authorizations assigned to a user must be from some of the brands that the associated Cluster contains.",
+            "page_number": "51",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "New content must maintain visual coherence with the design of the old version of the application.",
+            "page_number": "52",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The system must be easy to use for any user.",
+            "page_number": "52",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The application must be available in several languages.",
+            "page_number": "53",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The user must be able to perform new operations without special training.",
+            "page_number": "53",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "Query operations must have a load time of less than 1 second.",
+            "page_number": "53",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "Response time must not exceed 1 second in 95% of queries.",
+            "page_number": "53",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+            "page_number": "54",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "System availability must be at least 99.9%, even during intensive usage times.",
+            "page_number": "54",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The web application must support a large number of simultaneous users without degrading its performance.",
+            "page_number": "54",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The system must allow creation, query, modification, and deletion of data to authorized users.",
+            "page_number": "54",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The system must have a secure authentication and permission verification mechanism to ensure each user can only access information and functionalities that correspond to them.",
+            "page_number": "54",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "The application must manage a strict separation of data for each client.",
+            "page_number": "55",
+            "type": "Non-functional"
+        },
+        {
+            "requirement": "Leader blocks any attempt of unauthorized connection and applies certain security protocols.",
+            "page_number": "57",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Portal incorporates the binaries needed for the frontend of both the portal itself and the rest of the portal applications.",
+            "page_number": "57",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Communication Log records all communications that occur within the system, both between microservices and with external services.",
+            "page_number": "58",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Scheduler handles the planning and scheduling of processes within the system.",
+            "page_number": "59",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Resources necessary for the application such as network, database, or servers are offered via the Internet.",
+            "page_number": "60",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "There is a schema for each microservice and each client has its group of schemas per microservice.",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "The message exchange protocol used in this case is HTTP and the data format used is JSON.",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Angular is used implementing a Single-Page Application (SPA).",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Spring Boot is used to expose a REST API.",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Angular 11+ is used for the frontend.",
+            "page_number": "76",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Spring Data & JPA 2.2 is used for data persistence.",
+            "page_number": "76",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Spring Boot 2.2.2 is used for backend development.",
+            "page_number": "77",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Java OpenJDK 17 is used as the execution and development environment.",
+            "page_number": "77",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Amazon EKS is used for deployment allowing the use of Kubernetes (K8s).",
+            "page_number": "81",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Each microservice will be deployed in a pod; each client will have a concrete namespace grouping the application's microservices; there will be a common namespace for the Leader microservice.",
+            "page_number": "81",
+            "type": "Constraint"
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "requirements": [
+        {
+            "requirement": "Use NestJS framework with TypeScript language.",
+            "page_number": "8",
+            "type": "constraint"
+        },
+        {
+            "requirement": "Use AWS cloud services for infrastructure.",
+            "page_number": "8",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The system must store playlogs from the players. Each playlog must have a date, client, and player assigned.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must store player connections. Each connection must have a date, client, and player assigned. The connection status can only be connected or not connected.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must store actions performed on the platform. Each action must have a date, client, user, and player assigned. All actions are performed on a platform entity.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list different system playlogs. The playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list different player connections in the system. The connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list different actions performed on different platform entities. The actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+            "page_number": "37",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must respond to any user action in less than 5 seconds.",
+            "page_number": "37",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be available at all times, except for scheduled updates. Any user must be able to access the platform at any time of day.",
+            "page_number": "38",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. The platform scales dynamically with changes in simultaneous connections.",
+            "page_number": "38",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be able to grow in capacity when data volume increases. The system scales automatically as data increases.",
+            "page_number": "38",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+            "page_number": "39",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Confidential user information must be protected to guarantee privacy. Users can only observe confidential data of their own user and no one else.",
+            "page_number": "39",
+            "type": "non-functional"
+        }
+    ]
+}

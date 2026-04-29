@@ -1,0 +1,290 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices Architecture",
+            "explanation": "The system is designed as a collection of loosely coupled services, each responsible for a specific business capability. This pattern is evident from the separation of concerns into distinct components like API Gateway, Core, Web Socket, and Analytic Module, which communicate via TCP and HTTP protocols.",
+            "page_number": [
+                "41",
+                "42"
+            ]
+        },
+        {
+            "pattern_name": "Client-Server Architecture",
+            "explanation": "The system follows a client-server model where clients (web/mobile platforms) send requests to the server (backend services). The communication occurs over HTTP and TCP protocols, with the API Gateway acting as the entry point for client requests.",
+            "page_number": [
+                "41"
+            ]
+        },
+        {
+            "pattern_name": "Layered Architecture",
+            "explanation": "The system is organized into distinct layers: Presentation Layer (Web/Mobile Platforms), Business Logic Layer (API Gateway, Core, Analytic Module), and Data Layer (Cloud Services, Database). This separation enhances modularity and maintainability.",
+            "page_number": [
+                "41"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Presentation Layer",
+            "description": {
+                "role": {
+                    "explanation": "This layer is responsible for user interaction and displaying information to users. It includes the Web Platform and Mobile Platform.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented as web and mobile applications that communicate with the backend via HTTP protocol.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Interacts with the Business Logic Layer through the API Gateway using HTTP protocol.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Business Logic Layer",
+            "description": {
+                "role": {
+                    "explanation": "This layer contains the core business logic of the application. It includes the API Gateway, Core service, Web Socket service, and Analytic Module.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using NestJS framework with TypeScript. The API Gateway handles authentication and routing, Core processes business logic, Web Socket manages real-time player communication, and Analytic Module processes data analytics.",
+                    "page_number": [
+                        "42",
+                        "60"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Communicates with the Presentation Layer via HTTP (API Gateway) and TCP (Web Socket). Also communicates with the Data Layer via cloud services and database connections.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Data Layer",
+            "description": {
+                "role": {
+                    "explanation": "This layer is responsible for data storage and management. It includes cloud services (AWS) and a relational database.",
+                    "page_number": [
+                        "45"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using AWS cloud services (S3, DynamoDB, Athena, Glue, Kinesis) and a MySQL RDS database. The cloud services form a data lake for historical data, while the database stores operational data.",
+                    "page_number": [
+                        "45",
+                        "47"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Communicates with the Business Logic Layer via cloud APIs and database connections. The Analytic Module interacts with the data lake for querying and processing.",
+                    "page_number": [
+                        "45"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "API Players",
+            "description": {
+                "role": {
+                    "explanation": "This component exposes an API for players to interact with the system. It allows players to send data about their status and content playback.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a microservice that receives data from players and forwards it to the Web Socket service for further processing.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives data from players and sends it to the Web Socket service via TCP.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Web Socket",
+            "description": {
+                "role": {
+                    "explanation": "This component manages real-time communication between the platform and players. It processes data received from players and stores it in the data lake.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a microservice that uses WebSocket protocol for bidirectional communication with players. It processes playlogs and connections and sends them to the cloud services.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives data from players via WebSocket protocol and sends processed data to the cloud services via TCP.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Core",
+            "description": {
+                "role": {
+                    "explanation": "This component contains the core business logic of the platform. It handles user authentication, authorization, and processes actions performed by users.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a microservice that interacts with the database for user and client management. It also processes audit trail data and sends it to the cloud services.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Interacts with the database for user/client management and sends audit trail data to the cloud services.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Analytic Module",
+            "description": {
+                "role": {
+                    "explanation": "This component is responsible for data analytics. It queries the data lake for historical data and processes it to generate insights.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a microservice that uses Amazon Athena to query data stored in S3 buckets. It processes playlogs, connections, and audit trail data to generate reports and insights.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Queries data from the cloud services (S3, Athena) and processes it for analysis.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Cloud Services",
+            "description": {
+                "role": {
+                    "explanation": "This component provides various cloud-based services for data storage, processing, and analytics. It includes services like S3, DynamoDB, Athena, Glue, and Kinesis.",
+                    "page_number": [
+                        "45"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using AWS services. S3 is used for object storage, DynamoDB for NoSQL database, Athena for SQL querying, Glue for data cataloging, and Kinesis for streaming data.",
+                    "page_number": [
+                        "45",
+                        "47"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Provides data storage and processing capabilities for the Analytic Module and other components. Receives data from the Web Socket and API Players services.",
+                    "page_number": [
+                        "45"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Database",
+            "description": {
+                "role": {
+                    "explanation": "This component provides relational database services for storing operational data. It includes a MySQL RDS instance.",
+                    "page_number": [
+                        "45"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using AWS RDS with a MySQL database. It stores user, client, and audit trail data.",
+                    "page_number": [
+                        "45"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Stores and retrieves operational data for the Core service and other components.",
+                    "page_number": [
+                        "45"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "API Gateway Pattern",
+            "associated_components": [
+                "API Gateway"
+            ],
+            "explanation": "The API Gateway acts as a single entry point for all client requests. It handles authentication, routing, and load balancing, providing a unified interface to the backend services.",
+            "page_number": [
+                "42"
+            ]
+        },
+        {
+            "pattern_name": "Observer Pattern",
+            "associated_components": [
+                "Web Socket"
+            ],
+            "explanation": "The Web Socket service uses the Observer pattern to manage real-time communication with players. It observes changes in player status and content playback and notifies interested parties.",
+            "page_number": [
+                "42"
+            ]
+        },
+        {
+            "pattern_name": "Repository Pattern",
+            "associated_components": [
+                "Analytic Module"
+            ],
+            "explanation": "The Analytic Module uses the Repository pattern to abstract data access logic. It provides a consistent interface for querying and processing data from the data lake.",
+            "page_number": [
+                "42"
+            ]
+        },
+        {
+            "pattern_name": "Strategy Pattern",
+            "associated_components": [
+                "Analytic Module"
+            ],
+            "explanation": "The Analytic Module uses the Strategy pattern to handle different types of data processing strategies. It can switch between different algorithms for analyzing playlogs, connections, and audit trail data.",
+            "page_number": [
+                "42"
+            ]
+        },
+        {
+            "pattern_name": "Factory Pattern",
+            "associated_components": [
+                "Cloud Services"
+            ],
+            "explanation": "The Cloud Services component uses the Factory pattern to create instances of different AWS services dynamically. This allows for flexible and scalable service creation based on the application's needs.",
+            "page_number": [
+                "45"
+            ]
+        }
+    ]
+}

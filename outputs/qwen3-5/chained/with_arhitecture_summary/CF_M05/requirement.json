@@ -1,0 +1,154 @@
+{
+    "requirements": [
+        {
+            "requirement": "User accesses the portal through authentication with personal credentials.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "System displays the list of applications to which the user has access upon logging in.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "User accesses applications from the portal list; if accessing only one application, they are redirected to its main page; if multiple, they select the application to access.",
+            "page_number": "48",
+            "type": "Functional"
+        },
+        {
+            "requirement": "System restricts data visualization and actions (create, modify, delete) based on the roles assigned to the user.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "System guarantees that users cannot access data belonging to other clients; only data of the associated client is shown.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "System converts any mention of the old name to the new name wherever it appears on screens and in data.",
+            "page_number": "49",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Administrator assigns or revokes application access for users via the Commercial Cloud application.",
+            "page_number": "50",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Primary keys must be defined for User, Language, ClusterType, Application, Authority, Role, Brand, and Cluster tables.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Each language_id in every content table must belong to an existing Language.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Dates must be valid and cannot be later than the present.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "There cannot be elements of the same type with the same code in applicable tables.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Authorizations assigned to a user must belong to some of the brands contained in the associated Cluster.",
+            "page_number": "50",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "New content must maintain visual coherence with the design of the old application version (design, colors, typography, organization).",
+            "page_number": "52",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "System must be easy to use for any user (80% of users do not need to ask for help from a third party).",
+            "page_number": "52",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Application must be available in several languages with complete and correct translations.",
+            "page_number": "52",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "User must be able to perform new operations without special training (learning time should not exceed 5 minutes).",
+            "page_number": "53",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Query operations must have a load time under 1 second (response time must not exceed 1 second in 95% of queries).",
+            "page_number": "53",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Web application must guarantee continuous and stable operation with a minimum availability of 99.9%.",
+            "page_number": "53",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Web application must support a large number of simultaneous users without degrading its performance.",
+            "page_number": "54",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "System must allow creation, query, modification, and deletion of data to authorized users via a secure authentication and permission verification mechanism.",
+            "page_number": "54",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Application must manage a strict separation of data for each client (no user can access data of other clients).",
+            "page_number": "55",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Project utilizes Cloud technology model for storage and resource management.",
+            "page_number": "8",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Application architecture is based on microservices.",
+            "page_number": "56",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Cloud provider for the project is Amazon Web Services (AWS).",
+            "page_number": "60",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Frontend is developed using Angular (Single-Page Application).",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Backend is developed using Spring Boot exposing a REST API.",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Communication protocol is HTTP and data format is JSON.",
+            "page_number": "61",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Repository management follows the Gitflow methodology.",
+            "page_number": "78",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "Deployment is performed using Amazon EKS (Kubernetes).",
+            "page_number": "81",
+            "type": "Constraint"
+        }
+    ]
+}

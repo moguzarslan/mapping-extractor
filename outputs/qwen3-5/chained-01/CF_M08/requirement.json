@@ -1,0 +1,139 @@
+{
+    "requirements": [
+        {
+            "requirement": "A user can be either a donor or a company.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must be available in both Spanish and English.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must allow registering new users to the system.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must be able to authenticate existing users via email.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must allow users to log out.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must allow logged-in or non-logged-in users to view the profiles of the various companies as well as their products.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must be able to save all images of all products/users of the system.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "A company must be able to modify its public profile/page at any time, as well as preview it while editing.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "A company must have access to the system dashboard to use the various internal functionalities and additional information (statistics, values, etc.).",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "A company must be able to register a product and have it visible on its public profile/page.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "A company must be able to register a route to link it to its products.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "A user must be able to return a product registered in a company using its routes.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Every product must have a default route in which the user returns it on their own and with their own means.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "Every route must have an associated budget (which can be 0) which the user must be able to pay using the system when returning the product.",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must have an affiliation/plan system for companies that want certain advantages (it has three plans: free, basic, and premium).",
+            "page_number": "30",
+            "type": "Functional"
+        },
+        {
+            "requirement": "The system must be available in different languages.",
+            "page_number": "31",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+            "page_number": "31",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The system must protect user information through secure authentication.",
+            "page_number": "32",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+            "page_number": "32",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+            "page_number": "32",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+            "page_number": "33",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+            "page_number": "33",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "Products/routes/company profile can only be editable and accessible by that company.",
+            "page_number": "33",
+            "type": "Non-Functional"
+        },
+        {
+            "requirement": "RT1 - External Keys(User, id) (Company, User:id), (Donor, User:id), (Product, name + User:id), (Route, id), (MarketZone, name + type), (Return, id).",
+            "page_number": "39",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "RT2 - The route of a return must be of the same product that is being returned.",
+            "page_number": "39",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "RT3 - The name attribute cannot be repeated among the Companies.",
+            "page_number": "39",
+            "type": "Constraint"
+        },
+        {
+            "requirement": "RT4 - The name attribute cannot be repeated among the Products of the same Company.",
+            "page_number": "39",
+            "type": "Constraint"
+        }
+    ]
+}

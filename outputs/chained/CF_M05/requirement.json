@@ -1,0 +1,68 @@
+{
+    "requirements": [
+        {
+            "requirement": "Accedir al portal mitjançant una autentificació de credencials personals.",
+            "page_number": "48"
+        },
+        {
+            "requirement": "Visualitzar les aplicacions del portal a les quals l'usuari té accés.",
+            "page_number": "48"
+        },
+        {
+            "requirement": "Accedir a les aplicacions a les quals té accés en el portal.",
+            "page_number": "48"
+        },
+        {
+            "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+            "page_number": "49"
+        },
+        {
+            "requirement": "Garantir que no es pot accedir a les dades d'altres clients.",
+            "page_number": "49"
+        },
+        {
+            "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+            "page_number": "49"
+        },
+        {
+            "requirement": "Donar o treure accés a aplicacions als usuaris.",
+            "page_number": "50"
+        },
+        {
+            "requirement": "El nou contingut ha de mantenir una coherència visual amb el disseny de l'antiga versió de l'aplicació.",
+            "page_number": "52"
+        },
+        {
+            "requirement": "El sistema ha de ser fàcil d'utilitzar per a qualsevol usuari.",
+            "page_number": "52"
+        },
+        {
+            "requirement": "L'aplicació ha d'estar disponible en diversos idiomes.",
+            "page_number": "53"
+        },
+        {
+            "requirement": "L'usuari ha de poder efectuar les noves operacions sense formació especial.",
+            "page_number": "53"
+        },
+        {
+            "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+            "page_number": "54"
+        },
+        {
+            "requirement": "L'aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
+            "page_number": "54"
+        },
+        {
+            "requirement": "L'aplicació web ha de suportar un gran nombre d'usuaris simultanis sense degradar el seu rendiment.",
+            "page_number": "55"
+        },
+        {
+            "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+            "page_number": "55"
+        },
+        {
+            "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+            "page_number": "56"
+        }
+    ]
+}

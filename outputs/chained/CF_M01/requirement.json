@@ -1,0 +1,128 @@
+{
+    "requirements": [
+        {
+            "requirement": "El sistema ha de respondre ràpidament quan l’usuari realitzi alguna acció.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "El sistema ha de ser sempre disponible en tot moment, excepte alguna puntualitat, com pot ser una actualització.",
+            "page_number": "38"
+        },
+        {
+            "requirement": "La plataforma de Waapiti s’utilitza durant les 24 hores del dia i, per tant, ha d’estar disponible per tots els usuaris en tot moment.",
+            "page_number": "38"
+        },
+        {
+            "requirement": "Qualsevol usuari ha de poder accedir a la plataforma durant qualsevol moment del dia. Excepte en les actualitzacions programades.",
+            "page_number": "38"
+        },
+        {
+            "requirement": "El sistema ha de poder ser capaç de suportar un nombre il·limitat de connexions al mateix temps.",
+            "page_number": "39"
+        },
+        {
+            "requirement": "El sistema escala de forma dinàmica amb els canvis de connexions simultànies.",
+            "page_number": "39"
+        },
+        {
+            "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+            "page_number": "40"
+        },
+        {
+            "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+            "page_number": "40"
+        },
+        {
+            "requirement": "Les funcionalitats del projecte han de ser solament accessibles als usuaris amb els permisos corresponents.",
+            "page_number": "40"
+        },
+        {
+            "requirement": "Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.",
+            "page_number": "40"
+        },
+        {
+            "requirement": "La informació confidencial dels usuaris ha d’estar protegida per tal de garantir la seva privacitat.",
+            "page_number": "41"
+        },
+        {
+            "requirement": "Cada usuari de Waapiti té dades confidencials que solament pot veure el propi usuari.",
+            "page_number": "41"
+        },
+        {
+            "requirement": "Els usuaris solament poden observar les dades confidencials del seu usuari i de ningú més.",
+            "page_number": "41"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi els playlogs dels players Per Poder tenir constància dels continguts reproduïts en els diferents players",
+            "page_number": "35"
+        },
+        {
+            "requirement": "Cada playlog té una data, client i player assignat.",
+            "page_number": "35"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi les connexions dels players Per Poder tenir constància de quins players estan connectats a cada hora",
+            "page_number": "36"
+        },
+        {
+            "requirement": "Cada connexió té una data, client i player assignat.",
+            "page_number": "36"
+        },
+        {
+            "requirement": "L’estat de la connexió solament pot ser connectat o no connectat.",
+            "page_number": "36"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi les accions realitzades sobre la plataforma Per Poder tenir constància de quines accions s’han realitzat sobre la plataforma",
+            "page_number": "36"
+        },
+        {
+            "requirement": "Cada acció té una data, client, usuari i player assignat.",
+            "page_number": "36"
+        },
+        {
+            "requirement": "Totes les accions són realitzades sobre una entitat de la plataforma.",
+            "page_number": "36"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Els playlogs que podrà veure l’usuari dependrà dels permisos que té.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "S’ha de poder veure tots els detalls del playlog.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Les connexions que podrà veure l’usuari dependrà dels permisos que té.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Les connexions solament podran tenir dos estats: connectat o no connectat.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Les accions que podrà veure l’usuari dependrà dels permisos que té.",
+            "page_number": "37"
+        },
+        {
+            "requirement": "Totes les accions han d'estar relacionades amb una entitat de la plataforma.",
+            "page_number": "37"
+        }
+    ]
+}

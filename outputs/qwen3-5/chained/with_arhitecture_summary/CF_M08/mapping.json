@@ -1,0 +1,359 @@
+{
+    "mappings": [
+        {
+            "component_name": "Security Service (Traefik)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must protect user information via secure authentication.",
+                    "explanation": "Traefik acts as the entry point and ensures secure communications by exposing port 443 (HTTPS) and redirecting port 80 traffic to 443, enforcing encrypted connections for user data transmission.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must pass security audits without critical vulnerabilities.",
+                    "explanation": "As a reverse proxy and load balancer implemented with Traefik v2.2, it manages routing rules securely, reducing exposure of internal services to the public internet.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                    "explanation": "Functioning as a load balancer, Traefik distributes traffic efficiently, contributing to high availability and system resilience against single points of failure.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                    "explanation": "By handling standard HTTP and HTTPS protocols, Traefik ensures compatibility with web clients across various browsers and devices accessing the application.",
+                    "page_number": "33"
+                }
+            ]
+        },
+        {
+            "component_name": "System Service (Next.js)",
+            "related_requirements": [
+                {
+                    "requirement": "A user can be either a donor or a company.",
+                    "explanation": "The core application service handles business logic and user interactions, managing the distinction and roles between donor and company users.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must allow registering new users to the system.",
+                    "explanation": "Manages user interactions and authentication flows, including the registration process for new accounts.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must be able to authenticate existing users via email.",
+                    "explanation": "Handles authentication flows and integrates with external providers like Google OAuth and email services to verify user identity.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must allow users to log out.",
+                    "explanation": "Coordinates session management and user interactions, providing functionality for users to terminate their sessions.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must allow logged-in or non-logged-in users to view the profiles of the various companies as well as their products.",
+                    "explanation": "Serves the web interface and renders public views of company profiles and products based on business logic permissions.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A company must be able to modify its public profile/page at any time, as well as preview it while editing.",
+                    "explanation": "Provides the UI and business logic for editing fields such as Public Profile URL, Logo, Description, and publishing toggles.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A company must have access to the system dashboard to use the various internal functionalities and additional information (statistics, values, etc.).",
+                    "explanation": "Delivers the dashboard interface and aggregates data for statistics, values, and internal functionalities for company users.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A company must be able to register a product and have it visible on its public profile/page.",
+                    "explanation": "Handles the creation logic for products and coordinates their visibility on the public profile via the Data Service.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A company must be able to register a route to link it to its products.",
+                    "explanation": "Manages the business logic for creating routes and associating them with specific products.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A user must be able to return a product registered in a company using its routes.",
+                    "explanation": "Orchestrates the return workflow, allowing users to select products and associated routes for return actions.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "Every route must have an associated budget (can be 0) which the user must be able to pay using the system when returning the product.",
+                    "explanation": "Integrates with payment APIs (like Stripe) to process payments for route budgets during the return transaction.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must have an affiliation/plans system for companies that want certain advantages (includes three plans: free, basic, and premium).",
+                    "explanation": "Implements the subscription logic and integrates with payment processors to manage plan changes and billing.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must be available in both Spanish and English.",
+                    "explanation": "Built with React and Next.js, the UI supports internationalization to switch between Spanish and English languages.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+                    "explanation": "Utilizes the Next.js framework with React to create a responsive and user-friendly web interface.",
+                    "page_number": "31"
+                },
+                {
+                    "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                    "explanation": "Developed using TypeScript and organized Server/Client Components, facilitating maintainability and clear code structure.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "Average implementation time of updates and problem resolution must not exceed 2 hours.",
+                    "explanation": "Containerized deployment and modular architecture allow for rapid updates and issue resolution.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                    "explanation": "The web-based Next.js application is designed to render correctly across standard modern browsers and mobile interfaces.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                    "explanation": "The stateless nature of the System Service allows it to scale horizontally alongside infrastructure resources.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "Products/routes/company profile can only be editable and accessible by that company.",
+                    "explanation": "Enforces authorization logic to ensure only the owning company can edit or access specific private data.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "Any logged-in user has the possibility to change language between Spanish and English.",
+                    "explanation": "Provides UI controls and logic to toggle the application language for authenticated users.",
+                    "page_number": "34"
+                },
+                {
+                    "requirement": "Dashboard information includes: percentage of completion of the company's public profile, certification status, quantity of products registered, quantity of routes created, total number of products received, number of chains started, and amount of waste avoided.",
+                    "explanation": "Aggregates and displays specific metrics from the Data Service to populate the dashboard interface.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any company user can edit their public profile at any time, editing fields such as: Public Profile URL, Entity Web Address (up to four), Locations (up to six), Logo and Corporate Image, Description, Sustainability Information, and Publish toggle.",
+                    "explanation": "Validates and processes edits for specific profile fields before persisting them to the database.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Any company user has access to a table with all created products, from where they can create, edit, and delete products.",
+                    "explanation": "Provides the UI table and backend logic for CRUD operations on product entities.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Creating a new product requires: Name, Category and Subcategory, Approximate Weight (kg), Approximate Dimensions (cm), Up to four images (min 1, max 5MB), Description, Repair Service Indication, Reward Indication, Other Brands Reception Indication, Reception Method, Published Status, and Association with routes.",
+                    "explanation": "Enforces validation rules for product creation attributes and coordinates image uploads via external services.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Any company user has access to a table with all created routes, from where they can create, edit, and delete routes.",
+                    "explanation": "Provides the UI table and backend logic for CRUD operations on route entities.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "Creating a new route requires: Name, Reception Channel, Market Zone, Reception Point, and Associated Products.",
+                    "explanation": "Validates required fields for route creation and associates them with existing products.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The company user can change the plan at any time (the three plans are - free, basic and premium) (when changing the plan the user must make the corresponding payment).",
+                    "explanation": "Manages the subscription lifecycle and triggers payment processing when plan upgrades occur.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The name attribute cannot repeat among Companies.",
+                    "explanation": "Performs validation checks before writing to the database to ensure unique company names.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The name attribute cannot repeat among Products of the same Company.",
+                    "explanation": "Performs validation checks to ensure product names are unique within the context of a specific company.",
+                    "page_number": "39"
+                }
+            ]
+        },
+        {
+            "component_name": "Data Service (PostgreSQL)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must be able to save all images of all products/users of the system.",
+                    "explanation": "Stores metadata and references to images managed by external storage, ensuring data persistence for product and user records.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must protect user information via secure authentication.",
+                    "explanation": "Securely stores user credentials and profile information within the relational database, isolated from public internet access.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                    "explanation": "Provides persistent relational storage ensuring data integrity and availability during system operation.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                    "explanation": "PostgreSQL version 13.2 is designed to handle increased data volume and concurrent queries as the user base grows.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "The system must be capable of increasing server resources and maintaining performance with a 50% workload increase.",
+                    "explanation": "Database resources can be scaled to accommodate higher query loads and data storage requirements.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "The name attribute cannot repeat among Companies.",
+                    "explanation": "Enforced via Prisma Schema files which generate SQL constraints to prevent duplicate company names.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The name attribute cannot repeat among Products of the same Company.",
+                    "explanation": "Enforced via Prisma Schema files which generate SQL constraints to prevent duplicate product names per company.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "All registered users can log in to the system with their email via a MagicLink.",
+                    "explanation": "Stores user account data and email addresses required to validate login requests.",
+                    "page_number": "34"
+                },
+                {
+                    "requirement": "Any application user (logged in or not) can view the profiles of the various companies registered and with active profile in the system.",
+                    "explanation": "Retrieves and serves company profile data for public viewing requests.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Any application user (logged in or not) can view the products published in the profiles of the various companies of the system.",
+                    "explanation": "Retrieves and serves product data linked to active company profiles.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Any donor user can return any product available for return in the profiles of the various companies of the system.",
+                    "explanation": "Records return transactions and links them to specific products and companies.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "When returning a product, the user must choose the route and make the corresponding payment for the product return (which can be 0 and pay nothing).",
+                    "explanation": "Stores the selected route and payment status associated with the return transaction.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Dashboard information includes: percentage of completion of the company's public profile, certification status, quantity of products registered, quantity of routes created, total number of products received, number of chains started, and amount of waste avoided.",
+                    "explanation": "Holds the aggregated data required to calculate and display dashboard statistics.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any company user can edit their public profile at any time, editing fields such as: Public Profile URL, Entity Web Address (up to four), Locations (up to six), Logo and Corporate Image, Description, Sustainability Information, and Publish toggle.",
+                    "explanation": "Persists updates made to company profile fields into the database tables.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Any company user has access to a table with all created products, from where they can create, edit, and delete products.",
+                    "explanation": "Supports CRUD operations for product entities stored in the Users, Companies, Products tables.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Any company user has access to a table with all created routes, from where they can create, edit, and delete routes.",
+                    "explanation": "Supports CRUD operations for route entities stored in the Routes and MarketZones tables.",
+                    "page_number": "38"
+                }
+            ]
+        },
+        {
+            "component_name": "External Services Ecosystem",
+            "related_requirements": [
+                {
+                    "requirement": "The system must be able to authenticate existing users via email.",
+                    "explanation": "Google OAuth provides secure identity verification, while Brevo manages email communications for authentication flows.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must be able to save all images of all products/users of the system.",
+                    "explanation": "Amazon S3 is utilized for cloud storage to host and serve product and user images efficiently.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "Every route must have an associated budget (can be 0) which the user must be able to pay using the system when returning the product.",
+                    "explanation": "Stripe is integrated to process payments for route budgets during product returns.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must have an affiliation/plans system for companies that want certain advantages (includes three plans: free, basic, and premium).",
+                    "explanation": "Stripe handles subscription management and payment processing for the free, basic, and premium plans.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must protect user information via secure authentication.",
+                    "explanation": "Google OAuth ensures secure third-party authentication, protecting user credentials.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must pass security audits without critical vulnerabilities.",
+                    "explanation": "Reliance on established providers like Google and Stripe leverages their security compliance to reduce vulnerability risks.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                    "explanation": "Sentry provides error monitoring which aids in identifying issues quickly, supporting maintainability.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "Average implementation time of updates and problem resolution must not exceed 2 hours.",
+                    "explanation": "Sentry alerts facilitate rapid detection and resolution of problems, helping meet resolution time targets.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "Any logged-in user has the option to log out at any time.",
+                    "explanation": "Session management relies on tokens handled by external authentication providers to enable logout functionality.",
+                    "page_number": "34"
+                },
+                {
+                    "requirement": "Any application user (logged in or not) can view the profiles of the various companies registered and with active profile in the system.",
+                    "explanation": "Google Analytics tracks traffic to these public profiles, ensuring they are accessible and monitored.",
+                    "page_number": "35"
+                }
+            ]
+        },
+        {
+            "component_name": "Infrastructure Layer (Docker & EC2)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                    "explanation": "Amazon EC2 instances and Docker orchestration ensure reliable hosting and quick recovery mechanisms for services.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                    "explanation": "Docker containerization ensures consistency across environments, simplifying maintenance and updates.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "Average implementation time of updates and problem resolution must not exceed 2 hours.",
+                    "explanation": "Docker Compose allows for defining and running multi-container applications efficiently, speeding up deployment.",
+                    "page_number": "32"
+                },
+                {
+                    "requirement": "The system must be compatible with the most common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                    "explanation": "Hosting on standard web servers via EC2 ensures broad network accessibility for all compliant devices.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                    "explanation": "EC2 instances allow for horizontal and vertical scaling to accommodate increased user load and data.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "The system must be capable of increasing server resources and maintaining performance with a 50% workload increase.",
+                    "explanation": "Infrastructure resources on EC2 can be increased to maintain performance under higher workloads.",
+                    "page_number": "33"
+                },
+                {
+                    "requirement": "Products/routes/company profile can only be editable and accessible by that company.",
+                    "explanation": "Network isolation (internal vs external networks) managed by Docker ensures data services are not publicly exposed.",
+                    "page_number": "33"
+                }
+            ]
+        }
+    ]
+}

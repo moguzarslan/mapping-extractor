@@ -1,0 +1,191 @@
+{
+    "components": [
+        {
+            "component_name": "Api Gateway",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the single entry point for all client requests from the presentation layer (web and mobile platforms). It handles user authentication, authorization, SSL termination, and routes requests to the appropriate backend services (Core or Analytic Module). This follows the API Gateway microservice pattern to enhance security, manage partial system failures, and centralize external communication.",
+                    "page_number": "43"
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a NestJS microservice using TypeScript. It defines all REST API routes and processes incoming HTTP requests. It validates user permissions before forwarding requests to internal services like the Core or Analytic Module. It uses decorators such as @UseGuards for validation and access control.",
+                    "page_number": "66"
+                },
+                "communication": {
+                    "explanation": "Receives HTTP requests from the presentation layer (web/mobile clients). Communicates with the Core and Analytic Module via TCP-based internal communication. After processing a request (e.g., fetching data), it returns the response back to the client. It also validates user permissions by interacting with the database before allowing data access.",
+                    "page_number": "43, 65"
+                }
+            }
+        },
+        {
+            "component_name": "Core Service",
+            "description": {
+                "role": {
+                    "explanation": "Serves as the central business logic engine of the Waapiti platform. It manages core platform operations such as creating, editing, or deleting entities (e.g., players), and records every user action in the Audit Trail. It is responsible for maintaining platform state and interacting with both the database and AWS cloud services.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "Built as a NestJS microservice in TypeScript. Contains business logic for user-initiated actions (e.g., player creation). Integrates with a MySQL database (via AWS RDS) for transactional data and includes a Kinesis service to stream Audit Trail events to AWS. Every mutating operation triggers a call to log the action via Kinesis.",
+                    "page_number": "73–74"
+                },
+                "communication": {
+                    "explanation": "Receives requests routed by the Api Gateway. Interacts with the MySQL database (RDS) to read/write platform entities. Sends Audit Trail data to Kinesis Data Streams for ingestion into S3. Also communicates with the Analytic Module indirectly through shared data stores (S3, DynamoDB).",
+                    "page_number": "44, 73"
+                }
+            }
+        },
+        {
+            "component_name": "Analytic Module",
+            "description": {
+                "role": {
+                    "explanation": "The primary component developed in this project. It retrieves, processes, and exposes historical data (Playlogs, Connections, Audit Trail) stored in AWS for analytical purposes. It enables users to query and visualize platform usage patterns, player activity, and user actions.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a NestJS microservice using TypeScript. Contains dedicated controllers and services for each data type (Connections, Playlogs, AuditTrail). Uses the AWS Athena SDK to execute SQL queries on data stored in S3. Includes permission checks against the MySQL database before returning results. Also features scheduled tasks (via @nestjs/schedule) to manage Connection data lifecycle.",
+                    "page_number": "62–72"
+                },
+                "communication": {
+                    "explanation": "Receives data query requests from the Api Gateway. Queries AWS Athena (which reads from S3) to fetch historical data. Validates user permissions by querying the MySQL database. Returns structured results to the Api Gateway for delivery to the client. Also writes hourly Connection summaries to S3 via scheduled cron jobs.",
+                    "page_number": "65–66, 72"
+                }
+            }
+        },
+        {
+            "component_name": "Web Socket Service",
+            "description": {
+                "role": {
+                    "explanation": "Manages bidirectional real-time communication between the Waapiti platform and digital signage Players. It receives live telemetry data (especially Playlogs) from Players and ensures this data is persisted for monitoring and analysis.",
+                    "page_number": "9, 44"
+                },
+                "technical_details": {
+                    "explanation": "A NestJS microservice that maintains WebSocket connections with Players. Processes incoming Playlog messages (containing content ID, timestamp, and Player ID). Sends this real-time data to Kinesis Data Streams for archival in S3 and also stores it temporarily in DynamoDB for immediate access.",
+                    "page_number": "44, 50"
+                },
+                "communication": {
+                    "explanation": "Communicates directly with Players via WebSocket protocol. Forwards Playlog data to Kinesis Data Streams (for long-term storage in S3) and writes to DynamoDB (for real-time querying). Does not interact directly with the presentation layer; all user-facing data flows through the Analytic Module.",
+                    "page_number": "44, 50"
+                }
+            }
+        },
+        {
+            "component_name": "MySQL Database (RDS)",
+            "description": {
+                "role": {
+                    "explanation": "Stores operational and relational data required for the platform’s day-to-day functioning, including user accounts, client hierarchies, player metadata, and recent Connection records (last hour only).",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "A relational MySQL database hosted on AWS RDS. Contains tables for Users, Clients, Players, and short-term Connection logs. Used by both Core (for transactional operations) and Analytic Module (for permission validation and client context lookup). Hourly Connection data is purged after being archived to S3.",
+                    "page_number": "44, 72"
+                },
+                "communication": {
+                    "explanation": "Accessed by the Core Service for CRUD operations on platform entities. Queried by the Analytic Module to validate user permissions and resolve client/player relationships before allowing data access. Receives new Connection records from scheduled cron jobs and deletes old ones after archival.",
+                    "page_number": "66, 72"
+                }
+            }
+        },
+        {
+            "component_name": "DynamoDB",
+            "description": {
+                "role": {
+                    "explanation": "Stores Playlog data in real-time with high write throughput. Provides fast access to recent playback events using a composite key (Player ID + timestamp).",
+                    "page_number": "9, 45"
+                },
+                "technical_details": {
+                    "explanation": "AWS NoSQL database. Uses a table where each item represents a Playlog. The primary key is a Composite Key: Partition Key = Player ID, Sort Key = timestamp (date and time). Optimized for high-volume writes from the Web Socket service.",
+                    "page_number": "48"
+                },
+                "communication": {
+                    "explanation": "Receives Playlog data directly from the Web Socket service. Currently used for real-time access but not directly queried by the Analytic Module, which instead uses Athena/S3 for historical analysis.",
+                    "page_number": "48, 50"
+                }
+            }
+        },
+        {
+            "component_name": "Amazon S3 (Data Lake)",
+            "description": {
+                "role": {
+                    "explanation": "Serves as the central data lake for storing historical, immutable records of Playlogs, Connections, and Audit Trail in JSON format. Organized by date, client, and user (for Audit Trail) to enable efficient querying.",
+                    "page_number": "8, 45, 47"
+                },
+                "technical_details": {
+                    "explanation": "Uses separate S3 buckets for each data type (Playlogs, Connections, Audit Trail). Files are stored as newline-delimited JSON. Directory structure follows Apache Hive partitioning style (e.g., date=2024-04-30/clientid=1/). Enables scalable, cost-effective storage of raw event data.",
+                    "page_number": "48, 54"
+                },
+                "communication": {
+                    "explanation": "Receives data from Kinesis Data Firehose (for Playlogs and Audit Trail) and directly from the Analytic Module’s cron job (for Connections). Serves as the data source for AWS Athena queries initiated by the Analytic Module.",
+                    "page_number": "50–51, 72"
+                }
+            }
+        },
+        {
+            "component_name": "Kinesis Data Streams",
+            "description": {
+                "role": {
+                    "explanation": "Provides real-time data streaming pipeline for ingesting high-velocity Playlog and Audit Trail events from backend services into the data lake.",
+                    "page_number": "50"
+                },
+                "technical_details": {
+                    "explanation": "AWS streaming service with two streams: one for Playlogs (from Web Socket) and one for Audit Trail (from Core). Each stream uses one shard (sufficient for current load). Data is retained for at least 24 hours. Records include sequence number, partition key, and JSON payload.",
+                    "page_number": "50"
+                },
+                "communication": {
+                    "explanation": "Receives data from producers: Web Socket (Playlogs) and Core (Audit Trail). Delivers data in order to Kinesis Data Firehose (the consumer), which batches and loads it into S3.",
+                    "page_number": "50"
+                }
+            }
+        },
+        {
+            "component_name": "Kinesis Data Firehose",
+            "description": {
+                "role": {
+                    "explanation": "Transports and batches streaming data from Kinesis Data Streams into Amazon S3 with dynamic partitioning, enabling efficient storage and querying.",
+                    "page_number": "51"
+                },
+                "technical_details": {
+                    "explanation": "Configured with two delivery streams (Playlogs and Audit Trail). Batches data every 60 seconds or at 5 MB, whichever comes first. Uses dynamic partitioning based on JSON fields (e.g., date, clientId, userId) to create Hive-style folder structures in S3.",
+                    "page_number": "51, 56"
+                },
+                "communication": {
+                    "explanation": "Consumes data from Kinesis Data Streams. Writes batched JSON records to the appropriate S3 bucket with correct partitioning. Works in tandem with AWS Glue to ensure data is cataloged properly.",
+                    "page_number": "51"
+                }
+            }
+        },
+        {
+            "component_name": "AWS Glue Data Catalog",
+            "description": {
+                "role": {
+                    "explanation": "Maintains metadata (schema, location, partitions) for datasets stored in S3, enabling AWS Athena to query them as if they were relational tables.",
+                    "page_number": "49"
+                },
+                "technical_details": {
+                    "explanation": "Serverless metadata repository. Contains one database with three tables (Playlogs, Connections, Audit Trail). Each table defines column schemas, S3 location, JSON SerDe format, and partition keys (e.g., date/clientId for Playlogs; date/userId/clientId for Audit Trail). Partitions are added dynamically via Athena queries.",
+                    "page_number": "54–55"
+                },
+                "communication": {
+                    "explanation": "Used by AWS Athena to understand how to read data from S3. The Analytic Module indirectly relies on it by issuing SQL queries to Athena, which consults the Glue catalog to locate and parse data.",
+                    "page_number": "49, 54"
+                }
+            }
+        },
+        {
+            "component_name": "Amazon Athena",
+            "description": {
+                "role": {
+                    "explanation": "Enables interactive SQL querying of historical data stored in S3 without managing infrastructure. Used by the Analytic Module to retrieve Playlogs, Connections, and Audit Trail records based on user requests.",
+                    "page_number": "49"
+                },
+                "technical_details": {
+                    "explanation": "Serverless query service that runs SQL on JSON data in S3. Uses the Glue Data Catalog for table definitions. Queries leverage partition pruning for performance. Results are returned as structured objects. Configured within a dedicated Athena workgroup for isolation.",
+                    "page_number": "49, 52, 62"
+                },
+                "communication": {
+                    "explanation": "Receives SQL queries from the Analytic Module via the AWS SDK. Reads data from S3 using metadata from Glue. Returns query results to the Analytic Module, which formats and forwards them to the Api Gateway.",
+                    "page_number": "62–63"
+                }
+            }
+        }
+    ]
+}

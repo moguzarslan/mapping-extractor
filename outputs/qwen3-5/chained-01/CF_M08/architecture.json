@@ -1,0 +1,277 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices Architecture",
+            "explanation": "The system is explicitly designed as a collection of small, independent services (Security Service, System Service, Data Service) that communicate with each other. Each service runs in its own Docker container and handles specific responsibilities (routing, application logic, data storage).",
+            "page_number": [
+                "41"
+            ]
+        },
+        {
+            "pattern_name": "Client-Server Architecture",
+            "explanation": "Within the System Service (Next.js), there is a clear separation between Client Components (rendered in the browser, interactable) and Server Components/Actions (executed on the server, access database). This follows the standard web client-server model where the browser requests resources and the server processes logic and data.",
+            "page_number": [
+                "44",
+                "78"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Security Service (Traefik)",
+            "description": {
+                "role": {
+                    "explanation": "Acts as a reverse proxy and load balancer. It manages routing of HTTP/HTTPS requests from the outside world to the internal System Service. It handles SSL termination and redirects HTTP to HTTPS.",
+                    "page_number": [
+                        "41",
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using Traefik v2.2 running in a Docker container. Exposes ports 80 and 443. Configured via docker-compose.yml labels for routing rules and ACME certificate resolution.",
+                    "page_number": [
+                        "42",
+                        "70"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives traffic from Users and forwards it to the System Service (Next.js) based on defined routing rules. Communicates with Let's Encrypt for certificates.",
+                    "page_number": [
+                        "41",
+                        "43"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "System Service (Next.js)",
+            "description": {
+                "role": {
+                    "explanation": "The core application logic and user interface. It serves the web application, handles business logic, authentication, and integrates with external APIs.",
+                    "page_number": [
+                        "41",
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Built with Next.js framework using React and TypeScript. Utilizes Server Components for data fetching and Client Components for interactivity. Uses Server Actions for form submissions and mutations without explicit API routes.",
+                    "page_number": [
+                        "44",
+                        "45",
+                        "78"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Communicates with the Data Service via Prisma ORM. Interacts with external services (Google Auth, S3, Stripe, Brevo, Sentry, Analytics) via their respective SDKs/APIs. Receives requests from Security Service.",
+                    "page_number": [
+                        "41",
+                        "42",
+                        "79"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Data Service (PostgreSQL)",
+            "description": {
+                "role": {
+                    "explanation": "Provides persistent relational storage for all application data including users, companies, products, routes, and returns.",
+                    "page_number": [
+                        "41",
+                        "68"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "PostgreSQL version 13.2 running in a Docker container. Schema managed via Prisma ORM (schema.prisma file). Includes tables for users, accounts, sessions, companies, profiles, products, routes, etc.",
+                    "page_number": [
+                        "68",
+                        "69",
+                        "88"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Connected directly by the System Service through the Prisma Client library. No direct external access; all queries go through the System Service.",
+                    "page_number": [
+                        "41",
+                        "79"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Google OAuth Service",
+            "description": {
+                "role": {
+                    "explanation": "Handles user authentication via third-party identity provider.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Integrated via Next-auth/Auth.js libraries using Google Provider.",
+                    "page_number": [
+                        "73"
+                    ]
+                },
+                "communication": {
+                    "explanation": "System Service redirects users to Google for login and receives tokens/callbacks.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Amazon S3 Service",
+            "description": {
+                "role": {
+                    "explanation": "Cloud storage for user-uploaded files such as product images and logos.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Accessed via AWS SDK (@aws-sdk/client-s3).",
+                    "page_number": [
+                        "73"
+                    ]
+                },
+                "communication": {
+                    "explanation": "System Service uploads and retrieves files from S3 buckets.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Stripe Service",
+            "description": {
+                "role": {
+                    "explanation": "Processes payments for subscription plans and product return fees.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Integrated via Stripe SDK (@stripe/stripe-js, stripe).",
+                    "page_number": [
+                        "73",
+                        "76"
+                    ]
+                },
+                "communication": {
+                    "explanation": "System Service initiates payment intents and handles webhooks for subscription changes.",
+                    "page_number": [
+                        "42",
+                        "65"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Brevo Service",
+            "description": {
+                "role": {
+                    "explanation": "Manages email communications, marketing campaigns, and transactional emails (e.g., MagicLinks).",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Integrated via Brevo SDK (@getbrevo/brevo) and React Email components.",
+                    "page_number": [
+                        "73"
+                    ]
+                },
+                "communication": {
+                    "explanation": "System Service triggers email sending requests to Brevo API.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Sentry Service",
+            "description": {
+                "role": {
+                    "explanation": "Monitors and tracks errors and exceptions in the application.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Integrated via Sentry-next.js SDK.",
+                    "page_number": [
+                        "74"
+                    ]
+                },
+                "communication": {
+                    "explanation": "System Service reports runtime errors to Sentry dashboard.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Docker",
+            "description": {
+                "role": {
+                    "explanation": "Containerization platform used to package and run the application services.",
+                    "page_number": [
+                        "41",
+                        "76"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Uses docker-compose.yml to define and orchestrate multiple containers (traefik, nextjs, postgres).",
+                    "page_number": [
+                        "70"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Manages network isolation (internal/external networks) and service discovery between components.",
+                    "page_number": [
+                        "70"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Component-Based Pattern",
+            "associated_components": [
+                "System Service (Next.js)"
+            ],
+            "explanation": "Used to build the User Interface by creating independent, reusable components (e.g., buttons, forms, layouts) that encapsulate their own logic and styles. Promotes modularity and maintainability.",
+            "page_number": [
+                "66"
+            ]
+        },
+        {
+            "pattern_name": "Observer Pattern",
+            "associated_components": [
+                "System Service (Next.js)"
+            ],
+            "explanation": "Establishes a one-to-many dependency between objects. Implemented using event listeners in certain components where observers subscribe to a subject to receive notifications of state changes.",
+            "page_number": [
+                "66",
+                "67"
+            ]
+        },
+        {
+            "pattern_name": "Singleton Pattern",
+            "associated_components": [
+                "System Service (Next.js)",
+                "Data Service (PostgreSQL)"
+            ],
+            "explanation": "Ensures a class has only one instance and provides a global point of access. Specifically used to manage the Prisma Client instance to prevent multiple connections to the database during development/hot-reload.",
+            "page_number": [
+                "67"
+            ]
+        }
+    ]
+}

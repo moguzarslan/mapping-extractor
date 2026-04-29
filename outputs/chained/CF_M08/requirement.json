@@ -1,0 +1,199 @@
+{
+    "requirements": [
+        {
+            "requirement": "Un usuario puede ser tanto un donante como una empresa.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de estar disponible tanto en castellano como en inglés.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de permitir registrar usuarios nuevos al sistema.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de permitir cerrar sesión a los usuarios.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de permitir a usuarios logueados ver los perfiles de las distintas empresas así como sus productos.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Una empresa ha de poder dar de alta una ruta para vincularla a sus productos.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Un usuario ha de poder devolver un producto dado de alta en una empresa mediante el uso de sus rutas.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Todo producto ha de tener una ruta predeterminada en la que el usuario lo devuelve por su cuenta y con sus propios medios.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quieran tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
+            "page_number": "30",
+            "requirement_type": "functional"
+        },
+        {
+            "requirement": "El sistema ha de estar disponible en distintos idiomas",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para llegar a más usuarios y que su experiencia sea la mejor posible",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema estará tanto en español como en inglés (verificados por un traductor).",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "La interfaz de usuario debe ser intuitiva y fácil de usar para usuarios no técnicos.",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para mejorar la adopción y satisfacción del usuario.",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Realización de pruebas de usabilidad con al menos 10 usuarios representativos, logrando una puntuación de satisfacción mínima de 8/10.",
+            "page_number": "31",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe proteger la información de los usuarios mediante la autenticación segura.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para proteger los datos sensibles de los usuarios y cumplir con las regulaciones de protección de datos.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe pasar auditorías de seguridad sin vulnerabilidades críticas.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe tener un tiempo de actividad del 99.9% y ser capaz de recuperarse de fallos en menos de 1 hora.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para garantizar la disponibilidad continua del servicio.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Monitoreo de tiempo de actividad que demuestre un uptime del 99.9% y pruebas de recuperación de desastres que cumplan con el tiempo de recuperación especificado.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para reducir el costo y el tiempo de mantenimiento.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Documentación completa y actualizada, y tiempo promedio de implementación de actualizaciones y resolución de problemas no superior a 2 horas.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe ser compatible con los navegadores web más comunes (Chrome, Firefox, Safari, Edge) y dispositivos móviles.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para asegurar que todos los usuarios puedan acceder al sistema independientemente del dispositivo o navegador que utilicen.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Pruebas de compatibilidad que demuestren funcionalidad en los principales navegadores y dispositivos móviles.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "El sistema debe ser escalable para manejar un aumento en el número de usuarios y volumen de datos.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Para adaptarse al crecimiento futuro y asegurar el rendimiento.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Capacidad para aumentar los recursos del servidor y mantener el rendimiento con un incremento del 50% en la carga de trabajo.",
+            "page_number": "32",
+            "requirement_type": "non-functional"
+        },
+        {
+            "requirement": "Los productos/rutas/perfil de una empresa solo pueden ser editables y accesibles por esa empresa.",
+            "page_number": "33",
+            "requirement_type": "constraint"
+        },
+        {
+            "requirement": "Para proteger la integridad y confidencialidad de los datos de la empresa.",
+            "page_number": "33",
+            "requirement_type": "constraint"
+        },
+        {
+            "requirement": "Comprobar que solo los usuario empresa pueda acceder a sus productos/rutas/perfil.",
+            "page_number": "33",
+            "requirement_type": "constraint"
+        }
+    ]
+}

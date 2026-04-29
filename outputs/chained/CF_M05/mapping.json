@@ -1,0 +1,318 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The Microservices Architecture allows for modular updates, enabling the system to handle name conversion by updating specific microservices independently without affecting the entire system."
+                    },
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "Each microservice can handle CRUD operations on its specific data domain, ensuring that only authorized users can perform these actions within their respective services."
+                    },
+                    {
+                        "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+                        "explanation": "The Microservices Architecture inherently supports data isolation by allowing each microservice to manage its own data store, ensuring strict separation of client data."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Accedir al portal mitjançant una autentificació de credencials personals.",
+                        "explanation": "The Client-Server Architecture separates the frontend (client) from the backend (server), allowing the server to handle authentication logic and securely verify user credentials."
+                    },
+                    {
+                        "requirement": "Visualitzar les aplicacions del portal a les quals l'usuari té accés.",
+                        "explanation": "The Client-Server Architecture enables the server to manage access control and determine which applications a user can view, while the client presents this information in a unified interface."
+                    },
+                    {
+                        "requirement": "Accedir a les aplicacions a les quals té accés en el portal.",
+                        "explanation": "The server handles authorization and ensures that users can only access applications they are permitted to use, while the client provides a seamless way to interact with these applications."
+                    },
+                    {
+                        "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+                        "explanation": "The Client-Server Architecture allows the server to enforce role-based access control, restricting user actions based on their assigned roles."
+                    },
+                    {
+                        "requirement": "Garantir que no es pot accedir a les dades d'altres clients.",
+                        "explanation": "The server manages data access and ensures that each client's data is isolated, preventing unauthorized access to other clients' data."
+                    },
+                    {
+                        "requirement": "Donar o treure accés a aplicacions als usuaris.",
+                        "explanation": "The server handles the management of user permissions and application access, allowing administrators to grant or revoke access as needed."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
+                        "explanation": "The Client-Server Architecture supports high availability and fault tolerance, ensuring continuous operation and stability of the web application."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de suportar un gran nombre d'usuaris simultanis sense degradar el seu rendiment.",
+                        "explanation": "The Client-Server Architecture allows for horizontal scaling of both the client and server components, enabling the system to handle a large number of concurrent users without performance degradation."
+                    },
+                    {
+                        "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+                        "explanation": "The Client-Server Architecture enables efficient data retrieval and processing on the server side, ensuring fast response times for query operations."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Leader",
+                "related_requirements": [
+                    {
+                        "requirement": "Accedir al portal mitjançant una autentificació de credencials personals.",
+                        "explanation": "The Leader component routes authentication requests to the Access Control service, ensuring that only authenticated users can access the portal."
+                    },
+                    {
+                        "requirement": "Visualitzar les aplicacions del portal a les quals l'usuari té accés.",
+                        "explanation": "The Leader routes requests to the Portal component, which then retrieves and displays the applications accessible to the authenticated user."
+                    },
+                    {
+                        "requirement": "Accedir a les aplicacions a les quals té accés en el portal.",
+                        "explanation": "The Leader directs requests to the appropriate microservices based on user permissions, ensuring that users can only access applications they are authorized to use."
+                    },
+                    {
+                        "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+                        "explanation": "The Leader works in conjunction with the Access Control service to enforce role-based access restrictions on data operations."
+                    },
+                    {
+                        "requirement": "Garantir que no es pot accedir a les dades d'altres clients.",
+                        "explanation": "The Leader ensures that data requests are routed to the appropriate microservices, which enforce data isolation based on client-specific roles and permissions."
+                    },
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The Leader can route requests to specific microservices responsible for handling name conversion logic, ensuring consistency across the system."
+                    },
+                    {
+                        "requirement": "Donar o treure accés a aplicacions als usuaris.",
+                        "explanation": "The Leader interacts with the Access Control service to manage user permissions and application access."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
+                        "explanation": "The Leader acts as a central routing point, distributing traffic evenly across the system and ensuring high availability and stability."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de suportar un gran nombre d'usuaris simultanis sense degradar el seu rendiment.",
+                        "explanation": "The Leader facilitates load balancing and efficient request distribution, enabling the system to handle a large number of concurrent users."
+                    },
+                    {
+                        "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+                        "explanation": "The Leader optimizes request routing and ensures that queries are directed to the most efficient microservices for fast response times."
+                    }
+                ]
+            },
+            {
+                "component_name": "Portal",
+                "related_requirements": [
+                    {
+                        "requirement": "Visualitzar les aplicacions del portal a les quals l'usuari té accés.",
+                        "explanation": "The Portal component serves as the central interface for users, displaying the applications they are authorized to access."
+                    },
+                    {
+                        "requirement": "Accedir a les aplicacions a les quals té accés en el portal.",
+                        "explanation": "The Portal provides a unified entry point for users to access various applications, ensuring a consistent and secure experience."
+                    },
+                    {
+                        "requirement": "El nou contingut ha de mantenir una coherència visual amb el disseny de l'antiga versió de l'aplicació.",
+                        "explanation": "The Portal component is responsible for maintaining the visual consistency of the application, ensuring that new content aligns with the existing design."
+                    },
+                    {
+                        "requirement": "El sistema ha de ser fàcil d'utilitzar per a qualsevol usuari.",
+                        "explanation": "The Portal component focuses on providing an intuitive and user-friendly interface, enhancing the overall usability of the system."
+                    },
+                    {
+                        "requirement": "L'aplicació ha d'estar disponible en diversos idiomes.",
+                        "explanation": "The Portal component can be localized to support multiple languages, ensuring accessibility for users worldwide."
+                    },
+                    {
+                        "requirement": "L'usuari ha de poder efectuar les noves operacions sense formació especial.",
+                        "explanation": "The Portal component is designed to be self-explanatory, allowing users to perform new operations without additional training."
+                    }
+                ]
+            },
+            {
+                "component_name": "Access Control",
+                "related_requirements": [
+                    {
+                        "requirement": "Accedir al portal mitjançant una autentificació de credencials personals.",
+                        "explanation": "The Access Control component handles user authentication, verifying credentials before granting access to the portal."
+                    },
+                    {
+                        "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+                        "explanation": "The Access Control component enforces role-based access control, determining what actions users can perform based on their assigned roles."
+                    },
+                    {
+                        "requirement": "Garantir que no es pot accedir a les dades d'altres clients.",
+                        "explanation": "The Access Control component ensures that users can only access data associated with their own clients, enforcing strict data isolation."
+                    },
+                    {
+                        "requirement": "Donar o treure accés a aplicacions als usuaris.",
+                        "explanation": "The Access Control component manages user permissions and application access, allowing administrators to grant or revoke access as needed."
+                    }
+                ]
+            },
+            {
+                "component_name": "Communication Log",
+                "related_requirements": [
+                    {
+                        "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+                        "explanation": "The Communication Log component records all interactions, enabling auditing and monitoring of user activities to ensure compliance with access control policies."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
+                        "explanation": "The Communication Log component provides insights into system communication patterns, helping identify potential issues and ensuring stable operation."
+                    },
+                    {
+                        "requirement": "L'aplicació web ha de suportar un gran nombre d'usuaris simultanis sense degradar el seu rendiment.",
+                        "explanation": "The Communication Log component helps monitor system performance and traffic, enabling optimization for handling a large number of concurrent users."
+                    }
+                ]
+            },
+            {
+                "component_name": "Scheduler",
+                "related_requirements": [
+                    {
+                        "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+                        "explanation": "The Scheduler component can schedule tasks related to data management and maintenance, ensuring that client-specific data is handled appropriately."
+                    },
+                    {
+                        "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+                        "explanation": "The Scheduler component can optimize query execution by scheduling tasks at optimal times, reducing response times."
+                    }
+                ]
+            },
+            {
+                "component_name": "Amazon RDS",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "Amazon RDS provides a reliable and scalable database infrastructure, supporting the storage and management of data required for name conversion."
+                    },
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "Amazon RDS offers robust data storage and management capabilities, enabling authorized users to perform CRUD operations on data."
+                    },
+                    {
+                        "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+                        "explanation": "Amazon RDS supports data isolation through its managed database services, ensuring that each client's data is stored separately and securely."
+                    }
+                ]
+            },
+            {
+                "component_name": "Frontend (Angular)",
+                "related_requirements": [
+                    {
+                        "requirement": "El nou contingut ha de mantenir una coherència visual amb el disseny de l'antiga versió de l'aplicació.",
+                        "explanation": "The Frontend component, built with Angular, ensures visual consistency by adhering to the existing design principles and UI patterns."
+                    },
+                    {
+                        "requirement": "El sistema ha de ser fàcil d'utilitzar per a qualsevol usuari.",
+                        "explanation": "The Frontend component focuses on creating an intuitive and responsive user interface, enhancing the overall usability of the system."
+                    },
+                    {
+                        "requirement": "L'aplicació ha d'estar disponible en diversos idiomes.",
+                        "explanation": "The Frontend component can be localized to support multiple languages, ensuring accessibility for users worldwide."
+                    },
+                    {
+                        "requirement": "L'usuari ha de poder efectuar les noves operacions sense formació especial.",
+                        "explanation": "The Frontend component is designed to be self-explanatory, allowing users to perform new operations without additional training."
+                    }
+                ]
+            },
+            {
+                "component_name": "Backend (Spring Boot)",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The Backend component, built with Spring Boot, handles the business logic for name conversion, ensuring accurate and consistent data transformation."
+                    },
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "The Backend component exposes RESTful APIs that enable authorized users to perform CRUD operations on data."
+                    },
+                    {
+                        "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+                        "explanation": "The Backend component enforces data isolation by managing client-specific data through its layered architecture and database interactions."
+                    },
+                    {
+                        "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+                        "explanation": "The Backend component optimizes query performance by leveraging efficient data access patterns and caching mechanisms."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Repository Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "The Repository Pattern abstracts data access logic, allowing the Backend component to handle CRUD operations efficiently and securely."
+                    },
+                    {
+                        "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
+                        "explanation": "The Repository Pattern ensures that data access is encapsulated and isolated, supporting strict data separation for each client."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Service Layer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The Service Layer Pattern encapsulates the business logic for name conversion, allowing the Backend component to handle this functionality in a modular and reusable way."
+                    },
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "The Service Layer Pattern organizes complex operations, enabling the Backend component to handle CRUD operations in a structured and maintainable manner."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "DTO (Data Transfer Object) Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The DTO Pattern simplifies data transfer between layers, ensuring that name conversion logic can be applied consistently across the system."
+                    },
+                    {
+                        "requirement": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+                        "explanation": "The DTO Pattern reduces coupling between layers, making it easier to handle data transformations and CRUD operations efficiently."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Mapper Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Convertir qualsevol menció de l'antic nom al nou nom.",
+                        "explanation": "The Mapper Pattern facilitates the conversion of data formats, ensuring that name conversion logic is applied consistently when transferring data between layers."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Observer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de ser fàcil d'utilitzar per a qualsevol usuari.",
+                        "explanation": "The Observer Pattern ensures that the Frontend component remains responsive and up-to-date with changes in the underlying data, enhancing the user experience."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Strategy Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l'usuari.",
+                        "explanation": "The Strategy Pattern allows the Access Control service to dynamically apply different authentication strategies based on user roles, ensuring flexible and secure access control."
+                    }
+                ]
+            }
+        ]
+    }
+}

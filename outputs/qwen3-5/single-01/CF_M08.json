@@ -1,0 +1,247 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                        "explanation": "The microservices architecture allows services to scale independently, supporting the requirement to handle a 50% workload increase without compromising performance.",
+                        "page_number": "33"
+                    },
+                    {
+                        "requirement": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+                        "explanation": "By decoupling services (Security, System, Data), a failure in one service does not necessarily bring down the entire system, aiding in fault tolerance and recovery.",
+                        "page_number": "32"
+                    },
+                    {
+                        "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                        "explanation": "Independent services allow for easier updates and maintenance of specific functionalities without affecting the whole application, reducing maintenance costs and time.",
+                        "page_number": "32"
+                    }
+                ],
+                "page_number": [
+                    "41"
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+                        "explanation": "The separation of client (Next.js/React frontend) and server (API/Database) ensures the interface can be rendered across various devices and browsers while logic remains centralized.",
+                        "page_number": "33"
+                    },
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use for non-technical users.",
+                        "explanation": "The client-side rendering (CSR) and server-side rendering (SSR) capabilities of the framework used within this architecture optimize performance and user experience.",
+                        "page_number": "31"
+                    }
+                ],
+                "page_number": [
+                    "41",
+                    "44"
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Security Service (Traefik)",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must protect user information through secure authentication.",
+                        "explanation": "Traefik manages HTTP/HTTPS traffic, enforcing port 443 (HTTPS) to encrypt data transmission between clients and servers, ensuring privacy and security.",
+                        "page_number": "32"
+                    },
+                    {
+                        "requirement": "Products/routes/company profiles can only be edited and accessed by that company.",
+                        "explanation": "Traefik acts as a reverse proxy and router, managing access rules and directing traffic securely to internal services based on defined configurations.",
+                        "page_number": "33"
+                    },
+                    {
+                        "requirement": "The system must have an uptime of 99.9%.",
+                        "explanation": "Traefik functions as a load balancer, distributing traffic among multiple instances to improve availability and response capacity.",
+                        "page_number": "32"
+                    }
+                ],
+                "page_number": [
+                    "41",
+                    "43"
+                ]
+            },
+            {
+                "component_name": "System Service (Next.js)",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be available in Spanish and English.",
+                        "explanation": "The System Service integrates libraries like 'next-intl' to manage internationalization, allowing dynamic switching between languages based on URL routes.",
+                        "page_number": "31"
+                    },
+                    {
+                        "requirement": "The system must be compatible with common web browsers and mobile devices.",
+                        "explanation": "Next.js renders the application using React, which is designed to work across different browsers and responsive layouts for mobile/tablet views.",
+                        "page_number": "33"
+                    },
+                    {
+                        "requirement": "The system must save all images of all products/users.",
+                        "explanation": "The System Service handles the upload logic and communicates with external storage (Amazon S3) to persist image files.",
+                        "page_number": "30"
+                    }
+                ],
+                "page_number": [
+                    "41",
+                    "44"
+                ]
+            },
+            {
+                "component_name": "Data Service (PostgreSQL)",
+                "related_requirements": [
+                    {
+                        "requirement": "Products/routes/company profiles can only be edited and accessed by that company.",
+                        "explanation": "The relational database structure enforces data integrity and relationships (Foreign Keys) ensuring data ownership and access control rules are stored and validated.",
+                        "page_number": "33"
+                    },
+                    {
+                        "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                        "explanation": "PostgreSQL is a robust relational database capable of handling large datasets and concurrent connections required for scaling.",
+                        "page_number": "33"
+                    }
+                ],
+                "page_number": [
+                    "41",
+                    "68"
+                ]
+            },
+            {
+                "component_name": "Docker Containers",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be easy to maintain and update.",
+                        "explanation": "Containerization packages the application and dependencies together, simplifying deployment and updates across different environments (Dev, Pre, Prod).",
+                        "page_number": "32"
+                    },
+                    {
+                        "requirement": "The system must be able to recover from failures in less than 1 hour.",
+                        "explanation": "Docker allows for quick recreation and restarting of services in case of failure, facilitating disaster recovery processes.",
+                        "page_number": "32"
+                    }
+                ],
+                "page_number": [
+                    "41",
+                    "70"
+                ]
+            },
+            {
+                "component_name": "Stripe Integration",
+                "related_requirements": [
+                    {
+                        "requirement": "Every route must have an associated budget (which can be 0) which the user must be able to pay via the system when returning the product.",
+                        "explanation": "Stripe is integrated specifically to handle payment processing for route budgets and subscription plan changes.",
+                        "page_number": "30"
+                    },
+                    {
+                        "requirement": "The system must have an affiliation/plans system for companies (Free, Basic, Premium).",
+                        "explanation": "Stripe manages the subscription logic and payments associated with the three different company plans.",
+                        "page_number": "30"
+                    }
+                ],
+                "page_number": [
+                    "42",
+                    "65"
+                ]
+            },
+            {
+                "component_name": "Amazon S3",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must save all images of all products/users.",
+                        "explanation": "Amazon S3 is utilized as the cloud storage solution to store and retrieve the image files uploaded by users.",
+                        "page_number": "30"
+                    }
+                ],
+                "page_number": [
+                    "42",
+                    "73"
+                ]
+            },
+            {
+                "component_name": "GitLab CI/CD",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be easy to maintain and update with clear and complete documentation.",
+                        "explanation": "Automated pipelines for building, testing, and deploying reduce manual effort and ensure consistent updates, supporting maintainability goals.",
+                        "page_number": "32"
+                    }
+                ],
+                "page_number": [
+                    "89"
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Component-Based Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be easy to maintain and update.",
+                        "explanation": "Building the UI with independent and reusable components encapsulates logic and styles, making code easier to manage, test, and update in isolation.",
+                        "page_number": "32"
+                    },
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use.",
+                        "explanation": "Reusable components ensure consistency across the application, contributing to a uniform and intuitive user experience.",
+                        "page_number": "31"
+                    }
+                ],
+                "page_number": [
+                    "66"
+                ]
+            },
+            {
+                "pattern_name": "Observer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The user interface must be intuitive and easy to use.",
+                        "explanation": "Used with event listeners to notify components of state changes (e.g., form inputs, filters), ensuring the UI reacts immediately to user actions for a smooth experience.",
+                        "page_number": "31"
+                    }
+                ],
+                "page_number": [
+                    "66"
+                ]
+            },
+            {
+                "pattern_name": "Singleton Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be scalable to handle an increase in the number of users and data volume.",
+                        "explanation": "Ensuring only one instance of the Prisma Client exists prevents resource exhaustion and connection overhead, optimizing database interaction performance under load.",
+                        "page_number": "33"
+                    }
+                ],
+                "page_number": [
+                    "67"
+                ]
+            },
+            {
+                "pattern_name": "Server Actions (Next.js Specific)",
+                "related_requirements": [
+                    {
+                        "requirement": "A company must be able to modify its profile/public page at any time.",
+                        "explanation": "Server Actions allow client components to execute server-side logic (like database updates) directly upon user interaction without writing full API endpoints, streamlining the modification process.",
+                        "page_number": "30"
+                    },
+                    {
+                        "requirement": "The system must protect user information through secure authentication.",
+                        "explanation": "Server Actions run on the server side, allowing secure authentication checks (using auth()) before executing sensitive database mutations.",
+                        "page_number": "32"
+                    }
+                ],
+                "page_number": [
+                    "46",
+                    "86"
+                ]
+            }
+        ]
+    }
+}

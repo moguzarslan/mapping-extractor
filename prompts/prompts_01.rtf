@@ -1,0 +1,286 @@
+{\rtf1\ansi\ansicpg1254\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red195\green123\blue90;\red23\green23\blue26;\red174\green176\blue183;
+\red89\green158\blue96;}
+{\*\expandedcolortbl;;\csgenericrgb\c76471\c48235\c35294;\csgenericrgb\c9020\c9020\c10196;\csgenericrgb\c68235\c69020\c71765;
+\csgenericrgb\c34902\c61961\c37647;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 class \cf4 Prompts:\
+    REQUIREMENT_EXTRACTION_PROMPT = \cf5 """\
+    Objective:\
+    You are an expert software requirements analyst. Extract functional and non-functional requirements from the provided software product document.\
+    \
+    Instructions:\
+    1. Review the entire document.\
+    2. Identify all functional, non-functional requirements and constraints.\
+    3. Extract the exact requirement statements as in the document.\
+    4. If a requirement is written in a language other than English, translate it into clear English.\
+    5. Original meaning of the requirement has to be preserved\
+    6. For each requirement give the page number the requirement has found\
+    7. For each requirement give the requirement type (functional, non-functional or constraint)\
+    8. Give page number reference for each section for each component. \
+    \
+    Rules:\
+    - Ensure that all information is strictly supported by the document.\
+    - Give the output in json format.\
+    - Give the whole output in English.\
+    - Avoid duplicates \'97 each requirement should be listed once. \
+    - Avoid adding any extra explanation, just provide the exact requirement text.\
+\
+    Example Output (JSON):\
+    \{\
+      "requirements": [\
+        \{\
+          "requirement": "<Requirement>",\
+          "page_number": "<Page Number>"\
+        \},\
+        \{\
+          "requirement": "...",\
+          "page_number": "..."\
+        \}\
+      ]\
+    \}\
+    ... \
+    """\
+\
+    \cf4 ARCHITECTURE_EXTRACTION_PROMPT = \cf5 """\
+    Objective:\
+    You are an expert software architect and system design analyst.\
+    Your task is to analyze the provided software system document and extract the architecture at 3 distinct levels:\
+    1. Architectural Patterns\
+    2. Components\
+    3. Design Patterns\
+    \
+    Definitions:\
+    - Architectural Patterns: High-level structural organization of the system, such as microservices, layered architecture, client-server, event-driven architecture, hexagonal architecture, MVC, service-oriented architecture, etc.\
+    - Components: Concrete system building blocks or modules, such as frontend, backend service, API gateway, authentication service, database, message broker, cache, reporting module, etc.\
+    - Design Patterns: Lower-level software design solutions used within components, such as Strategy, Factory, Observer, Repository, Adapter, Singleton, Builder, etc.\
+        \
+    Instructions:\
+    1. Carefully read the provided entire document.\
+    2. Carefully inspect provided images.\
+    3. Identify all architectural information mentioned explicitly or strongly implied by the document.\
+    4. Separate the findings into the following 3 levels:\
+       - Architectural Patterns\
+       - Components\
+       - Design Patterns\
+    5. For each component, provide:\
+       - name\
+       - its role in the overall system\
+       - its technical implementation details\
+       - its communication and interactions with other components\
+       - page number reference(s)\
+    6. For each architectural pattern, provide:\
+       - pattern name\
+       - why it applies to the system\
+       - page number reference(s)\
+    7.. For each design pattern, provide:\
+       - pattern name\
+       - where/how it is used in the system\
+       - which component(s) it is associated with\
+       - page number reference(s)\
+\
+    Rules:\
+    - Ensure that all information is strictly supported by the document and images.\
+    - Avoid inventing patterns or components that are not supported by the source.\
+    - If a pattern is only inferred, include it only when the evidence is strong.\
+    - Keep architectural patterns, components, and design patterns strictly separated.\
+    \
+    Output Format (JSON):\
+    \{\
+      "architectural_patterns": [\
+        \{\
+          "pattern_name": "<name>",\
+          "explanation": "<why this architectural pattern applies>",\
+          "page_number": ["<page number>", "<page number>"]\
+        \}\
+      ],\
+      "components": [\
+        \{\
+          "component_name": "<name>",\
+          "description": \{\
+            "role": \{\
+              "explanation": "<role in the overall system>",\
+              "page_number": ["<page number>"]\
+            \},\
+            "technical_details": \{\
+              "explanation": "<technical implementation details>",\
+              "page_number": ["<page number>"]\
+            \},\
+            "communication": \{\
+              "explanation": "<interactions with other components>",\
+              "page_number": ["<page number>"]\
+            \}\
+          \}\
+        \}\
+      ],\
+      "design_patterns": [\
+        \{\
+          "pattern_name": "<name>",\
+          "associated_components": ["<component name>"],\
+          "explanation": "<how this design pattern is used>",\
+          "page_number": ["<page number>"]\
+        \}\
+      ]\
+    \}\
+    ... \
+    """\
+\
+    \cf4 MAPPING_EXTRACTION_PROMPT = \cf5 """\
+    Objective:\
+\
+    You are an expert software architect and requirements engineer.\
+    Your task is to create a mapping between architectural components and requirements based on the provided software product document.\
+\
+    Instructions:\
+    1. Carefully read the entire document.\
+    2. Carefully inspect provided images.\
+    3. First, identify and extract all functional, non-functional requirements and constraints.\
+    4. Then identify all architectural item mentioned explicitly or strongly implied by the document. Seperate the architectural items to:\
+        - Architectural Pattern: High-level structural organization of the system, such as microservices, layered architecture, client-server, event-driven architecture, hexagonal architecture, MVC, service-oriented architecture, etc.\
+        - Component: Concrete system building blocks or modules, such as frontend, backend service, API gateway, authentication service, database, message broker, cache, reporting module, etc.\
+        - Design Pattern: Lower-level software design solutions used within components, such as Strategy, Factory, Observer, Repository, Adapter, Singleton, Builder, etc. \
+    5. Analyze how each item supports, implements, or is related to the identified requirements.\
+    6. For each architectural item, provide a detailed mapping that includes:\
+       - The relevant requirements it addresses (one or more).\
+       - A clear explanation of how the item fulfills or contributes to each requirement.\
+    7. The relationship between architectural items and requirements can be many-to-many.\
+    8. If the document is in a language other than English, translate all extracted information into clear English.\
+    9. Give page number reference for each section for each item. \
+\
+    \
+    Rules:\
+    - Ensure that all information is strictly supported by the document.\
+    - Give the corresponding mappings under three separate title (architectural patterns, components, design patterns) \
+    - Give the output in json format.\
+    - Give the whole output in English.\
+    \
+    \
+    Output Format (JSON):\
+    \{\
+      "mappings": \{\
+        "architectural_patterns": [\
+          \{\
+            "pattern_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the architectural pattern>",\
+                "page_number": "<Page Number for the requirement>"\
+              \}\
+            ],\
+            "page_number": [\
+              "<page numbers for the architectural pattern>"\
+            ]\
+          \}\
+        ],\
+        "components": [\
+          \{\
+            "component_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the component>",\
+                "page_number": "<Page Number for the requirement>"\
+              \}\
+            ],\
+            "page_number": [\
+              "<page numbers for the component>"\
+            ]\
+          \}\
+        ],\
+        "design_patterns": [\
+          \{\
+            "pattern_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the design pattern>",\
+                "page_number": "<Page Number for the requirement>"\
+              \}\
+            ],\
+            "page_number": [\
+              "<page numbers for the design pattern>"\
+            ]\
+          \}\
+        ]\
+      \}\
+    \}\
+    ... \
+    """\
+\
+    \cf4 CHAINED_MAPPING_EXTRACTION_PROMPT = \cf5 """\
+    Objective:\
+    You are an expert software architect and requirements engineer.\
+    Your task is to create a mapping between architectural components and requirements using the provided JSON inputs.\
+\
+    You will be given:\
+    1. A JSON containing extracted architectural items with their descriptions. Architectural items seperated into:\
+        - Architectural pattern\
+        - Component\
+        - Design Pattern\
+    2. A JSON containing extracted functional, non-functional requirements and constraints.\
+\
+    Instructions:\
+    1. Carefully analyze both JSON inputs.\
+    2. For each architectural item, provide a detailed mapping that includes:\
+       - The relevant requirements it addresses (one or more).\
+       - A clear explanation of how the architectural item fulfills or contributes to each requirement.    3. Establish many-to-many relationships where applicable (a component can map to multiple requirements and vice versa).\
+    3. Base your mapping strictly on the provided data \'97 avoid inventing unsupported relationships.\
+    4. Use architectural item explanations to justify mappings.\
+    \
+    Rules:\
+    - Give the corresponding mappings under three separate title (architectural patterns, components, design patterns) \
+    - Give the output in json format.\
+    - Give the whole output in English.\
+\
+    Input Format:\
+    \{\
+      "requirements": \{requirements_json\}\
+      "architecture": \{architecture_json\},\
+    \}\
+    \
+    Output Format (JSON):\
+    \{\
+      "mappings": \{\
+        "architectural_patterns": [\
+          \{\
+            "pattern_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the architectural pattern>"\
+              \}\
+            ]\
+          \}\
+        ],\
+        "components": [\
+          \{\
+            "component_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the component>"\
+              \}\
+            ]\
+          \}\
+        ],\
+        "design_patterns": [\
+          \{\
+            "pattern_name": "<name>",\
+            "related_requirements": [\
+              \{\
+                "requirement": "<Requirement>",\
+                "explanation": "<Why this requirement related to the design pattern>"\
+              \}\
+            ]\
+          \}\
+        ]\
+      \}\
+    \}\
+    ...\
+    """\
+\
+}

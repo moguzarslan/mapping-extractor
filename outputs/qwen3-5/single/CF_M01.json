@@ -1,0 +1,229 @@
+{
+    "mappings": [
+        {
+            "component_name": "Presentation Layer (Web & Mobile Platforms)",
+            "related_requirements": [
+                {
+                    "requirement": "List Playlogs (H4), List Connections (H5), List Platform Actions (H6)",
+                    "explanation": "This layer serves as the visual interface where users interact with the system to view listed data such as playlogs, connections, and audit trails.",
+                    "page_number": "42"
+                },
+                {
+                    "requirement": "Speed and Latency (NFR 1)",
+                    "explanation": "As the direct point of user interaction, this layer relies on the backend to respond within 5 seconds to prevent user frustration.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Availability and Reliability (NFR 2)",
+                    "explanation": "Users must be able to access the platform interfaces at any time of day, ensuring continuous availability except during scheduled updates.",
+                    "page_number": "38"
+                }
+            ]
+        },
+        {
+            "component_name": "API Gateway",
+            "related_requirements": [
+                {
+                    "requirement": "Access Control (NFR 5)",
+                    "explanation": "This service handles user authentication and authorization, ensuring only users with proper permissions can access specific functionalities.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "List Playlogs (H4), List Connections (H5), List Platform Actions (H6)",
+                    "explanation": "It defines API REST routes and processes incoming requests from the presentation layer, forwarding them to the Analytics Module for data retrieval.",
+                    "page_number": "66"
+                },
+                {
+                    "requirement": "Speed and Latency (NFR 1)",
+                    "explanation": "By managing routing and SSL efficiently, it contributes to reducing the overall response time for user actions.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "Core Service",
+            "related_requirements": [
+                {
+                    "requirement": "Store Platform Actions (H3)",
+                    "explanation": "This service executes the main business logic and generates audit trail data for actions performed on the platform (create, edit, delete, publish), sending them to Kinesis.",
+                    "page_number": "73"
+                },
+                {
+                    "requirement": "Access Control (NFR 5)",
+                    "explanation": "It validates user permissions via the database before allowing actions that modify platform entities.",
+                    "page_number": "66"
+                }
+            ]
+        },
+        {
+            "component_name": "Analytics Module",
+            "related_requirements": [
+                {
+                    "requirement": "List Playlogs (H4), List Connections (H5), List Platform Actions (H6)",
+                    "explanation": "This module is responsible for obtaining and processing data from AWS services (Athena, S3) and the Database to fulfill listing requests.",
+                    "page_number": "62"
+                },
+                {
+                    "requirement": "Privacy (NFR 6)",
+                    "explanation": "It implements logic to mask sensitive information (like admin usernames) in the response data to protect confidential user information.",
+                    "page_number": "70"
+                },
+                {
+                    "requirement": "Speed and Latency (NFR 1)",
+                    "explanation": "It optimizes data retrieval by utilizing partitioned queries in Amazon Athena, ensuring responses are returned quickly.",
+                    "page_number": "66"
+                },
+                {
+                    "requirement": "Scalability (NFR 4)",
+                    "explanation": "The module is designed to work with serverless AWS services that scale automatically with data volume increases.",
+                    "page_number": "49"
+                }
+            ]
+        },
+        {
+            "component_name": "Web Socket",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1)",
+                    "explanation": "This service facilitates bidirectional communication with players, receiving real-time information about content being played.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "Store Connections (H2)",
+                    "explanation": "It processes connection status data received from players to track connectivity.",
+                    "page_number": "44"
+                }
+            ]
+        },
+        {
+            "component_name": "API Player",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1), Store Connections (H2)",
+                    "explanation": "This service communicates directly with players to receive information regarding player status, content reproduction, and schedules.",
+                    "page_number": "44"
+                }
+            ]
+        },
+        {
+            "component_name": "Database (MySQL/RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "Store Platform Actions/Playlogs/Connections Context (H1, H2, H3)",
+                    "explanation": "Stores structured metadata about users, clients, and players which is necessary for contextualizing the raw data logs.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "Access Control (NFR 5)",
+                    "explanation": "Stores user permission data which is queried to validate access rights for specific functionalities.",
+                    "page_number": "66"
+                },
+                {
+                    "requirement": "Privacy (NFR 6)",
+                    "explanation": "Securely stores confidential user data that requires protection according to privacy requirements.",
+                    "page_number": "45"
+                }
+            ]
+        },
+        {
+            "component_name": "Amazon S3",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1), Store Connections (H2), Store Platform Actions (H3)",
+                    "explanation": "Acts as the central Data Lake repository storing historical documents (JSON) containing playlogs, connections, and audit trails.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "Capacity (NFR 3)",
+                    "explanation": "Provides object storage capable of supporting an unlimited number of connections and data volume simultaneously.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "Scalability (NFR 4)",
+                    "explanation": "Automatically scales storage capacity as the volume of data produced by users increases.",
+                    "page_number": "48"
+                }
+            ]
+        },
+        {
+            "component_name": "DynamoDB",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1)",
+                    "explanation": "Used specifically for storing playlogs in real-time, allowing for immediate access via Composite Keys.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "Speed and Latency (NFR 1)",
+                    "explanation": "As a NoSQL database, it enables fast read/write operations for active data, contributing to low latency.",
+                    "page_number": "48"
+                }
+            ]
+        },
+        {
+            "component_name": "Amazon Athena",
+            "related_requirements": [
+                {
+                    "requirement": "List Playlogs (H4), List Connections (H5), List Platform Actions (H6)",
+                    "explanation": "Allows running SQL queries directly on data stored in S3 to retrieve historical records for listing functionalities.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Scalability (NFR 4)",
+                    "explanation": "Being a serverless service, it does not require infrastructure administration when data volume or users increase.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Speed and Latency (NFR 1)",
+                    "explanation": "Performs queries in parallel to obtain data quickly, meeting the response time criteria.",
+                    "page_number": "49"
+                }
+            ]
+        },
+        {
+            "component_name": "AWS Glue",
+            "related_requirements": [
+                {
+                    "requirement": "List Playlogs (H4), List Connections (H5), List Platform Actions (H6)",
+                    "explanation": "Maintains the Data Catalog metadata, defining table structures and partitions so Athena can locate and read data correctly.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Scalability (NFR 4)",
+                    "explanation": "Manages dynamic partitions to optimize query performance as the dataset grows over time.",
+                    "page_number": "55"
+                }
+            ]
+        },
+        {
+            "component_name": "Kinesis Data Streams",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1), Store Platform Actions (H3)",
+                    "explanation": "Ingests high-volume data streams from microservices (Core, WebSocket) for near real-time transmission.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Capacity (NFR 3)",
+                    "explanation": "Handles the throughput of incoming data events from multiple generators without bottlenecking.",
+                    "page_number": "50"
+                }
+            ]
+        },
+        {
+            "component_name": "Kinesis Data Firehose",
+            "related_requirements": [
+                {
+                    "requirement": "Store Playlogs (H1), Store Platform Actions (H3)",
+                    "explanation": "Loads the ingested stream data into Amazon S3 buckets automatically based on size or time intervals.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Scalability (NFR 4)",
+                    "explanation": "Automatically adjusts data loading mechanisms to accommodate increasing data volumes.",
+                    "page_number": "50"
+                }
+            ]
+        }
+    ]
+}

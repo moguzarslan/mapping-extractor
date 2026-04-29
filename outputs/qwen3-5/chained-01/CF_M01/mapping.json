@@ -1,0 +1,330 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Use NestJS framework with TypeScript language.",
+                        "explanation": "The pattern defines the system model where the client (user platform) makes requests to a server over the internet, necessitating a robust framework like NestJS for the server-side implementation."
+                    },
+                    {
+                        "requirement": "The system must respond to any user action in less than 5 seconds.",
+                        "explanation": "The client-server model facilitates direct communication over the internet, requiring efficient request handling to meet response time constraints."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Layered Architecture (3-Tier)",
+                "related_requirements": [
+                    {
+                        "requirement": "Project functionalities must be accessible only to users with corresponding permissions.",
+                        "explanation": "Separating Presentation, Business Logic, and Data layers allows for controlled access points and security enforcement at the business logic layer."
+                    },
+                    {
+                        "requirement": "Confidential user information must be protected to guarantee privacy.",
+                        "explanation": "The Data Layer isolation ensures that confidential data storage is separated from the visual interface, aiding in privacy protection."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be available at all times, except for scheduled updates.",
+                        "explanation": "The explanation states that independent services improve availability, allowing parts of the system to remain operational even if others fail."
+                    },
+                    {
+                        "requirement": "The system must be capable of supporting an unlimited number of connections at the same time.",
+                        "explanation": "Microservices allow the platform to scale dynamically with changes in simultaneous connections by distributing load across independent services."
+                    },
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "Independent services enable automatic scaling as data increases, preventing bottlenecks in a monolithic structure."
+                    },
+                    {
+                        "requirement": "Project functionalities must be accessible only to users with corresponding permissions.",
+                        "explanation": "The architecture explicitly mentions improving security through independent services interacting with each other."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "API Gateway Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Any user with permissions must be able to list different system playlogs.",
+                        "explanation": "The Gateway manages authentication and authorization before routing requests, ensuring users only access data they have permission for."
+                    },
+                    {
+                        "requirement": "Project functionalities must be accessible only to users with corresponding permissions.",
+                        "explanation": "The Gateway handles authentication and authorization as a single entry point, enforcing permission checks centrally."
+                    },
+                    {
+                        "requirement": "Confidential user information must be protected to guarantee privacy.",
+                        "explanation": "By managing authorization at the entry point, the Gateway prevents unauthorized access to confidential data routed to internal services."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Data Lake Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "The Data Lake stores structured and unstructured data at scale without requiring modification beforehand, supporting capacity growth."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "The centralized repository (using AWS services like S3) is designed to store large volumes of data such as playlogs."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Event-Driven / Streaming Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be capable of supporting an unlimited number of connections at the same time.",
+                        "explanation": "Streaming services handle data transmission for near real-time processing, supporting high-volume connection data."
+                    },
+                    {
+                        "requirement": "The system must store actions performed on the platform.",
+                        "explanation": "Data transmission from producers (microservices) to consumers is handled via streaming for efficient storage of actions."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Plataforma Web i Mòbil (Presentation Layer)",
+                "related_requirements": [
+                    {
+                        "requirement": "Any user with permissions must be able to list different system playlogs.",
+                        "explanation": "This component is the visual interface where users interact with the system to view playlogs."
+                    },
+                    {
+                        "requirement": "The system must respond to any user action in less than 5 seconds.",
+                        "explanation": "As the user interface communicating via HTTP, it relies on backend efficiency to meet response time requirements."
+                    }
+                ]
+            },
+            {
+                "component_name": "Api Gateway",
+                "related_requirements": [
+                    {
+                        "requirement": "Use NestJS framework with TypeScript language.",
+                        "explanation": "The technical details state this component is implemented using the NestJS framework."
+                    },
+                    {
+                        "requirement": "Project functionalities must be accessible only to users with corresponding permissions.",
+                        "explanation": "The role includes authenticating and authorizing users before sending requests to internal services."
+                    },
+                    {
+                        "requirement": "Any user with permissions must be able to list different actions performed on different platform entities.",
+                        "explanation": "The Gateway defines REST API routes and processes requests to send to Core and Analytics Module for listing actions."
+                    }
+                ]
+            },
+            {
+                "component_name": "Servei Core",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store actions performed on the platform.",
+                        "explanation": "This microservice handles platform actions including create, edit, and delete entities."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "It interacts primarily with the database and sends data to Kinesis Data Streams for Audit Trail/playlog storage."
+                    },
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "As a NestJS microservice, it contributes to the scalable architecture that grows with data volume."
+                    }
+                ]
+            },
+            {
+                "component_name": "Mòdul analític (Analytics Module)",
+                "related_requirements": [
+                    {
+                        "requirement": "Any user with permissions must be able to list different system playlogs.",
+                        "explanation": "This module obtains and processes data from playlogs for analysis and returns results to the Api Gateway."
+                    },
+                    {
+                        "requirement": "Use NestJS framework with TypeScript language.",
+                        "explanation": "Technical details confirm it is a NestJS microservice developed specifically for this project."
+                    }
+                ]
+            },
+            {
+                "component_name": "Api Player",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store player connections.",
+                        "explanation": "This component communicates with players to receive information such as player status."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "It receives information from Players and processes and stores data related to player activity."
+                    }
+                ]
+            },
+            {
+                "component_name": "Web Socket",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store player connections.",
+                        "explanation": "It enables bidirectional communication for information exchange regarding player status."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "It generates Playlog data sent to Kinesis and stores data in Database and Cloud Services."
+                    },
+                    {
+                        "requirement": "The system must be capable of supporting an unlimited number of connections at the same time.",
+                        "explanation": "Handling WebSocket connections directly supports the requirement for dynamic scaling of simultaneous connections."
+                    }
+                ]
+            },
+            {
+                "component_name": "Base de dades (MySQL)",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store actions performed on the platform.",
+                        "explanation": "It stores all necessary data for system functioning, including actions managed by the Core service."
+                    },
+                    {
+                        "requirement": "The system must store player connections.",
+                        "explanation": "Interacted with by Core and Analytics Module services to persist connection data."
+                    }
+                ]
+            },
+            {
+                "component_name": "Amazon S3",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "Part of the Data Lake, it stores historical documents at scale without requiring structuring beforehand."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "Stores JSON files organized by date, client, and user folders, serving as long-term storage for playlogs."
+                    }
+                ]
+            },
+            {
+                "component_name": "Amazon DynamoDB",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "Specifically used for storing playlogs in real-time using a Composite Key."
+                    },
+                    {
+                        "requirement": "The system must store player connections.",
+                        "explanation": "Used by Core/Web Socket for real-time storage of connection-related data."
+                    }
+                ]
+            },
+            {
+                "component_name": "Kinesis Data Streams",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be capable of supporting an unlimited number of connections at the same time.",
+                        "explanation": "Handles data ingestion and processing for streaming data, supporting high-volume connection throughput."
+                    },
+                    {
+                        "requirement": "The system must store actions performed on the platform.",
+                        "explanation": "Generators include Core microservice which sends Audit Trail data to this stream."
+                    }
+                ]
+            },
+            {
+                "component_name": "Kinesis Data Firehose",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "Loads large amounts of data into data stores (S3) automatically, configured to handle volume increases."
+                    }
+                ]
+            },
+            {
+                "component_name": "Amazon Athena",
+                "related_requirements": [
+                    {
+                        "requirement": "Any user with permissions must be able to list different system playlogs.",
+                        "explanation": "Queried by Analytics Module to retrieve data from S3 for listing and analysis."
+                    },
+                    {
+                        "requirement": "Any user with permissions must be able to list different actions performed on different platform entities.",
+                        "explanation": "Allows SQL queries on stored data to retrieve action history for authorized users."
+                    }
+                ]
+            },
+            {
+                "component_name": "AWS Glue",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must be able to grow in capacity when data volume increases.",
+                        "explanation": "Stores metadata about data location and table definitions, facilitating efficient querying as data scales."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Dependency Injection",
+                "related_requirements": [
+                    {
+                        "requirement": "Use NestJS framework with TypeScript language.",
+                        "explanation": "NestJS Providers are designed to be injected as dependencies, aligning with the mandatory framework constraint."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Controller Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must respond to any user action in less than 5 seconds.",
+                        "explanation": "Controllers are responsible for receiving HTTP requests and processing them efficiently to meet response time goals."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Service Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store actions performed on the platform.",
+                        "explanation": "Classes containing business logic handle the creation and management of platform entities and actions."
+                    },
+                    {
+                        "requirement": "The system must store playlogs from the players.",
+                        "explanation": "Services manage the logic for storing playlog data into databases and streams."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Scheduler / Cron Job",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must store player connections.",
+                        "explanation": "Uses @Cron decorator to execute functions periodically, such as obtaining connections every hour."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Guard / Middleware",
+                "related_requirements": [
+                    {
+                        "requirement": "Project functionalities must be accessible only to users with corresponding permissions.",
+                        "explanation": "Uses @UseGuards decorator to perform validation and permission checks before accessing endpoint functions."
+                    },
+                    {
+                        "requirement": "Confidential user information must be protected to guarantee privacy.",
+                        "explanation": "Validation checks ensure users cannot observe confidential data of other users."
+                    },
+                    {
+                        "requirement": "Any user with permissions must be able to list different system playlogs.",
+                        "explanation": "Permission checks determine which playlogs are visible to the user based on their access rights."
+                    }
+                ]
+            }
+        ]
+    }
+}

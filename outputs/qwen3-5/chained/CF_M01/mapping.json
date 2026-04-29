@@ -1,0 +1,269 @@
+{
+    "mappings": [
+        {
+            "component_name": "Presentation Layer",
+            "related_requirements": [
+                {
+                    "requirement": "Any user with permissions must be able to list the different playlogs of the system to know what content has been played on different players. The playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+                    "explanation": "This layer is responsible for displaying information to the user and consists of the visual interface allowing users to interact with the system.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any user with permissions must be able to list the different connections of the system players to know which players are connected and which are not. Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+                    "explanation": "This layer is responsible for displaying information to the user and consists of the visual interface allowing users to interact with the system.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any user with permissions must be able to list the different actions performed on the different entities of the platform to know what actions have been performed over time. Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+                    "explanation": "This layer is responsible for displaying information to the user and consists of the visual interface allowing users to interact with the system.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "The system must respond to any user action in less than 5 seconds.",
+                    "explanation": "As the client side in the client-server architecture, this layer initiates user actions that require system response.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+                    "explanation": "The playlogs, connections, and actions visible to the user depend on their permissions, which are enforced at the interface level.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Communication between components is carried out over the internet via HTTP protocol and REST API model.",
+                    "explanation": "It communicates with the Business Logic Layer, specifically the API Gateway, using the HTTP protocol.",
+                    "page_number": "41"
+                }
+            ]
+        },
+        {
+            "component_name": "API Gateway",
+            "related_requirements": [
+                {
+                    "requirement": "The system must respond to any user action in less than 5 seconds.",
+                    "explanation": "Acts as the single entry point for the system, managing requests which impacts response time.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "The system must be available at all times, except for occasional events like updates. Any user must be able to access the platform at any time of the day, except during scheduled updates.",
+                    "explanation": "Implements the API Gateway design pattern to reduce external connection points and handle partial system failures.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+                    "explanation": "Manages user management, authentication, and authorization.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Confidential user information must be protected to guarantee their privacy. Users can only observe confidential data of their own user and no one else's.",
+                    "explanation": "Manages authorization with the client to ensure users only access permitted data.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Communication between components is carried out over the internet via HTTP protocol and REST API model.",
+                    "explanation": "Defines all REST API routes and receives HTTP requests from the Presentation Layer.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "Microservices communicate via TCP protocol.",
+                    "explanation": "Communicates with the Core service and Analytic Module via the TCP protocol.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "Core Service",
+            "related_requirements": [
+                {
+                    "requirement": "The system must store actions performed on the platform. Each action must have a date, client, user, and player assigned. All actions must be performed on a platform entity.",
+                    "explanation": "Contains the main functionalities of the platform and sends data to AWS Cloud Services (specifically Kinesis Data Streams for Audit Trail).",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The project focuses on web development technologies, specifically the backend. The framework used must be NestJS with the TypeScript language.",
+                    "explanation": "Developed as a NestJS microservice.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Infrastructure must use AWS cloud services.",
+                    "explanation": "Sends data to AWS Cloud Services (specifically Kinesis Data Streams for Audit Trail).",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Microservices communicate via TCP protocol.",
+                    "explanation": "Receives processed requests from the API Gateway via TCP.",
+                    "page_number": "43"
+                },
+                {
+                    "requirement": "The database used is a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Primarily interacts with the database.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "Data lake formed by AWS cloud services (Amazon S3 for documents JSON containing playlogs, connections, audit trail; DynamoDB for real-time playlogs).",
+                    "explanation": "Sends data to AWS Cloud Services (specifically Kinesis Data Streams for Audit Trail), contributing to the data lake ingestion.",
+                    "page_number": "45"
+                }
+            ]
+        },
+        {
+            "component_name": "Analytic Module",
+            "related_requirements": [
+                {
+                    "requirement": "Any user with permissions must be able to list the different playlogs of the system to know what content has been played on different players. The playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+                    "explanation": "Responsible for obtaining and processing data from playlogs and enables the analysis of stored data.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any user with permissions must be able to list the different connections of the system players to know which players are connected and which are not. Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+                    "explanation": "Responsible for obtaining and processing data from connections and includes cron jobs for periodic tasks like connection updates.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Any user with permissions must be able to list the different actions performed on the different entities of the platform to know what actions have been performed over time. Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+                    "explanation": "Responsible for obtaining and processing data from platform actions.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+                    "explanation": "Utilizes the Database for permission checks before returning results.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The project focuses on web development technologies, specifically the backend. The framework used must be NestJS with the TypeScript language.",
+                    "explanation": "Developed as a NestJS microservice.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Microservices communicate via TCP protocol.",
+                    "explanation": "Receives requests from the API Gateway via TCP.",
+                    "page_number": "43"
+                },
+                {
+                    "requirement": "Data lake formed by AWS cloud services (Amazon S3 for documents JSON containing playlogs, connections, audit trail; DynamoDB for real-time playlogs).",
+                    "explanation": "Utilizes AWS Athena for querying data stored in S3.",
+                    "page_number": "45"
+                }
+            ]
+        },
+        {
+            "component_name": "API Player",
+            "related_requirements": [
+                {
+                    "requirement": "The system must store playlogs from players. Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Responsible for communicating with digital signage players to receive information such as reproduced content and stores this information in the Database and Cloud Services.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system must store connections from players. Each connection must have a date, client, and player assigned. Connection status can only be 'connected' or 'not connected'.",
+                    "explanation": "Responsible for communicating with digital signage players to receive information such as player status and stores this information in the Database and Cloud Services.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The project focuses on web development technologies, specifically the backend. The framework used must be NestJS with the TypeScript language.",
+                    "explanation": "A NestJS microservice designed to process and store information received from players.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Infrastructure must use AWS cloud services.",
+                    "explanation": "Processes and stores information in Cloud Services.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "The database used is a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Processes and stores information in the Database.",
+                    "page_number": "44"
+                }
+            ]
+        },
+        {
+            "component_name": "Web Socket Service",
+            "related_requirements": [
+                {
+                    "requirement": "The system must store playlogs from players. Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Acts as a producer for Kinesis Data Streams for playlog data.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system must store connections from players. Each connection must have a date, client, and player assigned. Connection status can only be 'connected' or 'not connected'.",
+                    "explanation": "Handles bidirectional communication between the platform and the players and processes data coming from players.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Infrastructure must use AWS cloud services.",
+                    "explanation": "Sends processed data to Cloud Services (specifically Kinesis Data Streams for Playlogs).",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Data lake formed by AWS cloud services (Amazon S3 for documents JSON containing playlogs, connections, audit trail; DynamoDB for real-time playlogs).",
+                    "explanation": "Acts as a producer for Kinesis Data Streams for playlog data, feeding into the data lake infrastructure.",
+                    "page_number": "45"
+                }
+            ]
+        },
+        {
+            "component_name": "Database",
+            "related_requirements": [
+                {
+                    "requirement": "The system must store connections from players. Each connection must have a date, client, and player assigned. Connection status can only be 'connected' or 'not connected'.",
+                    "explanation": "Stores all necessary data for the system's operation, including recent connection states.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+                    "explanation": "Stores user permissions required for access control.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Confidential user information must be protected to guarantee their privacy. Users can only observe confidential data of their own user and no one else's.",
+                    "explanation": "Stores client data and user information which must be protected.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The database used is a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Implemented as a MySQL relational database hosted on AWS RDS (Relational Database Service).",
+                    "page_number": "44"
+                }
+            ]
+        },
+        {
+            "component_name": "AWS Cloud Infrastructure (Data Lake)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must store playlogs from players. Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Consists of Amazon S3 for documents JSON containing playlogs.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system must store connections from players. Each connection must have a date, client, and player assigned. Connection status can only be 'connected' or 'not connected'.",
+                    "explanation": "Consists of Amazon S3 for documents JSON containing connections.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system must store actions performed on the platform. Each action must have a date, client, user, and player assigned. All actions must be performed on a platform entity.",
+                    "explanation": "Consists of Amazon S3 for documents JSON containing audit trail.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. The platform scales dynamically with changes in simultaneous connections.",
+                    "explanation": "Forms a centralized repository handling storage, streaming, and querying of large volumes of data, enabling dynamic scaling.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The system must be able to grow in capacity when the data volume increases. The system scales automatically as data increases.",
+                    "explanation": "Handles storage, streaming, and querying of large volumes of data, supporting automatic scaling as data increases.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Infrastructure must use AWS cloud services.",
+                    "explanation": "Consists of multiple AWS services: Amazon S3, Amazon DynamoDB, Amazon Kinesis, Amazon Athena, and AWS Glue.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Data lake formed by AWS cloud services (Amazon S3 for documents JSON containing playlogs, connections, audit trail; DynamoDB for real-time playlogs).",
+                    "explanation": "Forms a centralized repository (Data Lake) for storing historical data to be processed by the Analytic Module.",
+                    "page_number": "45"
+                }
+            ]
+        }
+    ]
+}

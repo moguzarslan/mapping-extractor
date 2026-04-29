@@ -1,0 +1,264 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder ser capaç de suportar un nombre il·limitat de connexions al mateix temps.",
+                        "explanation": "The Microservices Architecture allows the system to scale horizontally by adding more instances of services like Web Socket and Core, enabling it to handle an unlimited number of simultaneous connections."
+                    },
+                    {
+                        "requirement": "El sistema escala de forma dinàmica amb els canvis de connexions simultànies.",
+                        "explanation": "Each microservice (e.g., Web Socket, Core) can be independently scaled based on demand, allowing the system to dynamically adjust its capacity in response to changes in concurrent connections."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+                        "explanation": "As data volume increases, individual microservices such as the Analytic Module or Cloud Services can be scaled independently to accommodate the growing data processing needs."
+                    },
+                    {
+                        "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+                        "explanation": "The Microservices Architecture supports auto-scaling capabilities, particularly for components like Cloud Services and Analytic Module, which can automatically adjust resources as data volume grows."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de respondre ràpidament quan l’usuari realitzi alguna acció.",
+                        "explanation": "The Client-Server Architecture ensures that client requests are routed efficiently through the API Gateway, minimizing latency and enabling rapid responses to user actions."
+                    },
+                    {
+                        "requirement": "El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.",
+                        "explanation": "By separating client and server responsibilities, the system can optimize server-side processing and communication protocols (HTTP/TCP) to ensure all user actions are responded to within the specified time frame."
+                    },
+                    {
+                        "requirement": "La plataforma de Waapiti s’utilitza durant les 24 hores del dia i, per tant, ha d’estar disponible per tots els usuaris en tot moment.",
+                        "explanation": "The Client-Server Architecture supports continuous availability by allowing clients to interact with the backend services (API Gateway, Core) at any time, ensuring 24/7 accessibility."
+                    },
+                    {
+                        "requirement": "Qualsevol usuari ha de poder accedir a la plataforma durant qualsevol moment del dia. Excepte en les actualitzacions programades.",
+                        "explanation": "This architecture enables seamless access for users by decoupling client interactions from server-side operations, allowing the system to remain available except during planned maintenance."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Layered Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de ser sempre disponible en tot moment, excepte alguna puntualitat, com pot ser una actualització.",
+                        "explanation": "The Layered Architecture enhances system availability by isolating concerns into distinct layers (Presentation, Business Logic, Data). This modularity allows updates to one layer without affecting others, minimizing downtime."
+                    },
+                    {
+                        "requirement": "Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.",
+                        "explanation": "The separation of layers ensures that access control logic is centralized in the Business Logic Layer (Core), enforcing permissions and preventing unauthorized access to data."
+                    },
+                    {
+                        "requirement": "La informació confidencial dels usuaris ha d’estar protegida per tal de garantir la seva privacitat.",
+                        "explanation": "The Layered Architecture facilitates secure data handling by isolating sensitive data storage (Database) and processing (Analytic Module) in separate layers, enabling robust privacy controls."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "API Gateway",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de respondre ràpidament quan l’usuari realitzi alguna acció.",
+                        "explanation": "The API Gateway handles authentication and routing of client requests efficiently, reducing latency and ensuring rapid responses to user actions."
+                    },
+                    {
+                        "requirement": "El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.",
+                        "explanation": "By acting as a single entry point, the API Gateway optimizes request processing and load balancing, ensuring all user actions are responded to within the required timeframe."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi els playlogs dels players Per Poder tenir constància dels continguts reproduïts en els diferents players",
+                        "explanation": "The API Gateway routes player-generated playlog data to the Web Socket service, ensuring accurate logging and tracking of content playback."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi les connexions dels players Per Poder tenir constància de quins players estan connectats a cada hora",
+                        "explanation": "The API Gateway forwards player connection status data to the Web Socket service, enabling the system to track and log player connectivity."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari, vull Que el sistema guardi les accions realitzades sobre la plataforma Per Poder tenir constància de quines accions s’han realitzat sobre la platforma",
+                        "explanation": "The API Gateway captures and routes user actions to the Core service, ensuring accurate logging and tracking of platform activities."
+                    }
+                ]
+            },
+            {
+                "component_name": "Web Socket",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder ser capaç de suportar un nombre il·limitat de connexions al mateix temps.",
+                        "explanation": "The Web Socket component uses bidirectional communication via WebSocket protocol to manage real-time player connections, enabling the system to support an unlimited number of simultaneous connections."
+                    },
+                    {
+                        "requirement": "El sistema escala de forma dinàmica amb els canvis de connexions simultànies.",
+                        "explanation": "The Web Socket service can be scaled independently to handle dynamic changes in concurrent player connections, ensuring the system remains responsive under varying loads."
+                    },
+                    {
+                        "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+                        "explanation": "As data volume increases, the Web Socket service can process and forward more data to the Cloud Services, supporting the system's growth in data handling capacity."
+                    },
+                    {
+                        "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+                        "explanation": "The Web Socket service can automatically scale its resources to handle increasing data volumes, ensuring seamless performance as data grows."
+                    },
+                    {
+                        "requirement": "Les connexions solament podran tenir dos estats: connectat o no connectat.",
+                        "explanation": "The Web Socket service uses the Observer pattern to manage player connection states, ensuring only two possible states (connected or disconnected) are tracked."
+                    }
+                ]
+            },
+            {
+                "component_name": "Core",
+                "related_requirements": [
+                    {
+                        "requirement": "Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.",
+                        "explanation": "The Core service enforces user authentication and authorization, ensuring that only users with appropriate permissions can access specific data."
+                    },
+                    {
+                        "requirement": "La informació confidencial dels usuaris ha d’estar protegida per tal de garantir la seva privacitat.",
+                        "explanation": "The Core service interacts with the Database to store and retrieve user data securely, implementing access controls to protect confidential information."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema",
+                        "explanation": "The Core service processes and stores audit trail data, enabling authorized users to list and view playlogs as required."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, voll Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no",
+                        "explanation": "The Core service manages and logs player connection data, allowing authorized users to list and monitor player connectivity."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps",
+                        "explanation": "The Core service records and stores all user actions, enabling authorized users to list and analyze platform activities over time."
+                    }
+                ]
+            },
+            {
+                "component_name": "Analytic Module",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+                        "explanation": "The Analytic Module uses Amazon Athena to query large datasets stored in S3, allowing it to scale its processing capacity as data volume increases."
+                    },
+                    {
+                        "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+                        "explanation": "The Analytic Module leverages AWS Glue and Kinesis to automatically scale its data processing capabilities as data volumes grow."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema",
+                        "explanation": "The Analytic Module queries historical playlog data from the data lake, enabling authorized users to list and analyze content playback across players."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no",
+                        "explanation": "The Analytic Module processes historical connection data from the data lake, allowing authorized users to list and analyze player connectivity trends."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps",
+                        "explanation": "The Analytic Module queries historical audit trail data from the data lake, enabling authorized users to list and analyze platform activities over time."
+                    }
+                ]
+            },
+            {
+                "component_name": "Cloud Services",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+                        "explanation": "Cloud Services (S3, DynamoDB, Athena) provide scalable storage and processing capabilities, allowing the system to grow its data handling capacity as needed."
+                    },
+                    {
+                        "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+                        "explanation": "Cloud Services automatically scale their resources (e.g., S3 buckets, Athena queries) to accommodate increasing data volumes, ensuring seamless performance."
+                    }
+                ]
+            },
+            {
+                "component_name": "Database",
+                "related_requirements": [
+                    {
+                        "requirement": "Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.",
+                        "explanation": "The Database enforces access controls and permissions, ensuring that only authorized users can access specific data."
+                    },
+                    {
+                        "requirement": "La informació confidencial dels usuaris ha d’estar protegida per tal de garantir la seva privacitat.",
+                        "explanation": "The Database stores user and client data securely, implementing encryption and access controls to protect confidential information."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "API Gateway Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de respondre ràpidament quan l’usuari realitzi alguna acció.",
+                        "explanation": "The API Gateway Pattern optimizes request routing and load balancing, ensuring rapid responses to user actions."
+                    },
+                    {
+                        "requirement": "El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.",
+                        "explanation": "By centralizing authentication and routing, the API Gateway reduces latency and ensures all user actions are responded to within the required timeframe."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Observer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Les connexions solament podran tenir dos estats: connectat o no connectat.",
+                        "explanation": "The Observer Pattern allows the Web Socket service to observe and manage player connection states, ensuring only two possible states (connected or disconnected) are tracked."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Repository Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema",
+                        "explanation": "The Repository Pattern abstracts data access logic, allowing the Analytic Module to consistently query and process playlog data from the data lake."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no",
+                        "explanation": "The Repository Pattern provides a consistent interface for querying historical connection data, enabling the Analytic Module to list and analyze player connectivity."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps",
+                        "explanation": "The Repository Pattern abstracts data access logic, allowing the Analytic Module to consistently query and process audit trail data from the data lake."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Strategy Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema",
+                        "explanation": "The Strategy Pattern allows the Analytic Module to switch between different algorithms for analyzing playlogs, enabling flexible and efficient data processing."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no",
+                        "explanation": "The Strategy Pattern enables the Analytic Module to apply different strategies for analyzing connection data, providing flexibility in data processing."
+                    },
+                    {
+                        "requirement": "Com a Qualsevol tipus d’usuari amb permisos, vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps",
+                        "explanation": "The Strategy Pattern allows the Analytic Module to switch between different algorithms for analyzing audit trail data, enabling flexible and efficient data processing."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Factory Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+                        "explanation": "The Factory Pattern allows the Cloud Services component to dynamically create instances of AWS services (e.g., S3, DynamoDB) as data volume increases, supporting the system's growth in data handling capacity."
+                    },
+                    {
+                        "requirement": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+                        "explanation": "The Factory Pattern enables the Cloud Services component to automatically create and scale AWS services as data volumes grow, ensuring seamless performance."
+                    }
+                ]
+            }
+        ]
+    }
+}

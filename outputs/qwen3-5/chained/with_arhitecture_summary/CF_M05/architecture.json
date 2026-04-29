@@ -1,0 +1,160 @@
+{
+    "components": [
+        {
+            "component_name": "Leader",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the central routing point for all communications within the system architecture. It manages traffic flow between external services and internal microservices, ensuring ordered and secure interactions.",
+                    "page_number": "57"
+                },
+                "technical_details": {
+                    "explanation": "A microservice without a user interface that incorporates security mechanisms to block unauthorized connection attempts and apply security protocols to prevent vulnerabilities.",
+                    "page_number": "57"
+                },
+                "communication": {
+                    "explanation": "Receives requests from the Portal gateways (SEAT and VGED) and routes them to the corresponding internal microservices (Access Control, Portal, Communication Log, Scheduler). It also communicates with external services securely.",
+                    "page_number": "60"
+                }
+            }
+        },
+        {
+            "component_name": "Portal",
+            "description": {
+                "role": {
+                    "explanation": "Serves as the centralized entry point for users to access different VWGS applications. It provides a unified experience and hosts the frontend binaries for the portal itself and other applications.",
+                    "page_number": "57"
+                },
+                "technical_details": {
+                    "explanation": "A microservice that contains the necessary binaries for the frontend (Angular). This ensures the presentation layer is available and updated, facilitating deployment and reducing dependency on external elements.",
+                    "page_number": "57"
+                },
+                "communication": {
+                    "explanation": "Users access the system via this component through web browsers. It interacts with the Leader microservice for routing and authentication controls before granting access to internal applications.",
+                    "page_number": "60"
+                }
+            }
+        },
+        {
+            "component_name": "Access Control",
+            "description": {
+                "role": {
+                    "explanation": "Manages user authentication and permission authorization within the application. It verifies user identity and determines access rights based on defined roles and policies.",
+                    "page_number": "58"
+                },
+                "technical_details": {
+                    "explanation": "A microservice responsible for creating and maintaining roles. It utilizes a data model involving entities like User, Cluster, Role, Authority, and AuthConfig to manage granular permissions per brand and cluster type.",
+                    "page_number": "58"
+                },
+                "communication": {
+                    "communication": {
+                        "explanation": "Communicates with the Leader for request validation and interacts with the Database to verify user credentials and retrieve role/permission configurations.",
+                        "page_number": "60"
+                    }
+                }
+            }
+        },
+        {
+            "component_name": "Communication Log",
+            "description": {
+                "role": {
+                    "explanation": "Records all communications occurring within the system, both between microservices and with external services. It acts as a traceability and audit mechanism.",
+                    "page_number": "58"
+                },
+                "technical_details": {
+                    "explanation": "A microservice that documents every interaction for later analysis, incident resolution, and regulatory compliance. It also generates interactive graphs and panels representing communication statistics.",
+                    "page_number": "59"
+                },
+                "communication": {
+                    "explanation": "Logs data from interactions involving other microservices. It does not route traffic but passively records it for monitoring purposes.",
+                    "page_number": "59"
+                }
+            }
+        },
+        {
+            "component_name": "Scheduler",
+            "description": {
+                "role": {
+                    "explanation": "Handles the planning and scheduling of processes within the system. It allows defining, automating, and executing tasks at specific times.",
+                    "page_number": "59"
+                },
+                "technical_details": {
+                    "explanation": "A microservice used for maintenance tasks (e.g., cleaning old logs) and monitoring tasks (e.g., periodic tests to verify microservice status).",
+                    "page_number": "60"
+                },
+                "communication": {
+                    "explanation": "Executes scheduled operations independently but is managed within the same namespace as other microservices. It communicates with the Leader for task coordination if needed.",
+                    "page_number": "60"
+                }
+            }
+        },
+        {
+            "component_name": "Frontend Client (Angular)",
+            "description": {
+                "role": {
+                    "explanation": "Responsible for the presentation and user experience of the application. It encapsulates interface logic and coordinates calls to the server API.",
+                    "page_number": "61"
+                },
+                "technical_details": {
+                    "explanation": "Developed using Angular 11+ and TypeScript following the MVVM (Model-View-ViewModel) pattern. It is a Single-Page Application (SPA) that uses HTML, SCSS, and TypeScript files. It implements data binding (Interpolation, Property Binding, Event Binding, Two-Way Binding) to synchronize view and model.",
+                    "page_number": "61"
+                },
+                "communication": {
+                    "explanation": "Sends HTTP requests to the Backend Server (Spring Boot) using REST APIs and JSON format. It receives responses and updates the UI dynamically without reloading the page.",
+                    "page_number": "68"
+                }
+            }
+        },
+        {
+            "component_name": "Backend Server (Spring Boot)",
+            "description": {
+                "role": {
+                    "explanation": "Handles business logic, security, data integrity, and persistence. It exposes the API for the frontend clients.",
+                    "page_number": "68"
+                },
+                "technical_details": {
+                    "explanation": "Built with Spring Boot 2.2.2 and Java OpenJDK 17. Follows a layered architecture: Presentation (Controllers), Business Logic (Services), Domain (Models), Contract (DTO/Mappers), and Data Access (Repositories). Uses Spring Data & JPA for database interaction.",
+                    "page_number": "68"
+                },
+                "communication": {
+                    "explanation": "Receives REST requests from the Frontend. Controllers process requests, Services execute logic, and Repositories interact with the Database. Mappers convert between internal Models and external DTOs.",
+                    "page_number": "74"
+                }
+            }
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "description": {
+                "role": {
+                    "explanation": "Provides persistent storage for the application data, ensuring data integrity and availability.",
+                    "page_number": "60"
+                },
+                "technical_details": {
+                    "explanation": "A shared relational database that is decoupled per microservice and client. There is a specific schema for each microservice, and each client (SEAT, VGED) has its own group of schemas per microservice.",
+                    "page_number": "60"
+                },
+                "communication": {
+                    "explanation": "Connected to by the Backend Server's Repository layer via JDBC/JPA. It stores data related to Users, Clusters, Roles, Applications, and Logs.",
+                    "page_number": "74"
+                }
+            }
+        },
+        {
+            "component_name": "Cloud Infrastructure (AWS EKS)",
+            "description": {
+                "role": {
+                    "explanation": "Hosts and orchestrates the containerized microservices, providing scalability, availability, and resource management.",
+                    "page_number": "81"
+                },
+                "technical_details": {
+                    "explanation": "Uses Amazon Web Services (AWS) specifically Amazon EKS (Elastic Kubernetes Service) for orchestration. Each microservice runs in a Pod. Clients have separate Namespaces (e.g., SEAT, VGED). Images are stored in Amazon ECR.",
+                    "page_number": "81"
+                },
+                "communication": {
+                    "explanation": "Manages the deployment lifecycle of the microservices. External users access the infrastructure via the Internet through load balancers/gateways configured within AWS.",
+                    "page_number": "82"
+                }
+            }
+        }
+    ],
+    "architecture_summary": "The system follows a Microservices architecture deployed on Amazon Web Services (AWS) cloud infrastructure. Users access the system via web browsers through dedicated Portals (SEAT or VGED) which act as entry points. Traffic is routed through a central 'Leader' microservice that handles security and dispatches requests to specific functional microservices: Access Control (for authentication/authorization), Portal (hosting UI), Communication Log (for auditing), and Scheduler (for automation). The backend of each microservice is built with Spring Boot (Java) exposing REST APIs, while the frontend is a Single-Page Application built with Angular. Data is persisted in a shared Amazon RDS database with schemas isolated by microservice and client. The entire environment is orchestrated using Kubernetes (via AWS EKS), with Docker containers managing the runtime environment for each service."
+}

@@ -1,0 +1,254 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The application must be divided into a set of small, independent, and autonomous services where each microservice is responsible for a specific functionality.",
+                        "explanation": "This architectural pattern supports the requirement by allowing each microservice to handle specific functionalities independently. This enables updates, scaling, and maintenance without affecting the rest of the system, thus fulfilling the need for modularity and autonomy.",
+                        "page_number": [
+                            56
+                        ]
+                    },
+                    {
+                        "requirement": "Each microservice should be deployable independently, allowing updates, scaling, and maintenance without affecting the rest of the system.",
+                        "explanation": "The microservices architecture inherently supports this requirement by decoupling services, enabling them to be deployed, scaled, and maintained independently, ensuring that changes in one service do not disrupt others.",
+                        "page_number": [
+                            56
+                        ]
+                    },
+                    {
+                        "requirement": "The system should allow high scalability, availability, and accessibility, as resources can be managed according to needs and from any location with internet access.",
+                        "explanation": "By adopting a cloud-based microservices architecture, the application can leverage scalable and available cloud resources, meeting the requirement for flexible resource management and global accessibility.",
+                        "page_number": [
+                            60
+                        ]
+                    }
+                ],
+                "page_number": [
+                    56,
+                    60
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "The client (front-end) should focus on presentation and user experience, while the server (back-end) focuses on business logic, security, data integrity, and persistence.",
+                        "explanation": "The Client-Server pattern organizes the code into two distinct components: the client handles user interaction and presentation, while the server manages business logic and data operations, aligning perfectly with the requirement to separate concerns.",
+                        "page_number": [
+                            61
+                        ]
+                    },
+                    {
+                        "requirement": "Communication between the client and server should be done through an exchange of messages following standard network protocols and using interoperable data representation formats.",
+                        "explanation": "This pattern ensures that communication between the client and server follows standardized protocols (like HTTP) and uses interoperable formats (like JSON), supporting seamless interaction and data exchange.",
+                        "page_number": [
+                            61
+                        ]
+                    }
+                ],
+                "page_number": [
+                    61
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Leader Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "All communications must be routed to the corresponding microservice within the system architecture.",
+                        "explanation": "The Leader microservice acts as the central point for managing all communications, ensuring that interactions, both with external services and internal microservices, are ordered and secure, thus fulfilling the routing requirement.",
+                        "page_number": [
+                            56
+                        ]
+                    },
+                    {
+                        "requirement": "It must include protection mechanisms to ensure the integrity and confidentiality of communications.",
+                        "explanation": "The Leader microservice incorporates security measures to block unauthorized connection attempts and apply security protocols, protecting the integrity and confidentiality of communications as required.",
+                        "page_number": [
+                            56
+                        ]
+                    }
+                ],
+                "page_number": [
+                    56
+                ]
+            },
+            {
+                "component_name": "Portal Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "Provide a centralized interface for accessing different VWGS applications.",
+                        "explanation": "The Portal microservice offers a unified entry point for users, providing a consistent experience across all applications, which fulfills the requirement for a centralized access point.",
+                        "page_number": [
+                            57
+                        ]
+                    },
+                    {
+                        "requirement": "Ensure visual and functional consistency of the entire ecosystem.",
+                        "explanation": "By centralizing access and ensuring that the front-end binaries are included within the portal, it guarantees visual and functional coherence across all applications, meeting the requirement for consistency.",
+                        "page_number": [
+                            57
+                        ]
+                    }
+                ],
+                "page_number": [
+                    57
+                ]
+            },
+            {
+                "component_name": "Access Control Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "Manage user authentication and permissions within the application.",
+                        "explanation": "The Access Control microservice is responsible for verifying user identities and determining associated permissions based on roles and policies, directly addressing the requirement for managing authentication and access control.",
+                        "page_number": [
+                            58
+                        ]
+                    },
+                    {
+                        "requirement": "Maintain data confidentiality and protection.",
+                        "explanation": "By handling user authentication and permission management, the Access Control microservice ensures that only authorized users can access sensitive data, fulfilling the requirement for data confidentiality and protection.",
+                        "page_number": [
+                            58
+                        ]
+                    }
+                ],
+                "page_number": [
+                    58
+                ]
+            },
+            {
+                "component_name": "Communication Log Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "Register all communications that occur within the system, both between microservices and with external services.",
+                        "explanation": "The Communication Log microservice records all system communications, providing traceability and auditing capabilities, which supports the requirement for tracking and logging all interactions.",
+                        "page_number": [
+                            59
+                        ]
+                    },
+                    {
+                        "requirement": "Generate statistics and interactive dashboards representing communication volume, response time, and incidents.",
+                        "explanation": "This component provides detailed analytics and visualizations of communication patterns, helping to monitor system performance and identify issues, thus fulfilling the requirement for detailed communication monitoring.",
+                        "page_number": [
+                            59
+                        ]
+                    }
+                ],
+                "page_number": [
+                    59
+                ]
+            },
+            {
+                "component_name": "Scheduler Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "Plan and schedule processes within the system.",
+                        "explanation": "The Scheduler microservice allows for defining, automating, and executing tasks at specific times, fulfilling the requirement for task scheduling and automation.",
+                        "page_number": [
+                            60
+                        ]
+                    }
+                ],
+                "page_number": [
+                    60
+                ]
+            },
+            {
+                "component_name": "Cloud Infrastructure",
+                "related_requirements": [
+                    {
+                        "requirement": "The application should be designed, deployed, and executed using cloud services instead of local or physical servers.",
+                        "explanation": "By utilizing cloud infrastructure, the application benefits from high scalability, availability, and accessibility, meeting the requirement for leveraging cloud resources for deployment and execution.",
+                        "page_number": [
+                            60
+                        ]
+                    },
+                    {
+                        "requirement": "Reduce maintenance, managed by resource providers.",
+                        "explanation": "Cloud infrastructure reduces the burden of maintenance as it is managed by the cloud provider, aligning with the requirement to minimize maintenance efforts.",
+                        "page_number": [
+                            60
+                        ]
+                    }
+                ],
+                "page_number": [
+                    60
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Model-View-ViewModel (MVVM)",
+                "related_requirements": [
+                    {
+                        "requirement": "The new content must maintain visual consistency with the design of the old version of the application.",
+                        "explanation": "The MVVM pattern used in the Angular front-end ensures that the view (UI) is separated from the model (data) and the view model (business logic), allowing for consistent visual design and easy updates, thus fulfilling the requirement for visual consistency.",
+                        "page_number": [
+                            52
+                        ]
+                    },
+                    {
+                        "requirement": "The system must be easy to use for any user.",
+                        "explanation": "By implementing the MVVM pattern, the front-end ensures that the UI is intuitive and responsive, making the application easy to use, which supports the requirement for ease of use.",
+                        "page_number": [
+                            52
+                        ]
+                    }
+                ],
+                "page_number": [
+                    62
+                ]
+            },
+            {
+                "pattern_name": "Repository Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Perform queries on the database.",
+                        "explanation": "The Repository pattern is used to encapsulate all database access logic, allowing for efficient querying and management of data, thus fulfilling the requirement for database operations.",
+                        "page_number": [
+                            73
+                        ]
+                    }
+                ],
+                "page_number": [
+                    73
+                ]
+            },
+            {
+                "pattern_name": "Data Transfer Object (DTO) Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Allow structuring the necessary data for each request, providing a personalized format depending on the response requirements.",
+                        "explanation": "The DTO pattern is used to structure data for requests, providing a tailored format that meets specific response needs, supporting the requirement for flexible and structured data transfer.",
+                        "page_number": [
+                            73
+                        ]
+                    }
+                ],
+                "page_number": [
+                    73
+                ]
+            },
+            {
+                "pattern_name": "Service Layer Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Offer the interface and implementation of all business logic of the application.",
+                        "explanation": "The Service Layer pattern encapsulates business logic, providing a clear separation between the controller and the underlying business operations, thus fulfilling the requirement for managing business logic.",
+                        "page_number": [
+                            70
+                        ]
+                    }
+                ],
+                "page_number": [
+                    70
+                ]
+            }
+        ]
+    }
+}

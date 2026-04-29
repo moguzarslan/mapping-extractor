@@ -1,0 +1,324 @@
+{
+    "mappings": [
+        {
+            "component_name": "Api Gateway",
+            "related_requirements": [
+                {
+                    "requirement": "Authorized users shall be able to list playlogs in the system.",
+                    "explanation": "The Api Gateway validates user permissions before forwarding requests to the Analytic Module, which retrieves playlogs. This ensures only authorized users can access playlog listing functionality.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The playlogs visible to a user shall depend on their permissions.",
+                    "explanation": "The Api Gateway enforces permission checks using @UseGuards decorators and interacts with the database to validate user access rights before allowing data retrieval, ensuring visibility is permission-based.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list player connections in the system.",
+                    "explanation": "As the entry point for client requests, the Api Gateway authenticates and authorizes users before routing connection listing requests to the Analytic Module.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The connections visible to a user shall depend on their permissions.",
+                    "explanation": "The Api Gateway validates user permissions against the database prior to allowing access to connection data, ensuring filtered visibility based on user roles.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list actions performed on platform entities.",
+                    "explanation": "The Api Gateway handles authorization for audit trail (action) listing requests by verifying user permissions before forwarding to the Analytic Module.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "The actions visible to a user shall depend on their permissions.",
+                    "explanation": "Through integration with the database for permission validation, the Api Gateway ensures that only authorized actions are exposed to each user.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Project functionalities shall only be accessible to users with appropriate permissions.",
+                    "explanation": "The Api Gateway centralizes authentication and authorization, acting as a gatekeeper that blocks unauthorized access to all backend services.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Users without permission shall not access data they are not authorized to view.",
+                    "explanation": "By enforcing access control at the entry point, the Api Gateway prevents unauthorized data exposure across all system functionalities.",
+                    "page_number": "39"
+                }
+            ]
+        },
+        {
+            "component_name": "Core Service",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store actions performed on the platform.",
+                    "explanation": "The Core Service records every user-initiated action (e.g., create/edit/delete entities) into the Audit Trail, fulfilling the requirement to store platform actions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Each action must have a date, client, user, and player assigned.",
+                    "explanation": "When logging actions, the Core Service captures contextual metadata including timestamp, user, client, and associated player, ensuring compliance with this requirement.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "All actions must be performed on a platform entity.",
+                    "explanation": "The Core Service manages operations exclusively on platform entities (e.g., players), and all logged actions are tied to such entities, satisfying this constraint.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "All actions must be related to a platform entity.",
+                    "explanation": "Since the Core Service handles business logic for platform entities, every recorded action inherently relates to one, fulfilling this requirement.",
+                    "page_number": "37"
+                }
+            ]
+        },
+        {
+            "component_name": "Analytic Module",
+            "related_requirements": [
+                {
+                    "requirement": "Authorized users shall be able to list playlogs in the system.",
+                    "explanation": "The Analytic Module processes playlog listing requests by querying historical data in S3 via Athena, returning results only after permission validation.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The playlogs visible to a user shall depend on their permissions.",
+                    "explanation": "Before returning playlog data, the Analytic Module queries the MySQL database to verify user permissions, ensuring filtered results based on access rights.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "All details of a playlog shall be viewable.",
+                    "explanation": "The Analytic Module retrieves full playlog records from S3 (via Athena) and returns complete details to authorized users through the Api Gateway.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list player connections in the system.",
+                    "explanation": "The Analytic Module supports connection listing by querying archived Connection data in S3 using Athena, after validating user permissions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The connections visible to a user shall depend on their permissions.",
+                    "explanation": "Permission checks against the MySQL database ensure that only authorized connection records are returned by the Analytic Module.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Connections can only have two states: 'connected' or 'not connected'.",
+                    "explanation": "The Analytic Module reads Connection data stored in S3, which adheres to the binary status constraint, and exposes only valid states during querying.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list actions performed on platform entities.",
+                    "explanation": "The Analytic Module enables querying of Audit Trail data (stored in S3) for authorized users, fulfilling the requirement to list platform actions.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "The actions visible to a user shall depend on their permissions.",
+                    "explanation": "User permissions are validated against the MySQL database before the Analytic Module returns any Audit Trail records, ensuring restricted visibility.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "All actions must be related to a platform entity.",
+                    "explanation": "Since the Analytic Module queries Audit Trail data generated by the Core Service (which ties actions to entities), all returned actions comply with this requirement.",
+                    "page_number": "37"
+                }
+            ]
+        },
+        {
+            "component_name": "Web Socket Service",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store playlogs from players.",
+                    "explanation": "The Web Socket Service receives real-time Playlog data from Players and forwards it to Kinesis for storage, directly fulfilling the requirement to store playlogs.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Incoming Playlog messages include Player ID, timestamp, and implicitly associate with a client via the Player’s metadata, ensuring required fields are present.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system shall store player connections.",
+                    "explanation": "While the Web Socket Service primarily handles Playlogs, it contributes to connection tracking by maintaining live WebSocket sessions, though connection persistence is managed via scheduled jobs in the Analytic Module and MySQL.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each connection must have a date, client, and player assigned.",
+                    "explanation": "Connection records derived from WebSocket activity include timestamp, Player ID, and client context (via Player metadata), satisfying the assignment requirement.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The connection status can only be 'connected' or 'not connected'.",
+                    "explanation": "The WebSocket session state inherently reflects binary connectivity ('connected' when active, 'not connected' otherwise), aligning with the allowed statuses.",
+                    "page_number": "35"
+                }
+            ]
+        },
+        {
+            "component_name": "MySQL Database (RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Although playlogs are stored in S3/DynamoDB, the MySQL database holds player and client metadata used to resolve these associations during querying and permission checks.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each connection must have a date, client, and player assigned.",
+                    "explanation": "MySQL stores short-term Connection records (last hour) with explicit links to Player and Client tables, ensuring required assignments are maintained.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each action must have a date, client, user, and player assigned.",
+                    "explanation": "The MySQL database contains Users, Clients, and Players tables, enabling the system to associate Audit Trail actions with all required entities during logging and retrieval.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The playlogs visible to a user shall depend on their permissions.",
+                    "explanation": "The Analytic Module queries MySQL to validate user-client-player relationships, determining which playlogs a user is allowed to see.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The connections visible to a user shall depend on their permissions.",
+                    "explanation": "Permission-based filtering of connections relies on MySQL-stored user roles and client hierarchies.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The actions visible to a user shall depend on their permissions.",
+                    "explanation": "User permissions for accessing Audit Trail data are enforced using role and client information stored in MySQL.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "Users without permission shall not access data they are not authorized to view.",
+                    "explanation": "MySQL serves as the source of truth for access control policies, enabling enforcement of data isolation.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Confidential user information shall be protected to ensure privacy.",
+                    "explanation": "As the repository for user accounts and roles, MySQL’s secure configuration (on RDS) helps protect confidential data.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Users shall only be able to view their own confidential data and no one else's.",
+                    "explanation": "Access control logic using MySQL data ensures users cannot retrieve others’ private information.",
+                    "page_number": "39"
+                }
+            ]
+        },
+        {
+            "component_name": "DynamoDB",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store playlogs from players.",
+                    "explanation": "DynamoDB stores Playlog data in real-time with high throughput, providing immediate persistence of playback events received from the Web Socket Service.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Each Playlog item in DynamoDB uses Player ID as partition key and timestamp as sort key; client association is inferred via Player metadata stored elsewhere but linked during processing.",
+                    "page_number": "35"
+                }
+            ]
+        },
+        {
+            "component_name": "Amazon S3 (Data Lake)",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store playlogs from players.",
+                    "explanation": "S3 serves as the long-term storage for Playlogs in JSON format, archived via Kinesis Firehose, fulfilling durable storage requirements.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each playlog must have a date, client, and player assigned.",
+                    "explanation": "Playlog files in S3 include date, clientId, and playerId fields in their JSON structure, satisfying the assignment requirement.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system shall store player connections.",
+                    "explanation": "S3 stores historical Connection records (hourly summaries) in JSON format, providing persistent archival.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Each connection must have a date, client, and player assigned.",
+                    "explanation": "Connection JSON files in S3 contain date, clientId, and playerId, meeting the data assignment requirement.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system shall store actions performed on the platform.",
+                    "explanation": "Audit Trail (action) records are stored in S3 as JSON files, enabling historical retention of all platform actions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Each action must have a date, client, user, and player assigned.",
+                    "explanation": "Audit Trail JSON records in S3 include date, clientId, userId, and playerId fields, fulfilling the metadata requirement.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "All actions must be performed on a platform entity.",
+                    "explanation": "Since actions originate from the Core Service operating on platform entities, their persisted form in S3 inherently references valid entities.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "All actions must be related to a platform entity.",
+                    "explanation": "S3-stored actions maintain references to platform entities (e.g., playerId), ensuring compliance with this requirement.",
+                    "page_number": "37"
+                }
+            ]
+        },
+        {
+            "component_name": "Kinesis Data Streams",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store playlogs from players.",
+                    "explanation": "Kinesis Data Streams ingests real-time Playlog data from the Web Socket Service, forming the first step in the storage pipeline to S3.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system shall store actions performed on the platform.",
+                    "explanation": "Kinesis Data Streams receives Audit Trail events from the Core Service, enabling reliable transport to long-term storage in S3.",
+                    "page_number": "36"
+                }
+            ]
+        },
+        {
+            "component_name": "Kinesis Data Firehose",
+            "related_requirements": [
+                {
+                    "requirement": "The system shall store playlogs from players.",
+                    "explanation": "Kinesis Firehose batches and delivers Playlog data from Kinesis Streams to S3 with proper partitioning, completing the storage workflow.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system shall store actions performed on the platform.",
+                    "explanation": "Firehose transports Audit Trail records from Kinesis Streams to S3, ensuring durable and partitioned storage of platform actions.",
+                    "page_number": "36"
+                }
+            ]
+        },
+        {
+            "component_name": "AWS Glue Data Catalog",
+            "related_requirements": [
+                {
+                    "requirement": "All details of a playlog shall be viewable.",
+                    "explanation": "The Glue Catalog defines the schema and partitioning of Playlog data in S3, enabling Athena (and thus the Analytic Module) to retrieve complete records.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list actions performed on platform entities.",
+                    "explanation": "By cataloging Audit Trail table metadata, Glue enables Athena to query action data, supporting user-facing listing functionality.",
+                    "page_number": "37"
+                }
+            ]
+        },
+        {
+            "component_name": "Amazon Athena",
+            "related_requirements": [
+                {
+                    "requirement": "All details of a playlog shall be viewable.",
+                    "explanation": "Athena executes SQL queries on S3 Playlog data using Glue metadata, allowing the Analytic Module to retrieve and expose full playlog details.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Authorized users shall be able to list actions performed on platform entities.",
+                    "explanation": "Athena enables interactive querying of Audit Trail data in S3, which the Analytic Module uses to fulfill user requests for action listings.",
+                    "page_number": "37"
+                }
+            ]
+        }
+    ]
+}

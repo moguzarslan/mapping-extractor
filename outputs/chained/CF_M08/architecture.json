@@ -1,0 +1,187 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices Architecture",
+            "explanation": "The system is designed using a microservices architecture, where the application is divided into independent services (Security Service, System Service, Data Service) that communicate over HTTP. This pattern allows for scalability, independent deployment, and fault isolation.",
+            "page_number": [
+                "7.1"
+            ]
+        },
+        {
+            "pattern_name": "Client-Server Architecture",
+            "explanation": "The system follows a client-server model where the client (frontend built with React) interacts with the server (System Service) to fetch data and perform operations. The server handles business logic and communicates with the database.",
+            "page_number": [
+                "7.3"
+            ]
+        },
+        {
+            "pattern_name": "Layered Architecture",
+            "explanation": "The system is organized in layers: Presentation Layer (React frontend), Application Layer (Next.js backend), and Data Layer (PostgreSQL database). This separation of concerns improves maintainability and modularity.",
+            "page_number": [
+                "7.3"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Security Service",
+            "description": {
+                "role": {
+                    "explanation": "Acts as a reverse proxy and load balancer, handling incoming HTTP/HTTPS requests and routing them to the appropriate backend services. It also manages authentication and SSL certificates.",
+                    "page_number": [
+                        "7.2"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using Traefik, running inside a Docker container on Amazon EC2. It exposes ports 80 (HTTP) and 443 (HTTPS) and uses Let's Encrypt for SSL certificate management.",
+                    "page_number": [
+                        "7.2",
+                        "8.1"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Security Service receives requests from users, routes them to the System Service (via Next.js) based on defined rules, and communicates with external services like Google OAuth and Stripe for authentication and payments.",
+                    "page_number": [
+                        "7.2",
+                        "8.1"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "System Service",
+            "description": {
+                "role": {
+                    "explanation": "The core application service built with Next.js, responsible for rendering the frontend UI, handling user interactions, and managing server-side logic. It serves as the main interface between the client and the backend.",
+                    "page_number": [
+                        "7.3"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Built using Next.js, TypeScript, and React. It includes both client-side and server-side components, utilizing Prisma ORM for database interactions and server actions for handling complex logic.",
+                    "page_number": [
+                        "7.3",
+                        "8.2"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The System Service communicates with the Security Service for request routing, with the Data Service (PostgreSQL via Prisma) for data storage and retrieval, and with various external APIs (Google Analytics, Stripe, Brevo, etc.) for additional functionality.",
+                    "page_number": [
+                        "7.3",
+                        "8.2"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Data Service",
+            "description": {
+                "role": {
+                    "explanation": "Provides the persistent storage layer for the application, using PostgreSQL as the relational database. It stores all application data including users, products, companies, routes, and returns.",
+                    "page_number": [
+                        "7.4"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using PostgreSQL with Prisma ORM. It includes database schema definitions, migrations, and provides a database client for the System Service to interact with the data.",
+                    "page_number": [
+                        "7.4",
+                        "8.3"
+                    ]
+                },
+                "communication": {
+                    "explanation": "The Data Service is accessed by the System Service through Prisma ORM for data operations. It does not directly communicate with other components but provides a centralized data store for the entire application.",
+                    "page_number": [
+                        "7.4",
+                        "8.3"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "External Services",
+            "description": {
+                "role": {
+                    "explanation": "A collection of third-party services used by the System Service to provide additional functionality such as authentication, storage, payments, analytics, error tracking, and email marketing.",
+                    "page_number": [
+                        "7.3"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Includes services like Google OAuth for authentication, Amazon S3 for storage, Stripe for payments, Google Analytics for tracking, Sentry for error monitoring, and Brevo for email marketing.",
+                    "page_number": [
+                        "7.3"
+                    ]
+                },
+                "communication": {
+                    "explanation": "These services are consumed by the System Service through API calls or SDKs. They do not communicate directly with each other but provide specialized functionality to the main application.",
+                    "page_number": [
+                        "7.3"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Observer Pattern",
+            "associated_components": [
+                "System Service"
+            ],
+            "explanation": "Used in the System Service to implement event-driven communication between components. For example, when a user performs an action, it triggers an event that other components can subscribe to and react accordingly.",
+            "page_number": [
+                "7.3.3"
+            ]
+        },
+        {
+            "pattern_name": "Singleton Pattern",
+            "associated_components": [
+                "Data Service"
+            ],
+            "explanation": "Applied to the Prisma Client instance to ensure only one instance of the database client exists throughout the application. This pattern helps manage database connections efficiently and avoid multiple instances.",
+            "page_number": [
+                "7.3.3"
+            ]
+        },
+        {
+            "pattern_name": "Repository Pattern",
+            "associated_components": [
+                "Data Service"
+            ],
+            "explanation": "Implemented in the Data Service to abstract data access logic. The Repository pattern provides a clean interface for the System Service to interact with the database without exposing the underlying data access technology.",
+            "page_number": [
+                "7.4"
+            ]
+        },
+        {
+            "pattern_name": "Factory Pattern",
+            "associated_components": [
+                "System Service"
+            ],
+            "explanation": "Used in the System Service to create different types of components or objects based on specific conditions. For example, creating different form components based on the type of product being edited.",
+            "page_number": [
+                "8.2"
+            ]
+        },
+        {
+            "pattern_name": "Strategy Pattern",
+            "associated_components": [
+                "System Service"
+            ],
+            "explanation": "Employed in the System Service to handle different payment strategies. For example, choosing between different payment methods (credit card, PayPal, etc.) based on user preferences.",
+            "page_number": [
+                "8.2"
+            ]
+        },
+        {
+            "pattern_name": "Adapter Pattern",
+            "associated_components": [
+                "System Service"
+            ],
+            "explanation": "Used to adapt external service interfaces to the internal requirements of the System Service. For example, adapting the Stripe API response to match the internal data structure used by the application.",
+            "page_number": [
+                "8.2"
+            ]
+        }
+    ]
+}

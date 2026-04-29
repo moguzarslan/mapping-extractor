@@ -1,0 +1,112 @@
+{
+    "requirements": [
+        {
+            "requirement": "The system must store playlogs from players. Each playlog must have a date, client, and player assigned.",
+            "page_number": "35",
+            "type": "functional",
+            "section": "User Story H1"
+        },
+        {
+            "requirement": "The system must store connections from players. Each connection must have a date, client, and player assigned. Connection status can only be 'connected' or 'not connected'.",
+            "page_number": "35",
+            "type": "functional",
+            "section": "User Story H2"
+        },
+        {
+            "requirement": "The system must store actions performed on the platform. Each action must have a date, client, user, and player assigned. All actions must be performed on a platform entity.",
+            "page_number": "36",
+            "type": "functional",
+            "section": "User Story H3"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list the different playlogs of the system to know what content has been played on different players. The playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+            "page_number": "36",
+            "type": "functional",
+            "section": "User Story H4"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list the different connections of the system players to know which players are connected and which are not. Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+            "page_number": "36",
+            "type": "functional",
+            "section": "User Story H5"
+        },
+        {
+            "requirement": "Any user with permissions must be able to list the different actions performed on the different entities of the platform to know what actions have been performed over time. Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+            "page_number": "37",
+            "type": "functional",
+            "section": "User Story H6"
+        },
+        {
+            "requirement": "The system must respond to any user action in less than 5 seconds.",
+            "page_number": "37",
+            "type": "non-functional",
+            "section": "Requirement 12a"
+        },
+        {
+            "requirement": "The system must be available at all times, except for occasional events like updates. Any user must be able to access the platform at any time of the day, except during scheduled updates.",
+            "page_number": "38",
+            "type": "non-functional",
+            "section": "Requirement 12d"
+        },
+        {
+            "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. The platform scales dynamically with changes in simultaneous connections.",
+            "page_number": "38",
+            "type": "non-functional",
+            "section": "Requirement 12f"
+        },
+        {
+            "requirement": "The system must be able to grow in capacity when the data volume increases. The system scales automatically as data increases.",
+            "page_number": "39",
+            "type": "non-functional",
+            "section": "Requirement 12g"
+        },
+        {
+            "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
+            "page_number": "39",
+            "type": "non-functional",
+            "section": "Requirement 15a"
+        },
+        {
+            "requirement": "Confidential user information must be protected to guarantee their privacy. Users can only observe confidential data of their own user and no one else's.",
+            "page_number": "39",
+            "type": "non-functional",
+            "section": "Requirement 15c"
+        },
+        {
+            "requirement": "The project focuses on web development technologies, specifically the backend. The framework used must be NestJS with the TypeScript language.",
+            "page_number": "8",
+            "type": "constraint",
+            "section": "Contextualization"
+        },
+        {
+            "requirement": "Infrastructure must use AWS cloud services.",
+            "page_number": "8",
+            "type": "constraint",
+            "section": "Contextualization"
+        },
+        {
+            "requirement": "Communication between components is carried out over the internet via HTTP protocol and REST API model.",
+            "page_number": "41",
+            "type": "constraint",
+            "section": "Logical Architecture"
+        },
+        {
+            "requirement": "Microservices communicate via TCP protocol.",
+            "page_number": "43",
+            "type": "constraint",
+            "section": "Business Layer"
+        },
+        {
+            "requirement": "The database used is a MySQL database implemented in the AWS RDS service.",
+            "page_number": "44",
+            "type": "constraint",
+            "section": "Data Layer"
+        },
+        {
+            "requirement": "Data lake formed by AWS cloud services (Amazon S3 for documents JSON containing playlogs, connections, audit trail; DynamoDB for real-time playlogs).",
+            "page_number": "45",
+            "type": "constraint",
+            "section": "Data Layer"
+        }
+    ]
+}

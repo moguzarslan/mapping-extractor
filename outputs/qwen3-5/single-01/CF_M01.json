@@ -1,0 +1,346 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Availability and Reliability (NFR 12d)",
+                        "explanation": "The client-server model ensures the server processes requests and returns responses, supporting the requirement that the system must be available 24/7 for users.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Speed and Latency (NFR 12a)",
+                        "explanation": "The architecture defines clear request-response cycles over HTTP, aiming for system responsiveness within 5 seconds.",
+                        "page_number": "37"
+                    }
+                ],
+                "page_number": [
+                    "41"
+                ]
+            },
+            {
+                "pattern_name": "3-Layer Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Scalability (NFR 12g)",
+                        "explanation": "Separating Presentation, Business, and Data layers allows independent scaling of components as data volume increases.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Efficient Data Storage (Problem Description)",
+                        "explanation": "The separation allows the Data Layer to utilize specific cloud services (S3, RDS) optimized for different storage needs described in the problem statement.",
+                        "page_number": "9"
+                    }
+                ],
+                "page_number": [
+                    "41"
+                ]
+            },
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Capacity (NFR 12f)",
+                        "explanation": "Dividing the business layer into multiple services (Core, Analytics, API Player, etc.) allows the system to handle unlimited concurrent connections by scaling individual services.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Availability and Reliability (NFR 12d)",
+                        "explanation": "Microservices allow managing partial system failures; if one service fails, others can remain operational.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Store Platform Actions (H3)",
+                        "explanation": "Specific microservices (Core, Analytics) are dedicated to handling and storing specific types of data like audit trails.",
+                        "page_number": "36"
+                    }
+                ],
+                "page_number": [
+                    "43",
+                    "44"
+                ]
+            },
+            {
+                "pattern_name": "Data Lake Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "The Data Lake (S3) stores raw playlog data in JSON format without requiring prior structuring.",
+                        "page_number": "35"
+                    },
+                    {
+                        "requirement": "Scalability (NFR 12g)",
+                        "explanation": "The Data Lake allows storage at any scale, automatically scaling with the increase in data volume from players.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Obtention and Analysis of Data (Problem Description)",
+                        "explanation": "The Data Lake enables the extraction of conclusions and analysis of usage, solving the lack of analysis tools mentioned in the problem.",
+                        "page_number": "9"
+                    }
+                ],
+                "page_number": [
+                    "45",
+                    "47"
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "API Gateway",
+                "related_requirements": [
+                    {
+                        "requirement": "Access (NFR 15a)",
+                        "explanation": "The API Gateway handles authentication and authorization, ensuring only users with permissions can access functionalities.",
+                        "page_number": "39"
+                    },
+                    {
+                        "requirement": "Availability and Reliability (NFR 12d)",
+                        "explanation": "It manages partial system failures and acts as the single entry point, reducing external attack surfaces.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "List Playlogs (H4)",
+                        "explanation": "The Gateway routes requests to the Analytics Module to retrieve playlog lists.",
+                        "page_number": "36"
+                    }
+                ],
+                "page_number": [
+                    "43",
+                    "44"
+                ]
+            },
+            {
+                "component_name": "Analytics Module",
+                "related_requirements": [
+                    {
+                        "requirement": "List Playlogs (H4)",
+                        "explanation": "This module queries Amazon Athena to list playlogs based on user permissions.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "List Connections (H5)",
+                        "explanation": "This module retrieves connection data from the database or cloud services.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "List Platform Actions (H6)",
+                        "explanation": "This module retrieves audit trail data for analysis.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Obtention and Analysis of Data (Problem Description)",
+                        "explanation": "Its primary function is to obtain and process data from playlogs, connections, and actions.",
+                        "page_number": "9"
+                    }
+                ],
+                "page_number": [
+                    "44",
+                    "62"
+                ]
+            },
+            {
+                "component_name": "Core Service",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Platform Actions (H3)",
+                        "explanation": "The Core service executes business logic and sends action data to the Kinesis stream for audit trail storage.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Access (NFR 15a)",
+                        "explanation": "It interacts with the database to verify user permissions before performing actions.",
+                        "page_number": "39"
+                    }
+                ],
+                "page_number": [
+                    "44",
+                    "73"
+                ]
+            },
+            {
+                "component_name": "AWS S3 (Data Lake Storage)",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "S3 buckets store JSON documents containing playlog history.",
+                        "page_number": "35"
+                    },
+                    {
+                        "requirement": "Store Connections (H2)",
+                        "explanation": "S3 buckets store connection state data directly.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Store Platform Actions (H3)",
+                        "explanation": "S3 buckets store audit trail documents.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Scalability (NFR 12g)",
+                        "explanation": "S3 provides infinite storage capacity that scales automatically with data growth.",
+                        "page_number": "38"
+                    }
+                ],
+                "page_number": [
+                    "45",
+                    "48"
+                ]
+            },
+            {
+                "component_name": "Amazon DynamoDB",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "Used for real-time storage of playlogs using Composite Keys.",
+                        "page_number": "35"
+                    },
+                    {
+                        "requirement": "Speed and Latency (NFR 12a)",
+                        "explanation": "NoSQL database chosen for fast access to real-time player data.",
+                        "page_number": "37"
+                    }
+                ],
+                "page_number": [
+                    "45"
+                ]
+            },
+            {
+                "component_name": "Kinesis Data Streams",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "Transmits playlog data from WebSocket service to storage nearly in real-time.",
+                        "page_number": "35"
+                    },
+                    {
+                        "requirement": "Store Platform Actions (H3)",
+                        "explanation": "Transmits audit trail data from Core service to storage.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Capacity (NFR 12f)",
+                        "explanation": "Supports streaming data from multiple producers (microservices) to handle high volume.",
+                        "page_number": "38"
+                    }
+                ],
+                "page_number": [
+                    "50"
+                ]
+            },
+            {
+                "component_name": "MySQL Database (RDS)",
+                "related_requirements": [
+                    {
+                        "requirement": "Access (NFR 15a)",
+                        "explanation": "Stores user and client data required to validate permissions for accessing analytics.",
+                        "page_number": "39"
+                    },
+                    {
+                        "requirement": "List Connections (H5)",
+                        "explanation": "Used to retrieve client ownership of players to filter connection data by permission.",
+                        "page_number": "36"
+                    }
+                ],
+                "page_number": [
+                    "44",
+                    "45"
+                ]
+            },
+            {
+                "component_name": "WebSocket Service",
+                "related_requirements": [
+                    {
+                        "requirement": "Store Connections (H2)",
+                        "explanation": "Receives connection status information from players every hour.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "Receives content reproduction information from players.",
+                        "page_number": "35"
+                    }
+                ],
+                "page_number": [
+                    "44"
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "API Gateway Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "Access (NFR 15a)",
+                        "explanation": "Centralizes authorization and SSL handling, ensuring only authorized users enter the system.",
+                        "page_number": "39"
+                    },
+                    {
+                        "requirement": "Availability and Reliability (NFR 12d)",
+                        "explanation": "Reduces external entry points and manages partial system failures.",
+                        "page_number": "38"
+                    }
+                ],
+                "page_number": [
+                    "43"
+                ]
+            },
+            {
+                "pattern_name": "Dependency Injection (NestJS Providers)",
+                "related_requirements": [
+                    {
+                        "requirement": "Scalability (NFR 12g)",
+                        "explanation": "Allows modular development where services (Providers) can be injected and managed independently, facilitating system growth.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Store Platform Actions (H3)",
+                        "explanation": "Services are injected into modules to handle specific logic like sending data to Kinesis.",
+                        "page_number": "36"
+                    }
+                ],
+                "page_number": [
+                    "61"
+                ]
+            },
+            {
+                "pattern_name": "Publish/Subscribe (Kinesis Producers/Consumers)",
+                "related_requirements": [
+                    {
+                        "requirement": "Capacity (NFR 12f)",
+                        "explanation": "Decouples data generation (Producers) from storage (Consumers/Firehose), allowing unlimited concurrent connections.",
+                        "page_number": "38"
+                    },
+                    {
+                        "requirement": "Store Playlogs (H1)",
+                        "explanation": "Playlog data is published to streams and consumed by Firehose for storage.",
+                        "page_number": "35"
+                    }
+                ],
+                "page_number": [
+                    "50"
+                ]
+            },
+            {
+                "pattern_name": "Repository Pattern (Implied via Services)",
+                "related_requirements": [
+                    {
+                        "requirement": "List Playlogs (H4)",
+                        "explanation": "Services abstract the data access logic (Athena/MySQL) from the controllers, acting as repositories.",
+                        "page_number": "36"
+                    },
+                    {
+                        "requirement": "Privacy (NFR 15c)",
+                        "explanation": "Repository logic filters sensitive data (like admin names) before returning results to ensure privacy.",
+                        "page_number": "39"
+                    }
+                ],
+                "page_number": [
+                    "61",
+                    "63"
+                ]
+            }
+        ]
+    }
+}

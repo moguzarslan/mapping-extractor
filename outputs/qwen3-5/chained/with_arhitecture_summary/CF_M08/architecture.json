@@ -1,0 +1,90 @@
+{
+    "components": [
+        {
+            "component_name": "Security Service (Traefik)",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the entry point for the application, functioning as a reverse proxy and load balancer. It manages the routing of HTTP and HTTPS requests towards the application's internal services.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Implemented using Traefik v2.2 within a Docker container. It exposes ports 80 (HTTP) and 443 (HTTPS). Port 80 redirects traffic to Port 443 to ensure secure communications. It uses rules defined in docker-compose.yml to route traffic internally.",
+                    "page_number": "43"
+                },
+                "communication": {
+                    "explanation": "Receives external traffic from users and routes it to the System Service (Next.js). It does not communicate directly with the Data Service.",
+                    "page_number": "43"
+                }
+            }
+        },
+        {
+            "component_name": "System Service (Next.js)",
+            "description": {
+                "role": {
+                    "explanation": "The core application service that serves the web interface and handles business logic. It manages user interactions, authentication flows, and coordinates data operations.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Built using Next.js framework with React for UI and TypeScript for development. It utilizes Server Components, Client Components, and Server Actions. It integrates Prisma as an ORM to interact with the database. It runs in a Docker container.",
+                    "page_number": "44"
+                },
+                "communication": {
+                    "explanation": "Receives routed traffic from the Security Service. Communicates with the Data Service via Prisma. Integrates with multiple external APIs including Google OAuth, Amazon S3, Stripe, Google Analytics, Sentry, and Brevo.",
+                    "page_number": "41"
+                }
+            }
+        },
+        {
+            "component_name": "Data Service (PostgreSQL)",
+            "description": {
+                "role": {
+                    "explanation": "Provides persistent relational storage for all application data, including user profiles, company information, products, routes, and return transactions.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Uses PostgreSQL version 13.2 running in a Docker container. The schema is managed via Prisma Schema files which generate SQL automatically. Tables include Users, Companies, Products, Routes, Returns, and MarketZones.",
+                    "page_number": "68"
+                },
+                "communication": {
+                    "explanation": "Communicates directly with the System Service through the Prisma ORM client. It does not expose ports to the public internet.",
+                    "page_number": "41"
+                }
+            }
+        },
+        {
+            "component_name": "External Services Ecosystem",
+            "description": {
+                "role": {
+                    "explanation": "A collection of third-party services that provide specialized functionalities such as authentication, file storage, payments, analytics, error tracking, and email marketing.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Includes Google OAuth for authentication, Amazon S3 for cloud storage, Stripe for payment processing, Google Analytics for traffic analysis, Sentry for error monitoring, and Brevo for email management. Access is controlled via environment variables and API keys.",
+                    "page_number": "73"
+                },
+                "communication": {
+                    "explanation": "Interacts exclusively with the System Service. The System Service initiates API calls to these providers to execute specific tasks like verifying user identity or processing a subscription payment.",
+                    "page_number": "41"
+                }
+            }
+        },
+        {
+            "component_name": "Infrastructure Layer (Docker & EC2)",
+            "description": {
+                "role": {
+                    "explanation": "The underlying hosting and orchestration environment that ensures the services run reliably and can be scaled.",
+                    "page_number": "41"
+                },
+                "technical_details": {
+                    "explanation": "Services are hosted on Amazon EC2 instances. Docker is used for containerization, ensuring consistency across environments. Docker Compose is used to define and run multi-container applications (Traefik, Next.js, Postgres).",
+                    "page_number": "70"
+                },
+                "communication": {
+                    "explanation": "Hosts the Security, System, and Data services. Manages network isolation (internal vs external networks) and volume persistence for the database.",
+                    "page_number": "70"
+                }
+            }
+        }
+    ],
+    "architecture_summary": "The Revivack system employs a microservices-based architecture deployed on Amazon EC2 using Docker containers. Traffic enters through the Security Service (Traefik), which acts as a reverse proxy and load balancer, securing connections via HTTPS before routing to the System Service. The System Service, built on Next.js and React, handles the application logic and UI, communicating with the Data Service (PostgreSQL) via the Prisma ORM for data persistence. Additionally, the System Service integrates with various external APIs (Google, AWS, Stripe, etc.) to handle specific functions like authentication, payments, and storage. This separation allows for independent scaling and maintenance of security, application logic, and data layers."
+}

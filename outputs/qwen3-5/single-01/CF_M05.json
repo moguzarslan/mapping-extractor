@@ -1,0 +1,277 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #06 Availability: The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Microservices allow independent deployment and scaling. An error in one microservice does not mean the complete failure of the application, improving resilience and availability.",
+                        "page_number": "54"
+                    },
+                    {
+                        "requirement": "NFR #07 Capacity: The web application must support a large number of simultaneous users without degrading its performance.",
+                        "explanation": "Microservices enable autonomous scaling of specific services based on demand, supporting high capacity without affecting the rest of the system.",
+                        "page_number": "54"
+                    },
+                    {
+                        "requirement": "FC #01 Access to portal with authentication",
+                        "explanation": "The architecture divides functionality into services like 'Leader' and 'Access Control' which handle routing and authentication specifically within this pattern.",
+                        "page_number": "48"
+                    }
+                ],
+                "page_number": [
+                    "56"
+                ]
+            },
+            {
+                "pattern_name": "Cloud Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #06 Availability: The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Cloud computing offers high availability and accessibility as resources are managed by providers (AWS) and accessible via Internet anywhere.",
+                        "page_number": "54"
+                    },
+                    {
+                        "requirement": "NFR #07 Capacity: The web application must support a large number of simultaneous users without degrading its performance.",
+                        "explanation": "Cloud resources allow scalability according to needs, managing network, database, and servers via Internet to support high loads.",
+                        "page_number": "54"
+                    },
+                    {
+                        "requirement": "NFR #08 Access: The system must allow creation, consultation, modification, and deletion of data to authorized users.",
+                        "explanation": "AWS provides robust security services and certifications that facilitate compliance with legal regulations and protection of data infrastructure.",
+                        "page_number": "54"
+                    }
+                ],
+                "page_number": [
+                    "60"
+                ]
+            },
+            {
+                "pattern_name": "Client-Server Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #05 Speed & Latency: Query operations must have a loading time of less than 1 second.",
+                        "explanation": "Separating responsibilities allows the server to focus on business logic and data integrity while the client focuses on presentation, optimizing communication via HTTP/JSON protocols.",
+                        "page_number": "53"
+                    },
+                    {
+                        "requirement": "FC #03 Access to applications from the portal",
+                        "explanation": "The client formulates service requests (selecting an app) and the server processes them and returns responses (redirecting to the main page).",
+                        "page_number": "48"
+                    }
+                ],
+                "page_number": [
+                    "61"
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Leader Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "FC #01 Access to portal with authentication",
+                        "explanation": "Acts as a central management point for traffic, blocking unauthorized connection attempts and applying security protocols before routing.",
+                        "page_number": "48"
+                    },
+                    {
+                        "requirement": "NFR #08 Access: The system must allow creation, consultation, modification, and deletion of data to authorized users.",
+                        "explanation": "Incorporates mechanisms to protect integrity and confidentiality of communications, preventing undue accesses.",
+                        "page_number": "54"
+                    }
+                ],
+                "page_number": [
+                    "57"
+                ]
+            },
+            {
+                "component_name": "Portal Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #01 Appearance: The new content must maintain visual coherence with the design of the old version of the application.",
+                        "explanation": "Includes binaries necessary for the frontend of the portal and other applications, ensuring visual and functional coherence of the ecosystem.",
+                        "page_number": "52"
+                    },
+                    {
+                        "requirement": "FC #02 Visualization of applications according to user",
+                        "explanation": "Provides a centralized interface for accessing different applications, showing the list of applications the user has access to.",
+                        "page_number": "48"
+                    }
+                ],
+                "page_number": [
+                    "57"
+                ]
+            },
+            {
+                "component_name": "Access Control Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "FC #04 Visualization of data according to roles",
+                        "explanation": "Responsible for verifying user identity and determining permissions associated with each user or service according to defined roles.",
+                        "page_number": "49"
+                    },
+                    {
+                        "requirement": "FC #05 Access restrictions between clients",
+                        "explanation": "Manages groups and clusters to ensure users only see data associated with their specific client group.",
+                        "page_number": "49"
+                    },
+                    {
+                        "requirement": "FC #07 Assign or revoke access to applications",
+                        "explanation": "Manages the creation and maintenance of roles and permissions, allowing administrators to modify user access lists.",
+                        "page_number": "50"
+                    }
+                ],
+                "page_number": [
+                    "58"
+                ]
+            },
+            {
+                "component_name": "Communication Log Microservice",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #08 Access: The system must allow creation, consultation, modification, and deletion of data to authorized users.",
+                        "explanation": "Acts as a traceability and audit mechanism, documenting every interaction for analysis and regulatory compliance.",
+                        "page_number": "54"
+                    }
+                ],
+                "page_number": [
+                    "58"
+                ]
+            },
+            {
+                "component_name": "Frontend (Angular SPA)",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #02 Ease of use: The system must be easy to use for any user.",
+                        "explanation": "Single-Page Application renders dynamic views and manages internal navigation without reloading pages, improving fluidity of use.",
+                        "page_number": "52"
+                    },
+                    {
+                        "requirement": "NFR #04 Learning: The user must be able to perform new operations without special training.",
+                        "explanation": "Dynamic interfaces and familiar navigation patterns reduce learning time for new functionalities.",
+                        "page_number": "53"
+                    }
+                ],
+                "page_number": [
+                    "61",
+                    "62"
+                ]
+            },
+            {
+                "component_name": "Backend (Spring Boot)",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #05 Speed & Latency: Query operations must have a loading time of less than 1 second.",
+                        "explanation": "Organizes code in layers separating responsibilities, facilitating efficient management of application operations and query processing.",
+                        "page_number": "53"
+                    },
+                    {
+                        "requirement": "NFR #09 Integrity: The application must manage a strict separation of data for each client.",
+                        "explanation": "The backend logic enforces data separation policies through services and repositories connected to specific schemas.",
+                        "page_number": "55"
+                    }
+                ],
+                "page_number": [
+                    "61",
+                    "68"
+                ]
+            },
+            {
+                "component_name": "Database (Decoupled Schemas)",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #09 Integrity: The application must manage a strict separation of data for each client.",
+                        "explanation": "There is a schema for each microservice and each client has its own group of schemas per microservice, ensuring physical/logical data separation.",
+                        "page_number": "55"
+                    }
+                ],
+                "page_number": [
+                    "60"
+                ]
+            },
+            {
+                "component_name": "AWS EKS (Kubernetes)",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #06 Availability: The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Automates deployment, scaling, and management of containerized applications, ensuring high availability across different servers.",
+                        "page_number": "54"
+                    }
+                ],
+                "page_number": [
+                    "81"
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "MVVM (Model-View-ViewModel)",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #02 Ease of use: The system must be easy to use for any user.",
+                        "explanation": "Separates UI logic (View) from business logic (ViewModel), allowing the view to focus on user experience and interactions.",
+                        "page_number": "52"
+                    },
+                    {
+                        "requirement": "NFR #04 Learning: The user must be able to perform new operations without special training.",
+                        "explanation": "Clear separation of concerns in the frontend code facilitates maintenance and consistent UI behavior, reducing user confusion.",
+                        "page_number": "53"
+                    }
+                ],
+                "page_number": [
+                    "62"
+                ]
+            },
+            {
+                "pattern_name": "Layered Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #05 Speed & Latency: Query operations must have a loading time of less than 1 second.",
+                        "explanation": "Separates Presentation, Business Logic, Domain, and Data Access layers, avoiding unnecessary coupling and facilitating testing and optimization.",
+                        "page_number": "53"
+                    },
+                    {
+                        "requirement": "NFR #08 Access: The system must allow creation, consultation, modification, and deletion of data to authorized users.",
+                        "explanation": "The contract layer separates the internal model from the external API representation, enhancing security and control over exposed data.",
+                        "page_number": "54"
+                    }
+                ],
+                "page_number": [
+                    "68"
+                ]
+            },
+            {
+                "pattern_name": "Repository Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #09 Integrity: The application must manage a strict separation of data for each client.",
+                        "explanation": "Encapsulates database queries and provides default operations (like findByCode), facilitating control of record access and data consistency.",
+                        "page_number": "55"
+                    }
+                ],
+                "page_number": [
+                    "74"
+                ]
+            },
+            {
+                "pattern_name": "DTO / Mapper Pattern",
+                "related_requirements": [
+                    {
+                        "requirement": "NFR #08 Access: The system must allow creation, consultation, modification, and deletion of data to authorized users.",
+                        "explanation": "Data Transfer Objects structure information for requests/responses, providing a customized format and hiding internal domain models from the client.",
+                        "page_number": "54"
+                    },
+                    {
+                        "requirement": "NFR #03 Personalization & Internationalization: The application must be available in several languages.",
+                        "explanation": "Mappers convert models to DTOs, handling attributes like descriptions which may come from internationalized content tables (LanguageContent).",
+                        "page_number": "53"
+                    }
+                ],
+                "page_number": [
+                    "73"
+                ]
+            }
+        ]
+    }
+}

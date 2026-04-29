@@ -1,0 +1,134 @@
+{
+    "requirements": [
+        {
+            "requirement": "The system shall store playlogs from players.",
+            "page_number": 35,
+            "type": "functional"
+        },
+        {
+            "requirement": "Each playlog must have a date, client, and player assigned.",
+            "page_number": 35,
+            "type": "functional"
+        },
+        {
+            "requirement": "The system shall store player connections.",
+            "page_number": 35,
+            "type": "functional"
+        },
+        {
+            "requirement": "Each connection must have a date, client, and player assigned.",
+            "page_number": 35,
+            "type": "functional"
+        },
+        {
+            "requirement": "The connection status can only be 'connected' or 'not connected'.",
+            "page_number": 35,
+            "type": "functional"
+        },
+        {
+            "requirement": "The system shall store actions performed on the platform.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "Each action must have a date, client, user, and player assigned.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "All actions must be performed on a platform entity.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "Authorized users shall be able to list playlogs in the system.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "The playlogs visible to a user shall depend on their permissions.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "All details of a playlog shall be viewable.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "Authorized users shall be able to list player connections in the system.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "The connections visible to a user shall depend on their permissions.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "Connections can only have two states: 'connected' or 'not connected'.",
+            "page_number": 36,
+            "type": "functional"
+        },
+        {
+            "requirement": "Authorized users shall be able to list actions performed on platform entities.",
+            "page_number": 37,
+            "type": "functional"
+        },
+        {
+            "requirement": "The actions visible to a user shall depend on their permissions.",
+            "page_number": 37,
+            "type": "functional"
+        },
+        {
+            "requirement": "All actions must be related to a platform entity.",
+            "page_number": 37,
+            "type": "functional"
+        },
+        {
+            "requirement": "The system shall respond to any user action in less than 5 seconds.",
+            "page_number": 37,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system shall be available at all times, except during scheduled updates.",
+            "page_number": 38,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system shall support an unlimited number of simultaneous connections.",
+            "page_number": 38,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The platform shall scale dynamically with changes in the number of simultaneous connections.",
+            "page_number": 38,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system shall automatically scale as data volume increases.",
+            "page_number": 38,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Project functionalities shall only be accessible to users with appropriate permissions.",
+            "page_number": 39,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Users without permission shall not access data they are not authorized to view.",
+            "page_number": 39,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Confidential user information shall be protected to ensure privacy.",
+            "page_number": 39,
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Users shall only be able to view their own confidential data and no one else's.",
+            "page_number": 39,
+            "type": "non-functional"
+        }
+    ]
+}

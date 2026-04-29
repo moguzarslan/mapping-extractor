@@ -1,0 +1,294 @@
+{
+    "mappings": [
+        {
+            "component_name": "Leader",
+            "related_requirements": [
+                {
+                    "requirement": "User accesses the portal through authentication with personal credentials.",
+                    "explanation": "The Leader acts as the central routing point and incorporates security mechanisms to block unauthorized connection attempts, ensuring secure entry.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "User accesses applications from the portal list; if accessing only one application, they are redirected to its main page; if multiple, they select the application to access.",
+                    "explanation": "The Leader manages traffic flow and routes requests from the Portal gateways to the corresponding internal microservices.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "System must allow creation, query, modification, and deletion of data to authorized users via a secure authentication and permission verification mechanism.",
+                    "explanation": "The Leader applies security protocols to prevent vulnerabilities and ensures ordered and secure interactions between external services and internal microservices.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "Web application must support a large number of simultaneous users without degrading its performance.",
+                    "explanation": "As the central routing point, the Leader manages traffic flow between external services and internal microservices, helping to handle load distribution.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "Application architecture is based on microservices.",
+                    "explanation": "The Leader is described as a microservice without a user interface that coordinates with other internal microservices.",
+                    "page_number": "56"
+                },
+                {
+                    "requirement": "Communication protocol is HTTP and data format is JSON.",
+                    "explanation": "The Leader receives requests and routes them, functioning within the HTTP/JSON communication protocol defined for the system.",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Portal",
+            "related_requirements": [
+                {
+                    "requirement": "User accesses the portal through authentication with personal credentials.",
+                    "explanation": "The Portal serves as the centralized entry point for users to access different VWGS applications through web browsers.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "System displays the list of applications to which the user has access upon logging in.",
+                    "explanation": "The Portal hosts the frontend binaries for the portal itself and other applications, providing the interface to display these lists.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "User accesses applications from the portal list; if accessing only one application, they are redirected to its main page; if multiple, they select the application to access.",
+                    "explanation": "Users access the system via this component, which interacts with the Leader microservice for routing before granting access to internal applications.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "New content must maintain visual coherence with the design of the old application version (design, colors, typography, organization).",
+                    "explanation": "The Portal provides a unified experience and hosts the frontend binaries, ensuring presentation consistency.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "System must be easy to use for any user (80% of users do not need to ask for help from a third party).",
+                    "explanation": "By providing a unified experience and centralized entry point, the Portal contributes to ease of use.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "Frontend is developed using Angular (Single-Page Application).",
+                    "explanation": "The Portal microservice contains the necessary binaries for the frontend (Angular).",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Access Control",
+            "related_requirements": [
+                {
+                    "requirement": "User accesses the portal through authentication with personal credentials.",
+                    "explanation": "This component manages user authentication and verifies user identity.",
+                    "page_number": "48"
+                },
+                {
+                    "requirement": "System restricts data visualization and actions (create, modify, delete) based on the roles assigned to the user.",
+                    "explanation": "It determines access rights based on defined roles and policies, managing granular permissions.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "System guarantees that users cannot access data belonging to other clients; only data of the associated client is shown.",
+                    "explanation": "It manages granular permissions per brand and cluster type, enforcing access boundaries.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Administrator assigns or revokes application access for users via the Commercial Cloud application.",
+                    "explanation": "It is responsible for creating and maintaining roles used to assign access.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+                    "explanation": "The data model involves entities like User, Cluster, and Role to manage permissions per cluster type.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Authorizations assigned to a user must belong to some of the brands contained in the associated Cluster.",
+                    "explanation": "It manages granular permissions per brand and cluster type, ensuring authorization alignment.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "System must allow creation, query, modification, and deletion of data to authorized users via a secure authentication and permission verification mechanism.",
+                    "explanation": "It verifies user identity and determines access rights, forming the core of the permission verification mechanism.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "Application must manage a strict separation of data for each client (no user can access data of other clients).",
+                    "explanation": "Permissions are managed per brand and cluster type, supporting strict data separation.",
+                    "page_number": "55"
+                }
+            ]
+        },
+        {
+            "component_name": "Communication Log",
+            "related_requirements": [
+                {
+                    "requirement": "Web application must guarantee continuous and stable operation with a minimum availability of 99.9%.",
+                    "explanation": "It documents every interaction for incident resolution, contributing to system stability analysis.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "System must allow creation, query, modification, and deletion of data to authorized users via a secure authentication and permission verification mechanism.",
+                    "explanation": "It acts as a traceability and audit mechanism, supporting security compliance.",
+                    "page_number": "54"
+                }
+            ]
+        },
+        {
+            "component_name": "Scheduler",
+            "related_requirements": [
+                {
+                    "requirement": "Dates must be valid and cannot be later than the present.",
+                    "explanation": "Used for maintenance tasks such as cleaning old logs, which relates to date management.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Web application must guarantee continuous and stable operation with a minimum availability of 99.9%.",
+                    "explanation": "Executes monitoring tasks to verify microservice status, ensuring operational stability.",
+                    "page_number": "53"
+                }
+            ]
+        },
+        {
+            "component_name": "Frontend Client (Angular)",
+            "related_requirements": [
+                {
+                    "requirement": "New content must maintain visual coherence with the design of the old application version (design, colors, typography, organization).",
+                    "explanation": "Responsible for the presentation and user experience, encapsulating interface logic and design.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "System must be easy to use for any user (80% of users do not need to ask for help from a third party).",
+                    "explanation": "Focuses on user experience and interface logic to facilitate usability.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "Application must be available in several languages with complete and correct translations.",
+                    "explanation": "As the presentation layer, it handles the display of translated content to the user.",
+                    "page_number": "52"
+                },
+                {
+                    "requirement": "User must be able to perform new operations without special training (learning time should not exceed 5 minutes).",
+                    "explanation": "The UI updates dynamically without reloading the page, improving the learning curve.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "Query operations must have a load time under 1 second (response time must not exceed 1 second in 95% of queries).",
+                    "explanation": "Sends HTTP requests and receives responses, directly impacting perceived query load time.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "Frontend is developed using Angular (Single-Page Application).",
+                    "explanation": "Developed using Angular 11+ and TypeScript following the MVVM pattern as a Single-Page Application.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "Communication protocol is HTTP and data format is JSON.",
+                    "explanation": "Sends HTTP requests to the Backend Server using REST APIs and JSON format.",
+                    "page_number": "61"
+                }
+            ]
+        },
+        {
+            "component_name": "Backend Server (Spring Boot)",
+            "related_requirements": [
+                {
+                    "requirement": "Query operations must have a load time under 1 second (response time must not exceed 1 second in 95% of queries).",
+                    "explanation": "Handles business logic and data access, directly influencing response time.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "System must allow creation, query, modification, and deletion of data to authorized users via a secure authentication and permission verification mechanism.",
+                    "explanation": "Handles business logic, security, and data integrity, exposing the API for these operations.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "Application architecture is based on microservices.",
+                    "explanation": "Built with Spring Boot following a layered architecture typical of microservices.",
+                    "page_number": "56"
+                },
+                {
+                    "requirement": "Backend is developed using Spring Boot exposing a REST API.",
+                    "explanation": "Built with Spring Boot 2.2.2 and Java OpenJDK 17, exposing the API for frontend clients.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "Communication protocol is HTTP and data format is JSON.",
+                    "explanation": "Receives REST requests from the Frontend using HTTP and JSON formats.",
+                    "page_number": "61"
+                },
+                {
+                    "requirement": "Primary keys must be defined for User, Language, ClusterType, Application, Authority, Role, Brand, and Cluster tables.",
+                    "explanation": "Uses Domain Models and Repositories to interact with the database where these keys are enforced.",
+                    "page_number": "50"
+                }
+            ]
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "System guarantees that users cannot access data belonging to other clients; only data of the associated client is shown.",
+                    "explanation": "There is a specific schema for each microservice, and each client has its own group of schemas per microservice.",
+                    "page_number": "49"
+                },
+                {
+                    "requirement": "Primary keys must be defined for User, Language, ClusterType, Application, Authority, Role, Brand, and Cluster tables.",
+                    "explanation": "Stores data related to Users, Clusters, Roles, Applications, and Logs, enforcing table structures.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Each language_id in every content table must belong to an existing Language.",
+                    "explanation": "Stores data related to Languages, enforcing referential integrity.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Dates must be valid and cannot be later than the present.",
+                    "explanation": "Stores data including dates, ensuring validity at the persistence layer.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "There cannot be elements of the same type with the same code in applicable tables.",
+                    "explanation": "Enforces uniqueness constraints on stored data elements.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Web application must guarantee continuous and stable operation with a minimum availability of 99.9%.",
+                    "explanation": "Provides persistent storage ensuring data integrity and availability.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "Application must manage a strict separation of data for each client (no user can access data of other clients).",
+                    "explanation": "Schemas are isolated by microservice and client, physically separating data.",
+                    "page_number": "55"
+                }
+            ]
+        },
+        {
+            "component_name": "Cloud Infrastructure (AWS EKS)",
+            "related_requirements": [
+                {
+                    "requirement": "Project utilizes Cloud technology model for storage and resource management.",
+                    "explanation": "Hosts and orchestrates containerized microservices using cloud technology.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Web application must guarantee continuous and stable operation with a minimum availability of 99.9%.",
+                    "explanation": "Provides scalability and availability through orchestration.",
+                    "page_number": "53"
+                },
+                {
+                    "requirement": "Web application must support a large number of simultaneous users without degrading its performance.",
+                    "explanation": "Orchestration allows scaling resources to support large numbers of users.",
+                    "page_number": "54"
+                },
+                {
+                    "requirement": "Cloud provider for the project is Amazon Web Services (AWS).",
+                    "explanation": "Uses Amazon Web Services (AWS) specifically Amazon EKS.",
+                    "page_number": "60"
+                },
+                {
+                    "requirement": "Deployment is performed using Amazon EKS (Kubernetes).",
+                    "explanation": "Uses Amazon EKS (Elastic Kubernetes Service) for orchestration.",
+                    "page_number": "81"
+                }
+            ]
+        }
+    ]
+}

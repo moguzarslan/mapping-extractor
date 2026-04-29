@@ -1,0 +1,204 @@
+{
+    "mappings": [
+        {
+            "component_name": "Security Service (Traefik)",
+            "related_requirements": [
+                {
+                    "requirement": "Volere 15c. Privacy Requirements",
+                    "explanation": "Traefik acts as a reverse proxy that enforces HTTPS on port 443, redirecting HTTP traffic from port 80 to ensure secure communication and protect data integrity and confidentiality.",
+                    "page_number": "43"
+                },
+                {
+                    "requirement": "Volere 12e. Robustness or Fault Tolerance Requirements",
+                    "explanation": "Traefik functions as a load balancer, distributing traffic between multiple service instances to improve availability and response capacity, supporting the 99.9% uptime goal.",
+                    "page_number": "43"
+                },
+                {
+                    "requirement": "Volere 14c. Adaptability Requirements",
+                    "explanation": "Traefik routes incoming requests to the internal System Service based on defined rules, ensuring the application is accessible regardless of the entry point configuration.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "System Service (Next.js / React)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must be available in both Spanish and English.",
+                    "explanation": "The System Service implements internationalization using the 'next-intl' library and dynamic routing ([lang]) to serve content in different languages.",
+                    "page_number": "77"
+                },
+                {
+                    "requirement": "Volere 11a. Ease of Use Requirements",
+                    "explanation": "The interface is built using React components and libraries like Radix-ui to create intuitive, accessible, and easy-to-use UI elements for non-technical users.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "The system must allow registering new users.",
+                    "explanation": "The System Service provides registration screens and logic (using Auth.js/Next-auth) to create accounts for donors and companies.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must authenticate existing users via email.",
+                    "explanation": "The System Service integrates with Google OAuth and MagicLink functionality via Auth.js to handle user authentication securely.",
+                    "page_number": "34"
+                },
+                {
+                    "requirement": "The system must allow logged-in users to view company profiles and products.",
+                    "explanation": "Server Components in Next.js fetch data from the database to render public profiles and product lists accessible to all users.",
+                    "page_number": "56"
+                },
+                {
+                    "requirement": "A company must be able to modify its public profile/page at any time.",
+                    "explanation": "The System Service provides edit forms and server actions to update company profile data stored in the database.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "A company must have access to the system dashboard.",
+                    "explanation": "The System Service renders a dedicated dashboard page displaying statistics, profile completion, and navigation to internal functionalities.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "A company must be able to register a product visible on its public profile.",
+                    "explanation": "The System Service includes product creation/editing screens where companies input product details which are then saved and displayed.",
+                    "page_number": "37"
+                },
+                {
+                    "requirement": "A company must be able to register a route to link to its products.",
+                    "explanation": "The System Service provides route management screens allowing companies to define reception channels, market zones, and points.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "A user must be able to return a product via its routes.",
+                    "explanation": "The System Service implements a return flow popup where donors select routes and initiate the return process.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "Every route must have an associated budget which the user can pay via the system.",
+                    "explanation": "The System Service integrates payment processing logic to handle route budgets during the product return flow.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "The system must have an affiliation/plan system for companies (free, basic, premium).",
+                    "explanation": "The System Service includes plan selection interfaces and integrates with Stripe to manage subscriptions and payments.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "Volere 15a. Access Requirements",
+                    "explanation": "Server Actions and middleware enforce access control, ensuring only authorized company users can edit their own products, routes, and profiles.",
+                    "page_number": "86"
+                }
+            ]
+        },
+        {
+            "component_name": "Data Service (PostgreSQL)",
+            "related_requirements": [
+                {
+                    "requirement": "The system must save all images of all products/users.",
+                    "explanation": "While images are stored in S3, the Data Service stores the metadata and links (URLs) associated with these images in the 'images' and 'uploaded_products' tables.",
+                    "page_number": "30"
+                },
+                {
+                    "requirement": "Store User, Company, Product, and Route data.",
+                    "explanation": "The relational database structure (users, companies, products, routes tables) persists all core entity data required for the system's operation.",
+                    "page_number": "68"
+                },
+                {
+                    "requirement": "Maintain data integrity and relationships.",
+                    "explanation": "Foreign keys and cascading deletes defined in the schema ensure referential integrity between users, companies, products, and returns.",
+                    "page_number": "69"
+                }
+            ]
+        },
+        {
+            "component_name": "Prisma ORM",
+            "related_requirements": [
+                {
+                    "requirement": "Volere 14a. Maintenance Requirements",
+                    "explanation": "Prisma simplifies database interaction with a typed API and migration tools, making the system easier to maintain and update with clear documentation.",
+                    "page_number": "50"
+                },
+                {
+                    "requirement": "Volere 12g. Expansion or Growth Requirements",
+                    "explanation": "Prisma supports scalable database queries and works with PostgreSQL, facilitating the handling of increased data volume as the system grows.",
+                    "page_number": "50"
+                }
+            ]
+        },
+        {
+            "component_name": "External Service: Google OAuth",
+            "related_requirements": [
+                {
+                    "requirement": "The system must authenticate existing users via email.",
+                    "explanation": "The System Service utilizes Google OAuth to provide a direct authentication method alongside MagicLink for user login.",
+                    "page_number": "42"
+                }
+            ]
+        },
+        {
+            "component_name": "External Service: Amazon S3",
+            "related_requirements": [
+                {
+                    "requirement": "The system must save all images of all products/users.",
+                    "explanation": "The System Service uses the AWS SDK to upload and retrieve image files from Amazon S3 buckets for cloud storage.",
+                    "page_number": "42"
+                }
+            ]
+        },
+        {
+            "component_name": "External Service: Stripe",
+            "related_requirements": [
+                {
+                    "requirement": "Every route must have an associated budget which the user can pay via the system.",
+                    "explanation": "Stripe is integrated into the System Service to process payments for route budgets during product returns.",
+                    "page_number": "42"
+                },
+                {
+                    "requirement": "The system must have an affiliation/plan system for companies.",
+                    "explanation": "Stripe handles the subscription logic and payments when companies change plans (free, basic, premium).",
+                    "page_number": "65"
+                }
+            ]
+        },
+        {
+            "component_name": "External Service: Brevo",
+            "related_requirements": [
+                {
+                    "requirement": "The system must authenticate existing users via email.",
+                    "explanation": "Brevo is connected to send MagicLinks and other transactional emails required for user registration and login processes.",
+                    "page_number": "42"
+                }
+            ]
+        },
+        {
+            "component_name": "External Service: Sentry",
+            "related_requirements": [
+                {
+                    "requirement": "Volere 14a. Maintenance Requirements",
+                    "explanation": "Sentry tracks and manages errors in the application, helping developers identify and resolve issues quickly to reduce maintenance time.",
+                    "page_number": "42"
+                }
+            ]
+        },
+        {
+            "component_name": "Docker Containerization",
+            "related_requirements": [
+                {
+                    "requirement": "Volere 12e. Robustness or Fault Tolerance Requirements",
+                    "explanation": "Services run in isolated Docker containers managed by Docker Compose, allowing for easier recovery and restart in case of failures.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "Volere 12g. Expansion or Growth Requirements",
+                    "explanation": "Docker allows scaling resources by increasing container instances or server capacity while maintaining performance under increased load.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "Volere 14a. Maintenance Requirements",
+                    "explanation": "Containerization ensures consistent environments across development and production, reducing maintenance costs and complexity.",
+                    "page_number": "72"
+                }
+            ]
+        }
+    ]
+}

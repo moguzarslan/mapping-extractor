@@ -1,0 +1,140 @@
+{
+    "components": [
+        {
+            "component_name": "Presentation Layer",
+            "description": {
+                "role": {
+                    "explanation": "This layer is responsible for displaying information to the user. It consists of the visual interface of the Waapiti platform, allowing users to interact with the system.",
+                    "page_number": "41, 42"
+                },
+                "technical_details": {
+                    "explanation": "Composed of the Web Platform and Mobile Platform interfaces. It serves as the client side in the client-server architecture.",
+                    "page_number": "42"
+                },
+                "communication": {
+                    "explanation": "Communicates with the Business Logic Layer, specifically the API Gateway, using the HTTP protocol.",
+                    "page_number": "42"
+                }
+            }
+        },
+        {
+            "component_name": "API Gateway",
+            "description": {
+                "role": {
+                    "explanation": "Acts as the single entry point for the system, managing user management, authentication, and authorization. It defines all REST API routes and processes requests to send them to the Core service and Analytic Module.",
+                    "page_number": "43, 44"
+                },
+                "technical_details": {
+                    "explanation": "Implements the API Gateway design pattern to reduce external connection points and handle partial system failures. It manages SSL and authorization with the client.",
+                    "page_number": "43"
+                },
+                "communication": {
+                    "explanation": "Receives HTTP requests from the Presentation Layer. Communicates with the Core service and Analytic Module via the TCP protocol.",
+                    "page_number": "43, 44"
+                }
+            }
+        },
+        {
+            "component_name": "Core Service",
+            "description": {
+                "role": {
+                    "explanation": "Serves as the main nucleus of the platform, handling the core business logic. It primarily interacts with the database and to a lesser extent with cloud services.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "Developed as a NestJS microservice. It contains the main functionalities of the platform, such as creating, editing, or deleting entities.",
+                    "page_number": "44, 73"
+                },
+                "communication": {
+                    "explanation": "Receives processed requests from the API Gateway via TCP. Sends data to AWS Cloud Services (specifically Kinesis Data Streams for Audit Trail) and interacts with the Database.",
+                    "page_number": "44, 73"
+                }
+            }
+        },
+        {
+            "component_name": "Analytic Module",
+            "description": {
+                "role": {
+                    "explanation": "Responsible for obtaining and processing data from playlogs, connections, and platform actions. It enables the analysis of stored data.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "Developed as a NestJS microservice. It utilizes AWS Athena for querying data stored in S3 and the Database for permission checks. Includes cron jobs for periodic tasks like connection updates.",
+                    "page_number": "44, 62, 72"
+                },
+                "communication": {
+                    "explanation": "Receives requests from the API Gateway via TCP. Queries Amazon Athena and the Database to retrieve data and returns results to the API Gateway.",
+                    "page_number": "44, 66"
+                }
+            }
+        },
+        {
+            "component_name": "API Player",
+            "description": {
+                "role": {
+                    "explanation": "Responsible for communicating with the digital signage players to receive information such as player status, reproduced content, and reproduction calendars.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "A NestJS microservice designed to process and store information received from players.",
+                    "page_number": "44"
+                },
+                "communication": {
+                    "explanation": "Receives information directly from Players. Processes and stores this information in the Database and Cloud Services.",
+                    "page_number": "44"
+                }
+            }
+        },
+        {
+            "component_name": "Web Socket Service",
+            "description": {
+                "role": {
+                    "explanation": "Handles bidirectional communication between the platform and the players, allowing information exchange. It processes data coming from players.",
+                    "page_number": "9, 44"
+                },
+                "technical_details": {
+                    "explanation": "Uses Web Socket technology. Acts as a producer for Kinesis Data Streams for playlog data.",
+                    "page_number": "9, 50"
+                },
+                "communication": {
+                    "explanation": "Connects with Players. Sends processed data to the Database and Cloud Services (specifically Kinesis Data Streams for Playlogs).",
+                    "page_number": "44, 50"
+                }
+            }
+        },
+        {
+            "component_name": "Database",
+            "description": {
+                "role": {
+                    "explanation": "Stores all necessary data for the system's operation, including user permissions, client data, and recent connection states.",
+                    "page_number": "44"
+                },
+                "technical_details": {
+                    "explanation": "Implemented as a MySQL relational database hosted on AWS RDS (Relational Database Service).",
+                    "page_number": "44"
+                },
+                "communication": {
+                    "explanation": "Interacted with by the Core Service and Analytic Module for reading and writing system data.",
+                    "page_number": "44"
+                }
+            }
+        },
+        {
+            "component_name": "AWS Cloud Infrastructure (Data Lake)",
+            "description": {
+                "role": {
+                    "explanation": "Forms a centralized repository (Data Lake) for storing historical data to be processed by the Analytic Module. Handles storage, streaming, and querying of large volumes of data.",
+                    "page_number": "44, 47"
+                },
+                "technical_details": {
+                    "explanation": "Consists of multiple AWS services: Amazon S3 (Object storage for JSON logs), Amazon DynamoDB (NoSQL for real-time playlogs), Amazon Kinesis (Data Streams for ingestion, Firehose for loading to S3), Amazon Athena (Serverless SQL query service), and AWS Glue (Data Catalog for metadata).",
+                    "page_number": "44, 45, 48, 49, 50"
+                },
+                "communication": {
+                    "explanation": "Receives data streams from Core, Web Socket, and API Player services (via Kinesis). Is queried by the Analytic Module (via Athena) and accessed by Core for real-time data (DynamoDB).",
+                    "page_number": "44, 50, 62"
+                }
+            }
+        }
+    ]
+}

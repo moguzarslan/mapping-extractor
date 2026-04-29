@@ -1,0 +1,319 @@
+{
+    "mappings": [
+        {
+            "component_name": "Presentation Layer (Web & Mobile Platforms)",
+            "related_requirements": [
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different playlogs of the system so that we can know what contents have been played on the different players of the system. Acceptance Criteria: Playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+                    "explanation": "This layer acts as the visual interface where users interact with the system to view information, including listing playlogs based on permissions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different player connections of the system so that we can know which players are connected and which are not. Acceptance Criteria: Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+                    "explanation": "This layer displays information to the user, allowing them to view player connections as part of the system interface.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different actions performed on the different entities of the platform so that we can know what actions have been performed on the platform over time. Acceptance Criteria: Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+                    "explanation": "This layer is responsible for displaying information to the user, enabling the viewing of platform actions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The project functionalities must be accessible only to users with the corresponding permissions. Acceptance Criteria: Users without permission cannot access the data for which they do not have permission.",
+                    "explanation": "As the visual interface, this layer enforces visibility of data depending on user permissions defined in the system.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component represents the 'Presentation' layer within the specified 3-layer Client-Server architecture.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "Communication between components must be done via Internet using HTTP protocol and REST API model.",
+                    "explanation": "The component description states it communicates with the Business Layer using the HTTP protocol.",
+                    "page_number": "41"
+                }
+            ]
+        },
+        {
+            "component_name": "API Gateway",
+            "related_requirements": [
+                {
+                    "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+                    "explanation": "This component explicitly implements the API Gateway design pattern as the single entry point for the Business Layer.",
+                    "page_number": "43"
+                },
+                {
+                    "requirement": "The project functionalities must be accessible only to users with the corresponding permissions. Acceptance Criteria: Users without permission cannot access the data for which they do not have permission.",
+                    "explanation": "The component role includes managing user management, authentication, and authorization before routing requests.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Confidential user information must be protected to guarantee their privacy. Acceptance Criteria: Users can only observe the confidential data of their user and no one else's.",
+                    "explanation": "Technical details state it handles SSL and authorization with the client, ensuring secure access.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component acts as the bridge between the Presentation Layer and the Business Layer services.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "Communication between components must be done via Internet using HTTP protocol and REST API model.",
+                    "explanation": "The component defines all REST API routes and receives requests from the Presentation Layer via HTTP.",
+                    "page_number": "41"
+                }
+            ]
+        },
+        {
+            "component_name": "Core Service",
+            "related_requirements": [
+                {
+                    "requirement": "The development framework must be NestJS with the TypeScript language.",
+                    "explanation": "Technical details explicitly state it is developed using the NestJS framework.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "The database used must be a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Communication section states it interacts with the MySQL Database.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store actions performed on the platform so that we can keep track of what actions have been performed on the platform. Acceptance Criteria: Each action has a date, client, user, and player assigned. All actions are performed on a platform entity.",
+                    "explanation": "Contains central logic for platform operations such as creating, editing, or deleting entities, and sends audit trail data to Kinesis streams.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "Historical data must be stored in a Data Lake formed by Amazon S3 services storing JSON documents.",
+                    "explanation": "Interacts with AWS Cloud Services specifically sending audit trail data to Kinesis streams which feed the Data Lake.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component serves as the main nucleus of the platform within the Business Layer.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+                    "explanation": "This component is a microservice within the Business Layer that receives processed requests from the API Gateway.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "Analytics Module",
+            "related_requirements": [
+                {
+                    "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+                    "explanation": "Responsible for obtaining and processing data related to playlogs to enable analysis of stored data.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+                    "explanation": "Responsible for obtaining and processing data related to connections.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store actions performed on the platform so that we can keep track of what actions have been performed on the platform. Acceptance Criteria: Each action has a date, client, user, and player assigned. All actions are performed on a platform entity.",
+                    "explanation": "Responsible for obtaining and processing data related to platform actions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different playlogs of the system so that we can know what contents have been played on the different players of the system. Acceptance Criteria: Playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+                    "explanation": "Enables the analysis of stored data, supporting the listing functionality for users with permissions.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different player connections of the system so that we can know which players are connected and which are not. Acceptance Criteria: Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+                    "explanation": "Processes connection data to allow listing of connections for authorized users.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "As any type of user with permissions, I want to be able to list the different actions performed on the different entities of the platform so that we can know what actions have been performed on the platform over time. Acceptance Criteria: Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+                    "explanation": "Processes action data to allow listing of actions for authorized users.",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The development framework must be NestJS with the TypeScript language.",
+                    "explanation": "Technical details describe it as a NestJS microservice developed specifically for this project.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Historical data must be stored in a Data Lake formed by Amazon S3 services storing JSON documents.",
+                    "explanation": "Uses services to query Amazon Athena and the database to retrieve historical data stored in the Data Lake.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component operates within the Business Layer of the 3-layer architecture.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+                    "explanation": "This component is a microservice within the Business Layer receiving requests from the API Gateway.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "API Player Service",
+            "related_requirements": [
+                {
+                    "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+                    "explanation": "Responsible for communicating with digital signage players to receive information such as reproduced content and stores it.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+                    "explanation": "Receives information such as player status from digital signage players and stores it.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The infrastructure must use AWS cloud services.",
+                    "explanation": "Sends processed data to Cloud Services for storage.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "The database used must be a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Sends processed data to the Database for storage.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component functions as part of the Business Layer.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+                    "explanation": "This component is a microservice within the Business Layer.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "Web Socket Service",
+            "related_requirements": [
+                {
+                    "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+                    "explanation": "Stores processed data in the Database and Cloud Services, specifically sending playlog data to Kinesis streams.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+                    "explanation": "Handles bidirectional communication between the platform and the players, maintaining persistent connections for real-time updates.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. Acceptance Criteria: The platform scales dynamically with changes in simultaneous connections.",
+                    "explanation": "Uses Web Socket technology to maintain persistent connections with players, supporting real-time updates required for high connection volumes.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The database used must be a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Stores processed data in the Database.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "Historical data must be stored in a Data Lake formed by Amazon S3 services storing JSON documents.",
+                    "explanation": "Sends playlog data to Kinesis streams which feed into the Data Lake.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component functions as part of the Business Layer.",
+                    "page_number": "41"
+                },
+                {
+                    "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+                    "explanation": "This component is a microservice within the Business Layer.",
+                    "page_number": "43"
+                }
+            ]
+        },
+        {
+            "component_name": "MySQL Database (AWS RDS)",
+            "related_requirements": [
+                {
+                    "requirement": "The database used must be a MySQL database implemented in the AWS RDS service.",
+                    "explanation": "Explicitly implemented as a relational distributed database service on AWS called RDS.",
+                    "page_number": "44"
+                },
+                {
+                    "requirement": "The project functionalities must be accessible only to users with the corresponding permissions. Acceptance Criteria: Users without permission cannot access the data for which they do not have permission.",
+                    "explanation": "Stores all necessary data for the functioning of the system, including user permissions.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "Confidential user information must be protected to guarantee their privacy. Acceptance Criteria: Users can only observe the confidential data of their user and no one else's.",
+                    "explanation": "Stores client details and current state information securely within the database.",
+                    "page_number": "39"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+                    "explanation": "Stores current state information which includes operational data related to playlogs.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+                    "explanation": "Stores current state information regarding player connections.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component constitutes the Data Layer of the architecture.",
+                    "page_number": "41"
+                }
+            ]
+        },
+        {
+            "component_name": "AWS Cloud Services (Data Lake)",
+            "related_requirements": [
+                {
+                    "requirement": "The infrastructure must use AWS cloud services.",
+                    "explanation": "Composed of multiple AWS services including Amazon S3, DynamoDB, Athena, Glue, and Kinesis.",
+                    "page_number": "8"
+                },
+                {
+                    "requirement": "Historical data must be stored in a Data Lake formed by Amazon S3 services storing JSON documents.",
+                    "explanation": "Forms a centralized repository (Data Lake) to store all historical records, with Amazon S3 storing JSON documents.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "Real-time playlogs must be stored in DynamoDB.",
+                    "explanation": "Technical details specify DynamoDB is used to store real-time playlogs within this component.",
+                    "page_number": "45"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+                    "explanation": "Stores historical playlogs in the Data Lake (S3/DynamoDB).",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+                    "explanation": "Stores historical connection records in the Data Lake.",
+                    "page_number": "35"
+                },
+                {
+                    "requirement": "As any type of user, I want the system to store actions performed on the platform so that we can keep track of what actions have been performed on the platform. Acceptance Criteria: Each action has a date, client, user, and player assigned. All actions are performed on a platform entity.",
+                    "explanation": "Stores audit trails and action history in the Data Lake (S3).",
+                    "page_number": "36"
+                },
+                {
+                    "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. Acceptance Criteria: The platform scales dynamically with changes in simultaneous connections.",
+                    "explanation": "Handles large-scale storage of structured and unstructured data, supporting dynamic scaling.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The system must be able to grow in capacity when the data volume increases. Acceptance Criteria: The system scales automatically while data increases.",
+                    "explanation": "Designed to handle large-scale storage and scales automatically with data increases.",
+                    "page_number": "38"
+                },
+                {
+                    "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+                    "explanation": "This component constitutes the Data Layer of the architecture.",
+                    "page_number": "41"
+                }
+            ]
+        }
+    ]
+}

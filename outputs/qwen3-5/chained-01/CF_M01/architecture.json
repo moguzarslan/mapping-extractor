@@ -1,0 +1,424 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Client-Server Architecture",
+            "explanation": "The system follows a client-server model where the client (user platform) makes requests to a server (software processing requests) over the internet.",
+            "page_number": [
+                "41"
+            ]
+        },
+        {
+            "pattern_name": "Layered Architecture (3-Tier)",
+            "explanation": "The system is divided into three logical layers: Presentation Layer (visual interface), Business Logic Layer (processing information), and Data Layer (storage).",
+            "page_number": [
+                "41"
+            ]
+        },
+        {
+            "pattern_name": "Microservices Architecture",
+            "explanation": "The business logic layer is composed of multiple independent services (Api Gateway, Core, Analytics Module, Api Player, Web Socket) that interact with each other to improve security, scalability, and availability.",
+            "page_number": [
+                "42",
+                "43"
+            ]
+        },
+        {
+            "pattern_name": "API Gateway Pattern",
+            "explanation": "A single entry point (Api Gateway) handles all client requests, managing authentication, authorization, SSL, and routing to internal microservices.",
+            "page_number": [
+                "43"
+            ]
+        },
+        {
+            "pattern_name": "Data Lake Architecture",
+            "explanation": "A centralized repository (using AWS services like S3) stores structured and unstructured data at scale without requiring modification or structuring beforehand, allowing for analysis.",
+            "page_number": [
+                "9",
+                "45",
+                "47"
+            ]
+        },
+        {
+            "pattern_name": "Event-Driven / Streaming Architecture",
+            "explanation": "Data transmission from producers (microservices) to consumers (storage/analysis) is handled via streaming services (Kinesis Data Streams) for near real-time processing.",
+            "page_number": [
+                "50",
+                "73"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Plataforma Web i Mòbil (Presentation Layer)",
+            "description": {
+                "role": {
+                    "explanation": "Visual interface of the Waapiti platform where users interact with the system.",
+                    "page_number": [
+                        "41",
+                        "42"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Web and mobile interfaces communicating via HTTP protocol.",
+                    "page_number": [
+                        "42"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Communicates with the Api Gateway component via HTTP.",
+                    "page_number": [
+                        "42"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Api Gateway",
+            "description": {
+                "role": {
+                    "explanation": "Manages, authenticates, and authorizes users; defines REST API routes and processes requests to send to Core and Analytics Module.",
+                    "page_number": [
+                        "43",
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Implemented using NestJS framework.",
+                    "page_number": [
+                        "46"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives HTTP requests from clients; communicates with Core, Analytics Module, and Players via TCP.",
+                    "page_number": [
+                        "43",
+                        "44"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Servei Core",
+            "description": {
+                "role": {
+                    "explanation": "Main business logic of the platform; interacts primarily with the database and cloud services.",
+                    "page_number": [
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "NestJS microservice handling platform actions (create, edit, delete entities).",
+                    "page_number": [
+                        "73"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Interacts with Api Gateway (via TCP), Database, and sends data to Kinesis Data Streams for Audit Trail.",
+                    "page_number": [
+                        "44",
+                        "73"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Mòdul analític (Analytics Module)",
+            "description": {
+                "role": {
+                    "explanation": "Obtains and processes data from playlogs, connections, and platform actions for analysis.",
+                    "page_number": [
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "NestJS microservice developed specifically for this project, interacting with AWS Athena and Database.",
+                    "page_number": [
+                        "62"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives requests from Api Gateway; queries Amazon Athena and Database; returns results to Api Gateway.",
+                    "page_number": [
+                        "44",
+                        "66"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Api Player",
+            "description": {
+                "role": {
+                    "explanation": "Communicates with players to receive information such as player status, content played, and calendars.",
+                    "page_number": [
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "NestJS microservice.",
+                    "page_number": [
+                        "46"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives information from Players; processes and stores data.",
+                    "page_number": [
+                        "44"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Web Socket",
+            "description": {
+                "role": {
+                    "explanation": "Enables bidirectional communication between the platform and players for information exchange.",
+                    "page_number": [
+                        "8",
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "NestJS microservice handling WebSocket connections.",
+                    "page_number": [
+                        "46"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Processes data from players; stores data in Database and Cloud Services; generates Playlog data sent to Kinesis.",
+                    "page_number": [
+                        "44",
+                        "50"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Base de dades (MySQL)",
+            "description": {
+                "role": {
+                    "explanation": "Stores all necessary data for system functioning.",
+                    "page_number": [
+                        "44"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Relational database implemented in AWS RDS service.",
+                    "page_number": [
+                        "44"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Interacted with by Core and Analytics Module services.",
+                    "page_number": [
+                        "44",
+                        "62"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Amazon S3",
+            "description": {
+                "role": {
+                    "explanation": "Object storage service forming part of the Data Lake to store historical documents (JSON).",
+                    "page_number": [
+                        "45",
+                        "48"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Stores JSON files organized by date, client, and user folders.",
+                    "page_number": [
+                        "48"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives data from Kinesis Data Firehose; queried by Amazon Athena.",
+                    "page_number": [
+                        "51",
+                        "49"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Amazon DynamoDB",
+            "description": {
+                "role": {
+                    "explanation": "Non-relational database storing playlogs in real-time.",
+                    "page_number": [
+                        "45",
+                        "48"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Uses Composite Key (Partition Key: player ID, Sort Key: date/time).",
+                    "page_number": [
+                        "48"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Used by Core/Web Socket for real-time storage.",
+                    "page_number": [
+                        "45"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Kinesis Data Streams",
+            "description": {
+                "role": {
+                    "explanation": "Data ingestion and processing service for streaming data (Playlogs and Audit Trail).",
+                    "page_number": [
+                        "50"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Generators are NestJS microservices (WebSocket, Core); Consumers are Kinesis Data Firehose.",
+                    "page_number": [
+                        "50"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Receives data from Core and Web Socket; sends data to Kinesis Data Firehose.",
+                    "page_number": [
+                        "50",
+                        "73"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Kinesis Data Firehose",
+            "description": {
+                "role": {
+                    "explanation": "Loads large amounts of data into data stores (S3).",
+                    "page_number": [
+                        "51"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Configured to load data every 60 seconds or when reaching 5MB; performs dynamic partitioning.",
+                    "page_number": [
+                        "51"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Reads from Kinesis Data Streams; writes to Amazon S3.",
+                    "page_number": [
+                        "51"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "Amazon Athena",
+            "description": {
+                "role": {
+                    "explanation": "Serverless query service allowing SQL queries on data stored in S3.",
+                    "page_number": [
+                        "49"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Executes parallel queries on JSON/CSV/Parquet formats; uses partitions for efficiency.",
+                    "page_number": [
+                        "49"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Queried by Analytics Module to retrieve data from S3.",
+                    "page_number": [
+                        "62",
+                        "66"
+                    ]
+                }
+            }
+        },
+        {
+            "component_name": "AWS Glue",
+            "description": {
+                "role": {
+                    "explanation": "Serverless data integration service used for metadata storage (Data Catalog).",
+                    "page_number": [
+                        "49"
+                    ]
+                },
+                "technical_details": {
+                    "explanation": "Stores metadata about data location and table definitions including partitions.",
+                    "page_number": [
+                        "49"
+                    ]
+                },
+                "communication": {
+                    "explanation": "Works in conjunction with Athena to read data correctly from S3.",
+                    "page_number": [
+                        "49"
+                    ]
+                }
+            }
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Dependency Injection",
+            "associated_components": [
+                "Servei Core",
+                "Mòdul analític",
+                "Api Gateway"
+            ],
+            "explanation": "NestJS Providers (Services) are designed to be injected as dependencies into Modules or other components to manage business logic and external service connections.",
+            "page_number": [
+                "60",
+                "63"
+            ]
+        },
+        {
+            "pattern_name": "Controller Pattern",
+            "associated_components": [
+                "Api Gateway",
+                "Mòdul analític"
+            ],
+            "explanation": "Classes responsible for receiving HTTP requests and processing them, delegating logic to providers/services.",
+            "page_number": [
+                "60",
+                "64"
+            ]
+        },
+        {
+            "pattern_name": "Service Pattern",
+            "associated_components": [
+                "Servei Core",
+                "Mòdul analític"
+            ],
+            "explanation": "Classes containing the business logic of the application, imported into modules and used by controllers.",
+            "page_number": [
+                "60",
+                "61"
+            ]
+        },
+        {
+            "pattern_name": "Scheduler / Cron Job",
+            "associated_components": [
+                "Mòdul analític"
+            ],
+            "explanation": "Uses the @Cron decorator from @nestjs/schedule to execute functions periodically (e.g., obtaining connections every hour).",
+            "page_number": [
+                "72"
+            ]
+        },
+        {
+            "pattern_name": "Guard / Middleware",
+            "associated_components": [
+                "Api Gateway",
+                "Mòdul analític"
+            ],
+            "explanation": "Uses @UseGuards decorator to perform validation and permission checks before accessing endpoint functions.",
+            "page_number": [
+                "66"
+            ]
+        }
+    ]
+}

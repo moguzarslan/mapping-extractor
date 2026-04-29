@@ -1,0 +1,316 @@
+{
+    "mappings": {
+        "architectural_patterns": [
+            {
+                "pattern_name": "Microservices",
+                "related_requirements": [
+                    {
+                        "requirement": "The web application must support a large number of simultaneous users without degrading its performance.",
+                        "explanation": "The system is structured as a set of small, independent, and autonomous services where each microservice can be deployed, scaled, and maintained independently, supporting high concurrency."
+                    },
+                    {
+                        "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Microservices allow for independent maintenance and scaling, contributing to overall system stability and availability."
+                    },
+                    {
+                        "requirement": "The application must manage a strict separation of data for each client.",
+                        "explanation": "In a microservices architecture, services are decoupled, allowing for database schemas to be separated by microservice and client as described in the component details."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Cloud Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The provider for this project is Amazon Web Services.",
+                        "explanation": "The application is designed, deployed, and executed using cloud computing services (Amazon Web Services) instead of local physical servers."
+                    },
+                    {
+                        "requirement": "For the deployment of the application, Amazon EKS has been used.",
+                        "explanation": "Cloud Architecture utilizes cloud computing services for deployment, specifically aligning with the use of Amazon EKS mentioned in the constraints."
+                    },
+                    {
+                        "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Cloud Architecture allows for high scalability, availability, and accessibility via the internet."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Client-Server",
+                "related_requirements": [
+                    {
+                        "requirement": "The client has been developed with Angular.",
+                        "explanation": "The code is organized into two differentiated components: the client (Angular SPA) that formulates service requests."
+                    },
+                    {
+                        "requirement": "Spring Boot has been used for the server.",
+                        "explanation": "The code is organized into two differentiated components: the server (Spring Boot) that receives, processes, and returns responses."
+                    },
+                    {
+                        "requirement": "The message exchange protocol used in this case is HTTP.",
+                        "explanation": "The client and server communicate via HTTP/JSON as defined in the Client-Server pattern description."
+                    },
+                    {
+                        "requirement": "The data format used is JSON.",
+                        "explanation": "The server returns responses via HTTP/JSON, matching the required data format."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Layered Architecture",
+                "related_requirements": [
+                    {
+                        "requirement": "The system must allow the creation, consultation, modification and deletion of data to authorized users.",
+                        "explanation": "The backend server organizes code into separated responsibility layers including Business Logic and Data Access, facilitating CRUD operations."
+                    },
+                    {
+                        "requirement": "Spring Boot has been used for the server.",
+                        "explanation": "The backend server organizes code into separated responsibility layers (Presentation, Business Logic, Domain, etc.) consistent with Spring Boot structure."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "MVVM (Model-View-ViewModel)",
+                "related_requirements": [
+                    {
+                        "requirement": "The client has been developed with Angular.",
+                        "explanation": "The Angular frontend implements this pattern where the View consists of HTML/SCSS files and the ViewModel contains TypeScript components."
+                    },
+                    {
+                        "requirement": "The new content must maintain visual coherence with the design of the old version of the application.",
+                        "explanation": "MVVM separates the View (HTML/SCSS) from logic, allowing for controlled visual updates while maintaining coherence."
+                    },
+                    {
+                        "requirement": "The application must be available in several languages.",
+                        "explanation": "The ViewModel and Models define data contracts and synchronization, supporting multi-language content management in the View."
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "component_name": "Leader",
+                "related_requirements": [
+                    {
+                        "requirement": "Access to the portal through personal credential authentication.",
+                        "explanation": "Acts as the central routing point and incorporates security mechanisms to block unauthorized connection attempts."
+                    },
+                    {
+                        "requirement": "Restrict the visualization and actions (create, modify and delete) on data according to the roles assigned to the user.",
+                        "explanation": "Manages traffic between external services and internal microservices, ensuring ordered and secure interaction based on routing policies."
+                    },
+                    {
+                        "requirement": "Guarantee that data of other clients cannot be accessed.",
+                        "explanation": "Incorporates security mechanisms to block unauthorized connection attempts and applies security protocols."
+                    }
+                ]
+            },
+            {
+                "component_name": "Portal",
+                "related_requirements": [
+                    {
+                        "requirement": "Visualize the applications of the portal to which the user has access.",
+                        "explanation": "Provides a centralized interface for accessing different VWGS applications and acts as the entry point for users."
+                    },
+                    {
+                        "requirement": "Access the applications to which the user has access in the portal.",
+                        "explanation": "Acts as the entry point for users, offering a unified experience to access applications."
+                    },
+                    {
+                        "requirement": "The system must be easy to use for any user.",
+                        "explanation": "Offers a unified experience as the entry point for users."
+                    }
+                ]
+            },
+            {
+                "component_name": "Access Control",
+                "related_requirements": [
+                    {
+                        "requirement": "Access to the portal through personal credential authentication.",
+                        "explanation": "Manages user authentication and permissions within the application. Verifies identity."
+                    },
+                    {
+                        "requirement": "Restrict the visualization and actions (create, modify and delete) on data according to the roles assigned to the user.",
+                        "explanation": "Determines permissions based on roles and policies. Handles creation and maintenance of roles."
+                    },
+                    {
+                        "requirement": "Assign or revoke access to applications to users.",
+                        "explanation": "Manages user authentication and permissions within the application."
+                    },
+                    {
+                        "requirement": "Authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+                        "explanation": "Essential for maintaining confidentiality and data protection through role verification."
+                    }
+                ]
+            },
+            {
+                "component_name": "Communication Log",
+                "related_requirements": [
+                    {
+                        "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Acts as a traceability and audit mechanism, generating graphs representing incidents and response times to monitor stability."
+                    },
+                    {
+                        "requirement": "Query operations must have a load time less than 1 second.",
+                        "explanation": "Generates graphs and interactive panels representing communication statistics and response times."
+                    }
+                ]
+            },
+            {
+                "component_name": "Scheduler",
+                "related_requirements": [
+                    {
+                        "requirement": "Dates must be valid and cannot be later than the present.",
+                        "explanation": "Executes maintenance tasks (e.g., cleaning old logs) which helps enforce data validity over time."
+                    },
+                    {
+                        "requirement": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+                        "explanation": "Executes monitoring tasks (e.g., periodic tests) to ensure system health."
+                    }
+                ]
+            },
+            {
+                "component_name": "Database (Amazon RDS)",
+                "related_requirements": [
+                    {
+                        "requirement": "Primary keys: (User, id), (Language, id), (ClusterType, id), (Application, id), (Authority, id), (Role, id), (Brand, id), (Cluster, id).",
+                        "explanation": "Stores persistent data for the system with defined schemas per microservice."
+                    },
+                    {
+                        "requirement": "Each language_id of each content table belongs to an existing Language.",
+                        "explanation": "Stores persistent data ensuring referential integrity within the schemas."
+                    },
+                    {
+                        "requirement": "The application must manage a strict separation of data for each client.",
+                        "explanation": "Decoupled by microservice and client; each client has its own group of schemas per microservice."
+                    },
+                    {
+                        "requirement": "Query operations must have a load time less than 1 second.",
+                        "explanation": "Connected to by all internal microservices for data persistence and retrieval, optimized for performance."
+                    }
+                ]
+            },
+            {
+                "component_name": "Frontend (Angular SPA)",
+                "related_requirements": [
+                    {
+                        "requirement": "The client has been developed with Angular.",
+                        "explanation": "Developed with Angular 11+, using TypeScript, HTML, and SCSS."
+                    },
+                    {
+                        "requirement": "The system must be easy to use for any user.",
+                        "explanation": "Responsible for presentation and user experience."
+                    },
+                    {
+                        "requirement": "The user must be able to perform new operations without special training.",
+                        "explanation": "Encapsulates interface logic to coordinate calls to the server API intuitively."
+                    },
+                    {
+                        "requirement": "The application must be available in several languages.",
+                        "explanation": "Responsible for presentation, handling the display of multi-language content."
+                    }
+                ]
+            },
+            {
+                "component_name": "Backend (Spring Boot)",
+                "related_requirements": [
+                    {
+                        "requirement": "Spring Boot has been used for the server.",
+                        "explanation": "Developed with Spring Boot 2.2.2 and Java OpenJDK 17."
+                    },
+                    {
+                        "requirement": "Java OpenJDK 17.",
+                        "explanation": "Developed with Spring Boot 2.2.2 and Java OpenJDK 17."
+                    },
+                    {
+                        "requirement": "The system must allow the creation, consultation, modification and deletion of data to authorized users.",
+                        "explanation": "Handles business logic, security, data integrity, and persistence. Exposes a REST API."
+                    },
+                    {
+                        "requirement": "The message exchange protocol used in this case is HTTP.",
+                        "explanation": "Communicates with the Frontend via HTTP requests exchanging JSON data."
+                    }
+                ]
+            }
+        ],
+        "design_patterns": [
+            {
+                "pattern_name": "Repository",
+                "related_requirements": [
+                    {
+                        "requirement": "Primary keys: (User, id), (Language, id), (ClusterType, id), (Application, id), (Authority, id), (Role, id), (Brand, id), (Cluster, id).",
+                        "explanation": "Encapsulates the data access logic and provides default operations for managing primary keys."
+                    },
+                    {
+                        "requirement": "Query operations must have a load time less than 1 second.",
+                        "explanation": "Allows explicit SQL query definitions for advanced needs, optimizing data retrieval performance."
+                    },
+                    {
+                        "requirement": "Each language_id of each content table belongs to an existing Language.",
+                        "explanation": "Encapsulates data access logic ensuring referential integrity during queries."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "DTO (Data Transfer Object)",
+                "related_requirements": [
+                    {
+                        "requirement": "The data format used is JSON.",
+                        "explanation": "Acts as containers of information to structure data needed for each request, providing a customized format based on response requirements."
+                    },
+                    {
+                        "requirement": "The message exchange protocol used in this case is HTTP.",
+                        "explanation": "Structures data for transfer over HTTP/JSON protocols."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Mapper",
+                "related_requirements": [
+                    {
+                        "requirement": "The data format used is JSON.",
+                        "explanation": "Responsible for converting between DTOs and Models, ensuring correct transformation when transferring information to the presentation layer."
+                    },
+                    {
+                        "requirement": "The system must allow the creation, consultation, modification and deletion of data to authorized users.",
+                        "explanation": "Guarantees correct and efficient transformation of data when transferring information to the persistence layer."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Service",
+                "related_requirements": [
+                    {
+                        "requirement": "Restrict the visualization and actions (create, modify and delete) on data according to the roles assigned to the user.",
+                        "explanation": "Offers the interface and implementation of all business logic. Executes complex operations combining validation."
+                    },
+                    {
+                        "requirement": "Assign or revoke access to applications to users.",
+                        "explanation": "Executes complex operations combining validation, processing, and data flow between components."
+                    },
+                    {
+                        "requirement": "The system must allow the creation, consultation, modification and deletion of data to authorized users.",
+                        "explanation": "Offers the interface and implementation of all business logic."
+                    }
+                ]
+            },
+            {
+                "pattern_name": "Controller",
+                "related_requirements": [
+                    {
+                        "requirement": "The message exchange protocol used in this case is HTTP.",
+                        "explanation": "Processes received requests and defines REST operations for each model."
+                    },
+                    {
+                        "requirement": "Query operations must have a load time less than 1 second.",
+                        "explanation": "Channels requests to corresponding modules/services in the data layer efficiently."
+                    },
+                    {
+                        "requirement": "The data format used is JSON.",
+                        "explanation": "Processes received requests and manages information validation for JSON payloads."
+                    }
+                ]
+            }
+        ]
+    }
+}

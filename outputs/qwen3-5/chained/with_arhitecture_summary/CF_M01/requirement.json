@@ -1,0 +1,104 @@
+{
+    "requirements": [
+        {
+            "requirement": "As any type of user, I want the system to store playlogs from players so that we can keep track of contents played on different players. Acceptance Criteria: Each playlog has a date, client, and player assigned.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "As any type of user, I want the system to store player connections so that we can keep track of which players are connected at each hour. Acceptance Criteria: Each connection has a date, client, and player assigned. Connection status can only be connected or not connected.",
+            "page_number": "35",
+            "type": "functional"
+        },
+        {
+            "requirement": "As any type of user, I want the system to store actions performed on the platform so that we can keep track of what actions have been performed on the platform. Acceptance Criteria: Each action has a date, client, user, and player assigned. All actions are performed on a platform entity.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "As any type of user with permissions, I want to be able to list the different playlogs of the system so that we can know what contents have been played on the different players of the system. Acceptance Criteria: Playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "As any type of user with permissions, I want to be able to list the different player connections of the system so that we can know which players are connected and which are not. Acceptance Criteria: Connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "As any type of user with permissions, I want to be able to list the different actions performed on the different entities of the platform so that we can know what actions have been performed on the platform over time. Acceptance Criteria: Actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
+            "page_number": "36",
+            "type": "functional"
+        },
+        {
+            "requirement": "The system must respond quickly when the user performs any action. Acceptance Criteria: The system responds to any user action in less than 5 seconds.",
+            "page_number": "37",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must always be available at all times, except for some punctuality, such as an update. Acceptance Criteria: Any user must be able to access the platform at any moment of the day. Except in scheduled updates.",
+            "page_number": "37",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. Acceptance Criteria: The platform scales dynamically with changes in simultaneous connections.",
+            "page_number": "38",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The system must be able to grow in capacity when the data volume increases. Acceptance Criteria: The system scales automatically while data increases.",
+            "page_number": "38",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The project functionalities must be accessible only to users with the corresponding permissions. Acceptance Criteria: Users without permission cannot access the data for which they do not have permission.",
+            "page_number": "39",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "Confidential user information must be protected to guarantee their privacy. Acceptance Criteria: Users can only observe the confidential data of their user and no one else's.",
+            "page_number": "39",
+            "type": "non-functional"
+        },
+        {
+            "requirement": "The development framework must be NestJS with the TypeScript language.",
+            "page_number": "8",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The infrastructure must use AWS cloud services.",
+            "page_number": "8",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The database used must be a MySQL database implemented in the AWS RDS service.",
+            "page_number": "44",
+            "type": "constraint"
+        },
+        {
+            "requirement": "Historical data must be stored in a Data Lake formed by Amazon S3 services storing JSON documents.",
+            "page_number": "45",
+            "type": "constraint"
+        },
+        {
+            "requirement": "Real-time playlogs must be stored in DynamoDB.",
+            "page_number": "45",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The architecture must follow a Client-Server model divided into 3 layers: Presentation, Business, and Data.",
+            "page_number": "41",
+            "type": "constraint"
+        },
+        {
+            "requirement": "The Business Layer must use a Microservices architecture with an API Gateway design pattern.",
+            "page_number": "43",
+            "type": "constraint"
+        },
+        {
+            "requirement": "Communication between components must be done via Internet using HTTP protocol and REST API model.",
+            "page_number": "41",
+            "type": "constraint"
+        }
+    ]
+}
