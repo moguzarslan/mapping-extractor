@@ -1,11 +1,10 @@
-from platform import architecture
 from typing import Union
 
-from document_service import read_document
-from image_transformer import ImageTransformer
-from json_service import extract_json_from_response, save_json
-from prompts import Prompts
-from qwen_client import ask_qwen
+from infra.document_service import read_document
+from utils.image_transformer import ImageTransformer
+from utils.json_service import extract_json_from_response, save_json
+from resource.prompts.prompts import Prompts
+from infra.qwen_client import ask_qwen
 
 
 def build_document_prompt(

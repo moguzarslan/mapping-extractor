@@ -1,7 +1,7 @@
-from prompts import Prompts
+from resource.prompts.prompts import Prompts
 import os
 from dotenv import load_dotenv
-from prompt_service import process_single_prompt, process_chained_prompt
+from service.prompt_service import process_single_prompt, process_chained_prompt
 load_dotenv()
 
 
@@ -25,16 +25,18 @@ if __name__ == "__main__":
         for file_name in file_names:
 
             try:
+                folder = ("resource/docs/" + file_name).strip()
+                file = folder + "/" + file_name + ".pdf"
                 process_chained_prompt(
-                    file="docs/" + file_name + "/" + file_name + ".pdf",
-                    folder=("docs/" + file_name).strip(),
+                    file=file,
+                    folder=folder,
                     final_prompt=Prompts.CHAINED_MAPPING_EXTRACTION_PROMPT,
                     output_dir="outputs/chained/"+file_name
                 )
 
                 process_single_prompt(
-                    file="docs/" + file_name + "/" + file_name + ".pdf",
-                    folder=("docs/" + file_name).strip(),
+                    file=file,
+                    folder=folder,
                     prompt=Prompts.MAPPING_EXTRACTION_PROMPT,
                     output_dir="outputs/single"
                 )
