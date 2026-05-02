@@ -45,6 +45,9 @@ def extract_json_from_response(response: str):
 
     raise ValueError("No valid JSON could be parsed from the model response.")
 
+def extract_json_from_file (file):
+    with open(file, "r") as f:
+        return json.load(f)
 
 def save_json(response:str,file_path: str, output_dir: str = "outputs") -> Path:
     data = extract_json_from_response(response)
