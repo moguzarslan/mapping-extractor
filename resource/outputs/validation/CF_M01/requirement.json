@@ -1,0 +1,124 @@
+{
+    "evaluations": [
+        {
+            "requirement": "Emmagatzemar playlogs",
+            "referenced_pages": [
+                "35"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H1 es troba a la pàgina 35 i descriu exactament l'emmagatzematge dels playlogs dels players, amb tots els detalls necessaris per a la seva acceptació."
+        },
+        {
+            "requirement": "Emmagatzemar connexions",
+            "referenced_pages": [
+                "35"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H2 es troba a la pàgina 35 i descriu l'emmagatzematge de les connexions dels players, amb tots els criteris d'acceptació necessaris."
+        },
+        {
+            "requirement": "Emmagatzemar accions de plataforma",
+            "referenced_pages": [
+                "35"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H3 es troba a la pàgina 35 i descriu l'emmagatzematge de les accions realitzades sobre la plataforma, amb tots els criteris d'acceptació necessaris."
+        },
+        {
+            "requirement": "Llistar playlogs",
+            "referenced_pages": [
+                "36"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H4 es troba a la pàgina 36 i descriu la funcionalitat de llistar els playlogs del sistema, amb tots els criteris d'acceptació necessaris."
+        },
+        {
+            "requirement": "Llistar connexions",
+            "referenced_pages": [
+                "36"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H5 es troba a la pàgina 36 i descriu la funcionalitat de llistar les connexions dels players del sistema, amb tots els criteris d'acceptació necessaris."
+        },
+        {
+            "requirement": "Llistar accions de plataforma",
+            "referenced_pages": [
+                "36"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "La història d'usuari H6 es troba a la pàgina 36 i descriu la funcionalitat de llistar les accions realitzades sobre les entitats de la plataforma, amb tots els criteris d'acceptació necessaris."
+        },
+        {
+            "requirement": "Velocitat i latència",
+            "referenced_pages": [
+                "37"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 12a es troba a la pàgina 37 i especifica que el sistema ha de respondre en menys de 5 segons, amb tota la justificació i acceptació necessàries."
+        },
+        {
+            "requirement": "Disponibilitat i fiabilitat",
+            "referenced_pages": [
+                "38"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 12d es troba a la pàgina 38 i especifica que el sistema ha de ser sempre disponible, amb tota la justificació i acceptació necessàries."
+        },
+        {
+            "requirement": "Capacitat",
+            "referenced_pages": [
+                "38"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 12f es troba a la pàgina 38 i especifica que el sistema ha de suportar un nombre il·limitat de connexions, amb tota la justificació i acceptació necessàries."
+        },
+        {
+            "requirement": "Escalabilitat",
+            "referenced_pages": [
+                "39"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 12g es troba a la pàgina 39 i especifica que el sistema ha d'escalar amb el volum de dades, amb tota la justificació i acceptació necessàries."
+        },
+        {
+            "requirement": "Accés",
+            "referenced_pages": [
+                "39"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 15a es troba a la pàgina 39 i especifica que les funcionalitats han de ser solament accessibles als usuaris amb permisos, amb tota la justificació i acceptació necessàries."
+        },
+        {
+            "requirement": "Privacitat",
+            "referenced_pages": [
+                "39"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit 15c es troba a la pàgina 39 i especifica que la informació confidencial ha d'estar protegida, amb tota la justificació i acceptació necessàries."
+        }
+    ]
+}
