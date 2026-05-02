@@ -273,3 +273,144 @@ class Prompts:
     }
     ...
     """
+    REQUIREMENT_VALIDATION_PROMPT = """
+    Objective:
+    You are a strict evaluator. Your task is to validate a JSON output extracted from a source document.
+    
+    Inputs:
+    1. Source document with page numbers.
+    2. JSON output containing extracted requirements. Each requirement includes:
+       - requirement title/name
+       - requirement sentence/explanation
+       - requirement type/category
+       - referenced page number(s)
+    
+    Instructions for each requirement:    
+    1. Go to every referenced page in the source document. Check whether the requirement is actually supported by the referenced page(s). Assign P:
+        - P = 1 if the requirement is found or clearly supported in the referenced page(s).
+        - P = 0 if the requirement is not found or not supported in the referenced page(s).
+    
+    2. Compare the extracted requirement sentence with the source text. Assign M:
+        - M = 0 if the extracted requirement has a completely different meaning.
+        - M = 0.5 if the meaning is mostly preserved but the sentence includes extra invented justification, assumptions, or unsupported details or some part of the reequirement is missing.
+        - M = 1 if the meaning is completely preserved and there is no invented information.
+    
+    3. Check whether the assigned requirement type/category is correct. Assign T:
+    - T = 1 if the requirement type is correct.
+    - T = 0 if the requirement type is incorrect.
+    
+    
+    Rules:
+    - Be strict about invented information.
+    - Avoid rewarding explanations that sound plausible but are not supported by the referenced page.
+    - Translations are allowed, but the original meaning must be preserved.
+    - Ensure whole output is given in English (Including requirement titles/sentences).
+
+    
+    Output Format (JSON):
+    {
+      "evaluations": [
+        {
+          "requirement": "string",
+          "referenced_pages": ["string"],
+          "P": 0 or 1,
+          "M": 0 or 0.5 or 1,
+          "T": 0 or 1,
+          "justification": "Brief explanation about deducted points (if there is any)."
+        }
+      ]
+    }
+        ... 
+        """
+    ARCHITECTURE_VALIDATION_PROMPT = """
+    Objective:
+    You are a strict evaluator. Your task is to validate an architecture JSON extracted from a software document.
+    
+    Inputs:
+    1. Source document.
+    2. Architecture JSON containing:
+       - architectural patterns
+       - components
+       - design patterns  
+    Each item includes explanations and referenced page number(s).
+    
+    Instructions:
+    1. For each architectural pattern, check pattern exists and is supported by the document.      
+       Assign E:  
+       - Role of the component is correct  (1 point)
+       - There is no missing information that can change component's role drastically. (1 point)
+       - There is no invented information. (1 point)
+       - Reference pages are correctly identified. (1 point) 
+    
+    2. For each component, go to every referenced page for each sub-field (role, technical details, communication).  
+       Evaluate role explanation:  
+       Assign R:  
+       - Role of the component is correct  (1 point)
+       - There is no missing information that can change component's role drastically. (1 point)
+       - There is no invented information. (1 point)
+       - Reference pages are correctly identified. (1 point)
+       
+       Evaluate technical details explanation:  
+       Assign T:  
+       - Technical details are correct and supported by document (1 point)
+       - There is no missing technical aspect that is majorly considered in the paper. (1 point)
+       - There is no invented information. (1 point)
+       - Reference pages are correctly identified. (1 point)
+       
+       Evaluate communication explanation:  
+       Assign C:  
+       - Communication flows are correct and supported by document (1 point)
+       - There is no missing communication flow. (1 point)
+       - There is no invented information. (1 point)
+       - Reference pages are correctly identified. (1 point)
+
+    
+    3. For each design pattern, go to every referenced page and validate both association and explanation.  
+       Evaluate associated components:  
+       Assign A:  
+       - A = (number of correctly supported component associations) / (total number of components listed)  
+       Evaluate explanation:  
+       Assign C:  
+       - Design pattern is correct and supported by document (1 point)
+       - There is no invented information. (1 point)
+       - Reference pages are correctly identified. (1 point)
+
+    
+    Rules
+    - Avoid assuming correctness if not explicitly supported.  
+    - Be strict about invented or exaggerated explanations.  
+    - In justifications only explain the reason for deducted points.  
+    - Ensure whole output is given in English.
+    
+    Output JSON:
+    
+    Return only valid JSON in the following format:
+    
+    {
+      "architectural_patterns": [
+        {
+          "pattern_name": "string",
+          "P": 0 or 1,
+          "E": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ],
+      "components": [
+        {
+          "component_name": "string",
+          "R": number,
+          "T": number,
+          "C": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ],
+      "design_patterns": [
+        {
+          "pattern_name": "string",
+          "A": number,
+          "C": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ]
+    }
+    """
