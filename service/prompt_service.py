@@ -2,7 +2,7 @@ from typing import Union
 
 from infra.document_service import read_document
 from utils.image_transformer import ImageTransformer
-from utils.json_service import extract_json_from_response, save_json
+from utils.json_service import extract_json_from_response, save_json, extract_json_from_file
 from resource.prompts.prompts import Prompts
 from infra.qwen_client import ask_qwen
 
@@ -128,7 +128,9 @@ def process_chained_prompt(file: str, folder: str, final_prompt: str, output_dir
 def process_validation_prompt(file: str, input_json_dir: str, prompt:str, output_file_name: str, output_dir: str = "outputs") -> None:
 
     print(f"Processing validation prompt: {file}")
-    validation_prompt = build_validation_prompt(file, prompt, input_json_dir)
+    input_json =  extract_json_from_file(input_json_dir)
+    validation_prompt = build_validation_prompt(file, prompt, input_json)
+
     validation_response = ask_qwen(
         user_prompt=validation_prompt
     )

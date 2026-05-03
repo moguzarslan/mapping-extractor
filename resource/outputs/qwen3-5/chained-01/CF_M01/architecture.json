@@ -146,12 +146,12 @@
             }
         },
         {
-            "component_name": "Api Player",
+            "component_name": "Api weird",
             "description": {
                 "role": {
-                    "explanation": "Communicates with players to receive information such as player status, content played, and calendars.",
+                    "explanation": "Communicates with amazon S3 directly.",
                     "page_number": [
-                        "44"
+                        "54"
                     ]
                 },
                 "technical_details": {
@@ -390,13 +390,13 @@
         {
             "pattern_name": "Service Pattern",
             "associated_components": [
-                "Servei Core",
+                "Service something",
                 "Mòdul analític"
             ],
             "explanation": "Classes containing the business logic of the application, imported into modules and used by controllers.",
             "page_number": [
-                "60",
-                "61"
+                "90",
+                "91"
             ]
         },
         {

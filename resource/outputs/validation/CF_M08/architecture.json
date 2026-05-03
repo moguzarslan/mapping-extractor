@@ -4,7 +4,7 @@
             "pattern_name": "Microservices Architecture",
             "P": 1,
             "E": 4,
-            "justification": "The document explicitly describes a microservices-based architecture, detailing the separation of concerns into distinct services (Security Service, System Service, Data Service). Each service is containerized and managed independently, which aligns with the principles of microservices. The roles of each component are clearly defined, and there is no invented information or missing critical details."
+            "justification": "The document explicitly describes a microservices-based architecture, detailing the separation of concerns into distinct services (Security Service, System Service, Data Service). Each service is containerized using Docker and managed independently. The description aligns with the principles of microservices, including independent deployment, scalability, and fault tolerance. All references to architectural components are correctly identified in the '7.1. Arquitectura del Sistema' section."
         }
     ],
     "components": [
@@ -13,35 +13,35 @@
             "R": 4,
             "T": 3,
             "C": 3,
-            "justification": "The role of Traefik as a reverse proxy and load balancer is correctly explained in the document. Technical details such as its function as an entry point for HTTP/HTTPS traffic and its interaction with Docker containers are supported. Communication flows are described, including routing requests to the System Service. However, the document could provide more detail on how Traefik handles failover scenarios or specific load balancing algorithms used."
+            "justification": "Role: The component acts as a reverse proxy and load balancer, correctly routing HTTP/HTTPS traffic to internal services. Technical Details: The document provides detailed configuration for Traefik, including port exposure (80 and 443), TLS certificate management, and routing rules. Communication: The flow of traffic from external clients through Traefik to the System Service is clearly described. References: All technical details and communication flows are supported by the '7.2. Diseño de la Seguridad (Security Service)' section."
         },
         {
             "component_name": "System Service (Next.js)",
             "R": 4,
             "T": 3,
             "C": 3,
-            "justification": "The System Service's role as the main application server using Next.js is accurately described. Technical details about its use of server actions, client-server rendering, and integration with external services like Stripe and Google Analytics are supported. Communication flows between the System Service and other components (e.g., Data Service) are explained. However, the document lacks detailed information on how the system handles high-concurrency scenarios or specific performance optimizations."
+            "justification": "Role: The component serves the web application using React and interacts with the database via Prisma. Technical Details: The document outlines the use of Next.js, Prisma, Stripe, Google Analytics, Sentry, and Brevo for various functionalities. Communication: The system's interaction with external services (e.g., payment processing, analytics) is well-documented. References: All roles, technical details, and communication flows are supported by the '7.3. Diseño del Sistema (System Service)' section."
         },
         {
             "component_name": "Data Service (PostgreSQL)",
             "R": 4,
-            "T": 4,
+            "T": 3,
             "C": 3,
-            "justification": "The Data Service's role as a PostgreSQL database is correctly explained, including its use of Prisma as an ORM. Technical details about the database schema, relationships, and data types are supported by the document. Communication flows between the Data Service and the System Service are described. However, the document does not provide enough detail on backup strategies, data replication, or specific query optimization techniques."
+            "justification": "Role: The component provides a relational database for storing application data. Technical Details: The document describes the use of PostgreSQL with Prisma as an ORM, including schema definitions and data relationships. Communication: The communication between the System Service and the Data Service via Prisma is clearly explained. References: All roles, technical details, and communication flows are supported by the '7.4. Diseño de la Base de Datos (Data Service)' section."
         }
     ],
     "design_patterns": [
         {
             "pattern_name": "Observer Pattern",
-            "A": 0.67,
-            "C": 3,
-            "justification": "The Observer Pattern is mentioned in the context of event listeners in React components. The document provides examples of how this pattern is used (e.g., in Figure 27), but it does not fully explain the association between the observer and observable components. The explanation of the pattern itself is correct, but the document could provide more detail on how this pattern is implemented across different parts of the application."
+            "A": 1,
+            "C": 4,
+            "justification": "Associated Components: The Observer Pattern is used in conjunction with event listeners in certain components (e.g., 'useEffect' hooks in React components). Explanation: The pattern is correctly implemented to notify observers when the state of a subject changes, ensuring that dependent components update accordingly. References: The implementation and explanation are supported by the '7.3.3. Patrones de Diseño' section."
         },
         {
-            "component_name": "Singleton Pattern",
-            "A": 0.5,
-            "C": 3,
-            "justification": "The Singleton Pattern is used for managing the PrismaClient instance. The document explains that only one instance of PrismaClient is created and reused throughout the application. However, the document does not fully explain how this pattern is applied across all relevant components or how it interacts with other parts of the system. The explanation of the pattern is correct, but the document could provide more detail on its implementation."
+            "pattern_name": "Singleton Pattern",
+            "A": 1,
+            "C": 4,
+            "justification": "Associated Components: The Singleton Pattern is applied to the Prisma Client instance, ensuring only one instance exists throughout the application. Explanation: The pattern is correctly implemented to manage database connections efficiently. References: The implementation and explanation are supported by the '7.3.3. Patrones de Diseño' section."
         }
     ]
 }

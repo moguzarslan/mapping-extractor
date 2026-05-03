@@ -1,122 +1,154 @@
 {
     "architectural_patterns": [
         {
-            "pattern_name": "Client-Server",
-            "P": 1,
-            "E": 4,
-            "justification": "The document clearly describes the client-server architecture, where clients (users) send requests to a server (software) that processes them and returns responses. The communication is established via HTTP and REST API, which aligns with the standard client-server model."
+            "patternName": "Client-Server Architecture",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. The explanation matches the client-server model described in section 9.1, where clients (users) make requests to a server (software processing requests)."
         },
         {
-            "pattern_name": "Three-Tier Architecture",
-            "P": 1,
-            "E": 4,
-            "justification": "The document specifies a three-tier architecture consisting of the Presentation Layer, Business Logic Layer, and Data Layer. Each layer's role is well-defined: the Presentation Layer handles user interface, the Business Logic Layer processes requests, and the Data Layer manages data storage. This matches the description in the document."
+            "patternName": "Layered Architecture (3-Tier)",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 9.1 describes the three-tier architecture: Presentation Layer, Business Logic Layer, and Data Layer."
         },
         {
-            "pattern_name": "Microservices API Gateway Pattern",
-            "P": 1,
-            "E": 4,
-            "justification": "The document explains that the API Gateway pattern is used, where only one component (API Gateway) interacts directly with users. This pattern enhances security by reducing external exposure and allows for partial failures. The justification provided in the document supports this pattern."
+            "patternName": "Microservices Architecture",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 9.2.2 describes multiple microservices (Api Gateway, Core, Analytics Module, Api Player, Web Socket) interacting with each other."
+        },
+        {
+            "patternName": "API Gateway Pattern",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 9.2.2 explains that the API Gateway handles all client requests, manages authentication, authorization, SSL, and routing to internal microservices."
+        },
+        {
+            "patternName": "Data Lake Architecture",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 9.2.3 describes the use of AWS services like S3 for storing structured and unstructured data at scale."
+        },
+        {
+            "patternName": "Event-Driven / Streaming Architecture",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 9.2.3 explains that data transmission from producers (microservices) to consumers (storage/analysis) is handled via streaming services (Kinesis Data Streams)."
         }
     ],
     "components": [
         {
-            "component_name": "Api Gateway",
-            "R": 4,
-            "T": 3,
-            "C": 4,
-            "justification": "Role: Correctly identified as the entry point for user requests. Technical details: Supported by the document, which mentions its functions like authentication, authorization, and routing. Communication: Accurate, as it communicates with the Core and Analytic Module. Minor deduction in technical details due to lack of specifics on how it handles SSL."
+            "componentName": "Plataforma Web i Mòbil (Presentation Layer)",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.2 describes the web and mobile interfaces communicating via HTTP protocol."
         },
         {
-            "component_name": "Core",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Accurately described as the business logic layer. Technical details: Fully supported, including interaction with the database and cloud services. Communication: Correctly explained, showing interaction with both users and players. No deductions."
+            "componentName": "Api Gateway",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.2 describes the API Gateway's responsibilities, including managing, authenticating, and authorizing users."
         },
         {
-            "component_name": "Analytic Module",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Clearly defined as responsible for obtaining and processing data from playlogs, connections, and platform actions. Technical details: Well-supported, mentioning interaction with cloud services and database. Communication: Accurate, showing interaction with cloud services and database. No deductions."
+            "componentName": "Servei Core",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.2 describes the Core service as the main business logic of the platform."
         },
         {
-            "component_name": "Player API",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as communicating with players. Technical details: Supported by the document, detailing its function to receive player information. Communication: Accurate, showing interaction with players. No deductions."
+            "componentName": "Mòdul analític (Analytics Module)",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.2 describes the Analytics Module's function of obtaining and processing data from playlogs, connections, and platform actions."
         },
         {
-            "component_name": "Web Socket",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Accurately described as facilitating bidirectional communication between the platform and players. Technical details: Supported, explaining its function to process and store player data. Communication: Correct, showing interaction between platform and players. No deductions."
+            "componentName": "Api weird",
+            "roleScore": 8,
+            "technicalDetailsScore": 8,
+            "communicationScore": 8,
+            "justification": "The component name appears to be misspelled ('Api weird' instead of 'Api Player'). The role and technical details are partially correct but lack clarity. The communication description is incomplete."
         },
         {
-            "component_name": "MySQL Database",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the database for storing necessary system data. Technical details: Fully supported, mentioning its implementation in AWS RDS. Communication: Accurate, showing interaction with the Business Logic Layer. No deductions."
+            "componentName": "Web Socket",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.2 describes the Web Socket's role in enabling bidirectional communication between the platform and players."
         },
         {
-            "component_name": "Amazon S3",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the object storage service for storing JSON documents. Technical details: Supported, detailing its use for storing playlogs, connections, and audit trails. Communication: Accurate, showing interaction with the Analytic Module. No deductions."
+            "componentName": "Base de dades (MySQL)",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes the MySQL database's role in storing necessary data for system functioning."
         },
         {
-            "component_name": "DynamoDB",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the NoSQL database for real-time playlog storage. Technical details: Supported, explaining its use of Composite Key for data identification. Communication: Accurate, showing interaction with the Analytic Module. No deductions."
+            "componentName": "Amazon S3",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes Amazon S3 as part of the Data Lake for storing historical documents."
         },
         {
-            "component_name": "Amazon Athena",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the service for querying data stored in Amazon S3. Technical details: Supported, detailing its SQL querying capability and partition usage. Communication: Accurate, showing interaction with S3. No deductions."
+            "componentName": "Amazon DynamoDB",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes Amazon DynamoDB as a non-relational database for real-time storage."
         },
         {
-            "component_name": "AWS Glue",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the service for metadata management and integration. Technical details: Supported, explaining its role in cataloging data and working with Athena. Communication: Accurate, showing interaction with Athena. No deductions."
+            "componentName": "Kinesis Data Streams",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes Kinesis Data Streams as a data ingestion and processing service for streaming data."
         },
         {
-            "component_name": "Kinesis Data Streams",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the service for streaming data ingestion. Technical details: Supported, detailing its use for transmitting playlog and audit trail data. Communication: Accurate, showing interaction with Kinesis Data Firehose. No deductions."
+            "componentName": "Kinesis Data Firehose",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes Kinesis Data Firehose as a service for loading large amounts of data into data stores."
         },
         {
-            "component_name": "Kinesis Data Firehose",
-            "R": 4,
-            "T": 4,
-            "C": 4,
-            "justification": "Role: Correctly identified as the service for loading data into data stores. Technical details: Supported, explaining its use for writing data to S3 with dynamic partitioning. Communication: Accurate, showing interaction with S3. No deductions."
+            "componentName": "Amazon Athena",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes Amazon Athena as a serverless query service for querying data stored in S3."
+        },
+        {
+            "componentName": "AWS Glue",
+            "roleScore": 10,
+            "technicalDetailsScore": 10,
+            "communicationScore": 10,
+            "justification": "The role, technical details, and communication are all correctly explained and supported by the document. Section 9.2.3 describes AWS Glue as a serverless data integration service used for metadata storage."
         }
     ],
     "design_patterns": [
         {
-            "pattern_name": "Observer Pattern",
-            "A": 0.8,
-            "C": 4,
-            "justification": "Association: The Observer Pattern is partially supported, as the document mentions that the Web Socket sends data to the Kinesis Data Stream, which can be seen as an observer-subject relationship. However, the full implementation details are not provided. Explanation: The explanation is correct and supported by the document, detailing the flow of data from players to the platform."
+            "patternName": "Dependency Injection",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 10.2 explains that NestJS Providers (Services) are designed to be injected as dependencies into Modules or other components."
         },
         {
-            "pattern_name": "Repository Pattern",
-            "A": 1,
-            "C": 4,
-            "justification": "Association: Fully supported, as the document describes the use of a repository pattern for managing data access through the Core and Analytic Module. Explanation: The explanation is correct and supported by the document, detailing how data is accessed and managed."
+            "patternName": "Controller Pattern",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 10.2 explains that Classes responsible for receiving HTTP requests and processing them are Controllers."
+        },
+        {
+            "patternName": "Service Pattern",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 10.2 explains that Classes containing the business logic of the application are Services."
+        },
+        {
+            "patternName": "Scheduler / Cron Job",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 11.2.1 explains that the @Cron decorator from @nestjs/schedule is used to execute functions periodically."
+        },
+        {
+            "patternName": "Guard / Middleware",
+            "validationScore": 10,
+            "justification": "The pattern is correctly identified and supported by the document. Section 10.2 explains that @UseGuards decorator is used to perform validation and permission checks before accessing endpoint functions."
         }
     ]
 }

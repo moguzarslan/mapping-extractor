@@ -8,27 +8,17 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La referència a la pàgina 54 detalla clarament que el sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats. Aquesta informació és directament suportada per la font."
+            "justification": "La especificació del requisit no funcional #08 en la pàgina 54 detalla clarament que el sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats. Aquesta frase és una traducció directa i precisa del text original."
         },
         {
-            "requirement": "El sistema ha de disposar d'un mecanisme segur d'autenticació i verificació de permisos per assegurar que cada usuari només pugui accedir a la informació i funcionalitats que li corresponen.",
+            "requirement": "L’aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
             "referenced_pages": [
-                "54"
+                "53"
             ],
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La pàgina 54 esmenta explícitament que el sistema ha de tenir un mecanisme segur d'autenticació i verificació de permisos per garantir l'accés controlat. Això coincideix completament amb el requisit original."
-        },
-        {
-            "requirement": "L'aplicació ha de gestionar una separació estricta de dades per cada client.",
-            "referenced_pages": [
-                "55"
-            ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La pàgina 55 indica que l'aplicació ha de gestionar una separació estricta de dades per cada client, tal com es descriu en el requisit. Aquesta afirmació és directament suportada per la font."
+            "justification": "El requisit no funcional #06 a la pàgina 53 es centra en la disponibilitat del sistema, indicant que l'aplicació web ha de garantir un funcionament continu i estable. La frase del requeriement és una interpretació correcta i completa del contingut original."
         },
         {
             "requirement": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
@@ -38,17 +28,27 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La pàgina 53 estableix que les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon, tal com es requereix en el requisit. Aquesta informació és directament suportada per la font."
+            "justification": "El requisit no funcional #05 a la pàgina 53 estableix clarament que les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon. La frase del requeriement és una traducció directa i precisa del text original."
         },
         {
-            "requirement": "La disponibilitat del sistema ha de ser de mínim 99,9%, fins i tot durant els moments d’ús intensiu.",
+            "requirement": "El sistema ha de disposar d’un mecanisme segur d’autenticació i verificació de permisos per assegurar que cada usuari només pugui accedir a la informació i funcionalitats que li corresponen.",
             "referenced_pages": [
-                "53"
+                "54"
             ],
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La pàgina 53 especifica que la disponibilitat del sistema ha de ser del 99,9%, fins i tot durant els moments d'ús intensiu, tal com es requereix en el requisit. Aquesta informació és directament suportada per la font."
+            "justification": "El requisit no funcional #08 a la pàgina 54 detalla que el sistema ha de disposar d'un mecanisme segur d'autenticació i verificació de permisos. La frase del requeriement és una interpretació correcta i completa del contingut original."
+        },
+        {
+            "requirement": "Cap usuari pot accedir a dades d’altres clients.",
+            "referenced_pages": [
+                "55"
+            ],
+            "P": 1,
+            "M": 1,
+            "T": 1,
+            "justification": "El requisit no funcional #09 a la pàgina 55 estableix clarament que cap usuari pot accedir a dades d'altres clients. La frase del requeriement és una traducció directa i precisa del text original."
         }
     ]
 }

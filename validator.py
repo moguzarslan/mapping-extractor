@@ -46,6 +46,14 @@ if __name__ == "__main__":
                     prompt=Prompts.ARCHITECTURE_VALIDATION_PROMPT
                 )
 
+                process_validation_prompt(
+                    file=file,
+                    input_json_dir=json_dir + "/mapping.json",
+                    output_dir=output_dir,
+                    output_file_name="mapping",
+                    prompt=Prompts.MAPPING_VALIDATION_PROMPT
+                )
+
             except Exception as file_error:
                 print(f"Error while processing '{file_name}': {file_error}")
 

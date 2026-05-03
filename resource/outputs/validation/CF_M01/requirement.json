@@ -1,124 +1,116 @@
 {
     "evaluations": [
         {
-            "requirement": "Emmagatzemar playlogs",
+            "requirement": "Use NestJS framework with TypeScript language.",
+            "referenced_pages": [
+                "10"
+            ],
+            "validationScore": 5,
+            "justification": "The requirement is correctly identified in the document (page 10), which states 'NestJS [2]: Aquest framework és un framework de NodeJS que té com a funció principal la creació d’aplicacions de backend.' This confirms the use of NestJS. The sentence is concise and directly refers to the technology without any additional justification or invented information. The type 'constraint' is appropriate as it specifies a technical requirement for the project."
+        },
+        {
+            "requirement": "Use AWS cloud services for infrastructure.",
+            "referenced_pages": [
+                "10"
+            ],
+            "validationScore": 5,
+            "justification": "The requirement is accurately referenced in the document (page 10), which mentions 'Infraestructura AWS [4]: És el conjunt de serveis de computació en el núvol que permet la creació d’aplicacions escalables i altament disponibles.' This confirms the use of AWS services. The sentence is direct and does not include any extraneous information, and the type 'constraint' is correct as it defines an infrastructure requirement."
+        },
+        {
+            "requirement": "The system must store playlogs from the players. Each playlog must have a date, client, and player assigned.",
             "referenced_pages": [
                 "35"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H1 es troba a la pàgina 35 i descriu exactament l'emmagatzematge dels playlogs dels players, amb tots els detalls necessaris per a la seva acceptació."
+            "validationScore": 8,
+            "justification": "The requirement is found on page 35, where it states: 'Com a Qualsevol tipus d’usuari Vull Que el sistema guardi els playlogs dels players Per Poder tenir constància dels continguts reproduïts en els diferents players'. This matches the requirement's meaning. However, the original requirement adds that each playlog must have a date, client, and player assigned, which is explicitly mentioned in the document. The type 'functional' is correct as it describes a system capability."
         },
         {
-            "requirement": "Emmagatzemar connexions",
+            "requirement": "The system must store player connections. Each connection must have a date, client, and player assigned. The connection status can only be connected or not connected.",
             "referenced_pages": [
                 "35"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H2 es troba a la pàgina 35 i descriu l'emmagatzematge de les connexions dels players, amb tots els criteris d'acceptació necessaris."
+            "validationScore": 9,
+            "justification": "The requirement is accurately reflected on page 35: 'Com a Qualsevol tipus d’usuari Vull Que el sistema guardi les connexions dels players Per Poder tenir constància de quins players estan connectats a cada hora'. The requirement also specifies that each connection must have a date, client, and player assigned, and that the status can only be 'connected' or 'not connected', which is detailed in the document. The type 'functional' is appropriate."
         },
         {
-            "requirement": "Emmagatzemar accions de plataforma",
-            "referenced_pages": [
-                "35"
-            ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H3 es troba a la pàgina 35 i descriu l'emmagatzematge de les accions realitzades sobre la plataforma, amb tots els criteris d'acceptació necessaris."
-        },
-        {
-            "requirement": "Llistar playlogs",
+            "requirement": "The system must store actions performed on the platform. Each action must have a date, client, user, and player assigned. All actions are performed on a platform entity.",
             "referenced_pages": [
                 "36"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H4 es troba a la pàgina 36 i descriu la funcionalitat de llistar els playlogs del sistema, amb tots els criteris d'acceptació necessaris."
+            "validationScore": 9,
+            "justification": "The requirement is correctly referenced on page 36: 'Com a Qualsevol tipus d’usuari Vull Que el sistema guardi les accions realitzades sobre la plataforma Per Poder tenir constància de quines accions s’han realitzat sobre la plataforma'. The requirement also specifies that each action must have a date, client, user, and player assigned, and that all actions are performed on a platform entity, which is detailed in the document. The type 'functional' is correct."
         },
         {
-            "requirement": "Llistar connexions",
+            "requirement": "Any user with permissions must be able to list different system playlogs. The playlogs visible to the user depend on their permissions. All playlog details must be viewable.",
             "referenced_pages": [
                 "36"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H5 es troba a la pàgina 36 i descriu la funcionalitat de llistar les connexions dels players del sistema, amb tots els criteris d'acceptació necessaris."
+            "validationScore": 9,
+            "justification": "The requirement is accurately referenced on page 36: 'Com a Qualsevol tipus d’usuari amb permisos Vull Poder llistar els diferents playlogs del sistema Per Poder saber quins continguts s’han reproduït en els diferents players del sistema'. The requirement also specifies that the playlogs visible to the user depend on their permissions and that all playlog details must be viewable, which is detailed in the document. The type 'functional' is appropriate."
         },
         {
-            "requirement": "Llistar accions de plataforma",
+            "requirement": "Any user with permissions must be able to list different player connections in the system. The connections visible to the user depend on their permissions. Connections can only have two states: connected or not connected.",
             "referenced_pages": [
                 "36"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "La història d'usuari H6 es troba a la pàgina 36 i descriu la funcionalitat de llistar les accions realitzades sobre les entitats de la plataforma, amb tots els criteris d'acceptació necessaris."
+            "validationScore": 9,
+            "justification": "The requirement is correctly referenced on page 36: 'Com a Qualsevol tipus d’usuari amb permisos Vull Poder llistar les diferents connexions dels players del sistema Per Poder saber quins players estan connectats i quins no'. The requirement also specifies that the connections visible to the user depend on their permissions and that connections can only have two states: connected or not connected, which is detailed in the document. The type 'functional' is correct."
         },
         {
-            "requirement": "Velocitat i latència",
+            "requirement": "Any user with permissions must be able to list different actions performed on different platform entities. The actions visible to the user depend on their permissions. All actions must be related to a platform entity.",
             "referenced_pages": [
                 "37"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 12a es troba a la pàgina 37 i especifica que el sistema ha de respondre en menys de 5 segons, amb tota la justificació i acceptació necessàries."
+            "validationScore": 9,
+            "justification": "The requirement is accurately referenced on page 37: 'Com a Qualsevol tipus d’usuari amb permisos Vull Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma Per Poder saber quines accions s’han realitzat en la plataforma al llarg del temps'. The requirement also specifies that the actions visible to the user depend on their permissions and that all actions must be related to a platform entity, which is detailed in the document. The type 'functional' is appropriate."
         },
         {
-            "requirement": "Disponibilitat i fiabilitat",
+            "requirement": "The system must respond to any user action in less than 5 seconds.",
+            "referenced_pages": [
+                "37"
+            ],
+            "validationScore": 10,
+            "justification": "The requirement is correctly referenced on page 37: 'El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes a performance characteristic."
+        },
+        {
+            "requirement": "The system must be available at all times, except for scheduled updates. Any user must be able to access the platform at any time of day.",
             "referenced_pages": [
                 "38"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 12d es troba a la pàgina 38 i especifica que el sistema ha de ser sempre disponible, amb tota la justificació i acceptació necessàries."
+            "validationScore": 10,
+            "justification": "The requirement is accurately referenced on page 38: 'Qualsevol usuari ha de poder accedir a la plataforma durant qualsevol moment del dia. Excepte en les actualitzacions programades.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes a availability characteristic."
         },
         {
-            "requirement": "Capacitat",
+            "requirement": "The system must be capable of supporting an unlimited number of connections at the same time. The platform scales dynamically with changes in simultaneous connections.",
             "referenced_pages": [
                 "38"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 12f es troba a la pàgina 38 i especifica que el sistema ha de suportar un nombre il·limitat de connexions, amb tota la justificació i acceptació necessàries."
+            "validationScore": 10,
+            "justification": "The requirement is correctly referenced on page 38: 'La plataforma escala de forma dinàmica amb els canvis de connexions simultànies.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes a scalability characteristic."
         },
         {
-            "requirement": "Escalabilitat",
+            "requirement": "The system must be able to grow in capacity when data volume increases. The system scales automatically as data increases.",
+            "referenced_pages": [
+                "38"
+            ],
+            "validationScore": 10,
+            "justification": "The requirement is accurately referenced on page 38: 'El sistema escala de manera automàtica a la vegada que van augmentant les dades.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes a scalability characteristic."
+        },
+        {
+            "requirement": "Project functionalities must be accessible only to users with corresponding permissions. Users without permission cannot access data they do not have permission for.",
             "referenced_pages": [
                 "39"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 12g es troba a la pàgina 39 i especifica que el sistema ha d'escalar amb el volum de dades, amb tota la justificació i acceptació necessàries."
+            "validationScore": 10,
+            "justification": "The requirement is correctly referenced on page 39: 'Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes an access control characteristic."
         },
         {
-            "requirement": "Accés",
+            "requirement": "Confidential user information must be protected to guarantee privacy. Users can only observe confidential data of their own user and no one else.",
             "referenced_pages": [
                 "39"
             ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 15a es troba a la pàgina 39 i especifica que les funcionalitats han de ser solament accessibles als usuaris amb permisos, amb tota la justificació i acceptació necessàries."
-        },
-        {
-            "requirement": "Privacitat",
-            "referenced_pages": [
-                "39"
-            ],
-            "P": 1,
-            "M": 1,
-            "T": 1,
-            "justification": "El requisit 15c es troba a la pàgina 39 i especifica que la informació confidencial ha d'estar protegida, amb tota la justificació i acceptació necessàries."
+            "validationScore": 10,
+            "justification": "The requirement is accurately referenced on page 39: 'Els usuaris solament poden observar les dades confidencials del seu usuari i de ningú més.' This matches the requirement exactly. The type 'non-functional' is appropriate as it describes a privacy/security characteristic."
         }
     ]
 }

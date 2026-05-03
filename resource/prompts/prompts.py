@@ -286,25 +286,18 @@ class Prompts:
        - referenced page number(s)
     
     Instructions for each requirement:    
-    1. Go to every referenced page in the source document. Check whether the requirement is actually supported by the referenced page(s). Assign P:
-        - P = 1 if the requirement is found or clearly supported in the referenced page(s).
-        - P = 0 if the requirement is not found or not supported in the referenced page(s).
-    
-    2. Compare the extracted requirement sentence with the source text. Assign M:
-        - M = 0 if the extracted requirement has a completely different meaning.
-        - M = 0.5 if the meaning is mostly preserved but the sentence includes extra invented justification, assumptions, or unsupported details or some part of the reequirement is missing.
-        - M = 1 if the meaning is completely preserved and there is no invented information.
-    
-    3. Check whether the assigned requirement type/category is correct. Assign T:
-    - T = 1 if the requirement type is correct.
-    - T = 0 if the requirement type is incorrect.
-    
-    
+    1. Calculate the validation score with following guidelines:
+        - Requirement is found in the referenced page/s (1 point)
+        - Requirement sentence is only include the requirement (does not have any justification or invented information) (2 point)
+        - Requirement meaning is fully preserved (translations or rephrasing is allowed only if meaning is preserved)(5 point)
+        - Requirement type set correctly (2 point)
+        
     Rules:
     - Be strict about invented information.
     - Avoid rewarding explanations that sound plausible but are not supported by the referenced page.
     - Translations are allowed, but the original meaning must be preserved.
     - Ensure whole output is given in English (Including requirement titles/sentences).
+    - Justifications will only be about deducted points if there is no deduction, it must be empty.
 
     
     Output Format (JSON):
@@ -313,9 +306,7 @@ class Prompts:
         {
           "requirement": "string",
           "referenced_pages": ["string"],
-          "P": 0 or 1,
-          "M": 0 or 0.5 or 1,
-          "T": 0 or 1,
+          "validationScore": number,
           "justification": "Brief explanation about deducted points (if there is any)."
         }
       ]
@@ -336,43 +327,40 @@ class Prompts:
     
     Instructions:
     1. For each architectural pattern, check pattern exists and is supported by the document.      
-       Assign E:  
-       - Role of the component is correct  (1 point)
-       - There is no missing information that can change component's role drastically. (1 point)
-       - There is no invented information. (1 point)
+       Assign validation score:  
+       - Role of the component is correct  (5 point)
+       - There is no missing information that can change component's role drastically. (2 point)
+       - There is no invented information. (2 point)
        - Reference pages are correctly identified. (1 point) 
     
     2. For each component, go to every referenced page for each sub-field (role, technical details, communication).  
        Evaluate role explanation:  
-       Assign R:  
-       - Role of the component is correct  (1 point)
-       - There is no missing information that can change component's role drastically. (1 point)
-       - There is no invented information. (1 point)
+       Assign role score:  
+       - Role of the component is correct  (5 point)
+       - There is no missing information that can change component's role drastically. (2 point)
+       - There is no invented information. (2 point)
        - Reference pages are correctly identified. (1 point)
        
        Evaluate technical details explanation:  
-       Assign T:  
-       - Technical details are correct and supported by document (1 point)
-       - There is no missing technical aspect that is majorly considered in the paper. (1 point)
-       - There is no invented information. (1 point)
+       Assign technical details score:  
+       - Technical details are correct and supported by document (5 point)
+       - There is no missing technical aspect that is majorly considered in the paper. (2 point)
+       - There is no invented information. (2 point)
        - Reference pages are correctly identified. (1 point)
        
        Evaluate communication explanation:  
-       Assign C:  
-       - Communication flows are correct and supported by document (1 point)
-       - There is no missing communication flow. (1 point)
-       - There is no invented information. (1 point)
+       Assign communication score:  
+       - Communication flows are correct and supported by document (5 point)
+       - There is no missing communication flow. (2 point)
+       - There is no invented information. (2 point)
        - Reference pages are correctly identified. (1 point)
 
     
     3. For each design pattern, go to every referenced page and validate both association and explanation.  
-       Evaluate associated components:  
-       Assign A:  
-       - A = (number of correctly supported component associations) / (total number of components listed)  
-       Evaluate explanation:  
-       Assign C:  
-       - Design pattern is correct and supported by document (1 point)
-       - There is no invented information. (1 point)
+       Assign validation score:  
+       - Associated components are correctly identified. (2 point)
+       - Design pattern is correct and supported by document (5 point)
+       - There is no invented information. (2 point)
        - Reference pages are correctly identified. (1 point)
 
     
@@ -389,26 +377,84 @@ class Prompts:
     {
       "architectural_patterns": [
         {
+          "patternName": "string",
+          "validationScore": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ],
+      "components": [
+        {
+          "componentName": "string",
+          "roleScore": number,
+          "technicalDetailsScore": number,
+          "communicationScore": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ],
+      "design_patterns": [
+        {
+          "patternName": "string",
+          "validationScore": number,
+          "justification": "Brief explanation of deducted points (If there is any)"
+        }
+      ]
+    }
+    """
+
+    MAPPING_VALIDATION_PROMPT = """
+    Objective:
+    You are a strict evaluator. Your task is to validate an architecture JSON extracted from a software document.
+    
+    Inputs:
+    1. Source document.
+    2. Mappings JSON containing:
+       - Mappings between requirements and architectural items that can be:
+         Architectural Pattern, Component or a Design Pattern
+    
+    Instructions:
+    1. For each architectural pattern, check if mappings are exist and is supported by the document.      
+       Assign validation score:  
+       - Related requirements are supported by the document  (4 point)
+       - Explanation is detailed enough and supported by the document (4 point)
+       - There is no invented information. (2 point)
+    2. For each component, check if mappings are exist and is supported by the document.      
+       Assign validation score:  
+       - Related requirements are correct and supported by the document  (4 point)
+       - Explanation is detailed enough and supported by the document (4 point)
+       - There is no invented information. (2 point)
+    3. For each design pattern, check if mappings are exist and is supported by the document.      
+       Assign validation score:  
+       - Related requirements are correct and supported by the document  (4 point)
+       - Explanation is detailed enough and supported by the document (4 point)
+       - There is no invented information. (2 point)
+    
+    Rules
+    - Avoid assuming correctness if not explicitly supported.  
+    - Be strict about invented or exaggerated explanations.  
+    - You are restricted with the input json, avoid inventing any extra architectural patterns, components, and design patterns that are not in json.  
+    - In justifications only explain the reason for deducted points. Give an empty justification if it gets full point 
+    - Ensure whole output is given in English.
+    
+    Example Output JSON:    
+    {
+      "architectural_patterns": [
+        {
           "pattern_name": "string",
-          "P": 0 or 1,
-          "E": number,
+          "validationScore": number,
           "justification": "Brief explanation of deducted points (If there is any)"
         }
       ],
       "components": [
         {
           "component_name": "string",
-          "R": number,
-          "T": number,
-          "C": number,
+          "validationScore": number,
           "justification": "Brief explanation of deducted points (If there is any)"
         }
       ],
       "design_patterns": [
         {
           "pattern_name": "string",
-          "A": number,
-          "C": number,
+          "validationScore": number,
           "justification": "Brief explanation of deducted points (If there is any)"
         }
       ]

@@ -4,13 +4,13 @@
             "pattern_name": "Microservices Architecture",
             "P": 1,
             "E": 4,
-            "justification": "The document clearly describes the microservices architecture, detailing how the system is divided into independent services that communicate via messaging systems. Each microservice's role in handling specific functionalities and its communication with other services is well-defined."
+            "justification": "The document explicitly describes the microservices architecture, detailing how the system is divided into independent services that communicate via messaging systems. Each microservice handles a specific functionality and can be deployed independently, which aligns with the principles of microservices architecture."
         },
         {
-            "pattern_name": "Cloud Architecture",
+            "pattern_name": "Client-Server Pattern",
             "P": 1,
             "E": 4,
-            "justification": "The cloud architecture is explained in detail, showing how the application is designed, deployed, and executed using cloud services. The document specifies the use of Amazon Web Services (AWS) for providing resources like networks, databases, and servers over the internet, ensuring scalability, availability, and accessibility."
+            "justification": "The document outlines the client-server pattern, where the client (front-end) makes service requests and the server (back-end) processes these requests, applies business logic, and returns responses. This separation of concerns is clearly described in the design section."
         }
     ],
     "components": [
@@ -19,43 +19,49 @@
             "R": 4,
             "T": 4,
             "C": 4,
-            "justification": "The Leader component's role in routing all communications to the corresponding microservice within the system architecture is correctly explained. Technical details about its protection mechanisms against unauthorized access and security protocols are supported by the document. Communication flows involving the Leader are also accurately described."
+            "justification": "The role of the Leader component as a central routing point for all communications within the system is correctly explained. The technical details about its responsibilities, such as managing communication flows and applying security protocols, are supported by the document. The communication explanation is also accurate, detailing how it routes requests to the appropriate microservices."
         },
         {
             "component_name": "Portal",
             "R": 4,
             "T": 4,
             "C": 4,
-            "justification": "The Portal component's role as a centralized interface for accessing different VWGS applications is correctly explained. Technical details about its front-end components and the integration of necessary binaries are supported by the document. Communication flows involving the Portal, including user authentication and authorization processes, are accurately described."
+            "justification": "The Portal component's role as a centralized interface for accessing different applications of VWGS is correctly described. The technical details about its function as a front-end point and its integration with the front-end components are supported by the document. The communication explanation is accurate, detailing how it interacts with other microservices."
         },
         {
             "component_name": "Access Control",
             "R": 4,
             "T": 4,
             "C": 4,
-            "justification": "The Access Control component's role in managing user authentication and permissions is correctly explained. Technical details about its mechanisms for verifying user identities and determining associated permissions are supported by the document. Communication flows involving user authentication and permission management are accurately described."
+            "justification": "The Access Control component's role in managing user authentication and permissions is correctly explained. The technical details about its functions, such as verifying user identities and determining permissions, are supported by the document. The communication explanation is accurate, detailing how it interacts with other microservices."
         },
         {
             "component_name": "Communication Log",
             "R": 4,
             "T": 4,
             "C": 4,
-            "justification": "The Communication Log component's role in registering all system communications is correctly explained. Technical details about its functionality in generating statistics and interactive dashboards are supported by the document. Communication flows involving the registration and analysis of system communications are accurately described."
+            "justification": "The Communication Log component's role in recording all communications within the system is correctly explained. The technical details about its function as a tracing and auditing mechanism are supported by the document. The communication explanation is accurate, detailing how it logs interactions between microservices and external services."
         },
         {
             "component_name": "Scheduler",
             "R": 4,
             "T": 4,
             "C": 4,
-            "justification": "The Scheduler component's role in planning and scheduling processes within the system is correctly explained. Technical details about its ability to define, automate, and execute tasks at specific times are supported by the document. Communication flows involving task scheduling and execution are accurately described."
+            "justification": "The Scheduler component's role in planning and scheduling processes within the system is correctly explained. The technical details about its functions, such as defining, automating, and executing tasks, are supported by the document. The communication explanation is accurate, detailing how it coordinates tasks across the system."
         }
     ],
     "design_patterns": [
         {
-            "pattern_name": "Client-Server Pattern",
-            "A": 1,
+            "pattern_name": "Data Transfer Object (DTO)",
+            "A": 0.8,
             "C": 4,
-            "justification": "The Client-Server pattern is correctly associated with the application's architecture, where the client handles presentation and user experience, while the server manages business logic, security, data integrity, and persistence. The explanation of how this pattern facilitates clear separation of responsibilities and efficient operation is supported by the document."
+            "justification": "The DTO pattern is correctly associated with the Data Transfer Objects used to structure data for each request. The explanation of how DTOs encapsulate information and provide a customized format based on response requirements is supported by the document. However, the association could be slightly improved by explicitly linking more components to the DTO pattern."
+        },
+        {
+            "pattern_name": "Model-View-ViewModel (MVVM)",
+            "A": 0.9,
+            "C": 4,
+            "justification": "The MVVM pattern is correctly associated with the Angular framework used for the front-end. The explanation of how the ViewModel acts as an intermediary between the View and the Model, providing data and handling user actions, is supported by the document. The association is strong, with clear links between the pattern and the components described."
         }
     ]
 }

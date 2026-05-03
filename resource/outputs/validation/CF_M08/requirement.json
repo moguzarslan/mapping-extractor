@@ -8,7 +8,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 30 claramente establece que el sistema permite a los usuarios registrarse como tanto donantes como empresas, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 30 del documento confirma que el sistema permite a los usuarios registrarse como tanto donantes como empresas, lo cual está claramente soportado por el texto."
         },
         {
             "requirement": "El sistema ha de estar disponible tanto en castellano como en inglés.",
@@ -28,7 +28,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 34 describe el proceso de registro para usuarios, incluyendo tanto el uso del MagicLink como la autenticación con Google, lo cual confirma que el sistema permite el registro de nuevos usuarios."
+            "justification": "La página 34 describe el proceso de registro para usuarios, incluyendo tanto el uso de MagicLink como la autenticación con Google, lo cual valida completamente el requisito."
         },
         {
             "requirement": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
@@ -38,7 +38,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 34 indica que los usuarios pueden iniciar sesión utilizando su email, lo cual es consistente con la capacidad de autenticar usuarios existentes a través del email."
+            "justification": "La página 34 indica que los usuarios pueden iniciar sesión utilizando su email, lo cual es consistente con el requisito de autenticación por correo electrónico."
         },
         {
             "requirement": "El sistema ha de permitir cerrar sesión a los usuarios.",
@@ -48,7 +48,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 35 se menciona que todo usuario logueado tiene la opción de cerrar sesión en cualquier momento, lo cual está directamente respaldado por la información proporcionada."
+            "justification": "En la página 35 se menciona la funcionalidad de cerrar sesión, lo cual está directamente relacionado con el requisito especificado."
         },
         {
             "requirement": "El sistema ha de permitir a usuarios logueados ver los perfiles de las distintas empresas así como sus productos.",
@@ -58,7 +58,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 35 especifica que los usuarios logueados pueden ver los perfiles de las empresas y sus productos, lo cual coincide exactamente con el requisito descrito."
+            "justification": "La página 35 explica que los usuarios logueados pueden ver los perfiles y productos de las empresas, lo cual cumple con el requisito de visualización de información empresarial."
         },
         {
             "requirement": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
@@ -68,7 +68,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 36 se menciona que el sistema debe almacenar imágenes de productos y usuarios, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "En la página 36 se menciona que el sistema maneja imágenes de productos y usuarios, lo cual implica que estas imágenes son guardadas y gestionadas por el sistema."
         },
         {
             "requirement": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
@@ -78,7 +78,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 37 detalla que las empresas pueden editar su perfil en cualquier momento y previsualizar los cambios antes de publicarlos, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 37 detalla que las empresas pueden editar y previsualizar su perfil en tiempo real, lo cual está en línea con el requisito de edición y previsualización continua."
         },
         {
             "requirement": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
@@ -88,7 +88,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 38 explica que las empresas tienen acceso a un dashboard con estadísticas y otras funcionalidades internas, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 38 describe el dashboard como una interfaz accesible para las empresas, donde pueden ver estadísticas y utilizar funcionalidades internas, lo cual cumple con el requisito."
         },
         {
             "requirement": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
@@ -98,7 +98,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 39 se indica que las empresas pueden crear productos que luego son visibles en sus perfiles, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "En la página 39 se explica que las empresas pueden crear productos que luego aparecen en sus perfiles públicos, lo cual está directamente relacionado con el requisito."
         },
         {
             "requirement": "Una empresa ha de poder dar de alta una ruta para vincularla a sus productos.",
@@ -108,7 +108,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 39 menciona que las empresas pueden crear rutas y asociarlas a sus productos, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 39 menciona que las empresas pueden crear rutas asociadas a sus productos, lo cual cumple con el requisito de alta de rutas."
         },
         {
             "requirement": "Un usuario ha de poder devolver un producto dado de alta en una empresa mediante el uso de sus rutas.",
@@ -118,7 +118,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 40 se describe cómo los usuarios donantes pueden retornar productos utilizando las rutas definidas por las empresas, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 40 describe cómo los usuarios pueden retornar productos usando las rutas definidas por las empresas, lo cual está en línea con el requisito."
         },
         {
             "requirement": "Todo producto ha de tener una ruta predeterminada en la que el usuario lo devuelve por su cuenta y con sus propios medios.",
@@ -128,7 +128,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 40 indica que cada producto tiene una ruta predeterminada que el usuario puede usar para retornarlo, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "En la página 40 se menciona que cada producto tiene una ruta predeterminada para su retorno, lo cual cumple con el requisito."
         },
         {
             "requirement": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
@@ -138,7 +138,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 40 se menciona que las rutas tienen un presupuesto asociado que el usuario puede pagar al retornar un producto, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 40 explica que las rutas tienen un presupuesto asociado que el usuario puede pagar al retornar un producto, lo cual está directamente relacionado con el requisito."
         },
         {
             "requirement": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quieran tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
@@ -148,7 +148,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 40 describe un sistema de planes para empresas, incluyendo gratuitos, básicos y premium, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 40 menciona específicamente los tres planes disponibles (gratuito, básico y premium), lo cual cumple con el requisito de sistemas de afiliación."
         },
         {
             "requirement": "Nombre 11b. Requisitos de Personalización e Internacionalización",
@@ -158,7 +158,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 31 menciona que el sistema debe estar disponible en múltiples idiomas, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 31 describe el requisito de disponibilidad en múltiples idiomas, lo cual está directamente relacionado con el requisito de personalización e internacionalización."
         },
         {
             "requirement": "Volere 11a. Requisitos de Facilidad de Utilización",
@@ -168,7 +168,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 32 se indica que la interfaz de usuario debe ser intuitiva y fácil de usar, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 32 menciona pruebas de usabilidad con usuarios representativos, lo cual está en línea con el requisito de facilidad de utilización."
         },
         {
             "requirement": "Volere 15c. Requisitos de Privacidad",
@@ -178,7 +178,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 32 menciona que el sistema debe proteger la información de los usuarios mediante autenticación segura, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 32 habla sobre protección de datos y auditorías de seguridad, lo cual cumple con el requisito de privacidad."
         },
         {
             "requirement": "Volere 12e. Requisitos de Fortaleza o Tolerancia a Fallas",
@@ -188,7 +188,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 33 se indica que el sistema debe tener un tiempo de actividad del 99.9% y ser capaz de recuperarse de fallas en menos de 1 hora, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 33 menciona un uptime del 99.9% y recuperación de desastres, lo cual está directamente relacionado con la tolerancia a fallas."
         },
         {
             "requirement": "Volere 14a. Requisitos de Mantenimiento",
@@ -198,27 +198,27 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 33 menciona que el sistema debe ser fácil de mantener y actualizar, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 33 habla sobre documentación clara y actualizada, lo cual cumple con el requisito de mantenimiento."
         },
         {
             "requirement": "Volere 14c. Requisitos de Adaptabilidad",
             "referenced_pages": [
-                "33"
+                "34"
             ],
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 33 se indica que el sistema debe ser compatible con navegadores web comunes y dispositivos móviles, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 34 menciona compatibilidad con navegadores y dispositivos móviles, lo cual está en línea con el requisito de adaptabilidad."
         },
         {
             "requirement": "Volere 12g. Requisitos de Expansión o Crecimiento",
             "referenced_pages": [
-                "33"
+                "34"
             ],
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "La página 33 menciona que el sistema debe ser escalable para manejar un aumento en el número de usuarios y volumen de datos, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 34 habla sobre capacidad de escalar y mantener el rendimiento, lo cual cumple con el requisito de expansión."
         },
         {
             "requirement": "Volere 15a Requisito de Acceso",
@@ -228,7 +228,7 @@
             "P": 1,
             "M": 1,
             "T": 1,
-            "justification": "En la página 33 se indica que solo los usuarios empresa pueden acceder a sus productos/rutas/perfil, lo cual está completamente respaldado por la información proporcionada."
+            "justification": "La página 33 menciona que solo los usuarios empresa pueden acceder a sus productos/rutas/perfil, lo cual está directamente relacionado con el requisito de acceso."
         }
     ]
 }
