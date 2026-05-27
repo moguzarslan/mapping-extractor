@@ -1,7 +1,7 @@
 from resource.prompts.prompts import Prompts
 import os
 from dotenv import load_dotenv
-from service.prompt_service import process_single_prompt, process_chained_prompt
+from service.prompt_service import process_single_prompt, process_chained_prompt, process_requirement_splitting
 load_dotenv()
 
 
@@ -27,19 +27,27 @@ if __name__ == "__main__":
             try:
                 folder = ("resource/docs/" + file_name).strip()
                 file = folder + "/" + file_name + ".pdf"
-                process_chained_prompt(
-                    file=file,
-                    folder=folder,
-                    final_prompt=Prompts.CHAINED_MAPPING_EXTRACTION_PROMPT,
-                    output_dir="outputs/chained/"+file_name
-                )
+                # process_chained_prompt(
+                #     file=file,
+                #     folder=folder,
+                #     final_prompt=Prompts.CHAINED_MAPPING_EXTRACTION_PROMPT,
+                #     output_dir="outputs/chained/"+file_name
+                # )
 
+                requirements_output_dir = "outputs/gemini/" + file_name
                 process_single_prompt(
                     file=file,
                     folder=folder,
-                    prompt=Prompts.MAPPING_EXTRACTION_PROMPT,
-                    output_dir="outputs/single"
+                    prompt=Prompts.REQUIREMENT_EXTRACTION_PROMPT,
+                    output_dir=requirements_output_dir
                 )
+
+                process_requirement_splitting(
+                    input_json_dir=requirements_output_dir + "/" + file_name + ".json",
+                    output_file_name=file_name,
+                    output_dir=requirements_output_dir
+                )
+
             except Exception as file_error:
                 print(f"Error while processing '{file_name}': {file_error}")
 
