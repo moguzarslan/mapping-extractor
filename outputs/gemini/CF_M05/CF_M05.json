@@ -1,0 +1,419 @@
+[
+    {
+        "id": "R_01",
+        "description": "The solution shall act as an integration bus, allowing interoperability between systems, process standardization, and agile incorporation of new functionalities within the English market with NADIN.",
+        "pageNumber": "8",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_02",
+        "description": "The new NiX application shall allow continuing to work with the generation of old documentation while using new technologies.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_03",
+        "description": "NiX shall automatically transform old documentation files without users having to make any changes.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_04",
+        "description": "The new application shall allow business support users to continue working with familiar systems without directly intervening with new technologies.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_05",
+        "description": "The new application shall improve daily process monitoring and problem resolution.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_06",
+        "description": "The new application shall reduce the probability of manual errors.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_07",
+        "description": "The new application shall unify processes into a single system.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_08",
+        "description": "The new application shall facilitate error identification.",
+        "pageNumber": "9",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_09",
+        "description": "The system shall allow users to access the portal by authenticating with personal credentials.",
+        "pageNumber": "47",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The user is authenticated and can access the portal's functionalities.",
+        "relatedTo": "R_09",
+        "fixes": []
+    },
+    {
+        "id": "R_11",
+        "description": "The system shall allow users to view the portal applications to which they have access.",
+        "pageNumber": "47",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "The user only sees the applications to which they have access.",
+        "relatedTo": "R_11",
+        "fixes": []
+    },
+    {
+        "id": "R_13",
+        "description": "The system shall allow users to access the applications to which they have access in the portal.",
+        "pageNumber": "48",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The user accesses a portal application.",
+        "relatedTo": "R_13",
+        "fixes": []
+    },
+    {
+        "id": "R_15",
+        "description": "The system shall restrict the viewing and actions (create, modify, and delete) on data according to the roles assigned to the user.",
+        "pageNumber": "48",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "The user can view and perform actions on the data and screens to which they have permission.",
+        "relatedTo": "R_15",
+        "fixes": []
+    },
+    {
+        "id": "R_17",
+        "description": "The system shall ensure that data from other clients cannot be accessed.",
+        "pageNumber": "49",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "The user can only access the data of the client to which they are associated.",
+        "relatedTo": "R_17",
+        "fixes": []
+    },
+    {
+        "id": "R_19",
+        "description": "The system shall convert any mention of the old name to the new name.",
+        "pageNumber": "49",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_20",
+        "type": "criterion",
+        "description": "The user only sees mentions of the new name on both screens and data.",
+        "relatedTo": "R_19",
+        "fixes": []
+    },
+    {
+        "id": "R_21",
+        "description": "The system shall allow administrators to grant or revoke application access to users.",
+        "pageNumber": "50",
+        "type": "FR",
+        "fixes": []
+    },
+    {
+        "id": "R_22",
+        "type": "criterion",
+        "description": "The list of applications to which the affected user has access will be modified, and the affected user will see the list of applications modified when logging into the portal.",
+        "relatedTo": "R_21",
+        "fixes": []
+    },
+    {
+        "id": "R_23",
+        "description": "Primary keys must be defined for User, Language, ClusterType, Application, Authority, Role, Brand, and Cluster.",
+        "pageNumber": "50",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_24",
+        "description": "Each language_id in each content table must belong to an existing Language.",
+        "pageNumber": "50",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_25",
+        "description": "Dates must be valid and cannot be later than the present.",
+        "pageNumber": "50",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_26",
+        "description": "For all applicable tables, there cannot be elements of the same type with the same code.",
+        "pageNumber": "51",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_27",
+        "description": "The authorizations and Cluster assigned to a user must be of the same Cluster type as the user.",
+        "pageNumber": "51",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_28",
+        "description": "The authorizations assigned to a user must be from one of the brands that the associated Cluster contains.",
+        "pageNumber": "51",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_29",
+        "description": "The new content must maintain visual consistency with the design of the old version of the application.",
+        "pageNumber": "52",
+        "type": "QR",
+        "concept": "Appearance",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_30",
+        "type": "criterion",
+        "description": "The design, colors, typographies, and organization must be consistent with the old version.",
+        "relatedTo": "R_29",
+        "fixes": []
+    },
+    {
+        "id": "R_31",
+        "description": "The system must be easy to use for any user.",
+        "pageNumber": "52",
+        "type": "QR",
+        "concept": "Ease of Use",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_32",
+        "type": "criterion",
+        "description": "80% of users do not need to ask for third-party help to use the application.",
+        "relatedTo": "R_31",
+        "fixes": []
+    },
+    {
+        "id": "R_33",
+        "description": "The application must be available in several languages.",
+        "pageNumber": "53",
+        "type": "QR",
+        "concept": "Personalization and Internationalization",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_34",
+        "type": "criterion",
+        "description": "Complete and correct translations in both languages.",
+        "relatedTo": "R_33",
+        "fixes": []
+    },
+    {
+        "id": "R_35",
+        "description": "The user must be able to perform new operations without special training.",
+        "pageNumber": "53",
+        "type": "QR",
+        "concept": "Learnability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_36",
+        "type": "criterion",
+        "description": "The learning time for new functionalities should not exceed 5 minutes.",
+        "relatedTo": "R_35",
+        "fixes": []
+    },
+    {
+        "id": "R_37",
+        "description": "Query operations must have a loading time of less than 1 second.",
+        "pageNumber": "53",
+        "type": "QR",
+        "concept": "Speed and Latency",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_38",
+        "type": "criterion",
+        "description": "Response time should not exceed 1 second for 95% of queries.",
+        "relatedTo": "R_37",
+        "fixes": []
+    },
+    {
+        "id": "R_39",
+        "description": "The web application must guarantee continuous and stable operation, ensuring its availability at all times.",
+        "pageNumber": "54",
+        "type": "QR",
+        "concept": "Availability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_40",
+        "type": "criterion",
+        "description": "System availability must be at least 99.9%, even during periods of intensive use.",
+        "relatedTo": "R_39",
+        "fixes": []
+    },
+    {
+        "id": "R_41",
+        "description": "The web application must support a large number of simultaneous users without degrading its performance.",
+        "pageNumber": "54",
+        "type": "QR",
+        "concept": "Capacity",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_42",
+        "type": "criterion",
+        "description": "System availability must be at least 99.9%, even during periods of intensive use.",
+        "relatedTo": "R_41",
+        "fixes": []
+    },
+    {
+        "id": "R_43",
+        "description": "The system must allow authorized users to create, query, modify, and delete data.",
+        "pageNumber": "54",
+        "type": "QR",
+        "concept": "Access",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_44",
+        "type": "criterion",
+        "description": "The system must have a secure authentication and permission verification mechanism to ensure that each user can only access the information and functionalities that correspond to them.",
+        "relatedTo": "R_43",
+        "fixes": []
+    },
+    {
+        "id": "R_45",
+        "description": "The application must manage a strict separation of data for each client.",
+        "pageNumber": "55",
+        "type": "QR",
+        "concept": "Integrity",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_46",
+        "type": "criterion",
+        "description": "No user can access data from other clients.",
+        "relatedTo": "R_45",
+        "fixes": []
+    },
+    {
+        "id": "R_47",
+        "description": "The application must use a microservices-based architecture.",
+        "pageNumber": "56",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_48",
+        "description": "The project team is not responsible for the development or maintenance of the Ordering and GSB microservices.",
+        "pageNumber": "59",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_49",
+        "description": "The application must use a cloud architecture.",
+        "pageNumber": "60",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_50",
+        "description": "The cloud provider for this project must be Amazon Web Services.",
+        "pageNumber": "60",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_51",
+        "description": "Users must access the application from web browsers.",
+        "pageNumber": "60",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_52",
+        "description": "Microservices must be connected to a shared database decoupled by microservice and client, with a schema for each microservice and each client having its group of schemas per microservice.",
+        "pageNumber": "60",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_53",
+        "description": "Each microservice will be deployed in a pod.",
+        "pageNumber": "81",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_54",
+        "description": "Each client will have a specific namespace that groups the application's microservices, meaning microservices will be duplicated for each namespace.",
+        "pageNumber": "81",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_55",
+        "description": "There will be a common namespace for the Leader microservice, which will not be duplicated.",
+        "pageNumber": "81",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_56",
+        "description": "For each development environment (DEV, QA, and PROD), a different cluster will be used.",
+        "pageNumber": "81",
+        "type": "Constraint",
+        "fixes": []
+    },
+    {
+        "id": "R_57",
+        "description": "Repository management must be done using Gitflow.",
+        "pageNumber": "78",
+        "type": "Constraint",
+        "fixes": []
+    }
+]

@@ -1,0 +1,98 @@
+{
+    "architectural_patterns": [
+        {
+            "pattern_name": "Microservices",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Cloud Architecture",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Client-Server",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Layered Architecture",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "MVVM (Model-View-ViewModel)",
+            "validationScore": 3,
+            "justification": ""
+        }
+    ],
+    "components": [
+        {
+            "component_name": "Leader",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Portal",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Access Control",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Communication Log",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Scheduler",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Database (Amazon RDS)",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Frontend (Angular SPA)",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "component_name": "Backend (Spring Boot)",
+            "validationScore": 3,
+            "justification": ""
+        }
+    ],
+    "design_patterns": [
+        {
+            "pattern_name": "Repository",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "DTO (Data Transfer Object)",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Mapper",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Service",
+            "validationScore": 3,
+            "justification": ""
+        },
+        {
+            "pattern_name": "Controller",
+            "validationScore": 3,
+            "justification": ""
+        }
+    ]
+}

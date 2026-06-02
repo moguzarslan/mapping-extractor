@@ -1,7 +1,9 @@
 from resource.prompts.prompts import Prompts
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from service.prompt_service import process_single_prompt, process_chained_prompt, process_requirement_splitting
+from service.evaluator_service import evaluate
 load_dotenv()
 
 
@@ -35,19 +37,20 @@ if __name__ == "__main__":
                 # )
 
                 requirements_output_dir = "outputs/gemini/" + file_name
-                process_single_prompt(
+                llm_json_path = process_single_prompt(
                     file=file,
                     folder=folder,
                     prompt=Prompts.REQUIREMENT_EXTRACTION_PROMPT,
                     output_dir=requirements_output_dir
                 )
 
-                process_requirement_splitting(
-                    input_json_dir=requirements_output_dir + "/" + file_name + ".json",
-                    output_file_name=file_name,
-                    output_dir=requirements_output_dir
-                )
-
+                gt_path = f"resource/groundTruths/{file_name}_ground_truth.xlsx"
+                if Path(gt_path).exists():
+                    eval_output_path = f"outputs/evaluation/{file_name}_req_eval.xlsx"
+                    evaluate(gt_path, llm_json_path, eval_output_path)
+                    print(f"Evaluation saved: {eval_output_path}")
+                else:
+                    print(f"No ground truth found for '{file_name}', skipping evaluation.")
             except Exception as file_error:
                 print(f"Error while processing '{file_name}': {file_error}")
 

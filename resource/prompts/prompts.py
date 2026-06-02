@@ -1,39 +1,209 @@
 class Prompts:
     REQUIREMENT_EXTRACTION_PROMPT = """
-    Objective:
-    You are an expert software requirements analyst. Extract functional and non-functional requirements from the provided software product document.
+#  Objective:
+    You are an expert software requirements analyst. Extract functional ,  quality requirements, constraints and their acceptance criteria from the provided software product document.
     
-    Instructions:
+# Instructions:
     1. Review the entire document.
-    2. Identify all functional, non-functional requirements and constraints.
-    3. Extract the exact requirement statements as in the document.
-    4. If a requirement is written in a language other than English, translate it into clear English.
-    5. Original meaning of the requirement has to be preserved
-    6. For each requirement give the page number the requirement has found
-    7. For each requirement give the requirement type (functional, non-functional or constraint)
-    8. Give page number reference for each section for each component. 
-    
-    Rules:
+    2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria.
+    3. For each identified FR, QR or constraint, apply the specific processing logic found in the EXTRACTION RULES BY TYPE section below. .
+# EXTRACTION RULES BY TYPE
+## 1. For All Types
+   	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
+    	- For each type, specify the page number from the document text (not the PDF page number) where the requirement has been found.
+    	- For each type, specify the type (FR, QR, constraint or criterion).
+- If the source document misclassifies a requirement (e.g., an FR labeled as a QR), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
+## 2. For FR, QR and Constraints (Requirements)
+- In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
+- In the case of a requirement expressed textually, the requirement is the full text.
+
+## 3. For FR
+    	- In the case of a functional requirement expressed in a use case specification, the requirement is the objective.
+	- FR should have the following JSON Schema:
+		{
+		"id":<Sequential Id shared with all types (R_01, R_02)>,
+		"type": "<FR>",
+        "description": "<FR in English>",
+		“pageNumber”: “<Page number of the FR>”,
+		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        }
+
+## 4. For QR
+    	- In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
+    	- For QRs, concept and categorization should be extracted from the document.
+        	- In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
+        	- In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
+	- QR should have the following JSON schema:
+		{
+		"id":<Sequential Id shared with all types (R_01, R_02)>,
+		"type": "<QR>",
+        "description": "<QR in English>",
+		“pageNumber”: “<Page number of the requirement>”,
+        "concept": "<Type of QR (in English) >",
+        "categorization": "<Volere or ISO/IEC 25010>",
+		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        }
+
+## 4. For Constraint
+	- Constraint should have the following JSON Schema:
+        {
+		"id":<Sequential Id shared with all types (R_01, R_02)>,
+		"type": "<Constraint>",
+        "description": "<Constraint in English>",
+		“pageNumber”: “<Page number of the Constraint>”,
+		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        }		
+## 5. For Criterion:
+    	- In the case of a user history with several acceptance criteria, they should be added as separate requirements.
+    	- In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Acceptance contents.
+    	- The link between an acceptance criterion and its related requirement is explicitly represented by stating the ID of the related requirement.
+           - Criterion should have the following JSON schema:
+		{
+		"id":<Sequential Id shared with all types (R_01, R_02)>,
+		"type":”<criterion>”
+		"description": “<Actual acceptance criterion of the requirement>”,
+		"pageNumber": “<Page number of the criterion>”,
+        "relatedTo":”<Id of the related requirement>”,
+        “fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        }
+        
+    # Rules:
     - Ensure that all information is strictly supported by the document.
     - Give the output in json format.
     - Give the whole output in English.
-    - Avoid duplicates — each requirement should be listed once. 
-    - Avoid adding any extra explanation, just provide the exact requirement text.
+    - Avoid duplicates: each requirement should be listed once. 
+    - Avoid adding any extra explanation, just provide the required data..
+    - Avoid extracting:
+        - Implementation workflows and processing sequences.
+        - Database queries, algorithms, or internal logic.
+        - Database constraints even though they are under "constraints" or "integrity constraints".
+        - API routes, method names, class names, or source code details.
+        - Technology choices (databases, frameworks, cloud providers, programming languages).
+        - Data model definitions (tables, entities, foreign keys, schemas).
+        - Development tools, IDEs, libraries, or build systems.
+        - Deployment and infrastructure details unless explicitly stated as a stakeholder requirement
+        Some invalid requirement examples:
+        "After receiving the input, the information is passed to another internal component for processing."
+        "The system executes a database query to retrieve the requested data."
+        "The functionality is exposed through a specific API endpoint and HTTP method."
+        "The application stores its data using a particular database technology."
+        "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
+        "The software is implemented using a specific programming language, framework, or cloud platform."
+    - Avoid using use cases to extract requirements/criteria unless they are defined under the functional requirements section.
+    - Avoid using database schemas/tables to extract requirements/criteria. 
+    - Each element  must follow the sequential id (R_01,R_02) regardless of it's type (FR, QR, constraint or criterion). 
+          
+    Example Output (JSON):
+     {
+      "id": "R_01",
+      "type": "FR",
+      "description": "The system shall allow users to reset their password via email verification.",
+      "pageNumber": "12",
+      "fixes": [
+        "Requirement was originally classified as a QR but was reclassified as an FR because it describes a system functionality."
+      ]
+    },
+    {
+      "id": "R_02",
+      "type": "criterion",
+      "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
+      "pageNumber": "12",
+      "relatedTo": "R_01",
+      "fixes": []
+    },
+    {
+      "id": "R_03",
+      "type": "QR",
+      "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
+      "pageNumber": "15",
+      "concept": "Performance",
+      "categorization": "Volere",
+      "fixes": [ ]
+    },
+    {
+      "id": "R_04",
+      "type": "criterion",
+      "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
+      "pageNumber": "15",
+      "relatedTo": "R_03",
+      "fixes": []
+    }
+    ... 
+    """
+
+    REQUIREMENT_SPLITTING_PROMPT = """
+    Objective:
+    You are an expert software requirements analyst. You are given a JSON of already extracted requirements (the output of the requirement extraction step). Your task is to review each requirement and split it into multiple atomic requirements whenever it expresses more than one independent need.
+
+    Definition of an atomic requirement:
+    - A requirement is atomic when it expresses a single need that cannot be satisfied or verified independently as two or more separate needs.
+    - A requirement is compound (must be split) when it combines several needs joined by conjunctions ("and", "or", commas, slashes "/", lists) where each part stands as its own verifiable requirement.
+
+    Instructions:
+    1. Process each requirement in the input JSON one by one.
+    2. Decide whether the requirement expresses a single need (atomic) or multiple needs (compound).
+    3. If atomic, keep it unchanged (same id and same field values).
+    4. If compound, split it into the minimum number of atomic requirements, one per distinct need.
+       - Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed).
+       - Do not invent, add, or remove information beyond what is needed to make each part a complete sentence.
+    5. Id assignment:
+       - When a requirement is split, keep the original id as the base and append sequential lowercase letters (R_01 -> R_01a, R_01b, R_01c ...).
+       - When a requirement is NOT split, keep its original id unchanged (R_01 stays R_01).
+    6. All other fields (requirementType, relatedTo, concept, categorization, page number, etc.) must be copied unchanged from the original requirement onto every split part.
+    7. Preserve the original order of requirements.
+
+    Examples:
+    - "Application should work in Spanish and English" ->
+        "Application should work in Spanish" ,
+        "Application should work in English"
+    - "The products/routes/profiles of a company can only be edited and accessible by that company." ->
+        "The products of a company can only be edited and accessible by that company." ,
+        "The routes of a company can only be edited and accessible by that company." ,
+        "The profiles of a company can only be edited and accessible by that company."
+
+    Rules:
+    - Avoid splitting when the conjunction joins parts of a single indivisible need (e.g. "username and password" forming one credential, "save and exit" as one action if treated atomically in the source).
+    - Avoid changing the meaning of any requirement.
+    - Avoid adding any explanation or commentary.
+    - Keep all field values consistent with the input. Only the id and requirement text may change, and only for requirements that are split.
+    - Give the output in json format, using the same schema as the input.
+    - Give the whole output in English.
+
+    Input Format (JSON):
+    {
+      "requirements": {requirements_json}
+    }
 
     Example Output (JSON):
     {
       "requirements": [
         {
-          "requirement": "<Requirement>",
-          "page_number": "<Page Number>"
+          "id": "R_01a",
+          "requirement": "Application should work in Spanish",
+          "requirementType": "...",
+          "relatedTo": "...",
+          "concept": "...",
+          "categorization": "..."
         },
         {
+          "id": "R_01b",
+          "requirement": "Application should work in English",
+          "requirementType": "...",
+          "relatedTo": "...",
+          "concept": "...",
+          "categorization": "..."
+        },
+        {
+          "id": "R_02",
           "requirement": "...",
-          "page_number": "..."
-        }
+          "requirementType": "...",
+          "relatedTo": "...",
+          "concept": "...",
+          "categorization": "..."
+        } 
       ]
     }
-    ... 
+    ...
     """
 
     ARCHITECTURE_EXTRACTION_PROMPT = """
@@ -218,9 +388,10 @@ class Prompts:
     1. Carefully analyze both JSON inputs.
     2. For each architectural item, provide a detailed mapping that includes:
        - The relevant requirements it addresses (one or more).
-       - A clear explanation of how the architectural item fulfills or contributes to each requirement.    3. Establish many-to-many relationships where applicable (a component can map to multiple requirements and vice versa).
-    3. Base your mapping strictly on the provided data — avoid inventing unsupported relationships.
-    4. Use architectural item explanations to justify mappings.
+       - A clear explanation of how the architectural item fulfills or contributes to each requirement.    
+    4. Establish many-to-many relationships where applicable (a component can map to multiple requirements and vice versa).
+    5. Base your mapping strictly on the provided data — avoid inventing unsupported relationships.
+    6. Use architectural item explanations to justify mappings.
     
     Rules:
     - Give the corresponding mappings under three separate title (architectural patterns, components, design patterns) 
@@ -272,191 +443,4 @@ class Prompts:
       }
     }
     ...
-    """
-    REQUIREMENT_VALIDATION_PROMPT = """
-    Objective:
-    You are a strict evaluator. Your task is to validate a JSON output extracted from a source document.
-    
-    Inputs:
-    1. Source document with page numbers.
-    2. JSON output containing extracted requirements. Each requirement includes:
-       - requirement title/name
-       - requirement sentence/explanation
-       - requirement type/category
-       - referenced page number(s)
-    
-    Instructions for each requirement:    
-    1. Calculate the validation score with following guidelines:
-        - Requirement is found in the referenced page/s (1 point)
-        - Requirement sentence is only include the requirement (does not have any justification or invented information) (2 point)
-        - Requirement meaning is fully preserved (translations or rephrasing is allowed only if meaning is preserved)(5 point)
-        - Requirement type set correctly (2 point)
-        
-    Rules:
-    - Be strict about invented information.
-    - Avoid rewarding explanations that sound plausible but are not supported by the referenced page.
-    - Translations are allowed, but the original meaning must be preserved.
-    - Ensure whole output is given in English (Including requirement titles/sentences).
-    - Justifications will only be about deducted points if there is no deduction, it must be empty.
-
-    
-    Output Format (JSON):
-    {
-      "evaluations": [
-        {
-          "requirement": "string",
-          "referenced_pages": ["string"],
-          "validationScore": number,
-          "justification": "Brief explanation about deducted points (if there is any)."
-        }
-      ]
-    }
-        ... 
-        """
-    ARCHITECTURE_VALIDATION_PROMPT = """
-    Objective:
-    You are a strict evaluator. Your task is to validate an architecture JSON extracted from a software document.
-    
-    Inputs:
-    1. Source document.
-    2. Architecture JSON containing:
-       - architectural patterns
-       - components
-       - design patterns  
-    Each item includes explanations and referenced page number(s).
-    
-    Instructions:
-    1. For each architectural pattern, check pattern exists and is supported by the document.      
-       Assign validation score:  
-       - Role of the component is correct  (5 point)
-       - There is no missing information that can change component's role drastically. (2 point)
-       - There is no invented information. (2 point)
-       - Reference pages are correctly identified. (1 point) 
-    
-    2. For each component, go to every referenced page for each sub-field (role, technical details, communication).  
-       Evaluate role explanation:  
-       Assign role score:  
-       - Role of the component is correct  (5 point)
-       - There is no missing information that can change component's role drastically. (2 point)
-       - There is no invented information. (2 point)
-       - Reference pages are correctly identified. (1 point)
-       
-       Evaluate technical details explanation:  
-       Assign technical details score:  
-       - Technical details are correct and supported by document (5 point)
-       - There is no missing technical aspect that is majorly considered in the paper. (2 point)
-       - There is no invented information. (2 point)
-       - Reference pages are correctly identified. (1 point)
-       
-       Evaluate communication explanation:  
-       Assign communication score:  
-       - Communication flows are correct and supported by document (5 point)
-       - There is no missing communication flow. (2 point)
-       - There is no invented information. (2 point)
-       - Reference pages are correctly identified. (1 point)
-
-    
-    3. For each design pattern, go to every referenced page and validate both association and explanation.  
-       Assign validation score:  
-       - Associated components are correctly identified. (2 point)
-       - Design pattern is correct and supported by document (5 point)
-       - There is no invented information. (2 point)
-       - Reference pages are correctly identified. (1 point)
-
-    
-    Rules
-    - Avoid assuming correctness if not explicitly supported.  
-    - Be strict about invented or exaggerated explanations.  
-    - In justifications only explain the reason for deducted points.  
-    - Ensure whole output is given in English.
-    
-    Output JSON:
-    
-    Return only valid JSON in the following format:
-    
-    {
-      "architectural_patterns": [
-        {
-          "patternName": "string",
-          "validationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ],
-      "components": [
-        {
-          "componentName": "string",
-          "roleScore": number,
-          "technicalDetailsScore": number,
-          "communicationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ],
-      "design_patterns": [
-        {
-          "patternName": "string",
-          "validationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ]
-    }
-    """
-
-    MAPPING_VALIDATION_PROMPT = """
-    Objective:
-    You are a strict evaluator. Your task is to validate an architecture JSON extracted from a software document.
-    
-    Inputs:
-    1. Source document.
-    2. Mappings JSON containing:
-       - Mappings between requirements and architectural items that can be:
-         Architectural Pattern, Component or a Design Pattern
-    
-    Instructions:
-    1. For each architectural pattern, check if mappings are exist and is supported by the document.      
-       Assign validation score:  
-       - Related requirements are supported by the document  (4 point)
-       - Explanation is detailed enough and supported by the document (4 point)
-       - There is no invented information. (2 point)
-    2. For each component, check if mappings are exist and is supported by the document.      
-       Assign validation score:  
-       - Related requirements are correct and supported by the document  (4 point)
-       - Explanation is detailed enough and supported by the document (4 point)
-       - There is no invented information. (2 point)
-    3. For each design pattern, check if mappings are exist and is supported by the document.      
-       Assign validation score:  
-       - Related requirements are correct and supported by the document  (4 point)
-       - Explanation is detailed enough and supported by the document (4 point)
-       - There is no invented information. (2 point)
-    
-    Rules
-    - Avoid assuming correctness if not explicitly supported.  
-    - Be strict about invented or exaggerated explanations.  
-    - You are restricted with the input json, avoid inventing any extra architectural patterns, components, and design patterns that are not in json.  
-    - In justifications only explain the reason for deducted points. Give an empty justification if it gets full point 
-    - Ensure whole output is given in English.
-    
-    Example Output JSON:    
-    {
-      "architectural_patterns": [
-        {
-          "pattern_name": "string",
-          "validationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ],
-      "components": [
-        {
-          "component_name": "string",
-          "validationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ],
-      "design_patterns": [
-        {
-          "pattern_name": "string",
-          "validationScore": number,
-          "justification": "Brief explanation of deducted points (If there is any)"
-        }
-      ]
-    }
     """

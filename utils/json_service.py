@@ -57,5 +57,6 @@ def save_json(response:str,file_path: str, output_dir: str = "outputs") -> Path:
     output_path = output_folder / f"{input_path.stem}.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+    return output_path
 
 
