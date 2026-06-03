@@ -37,10 +37,18 @@ Per-field metric definitions
 ----------------------------
 For a field F, over the matched (TP) requirement pairs:
     correct_F  = TP pairs where F is present on BOTH sides AND the values agree
+
+`description` (the matching anchor) is scored at the REQUIREMENT level, so its
+denominators span ALL items (matched + unmatched):
     llm_has_F  = number of LLM items with F populated
     gt_has_F   = number of GT items with F populated
-    Precision_F = correct_F / llm_has_F        ("-" if llm_has_F == 0)
-    Recall_F    = correct_F / gt_has_F          ("-" if gt_has_F  == 0)
+
+Every OTHER field is scored as a success rate over the matched (TP) pairs —
+unmatched items are already penalised by the description anchor. Both precision
+and recall use `tp` as the denominator, so they are equal and represent the
+fraction of matched pairs where the field was correctly identified:
+
+    Precision_F = Recall_F = correct_F / tp   ("-" if tp == 0)
 
 "Agreement" per field:
     type, categorization   case-insensitive exact match
@@ -250,9 +258,28 @@ def text_similarity(a: str, b: str) -> float:
         return 0.0
 
 
-def greedy_match(sim: np.ndarray, threshold: float) -> list[tuple[int, int, float]]:
-    """One-to-one greedy assignment over similarity-sorted pairs, score >= threshold."""
+def greedy_match(sim: np.ndarray, threshold: float,
+                 llm_types: list[str | None] | None = None,
+                 gt_types: list[str | None] | None = None) -> list[tuple[int, int, float]]:
+    """One-to-one greedy assignment over similarity-sorted pairs, score >= threshold.
+
+    If llm_types and gt_types are provided, a pair (i, j) is only considered
+    when both sides have the same type (case-insensitive), or when at least one
+    side has no type information (treated as a wildcard so untyped requirements
+    are still matchable).
+    """
     n_llm, n_gt = sim.shape
+    check_types = llm_types is not None and gt_types is not None
+
+    def types_compatible(i: int, j: int) -> bool:
+        if not check_types:
+            return True
+        lt = llm_types[i]   # type: ignore[index]
+        gt = gt_types[j]    # type: ignore[index]
+        if lt is None or gt is None:
+            return True      # wildcard: one side has no type, allow the pair
+        return norm_categorical(lt) == norm_categorical(gt)
+
     candidates = sorted(
         ((sim[i, j], i, j) for i in range(n_llm) for j in range(n_gt)),
         reverse=True,
@@ -262,6 +289,8 @@ def greedy_match(sim: np.ndarray, threshold: float) -> list[tuple[int, int, floa
         if score < threshold:
             break
         if i in used_llm or j in used_gt:
+            continue
+        if not types_compatible(i, j):
             continue
         pairs.append((i, j, float(score)))
         used_llm.add(i)
@@ -351,13 +380,19 @@ def build_report(gt, llm, sim, pairs, threshold):
     field_rows, count_rows = [], []
     for spec in FIELD_SPECS:
         name = spec["name"]
-        llm_has = sum(field_present(r, spec) for r in llm)
-        gt_has  = sum(field_present(r, spec) for r in gt)
+        llm_has_total = sum(field_present(r, spec) for r in llm)
+        gt_has_total  = sum(field_present(r, spec) for r in gt)
 
         correct, sims = 0, []
+        llm_has_matched, gt_has_matched = 0, 0
         for i, j, _ in pairs:
-            if not (field_present(llm[i], spec) and field_present(gt[j], spec)):
-                # still record similarity for description even if "present" check trivially true
+            llm_populated = field_present(llm[i], spec)
+            gt_populated  = field_present(gt[j], spec)
+            if llm_populated:
+                llm_has_matched += 1
+            if gt_populated:
+                gt_has_matched += 1
+            if not (llm_populated and gt_populated):
                 continue
             agree, s = field_agrees(spec, llm[i], gt[j], threshold,
                                     llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt)
@@ -366,8 +401,18 @@ def build_report(gt, llm, sim, pairs, threshold):
             if spec["semantic"] and s is not None:
                 sims.append(s)
 
-        precision = (correct / llm_has) if llm_has else None
-        recall    = (correct / gt_has) if gt_has else None
+        if name == DESC_REQUIRED_NAME:
+            # Description is the matching anchor: score it at the requirement
+            # level, so its denominators span ALL items (matched + unmatched).
+            llm_den, gt_den = llm_has_total, gt_has_total
+        else:
+            # Every other field is scored as a success rate over the matched
+            # pairs (TP): correct / tp, so precision == recall == success rate.
+            # Unmatched items are already penalised via the description anchor.
+            llm_den, gt_den = llm_has_matched, llm_has_matched
+
+        precision = (correct / llm_den) if llm_den else None
+        recall    = (correct / gt_den) if gt_den else None
         mean_sem  = (float(np.mean(sims)) if sims else None) if spec["semantic"] else None
 
         field_rows.append({
@@ -378,8 +423,10 @@ def build_report(gt, llm, sim, pairs, threshold):
         })
         count_rows.append({
             "field": name,
-            "gt_populated": gt_has,
-            "llm_populated": llm_has,
+            "gt_populated_total": gt_has_total,
+            "llm_populated_total": llm_has_total,
+            "gt_populated_matched": gt_has_matched,
+            "llm_populated_matched": llm_has_matched,
             "correct_in_matched": correct,
             "matched_pairs (TP)": tp,
         })
@@ -444,7 +491,11 @@ def evaluate(gt_path, llm_path, output_path, threshold=0.35):
 
     sim   = compute_similarity([norm_text(r["description"]) or "" for r in gt],
                                [norm_text(r["description"]) or "" for r in llm])
-    pairs = greedy_match(sim, threshold)
+
+    type_spec = next(s for s in FIELD_SPECS if s["name"] == "type")
+    llm_types = [norm_categorical(r.get(type_spec["name"])) for r in llm]
+    gt_types  = [norm_categorical(r.get(type_spec["name"])) for r in gt]
+    pairs = greedy_match(sim, threshold, llm_types=llm_types, gt_types=gt_types)
     report = build_report(gt, llm, sim, pairs, threshold)
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)

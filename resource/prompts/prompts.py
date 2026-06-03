@@ -12,13 +12,13 @@ class Prompts:
    	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
     	- For each type, specify the page number from the document text (not the PDF page number) where the requirement has been found.
     	- For each type, specify the type (FR, QR, constraint or criterion).
-- If the source document misclassifies a requirement (e.g., an FR labeled as a QR), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
+    - If the source document misclassifies a requirement (e.g., an FR labeled as a QR), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
 ## 2. For FR, QR and Constraints (Requirements)
-- In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
-- In the case of a requirement expressed textually, the requirement is the full text.
+    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
+    - In the case of a requirement expressed textually, the requirement is the full text.
 
 ## 3. For FR
-    	- In the case of a functional requirement expressed in a use case specification, the requirement is the objective.
+    - In the case of a functional requirement expressed in a use case specification, the requirement is the objective.
 	- FR should have the following JSON Schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
@@ -29,10 +29,10 @@ class Prompts:
         }
 
 ## 4. For QR
-    	- In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
-    	- For QRs, concept and categorization should be extracted from the document.
-        	- In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
-        	- In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
+    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
+    - For QRs, concept and categorization should be extracted from the document.
+        - In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
+        - In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
 	- QR should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
@@ -54,14 +54,14 @@ class Prompts:
 		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
         }		
 ## 5. For Criterion:
-    	- In the case of a user history with several acceptance criteria, they should be added as separate requirements.
-    	- In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Acceptance contents.
-    	- The link between an acceptance criterion and its related requirement is explicitly represented by stating the ID of the related requirement.
-           - Criterion should have the following JSON schema:
+    - In the case of a user history with several acceptance criteria, they should be added as separate requirements.
+    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Acceptance contents.
+    - The link between an acceptance criterion and its related requirement is explicitly represented by stating the ID of the related requirement.
+    - Criterion should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type":”<criterion>”
-		"description": “<Actual acceptance criterion of the requirement>”,
+		"description": “<Actual acceptance criterion of the requirement in English>,>”,
 		"pageNumber": “<Page number of the criterion>”,
         "relatedTo":”<Id of the related requirement>”,
         “fixes”: [“Brief explanation if any mistakes corrected from the source document”]
@@ -70,7 +70,7 @@ class Prompts:
     # Rules:
     - Ensure that all information is strictly supported by the document.
     - Give the output in json format.
-    - Give the whole output in English.
+    - Whole output must be English. If source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
     - Avoid duplicates: each requirement should be listed once. 
     - Avoid adding any extra explanation, just provide the required data..
     - Avoid extracting:
@@ -116,7 +116,7 @@ class Prompts:
       "type": "QR",
       "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
       "pageNumber": "15",
-      "concept": "Performance",
+      "concept": "12a. Speed and latency",
       "categorization": "Volere",
       "fixes": [ ]
     },
