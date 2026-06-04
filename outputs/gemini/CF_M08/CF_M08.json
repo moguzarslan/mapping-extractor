@@ -1,0 +1,204 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall be available in both Spanish and English.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system shall be available in Spanish and English, verified by a translator.",
+        "pageNumber": "31",
+        "relatedTo": "R_01",
+        "fixes": []
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "The system shall allow the registration of new users.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "The system shall authenticate existing users via email.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow users to log out.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "The system shall allow logged-in users to view company profiles and their products.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "A company shall be able to modify its public profile at any time and preview it while editing.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "A company shall have access to a dashboard to use internal functionalities and view additional information.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "A company shall be able to register a product to make it visible on its public profile.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_010",
+        "type": "FR",
+        "description": "A company shall be able to register a route to link it to its products.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_011",
+        "type": "FR",
+        "description": "A user shall be able to return a product registered by a company using its routes.",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_012",
+        "type": "FR",
+        "description": "The system shall provide an affiliation/plan system for companies (free, basic, and premium).",
+        "pageNumber": "30",
+        "fixes": []
+    },
+    {
+        "id": "R_013",
+        "type": "QR",
+        "description": "The user interface must be intuitive and easy to use for non-technical users.",
+        "pageNumber": "31",
+        "concept": "Usability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_014",
+        "type": "criterion",
+        "description": "Usability testing with at least 10 representative users, achieving a minimum satisfaction score of 8/10.",
+        "pageNumber": "31",
+        "relatedTo": "R_013",
+        "fixes": []
+    },
+    {
+        "id": "R_015",
+        "type": "QR",
+        "description": "The system must protect user information through secure authentication.",
+        "pageNumber": "32",
+        "concept": "Privacy",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_016",
+        "type": "criterion",
+        "description": "The system must pass security audits without critical vulnerabilities.",
+        "pageNumber": "32",
+        "relatedTo": "R_015",
+        "fixes": []
+    },
+    {
+        "id": "R_017",
+        "type": "QR",
+        "description": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+        "pageNumber": "32",
+        "concept": "Fault Tolerance",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_018",
+        "type": "criterion",
+        "description": "Uptime monitoring demonstrating 99.9% availability and disaster recovery tests meeting the specified recovery time.",
+        "pageNumber": "32",
+        "relatedTo": "R_017",
+        "fixes": []
+    },
+    {
+        "id": "R_019",
+        "type": "QR",
+        "description": "The system must be easy to maintain and update with clear and complete documentation.",
+        "pageNumber": "32",
+        "concept": "Maintainability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_020",
+        "type": "criterion",
+        "description": "Complete and updated documentation, with an average time for implementing updates and resolving issues not exceeding 2 hours.",
+        "pageNumber": "32",
+        "relatedTo": "R_019",
+        "fixes": []
+    },
+    {
+        "id": "R_021",
+        "type": "QR",
+        "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+        "pageNumber": "33",
+        "concept": "Adaptability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_022",
+        "type": "criterion",
+        "description": "Compatibility tests demonstrating functionality in major browsers and mobile devices.",
+        "pageNumber": "33",
+        "relatedTo": "R_021",
+        "fixes": []
+    },
+    {
+        "id": "R_023",
+        "type": "QR",
+        "description": "The system must be scalable to handle an increase in the number of users and data volume.",
+        "pageNumber": "33",
+        "concept": "Scalability",
+        "categorization": "Volere",
+        "fixes": []
+    },
+    {
+        "id": "R_024",
+        "type": "criterion",
+        "description": "Capacity to increase server resources and maintain performance with a 50% increase in workload.",
+        "pageNumber": "33",
+        "relatedTo": "R_023",
+        "fixes": []
+    },
+    {
+        "id": "R_025",
+        "type": "Constraint",
+        "description": "Company products, routes, and profiles can only be edited and accessed by that specific company.",
+        "pageNumber": "33",
+        "fixes": []
+    },
+    {
+        "id": "R_026",
+        "type": "criterion",
+        "description": "Verify that only the company user can access their products, routes, and profile.",
+        "pageNumber": "33",
+        "relatedTo": "R_025",
+        "fixes": []
+    }
+]

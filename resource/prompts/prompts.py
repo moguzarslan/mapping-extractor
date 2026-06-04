@@ -1,23 +1,26 @@
 class Prompts:
     REQUIREMENT_EXTRACTION_PROMPT = """
-#  Objective:
-    You are an expert software requirements analyst. Extract functional ,  quality requirements, constraints and their acceptance criteria from the provided software product document.
+#  Objective
+    You are an expert software requirements analyst. Extract functional requirements, quality requirements, constraints and acceptance criteria from the provided software document.
     
-# Instructions:
+# Instructions
     1. Review the entire document.
-    2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria.
-    3. For each identified FR, QR or constraint, apply the specific processing logic found in the EXTRACTION RULES BY TYPE section below. .
-# EXTRACTION RULES BY TYPE
-## 1. For All Types
+    2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria for all of them.
+    3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the EXTRACTION RULES BY TYPE section below. .
+
+# Extraction Rules by Type
+
+## For All Types
    	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
-    	- For each type, specify the page number from the document text (not the PDF page number) where the requirement has been found.
-    	- For each type, specify the type (FR, QR, constraint or criterion).
+    - For each type, specify the page number from the document text (not the PDF page number) where the requirement starts.
+    - For each type, specify the type (FR, QR, constraint or criterion).
     - If the source document misclassifies a requirement (e.g., an FR labeled as a QR), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
-## 2. For FR, QR and Constraints (Requirements)
-    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
+         
+## For FR, QR and Constraints (Requirements)
     - In the case of a requirement expressed textually, the requirement is the full text.
 
-## 3. For FR
+## For FR
+    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
     - In the case of a functional requirement expressed in a use case specification, the requirement is the objective.
 	- FR should have the following JSON Schema:
 		{
@@ -28,11 +31,11 @@ class Prompts:
 		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
         }
 
-## 4. For QR
-    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
+## For QR
     - For QRs, concept and categorization should be extracted from the document.
         - In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
         - In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
+    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
 	- QR should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
@@ -44,7 +47,7 @@ class Prompts:
 		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
         }
 
-## 4. For Constraint
+## For Constraint
 	- Constraint should have the following JSON Schema:
         {
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
@@ -52,8 +55,9 @@ class Prompts:
         "description": "<Constraint in English>",
 		“pageNumber”: “<Page number of the Constraint>”,
 		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
-        }		
-## 5. For Criterion:
+        }	
+        	
+## For Criterion
     - In the case of a user history with several acceptance criteria, they should be added as separate requirements.
     - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Acceptance contents.
     - The link between an acceptance criterion and its related requirement is explicitly represented by stating the ID of the related requirement.
@@ -67,67 +71,66 @@ class Prompts:
         “fixes”: [“Brief explanation if any mistakes corrected from the source document”]
         }
         
-    # Rules:
-    - Ensure that all information is strictly supported by the document.
-    - Give the output in json format.
-    - Whole output must be English. If source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
-    - Avoid duplicates: each requirement should be listed once. 
-    - Avoid adding any extra explanation, just provide the required data..
-    - Avoid extracting:
-        - Implementation workflows and processing sequences.
-        - Database queries, algorithms, or internal logic.
-        - Database constraints even though they are under "constraints" or "integrity constraints".
-        - API routes, method names, class names, or source code details.
-        - Technology choices (databases, frameworks, cloud providers, programming languages).
-        - Data model definitions (tables, entities, foreign keys, schemas).
-        - Development tools, IDEs, libraries, or build systems.
-        - Deployment and infrastructure details unless explicitly stated as a stakeholder requirement
-        Some invalid requirement examples:
-        "After receiving the input, the information is passed to another internal component for processing."
-        "The system executes a database query to retrieve the requested data."
-        "The functionality is exposed through a specific API endpoint and HTTP method."
-        "The application stores its data using a particular database technology."
-        "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
-        "The software is implemented using a specific programming language, framework, or cloud platform."
-    - Avoid using use cases to extract requirements/criteria unless they are defined under the functional requirements section.
-    - Avoid using database schemas/tables to extract requirements/criteria. 
-    - Each element  must follow the sequential id (R_01,R_02) regardless of it's type (FR, QR, constraint or criterion). 
-          
-    Example Output (JSON):
-     {
-      "id": "R_01",
-      "type": "FR",
-      "description": "The system shall allow users to reset their password via email verification.",
-      "pageNumber": "12",
-      "fixes": [
-        "Requirement was originally classified as a QR but was reclassified as an FR because it describes a system functionality."
-      ]
-    },
-    {
-      "id": "R_02",
-      "type": "criterion",
-      "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
-      "pageNumber": "12",
-      "relatedTo": "R_01",
-      "fixes": []
-    },
-    {
-      "id": "R_03",
-      "type": "QR",
-      "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
-      "pageNumber": "15",
-      "concept": "12a. Speed and latency",
-      "categorization": "Volere",
-      "fixes": [ ]
-    },
-    {
-      "id": "R_04",
-      "type": "criterion",
-      "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
-      "pageNumber": "15",
-      "relatedTo": "R_03",
-      "fixes": []
-    }
+# Rules:
+- Ensure that all information is strictly supported by the document.
+- Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+- Avoid duplicates: each requirement should be listed once. 
+- Avoid adding any extra explanation, just provide the required data..
+- Avoid extracting:
+    - Implementation workflows and processing sequences.
+    - Database queries, algorithms, or internal logic.
+    - Database constraints even though they are under "constraints" or "integrity constraints".
+    - API routes, method names, class names, or source code details.
+    - Data model definitions (tables, entities, foreign keys, schemas).
+    - Development tools, IDEs or build systems.
+    - Deployment and infrastructure details unless explicitly stated as a stakeholder requirement
+    Some invalid requirement examples:
+    "After receiving the input, the information is passed to another internal component for processing."
+    "The system executes a database query to retrieve the requested data."
+    "The functionality is exposed through a specific API endpoint and HTTP method."
+    "The application stores its data using a particular database technology."
+    "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
+    "The software is implemented using a specific programming language, framework, or cloud platform."
+- Avoid using use cases to extract requirements/criteria unless they are defined under the functional requirements section.
+- Avoid using database schemas/tables to extract requirements/criteria. 
+- Avoid extracting post conditions as an acceptance criteria.
+- Each element  must follow the sequential id (R_01,R_02) regardless of its type (FR, QR, constraint or criterion).    
+ 
+# Example Output (JSON)
+ {
+  "id": "R_01",
+  "type": "FR",
+  "description": "The system shall allow users to reset their password via email verification.",
+  "pageNumber": "12",
+  "fixes": [
+    "Requirement was originally classified as a QR but was reclassified as an FR because it describes a system functionality."
+  ]
+},
+{
+  "id": "R_02",
+  "type": "criterion",
+  "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
+  "pageNumber": "12",
+  "relatedTo": "R_01",
+  "fixes": []
+},
+{
+  "id": "R_03",
+  "type": "QR",
+  "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
+  "pageNumber": "15",
+  "concept": "12a. Speed and latency",
+  "categorization": "Volere",
+  "fixes": [ ]
+},
+{
+  "id": "R_04",
+  "type": "criterion",
+  "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
+  "pageNumber": "15",
+  "relatedTo": "R_03",
+  "fixes": []
+}
     ... 
     """
 
