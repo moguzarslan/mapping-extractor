@@ -472,6 +472,40 @@ def build_report(gt, llm, sim, pairs, threshold):
         for j in range(len(gt)) if j not in matched_gt
     ])
 
+    gt_report = pd.DataFrame([
+        {
+            "GT_ID": gt[j]["id"],
+            "GT_description": gt[j].get("description"),
+            "GT_type": gt[j].get("type"),
+            "GT_pageNumber": gt[j].get("pageNumber"),
+            "GT_concept": gt[j].get("concept"),
+            "GT_categorization": gt[j].get("categorization"),
+            "GT_relatedTo": gt[j].get("relatedTo"),
+            "GT_fixes": fixes_to_text(gt[j].get("fixes")),
+            "closest_LLM_ID": llm[int(sim[:, j].argmax())]["id"],
+            "closest_LLM_description": llm[int(sim[:, j].argmax())].get("description"),
+            "best_similarity": round(float(sim[:, j].max()), 4),
+        }
+        for j in range(len(gt)) if j not in matched_gt
+    ])
+
+    llm_report = pd.DataFrame([
+        {
+            "LLM_ID": llm[i]["id"],
+            "LLM_description": llm[i].get("description"),
+            "LLM_type": llm[i].get("type"),
+            "LLM_pageNumber": llm[i].get("pageNumber"),
+            "LLM_concept": llm[i].get("concept"),
+            "LLM_categorization": llm[i].get("categorization"),
+            "LLM_relatedTo": llm[i].get("relatedTo"),
+            "LLM_fixes": fixes_to_text(llm[i].get("fixes")),
+            "closest_GT_ID": gt[int(sim[i].argmax())]["id"],
+            "closest_GT_description": gt[int(sim[i].argmax())].get("description"),
+            "best_similarity": round(float(sim[i].max()), 4),
+        }
+        for i in range(len(llm)) if i not in matched_llm
+    ])
+
     return {
         "Field_Metrics": field_metrics,
         "Field_Counts": field_counts,
@@ -479,6 +513,8 @@ def build_report(gt, llm, sim, pairs, threshold):
         "Matched_TP": matched,
         "False_Positives": fps,
         "False_Negatives": fns,
+        "LLM_Requirements_Report": llm_report,
+        "GT_Requirements_Report": gt_report,
         "stats": {"tp": tp, "fp": fp, "fn": fn, "field_metrics": field_rows},
     }
 
@@ -503,6 +539,14 @@ def evaluate(gt_path, llm_path, output_path, threshold=0.35):
         for sheet in ("Field_Metrics", "Field_Counts", "Requirement_Matching",
                       "Matched_TP", "False_Positives", "False_Negatives"):
             report[sheet].to_excel(w, sheet_name=sheet, index=False)
+
+    report_path = Path(output_path).with_name(Path(output_path).stem + "_llm_report.xlsx")
+    with pd.ExcelWriter(report_path, engine="openpyxl") as w:
+        report["LLM_Requirements_Report"].to_excel(w, sheet_name="LLM_Requirements_Report", index=False)
+
+    gt_report_path = Path(output_path).with_name(Path(output_path).stem + "_gt_report.xlsx")
+    with pd.ExcelWriter(gt_report_path, engine="openpyxl") as w:
+        report["GT_Requirements_Report"].to_excel(w, sheet_name="GT_Requirements_Report", index=False)
     return report
 
 

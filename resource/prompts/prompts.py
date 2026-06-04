@@ -6,7 +6,7 @@ class Prompts:
 # Instructions
     1. Review the entire document.
     2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria for all of them.
-    3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the EXTRACTION RULES BY TYPE section below. .
+    3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the Extraction Rules by Type section below, during the extraction make sure to oblige the rules defined in Rules section.
 
 # Extraction Rules by Type
 
@@ -74,8 +74,9 @@ class Prompts:
 # Rules:
 - Ensure that all information is strictly supported by the document.
 - Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
 - Avoid duplicates: each requirement should be listed once. 
-- Avoid adding any extra explanation, just provide the required data..
+- Avoid adding any extra explanation, just provide the required data.
 - Avoid extracting:
     - Implementation workflows and processing sequences.
     - Database queries, algorithms, or internal logic.
@@ -91,10 +92,9 @@ class Prompts:
     "The application stores its data using a particular database technology."
     "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
     "The software is implemented using a specific programming language, framework, or cloud platform."
-- Avoid using use cases to extract requirements/criteria unless they are defined under the functional requirements section.
-- Avoid using database schemas/tables to extract requirements/criteria. 
-- Avoid extracting post conditions as an acceptance criteria.
-- Each element  must follow the sequential id (R_01,R_02) regardless of its type (FR, QR, constraint or criterion).    
+- Avoid extracting post conditions or procedures as an acceptance criteria.
+    Invalid criterion examples:
+    "After entering the cridentials, user must access main view"
  
 # Example Output (JSON)
  {

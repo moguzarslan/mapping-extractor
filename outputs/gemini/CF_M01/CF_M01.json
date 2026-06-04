@@ -9,7 +9,7 @@
     {
         "id": "R_02",
         "type": "criterion",
-        "description": "Each playlog must have a date, client, and player assigned.",
+        "description": "Each playlog must have a date, client, and assigned player.",
         "pageNumber": "35",
         "relatedTo": "R_01",
         "fixes": []
@@ -24,7 +24,7 @@
     {
         "id": "R_04",
         "type": "criterion",
-        "description": "Each connection must have a date, client, and player assigned.",
+        "description": "Each connection must have a date, client, and assigned player.",
         "pageNumber": "35",
         "relatedTo": "R_03",
         "fixes": []
@@ -47,7 +47,7 @@
     {
         "id": "R_07",
         "type": "criterion",
-        "description": "Each action must have a date, client, user, and player assigned.",
+        "description": "Each action must have a date, client, user, and assigned player.",
         "pageNumber": "36",
         "relatedTo": "R_06",
         "fixes": []
@@ -55,7 +55,7 @@
     {
         "id": "R_08",
         "type": "criterion",
-        "description": "All actions must be performed on an entity of the platform.",
+        "description": "All actions must be performed on a platform entity.",
         "pageNumber": "36",
         "relatedTo": "R_06",
         "fixes": []
@@ -63,7 +63,7 @@
     {
         "id": "R_09",
         "type": "FR",
-        "description": "The system shall allow authorized users to list the playlogs.",
+        "description": "The system shall allow users with permissions to list the different playlogs of the system.",
         "pageNumber": "36",
         "fixes": []
     },
@@ -78,7 +78,7 @@
     {
         "id": "R_11",
         "type": "criterion",
-        "description": "The user must be able to view all details of the playlog.",
+        "description": "The user must be able to see all details of the playlog.",
         "pageNumber": "36",
         "relatedTo": "R_09",
         "fixes": []
@@ -86,7 +86,7 @@
     {
         "id": "R_12",
         "type": "FR",
-        "description": "The system shall allow authorized users to list the connections of the players.",
+        "description": "The system shall allow users with permissions to list the different connections of the players in the system.",
         "pageNumber": "36",
         "fixes": []
     },
@@ -101,7 +101,7 @@
     {
         "id": "R_14",
         "type": "criterion",
-        "description": "Connections shall only have two states: connected or not connected.",
+        "description": "Connections can only have two states: connected or not connected.",
         "pageNumber": "36",
         "relatedTo": "R_12",
         "fixes": []
@@ -109,7 +109,7 @@
     {
         "id": "R_15",
         "type": "FR",
-        "description": "The system shall allow authorized users to list the actions performed on the platform entities.",
+        "description": "The system shall allow users with permissions to list the different actions performed on the platform entities.",
         "pageNumber": "37",
         "fixes": []
     },
@@ -124,7 +124,7 @@
     {
         "id": "R_17",
         "type": "criterion",
-        "description": "All actions must be related to an entity of the platform.",
+        "description": "All actions must be related to a platform entity.",
         "pageNumber": "37",
         "relatedTo": "R_15",
         "fixes": []
@@ -132,10 +132,10 @@
     {
         "id": "R_18",
         "type": "QR",
-        "description": "The system shall respond quickly when the user performs an action.",
+        "description": "The system must respond quickly when the user performs any action.",
         "pageNumber": "37",
         "concept": "Speed and latency",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
@@ -149,10 +149,10 @@
     {
         "id": "R_20",
         "type": "QR",
-        "description": "The system shall be available at all times, except for scheduled updates.",
+        "description": "The system must be available at all times, except for scheduled updates.",
         "pageNumber": "38",
         "concept": "Availability and reliability",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
@@ -166,10 +166,10 @@
     {
         "id": "R_22",
         "type": "QR",
-        "description": "The system shall be capable of supporting an unlimited number of concurrent connections.",
+        "description": "The system must be able to support an unlimited number of connections at the same time.",
         "pageNumber": "38",
         "concept": "Capacity",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
@@ -183,10 +183,10 @@
     {
         "id": "R_24",
         "type": "QR",
-        "description": "The system shall be able to grow in capacity when the volume of data increases.",
+        "description": "The system must be able to grow in capacity when the volume of data increases.",
         "pageNumber": "38",
         "concept": "Scalability",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
@@ -200,16 +200,16 @@
     {
         "id": "R_26",
         "type": "QR",
-        "description": "System functionalities shall only be accessible to users with the corresponding permissions.",
+        "description": "The project functionalities must only be accessible to users with the corresponding permissions.",
         "pageNumber": "39",
         "concept": "Access",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
         "id": "R_27",
         "type": "criterion",
-        "description": "Users without permission shall not be able to access data for which they do not have authorization.",
+        "description": "Users without permission shall not be able to access data for which they do not have permission.",
         "pageNumber": "39",
         "relatedTo": "R_26",
         "fixes": []
@@ -220,13 +220,13 @@
         "description": "Confidential user information must be protected to ensure privacy.",
         "pageNumber": "39",
         "concept": "Privacy",
-        "categorization": "ISO/IEC 25010",
+        "categorization": "Volere",
         "fixes": []
     },
     {
         "id": "R_29",
         "type": "criterion",
-        "description": "Users shall only be able to observe confidential data belonging to their own user account.",
+        "description": "Users shall only be able to observe the confidential data of their own user account.",
         "pageNumber": "39",
         "relatedTo": "R_28",
         "fixes": []

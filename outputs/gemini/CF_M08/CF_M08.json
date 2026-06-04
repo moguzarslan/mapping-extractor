@@ -9,7 +9,7 @@
     {
         "id": "R_02",
         "type": "criterion",
-        "description": "The system shall be available in Spanish and English, verified by a translator.",
+        "description": "The system interface shall be available in Spanish and English, verified by a translator.",
         "pageNumber": "31",
         "relatedTo": "R_01",
         "fixes": []
@@ -59,33 +59,33 @@
     {
         "id": "R_09",
         "type": "FR",
-        "description": "A company shall be able to register a product to make it visible on its public profile.",
+        "description": "A company shall be able to register a product to be visible on its public profile.",
         "pageNumber": "30",
         "fixes": []
     },
     {
-        "id": "R_010",
+        "id": "R_10",
         "type": "FR",
         "description": "A company shall be able to register a route to link it to its products.",
         "pageNumber": "30",
         "fixes": []
     },
     {
-        "id": "R_011",
+        "id": "R_11",
         "type": "FR",
         "description": "A user shall be able to return a product registered by a company using its routes.",
         "pageNumber": "30",
         "fixes": []
     },
     {
-        "id": "R_012",
+        "id": "R_12",
         "type": "FR",
         "description": "The system shall provide an affiliation/plan system for companies (free, basic, and premium).",
         "pageNumber": "30",
         "fixes": []
     },
     {
-        "id": "R_013",
+        "id": "R_13",
         "type": "QR",
         "description": "The user interface must be intuitive and easy to use for non-technical users.",
         "pageNumber": "31",
@@ -94,15 +94,15 @@
         "fixes": []
     },
     {
-        "id": "R_014",
+        "id": "R_14",
         "type": "criterion",
         "description": "Usability testing with at least 10 representative users, achieving a minimum satisfaction score of 8/10.",
         "pageNumber": "31",
-        "relatedTo": "R_013",
+        "relatedTo": "R_13",
         "fixes": []
     },
     {
-        "id": "R_015",
+        "id": "R_15",
         "type": "QR",
         "description": "The system must protect user information through secure authentication.",
         "pageNumber": "32",
@@ -111,32 +111,32 @@
         "fixes": []
     },
     {
-        "id": "R_016",
+        "id": "R_16",
         "type": "criterion",
         "description": "The system must pass security audits without critical vulnerabilities.",
         "pageNumber": "32",
-        "relatedTo": "R_015",
+        "relatedTo": "R_15",
         "fixes": []
     },
     {
-        "id": "R_017",
+        "id": "R_17",
         "type": "QR",
-        "description": "The system must have an uptime of 99.9% and be able to recover from failures in less than 1 hour.",
+        "description": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour.",
         "pageNumber": "32",
         "concept": "Fault Tolerance",
         "categorization": "Volere",
         "fixes": []
     },
     {
-        "id": "R_018",
+        "id": "R_18",
         "type": "criterion",
         "description": "Uptime monitoring demonstrating 99.9% availability and disaster recovery tests meeting the specified recovery time.",
         "pageNumber": "32",
-        "relatedTo": "R_017",
+        "relatedTo": "R_17",
         "fixes": []
     },
     {
-        "id": "R_019",
+        "id": "R_19",
         "type": "QR",
         "description": "The system must be easy to maintain and update with clear and complete documentation.",
         "pageNumber": "32",
@@ -145,15 +145,15 @@
         "fixes": []
     },
     {
-        "id": "R_020",
+        "id": "R_20",
         "type": "criterion",
         "description": "Complete and updated documentation, with an average time for implementing updates and resolving issues not exceeding 2 hours.",
         "pageNumber": "32",
-        "relatedTo": "R_019",
+        "relatedTo": "R_19",
         "fixes": []
     },
     {
-        "id": "R_021",
+        "id": "R_21",
         "type": "QR",
         "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
         "pageNumber": "33",
@@ -162,15 +162,15 @@
         "fixes": []
     },
     {
-        "id": "R_022",
+        "id": "R_22",
         "type": "criterion",
         "description": "Compatibility tests demonstrating functionality in major browsers and mobile devices.",
         "pageNumber": "33",
-        "relatedTo": "R_021",
+        "relatedTo": "R_21",
         "fixes": []
     },
     {
-        "id": "R_023",
+        "id": "R_23",
         "type": "QR",
         "description": "The system must be scalable to handle an increase in the number of users and data volume.",
         "pageNumber": "33",
@@ -179,26 +179,28 @@
         "fixes": []
     },
     {
-        "id": "R_024",
+        "id": "R_24",
         "type": "criterion",
         "description": "Capacity to increase server resources and maintain performance with a 50% increase in workload.",
         "pageNumber": "33",
-        "relatedTo": "R_023",
+        "relatedTo": "R_23",
         "fixes": []
     },
     {
-        "id": "R_025",
-        "type": "Constraint",
-        "description": "Company products, routes, and profiles can only be edited and accessed by that specific company.",
+        "id": "R_25",
+        "type": "QR",
+        "description": "Company products, routes, and profiles can only be edited and accessed by that company.",
         "pageNumber": "33",
+        "concept": "Access Control",
+        "categorization": "Volere",
         "fixes": []
     },
     {
-        "id": "R_026",
+        "id": "R_26",
         "type": "criterion",
         "description": "Verify that only the company user can access their products, routes, and profile.",
         "pageNumber": "33",
-        "relatedTo": "R_025",
+        "relatedTo": "R_25",
         "fixes": []
     }
 ]
