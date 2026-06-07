@@ -367,7 +367,16 @@ def _fmt(x):
     return "-" if x is None else round(float(x), 4)
 
 
-def build_report(gt, llm, sim, pairs, threshold):
+def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
+    """Assemble the evaluation report from a set of matched pairs.
+
+    `forced_pairs` is an optional set of (llm_idx, gt_idx) that were matched by a
+    human (e.g. through the GUI) rather than by the automatic matcher. For such
+    pairs the *description anchor* is counted as agreeing regardless of its
+    TF-IDF similarity, because the human has asserted the two requirements
+    correspond. All other fields are still compared on their real values.
+    """
+    forced_pairs = forced_pairs or set()
     matched_llm = {i for i, _, _ in pairs}
     matched_gt  = {j for _, j, _ in pairs}
     llm_to_gt   = {i: j for i, j, _ in pairs}
@@ -396,6 +405,10 @@ def build_report(gt, llm, sim, pairs, threshold):
                 continue
             agree, s = field_agrees(spec, llm[i], gt[j], threshold,
                                     llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt)
+            # A human-forced match overrides the TF-IDF threshold on the
+            # description anchor: the pair is a deliberate true correspondence.
+            if name == DESC_REQUIRED_NAME and (i, j) in forced_pairs:
+                agree = True
             if agree:
                 correct += 1
             if spec["semantic"] and s is not None:
