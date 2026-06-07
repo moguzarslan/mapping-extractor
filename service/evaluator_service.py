@@ -431,7 +431,11 @@ def build_report(gt, llm, sim, pairs, threshold):
             "matched_pairs (TP)": tp,
         })
 
-    field_metrics = pd.DataFrame(field_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
+    desc_rows  = [r for r in field_rows if r["field"] == DESC_REQUIRED_NAME]
+    other_rows = [{"field": r["field"], "accuracy": r["precision"]}
+                  for r in field_rows if r["field"] != DESC_REQUIRED_NAME]
+    field_metrics_desc  = pd.DataFrame(desc_rows,  columns=["field", "precision", "recall", "mean semantic meaning"])
+    field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy"])
     field_counts  = pd.DataFrame(count_rows)
 
     req_summary = pd.DataFrame([
@@ -507,7 +511,8 @@ def build_report(gt, llm, sim, pairs, threshold):
     ])
 
     return {
-        "Field_Metrics": field_metrics,
+        "Field_Metrics_Desc": field_metrics_desc,
+        "Field_Metrics_Other": field_metrics_other,
         "Field_Counts": field_counts,
         "Requirement_Matching": req_summary,
         "Matched_TP": matched,
@@ -536,7 +541,13 @@ def evaluate(gt_path, llm_path, output_path, threshold=0.35):
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with pd.ExcelWriter(output_path, engine="openpyxl") as w:
-        for sheet in ("Field_Metrics", "Field_Counts", "Requirement_Matching",
+        # Field_Metrics: description table first, then other-fields table below it
+        desc_df  = report["Field_Metrics_Desc"]
+        other_df = report["Field_Metrics_Other"]
+        desc_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=0)
+        other_start = len(desc_df) + 3  # leave one blank row as separator
+        other_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=other_start)
+        for sheet in ("Field_Counts", "Requirement_Matching",
                       "Matched_TP", "False_Positives", "False_Negatives"):
             report[sheet].to_excel(w, sheet_name=sheet, index=False)
 

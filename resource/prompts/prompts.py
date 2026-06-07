@@ -73,9 +73,9 @@ class Prompts:
         
 # Rules:
 - Ensure that all information is strictly supported by the document.
+- Output should be given in JSON format as in Example Output section.
 - Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
     - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-- Avoid duplicates: each requirement should be listed once. 
 - Avoid adding any extra explanation, just provide the required data.
 - Avoid extracting:
     - Implementation workflows and processing sequences.

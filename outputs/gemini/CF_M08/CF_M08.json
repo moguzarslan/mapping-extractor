@@ -17,7 +17,7 @@
     {
         "id": "R_03",
         "type": "FR",
-        "description": "The system shall allow the registration of new users.",
+        "description": "The system shall allow registering new users.",
         "pageNumber": "30",
         "fixes": []
     },
@@ -89,7 +89,7 @@
         "type": "QR",
         "description": "The user interface must be intuitive and easy to use for non-technical users.",
         "pageNumber": "31",
-        "concept": "Usability",
+        "concept": "11a. Usability",
         "categorization": "Volere",
         "fixes": []
     },
@@ -106,7 +106,7 @@
         "type": "QR",
         "description": "The system must protect user information through secure authentication.",
         "pageNumber": "32",
-        "concept": "Privacy",
+        "concept": "15c. Privacy",
         "categorization": "Volere",
         "fixes": []
     },
@@ -123,14 +123,14 @@
         "type": "QR",
         "description": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour.",
         "pageNumber": "32",
-        "concept": "Fault Tolerance",
+        "concept": "12e. Fault Tolerance",
         "categorization": "Volere",
         "fixes": []
     },
     {
         "id": "R_18",
         "type": "criterion",
-        "description": "Uptime monitoring demonstrating 99.9% availability and disaster recovery tests meeting the specified recovery time.",
+        "description": "Uptime monitoring demonstrating 99.9% uptime and disaster recovery tests meeting the specified recovery time.",
         "pageNumber": "32",
         "relatedTo": "R_17",
         "fixes": []
@@ -140,14 +140,14 @@
         "type": "QR",
         "description": "The system must be easy to maintain and update with clear and complete documentation.",
         "pageNumber": "32",
-        "concept": "Maintainability",
+        "concept": "14a. Maintainability",
         "categorization": "Volere",
         "fixes": []
     },
     {
         "id": "R_20",
         "type": "criterion",
-        "description": "Complete and updated documentation, with an average time for implementing updates and resolving issues not exceeding 2 hours.",
+        "description": "Complete and updated documentation, and average time for implementation of updates and troubleshooting not exceeding 2 hours.",
         "pageNumber": "32",
         "relatedTo": "R_19",
         "fixes": []
@@ -157,7 +157,7 @@
         "type": "QR",
         "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
         "pageNumber": "33",
-        "concept": "Adaptability",
+        "concept": "14c. Adaptability",
         "categorization": "Volere",
         "fixes": []
     },
@@ -174,7 +174,7 @@
         "type": "QR",
         "description": "The system must be scalable to handle an increase in the number of users and data volume.",
         "pageNumber": "33",
-        "concept": "Scalability",
+        "concept": "12g. Scalability",
         "categorization": "Volere",
         "fixes": []
     },
@@ -189,18 +189,39 @@
     {
         "id": "R_25",
         "type": "QR",
-        "description": "Company products, routes, and profiles can only be edited and accessed by that company.",
+        "description": "Company products/routes/profile can only be edited and accessed by that company.",
         "pageNumber": "33",
-        "concept": "Access Control",
+        "concept": "15a. Access Control",
         "categorization": "Volere",
         "fixes": []
     },
     {
         "id": "R_26",
         "type": "criterion",
-        "description": "Verify that only the company user can access their products, routes, and profile.",
+        "description": "Verify that only the company user can access their products/routes/profile.",
         "pageNumber": "33",
         "relatedTo": "R_25",
+        "fixes": []
+    },
+    {
+        "id": "R_27",
+        "type": "Constraint",
+        "description": "The system shall use Blockchain technology to ensure transparency and traceability.",
+        "pageNumber": "10",
+        "fixes": []
+    },
+    {
+        "id": "R_28",
+        "type": "Constraint",
+        "description": "The system architecture shall be based on microservices.",
+        "pageNumber": "41",
+        "fixes": []
+    },
+    {
+        "id": "R_29",
+        "type": "Constraint",
+        "description": "The system shall use Amazon EC2 instances managed by Docker.",
+        "pageNumber": "41",
         "fixes": []
     }
 ]

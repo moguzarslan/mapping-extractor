@@ -9,7 +9,7 @@
     {
         "id": "R_02",
         "type": "criterion",
-        "description": "Each playlog must have a date, client, and assigned player.",
+        "description": "Each playlog must have a date, client, and player assigned.",
         "pageNumber": "35",
         "relatedTo": "R_01",
         "fixes": []
@@ -24,7 +24,7 @@
     {
         "id": "R_04",
         "type": "criterion",
-        "description": "Each connection must have a date, client, and assigned player.",
+        "description": "Each connection must have a date, client, and player assigned.",
         "pageNumber": "35",
         "relatedTo": "R_03",
         "fixes": []
@@ -47,7 +47,7 @@
     {
         "id": "R_07",
         "type": "criterion",
-        "description": "Each action must have a date, client, user, and assigned player.",
+        "description": "Each action must have a date, client, user, and player assigned.",
         "pageNumber": "36",
         "relatedTo": "R_06",
         "fixes": []
@@ -55,7 +55,7 @@
     {
         "id": "R_08",
         "type": "criterion",
-        "description": "All actions must be performed on a platform entity.",
+        "description": "All actions must be performed on an entity of the platform.",
         "pageNumber": "36",
         "relatedTo": "R_06",
         "fixes": []
@@ -86,7 +86,7 @@
     {
         "id": "R_12",
         "type": "FR",
-        "description": "The system shall allow users with permissions to list the different connections of the players in the system.",
+        "description": "The system shall allow users with permissions to list the different player connections of the system.",
         "pageNumber": "36",
         "fixes": []
     },
@@ -124,7 +124,7 @@
     {
         "id": "R_17",
         "type": "criterion",
-        "description": "All actions must be related to a platform entity.",
+        "description": "All actions must be related to an entity of the platform.",
         "pageNumber": "37",
         "relatedTo": "R_15",
         "fixes": []
@@ -166,7 +166,7 @@
     {
         "id": "R_22",
         "type": "QR",
-        "description": "The system must be able to support an unlimited number of connections at the same time.",
+        "description": "The system must be capable of supporting an unlimited number of connections at the same time.",
         "pageNumber": "38",
         "concept": "Capacity",
         "categorization": "Volere",
