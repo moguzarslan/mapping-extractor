@@ -44,10 +44,18 @@ if __name__ == "__main__":
                     output_dir=requirements_output_dir
                 )
 
+                # Split compound requirements (model sees only id + description),
+                # then copy the remaining fields back onto the split ids.
+                split_json_path = process_requirement_splitting(
+                    input_json_dir=llm_json_path,
+                    output_file_name=file_name + "_split",
+                    output_dir=requirements_output_dir
+                )
+
                 gt_path = f"resource/groundTruths/{file_name}_ground_truth.xlsx"
                 if Path(gt_path).exists():
                     eval_output_path = f"outputs/evaluation/{file_name}_req_eval.xlsx"
-                    evaluate(gt_path, llm_json_path, eval_output_path)
+                    evaluate(gt_path, split_json_path, eval_output_path)
                     print(f"Evaluation saved: {eval_output_path}")
                 else:
                     print(f"No ground truth found for '{file_name}', skipping evaluation.")

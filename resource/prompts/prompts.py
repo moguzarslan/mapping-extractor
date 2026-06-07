@@ -135,75 +135,64 @@ class Prompts:
     """
 
     REQUIREMENT_SPLITTING_PROMPT = """
-    Objective:
-    You are an expert software requirements analyst. You are given a JSON of already extracted requirements (the output of the requirement extraction step). Your task is to review each requirement and split it into multiple atomic requirements whenever it expresses more than one independent need.
+    # Objective:
+    You are an expert software requirements analyst. You are given a JSON of already extracted requirements. Your task is to review each requirement and split it into multiple atomic requirements ONLY when it clearly expresses more than one independent need.
 
-    Definition of an atomic requirement:
-    - A requirement is atomic when it expresses a single need that cannot be satisfied or verified independently as two or more separate needs.
-    - A requirement is compound (must be split) when it combines several needs joined by conjunctions ("and", "or", commas, slashes "/", lists) where each part stands as its own verifiable requirement.
-
-    Instructions:
+    # Instructions:
     1. Process each requirement in the input JSON one by one.
-    2. Decide whether the requirement expresses a single need (atomic) or multiple needs (compound).
-    3. If atomic, keep it unchanged (same id and same field values).
-    4. If compound, split it into the minimum number of atomic requirements, one per distinct need.
-       - Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed).
-       - Do not invent, add, or remove information beyond what is needed to make each part a complete sentence.
-    5. Id assignment:
+    2. Decide whether the requirement expresses a single need (atomic) or multiple needs (compound). Obligate the rules defined by the Rules section.
+       - If atomic, keep it unchanged (same id and same field values).
+       - If compound, split it into the minimum number of atomic requirements, one per distinct need. Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed).
+    3. Id assignment:
        - When a requirement is split, keep the original id as the base and append sequential lowercase letters (R_01 -> R_01a, R_01b, R_01c ...).
        - When a requirement is NOT split, keep its original id unchanged (R_01 stays R_01).
-    6. All other fields (requirementType, relatedTo, concept, categorization, page number, etc.) must be copied unchanged from the original requirement onto every split part.
-    7. Preserve the original order of requirements.
+    4. Preserve the original order of requirements.
 
-    Examples:
-    - "Application should work in Spanish and English" ->
-        "Application should work in Spanish" ,
-        "Application should work in English"
-    - "The products/routes/profiles of a company can only be edited and accessible by that company." ->
-        "The products of a company can only be edited and accessible by that company." ,
-        "The routes of a company can only be edited and accessible by that company." ,
-        "The profiles of a company can only be edited and accessible by that company."
+    # Example Split:
+    - {
+        "id": "R_01",
+        "description": "The system shall send notifications by email and SMS."
+      }
+      ->
+      {
+        "id": "R_01a",
+        "description": "The system shall send notifications by email."
+      },
+      {
+        "id": "R_01b",
+        "description": "The system shall send notifications by SMS."
+      }
 
-    Rules:
+    # Rules:
     - Avoid splitting when the conjunction joins parts of a single indivisible need (e.g. "username and password" forming one credential, "save and exit" as one action if treated atomically in the source).
+    - Avoid splitting closely related, paired, or opposite actions on the same target (e.g. "create/update/delete", "add or remove", "enable or disable", "assign or revoke", "grant or deny").
+    - Avoid splitting an enumeration that defines the allowed values, permitted states, options, or range of a single attribute (e.g. "The order status can only be open or closed."); the "and"/"or" lists a value domain, not separate needs. Likewise, do not split an illustrative or parenthetical list of examples (e.g. "compatible with common browsers (Chrome, Firefox, Safari)" is one compatibility requirement).
+    - Avoid splitting a list of attributes, properties, fields, or aspects of a SINGLE subject that share one common predicate or quality (e.g. "An entity should have a date, name, id and address.", "The layout, spacing, and typography must match the style guide."). Split a list ONLY when each listed item is a distinct resource governed by its own rule, permission, or behaviour (e.g. the orders/invoices/shipments example above). Do NOT split when a single read-only operation (view, list, display, show) presents several objects together (e.g. "The user can view their profile and products." is one viewing capability).
+    - Avoid splitting coordinated adjectives or qualifiers that describe a single property or need (e.g. "continuous and uninterrupted service").
+    - Avoid splitting conditions, parameters, thresholds, or metrics that together qualify one single test, measurement, or activity (e.g. "Load testing with at least 100 concurrent users achieving a response time under 2 seconds.").
     - Avoid changing the meaning of any requirement.
     - Avoid adding any explanation or commentary.
-    - Keep all field values consistent with the input. Only the id and requirement text may change, and only for requirements that are split.
-    - Give the output in json format, using the same schema as the input.
-    - Give the whole output in English.
 
-    Input Format (JSON):
+    # Input Format (JSON):
     {
       "requirements": {requirements_json}
     }
 
-    Example Output (JSON):
+    # Example Output (JSON):
     {
       "requirements": [
         {
           "id": "R_01a",
-          "requirement": "Application should work in Spanish",
-          "requirementType": "...",
-          "relatedTo": "...",
-          "concept": "...",
-          "categorization": "..."
+          "description": "The system shall send notifications by email."
         },
         {
           "id": "R_01b",
-          "requirement": "Application should work in English",
-          "requirementType": "...",
-          "relatedTo": "...",
-          "concept": "...",
-          "categorization": "..."
+          "description": "The system shall send notifications by SMS."
         },
         {
           "id": "R_02",
-          "requirement": "...",
-          "requirementType": "...",
-          "relatedTo": "...",
-          "concept": "...",
-          "categorization": "..."
-        } 
+          "description": "..."
+        }
       ]
     }
     ...

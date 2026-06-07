@@ -260,20 +260,30 @@ def text_similarity(a: str, b: str) -> float:
 
 def greedy_match(sim: np.ndarray, threshold: float,
                  llm_types: list[str | None] | None = None,
-                 gt_types: list[str | None] | None = None) -> list[tuple[int, int, float]]:
+                 gt_types: list[str | None] | None = None,
+                 type_override_sim: float = 0.9) -> list[tuple[int, int, float]]:
     """One-to-one greedy assignment over similarity-sorted pairs, score >= threshold.
 
     If llm_types and gt_types are provided, a pair (i, j) is only considered
     when both sides have the same type (case-insensitive), or when at least one
     side has no type information (treated as a wildcard so untyped requirements
     are still matchable).
+
+    `type_override_sim` relaxes that gate: when the description similarity of a
+    pair is at least this value, the type check is bypassed. A near-exact text
+    match almost always denotes the same requirement, so a differing type label
+    (e.g. a GT acceptance "criterion" vs an LLM "QR" that absorbed it, or a split
+    child that inherited its parent's type) must not veto an otherwise perfect
+    match. Set to a value > 1.0 to disable the override and always enforce types.
     """
     n_llm, n_gt = sim.shape
     check_types = llm_types is not None and gt_types is not None
 
-    def types_compatible(i: int, j: int) -> bool:
+    def types_compatible(i: int, j: int, score: float) -> bool:
         if not check_types:
             return True
+        if score >= type_override_sim:
+            return True      # near-exact text match overrides a differing type label
         lt = llm_types[i]   # type: ignore[index]
         gt = gt_types[j]    # type: ignore[index]
         if lt is None or gt is None:
@@ -290,7 +300,7 @@ def greedy_match(sim: np.ndarray, threshold: float,
             break
         if i in used_llm or j in used_gt:
             continue
-        if not types_compatible(i, j):
+        if not types_compatible(i, j, score):
             continue
         pairs.append((i, j, float(score)))
         used_llm.add(i)
