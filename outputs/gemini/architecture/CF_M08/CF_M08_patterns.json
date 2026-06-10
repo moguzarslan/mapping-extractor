@@ -1,0 +1,71 @@
+{
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The system is built as a collection of small, independent services (Security Service, System Service, Data Service) that communicate with each other and are managed as Docker containers.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Reverse Proxy",
+            "description": "Traefik acts as an intermediary for client requests, redirecting incoming traffic to the appropriate internal services.",
+            "pageNumber": "41, 43",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Load Balancer",
+            "description": "Traefik distributes incoming traffic across multiple service instances to improve availability and responsiveness.",
+            "pageNumber": "41, 43",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "The user interface is constructed using independent and reusable components that encapsulate their own logic, styles, and structure.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "Establishes a one-to-many relationship where subjects notify observers of state changes, implemented via event listeners in components.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "Ensures a class has only one instance and provides a global access point, used here to manage the PrismaClient instance.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_07",
+            "type": "Design Pattern",
+            "name": "ORM (Object-Relational Mapping)",
+            "description": "Technique used to convert data between the object-oriented programming system and the relational database, implemented via Prisma.",
+            "pageNumber": "42, 50",
+            "isPartOf": [],
+            "fixes": []
+        }
+    ]
+}

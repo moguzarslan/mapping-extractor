@@ -228,16 +228,6 @@
         ]
     },
     {
-        "id": "R_20a",
-        "type": "criterion",
-        "description": "Complete and updated documentation must be provided.",
-        "pageNumber": "32",
-        "relatedTo": "R_19",
-        "fixes": [
-            "Split"
-        ]
-    },
-    {
         "id": "R_20b",
         "type": "criterion",
         "description": "Average time for implementation of updates and troubleshooting must not exceed 2 hours.",
@@ -288,14 +278,6 @@
         "pageNumber": "33",
         "concept": "15a. Access Control",
         "categorization": "Volere",
-        "fixes": []
-    },
-    {
-        "id": "R_26",
-        "type": "criterion",
-        "description": "Verify that only the company user can access their products/routes/profile.",
-        "pageNumber": "33",
-        "relatedTo": "R_25",
         "fixes": []
     },
     {

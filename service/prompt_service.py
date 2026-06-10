@@ -111,18 +111,52 @@ DOCUMENT:
 
     content = [{"type": "text", "text": full_text}]
     return content
-def process_single_prompt(file: str, folder: str, prompt: str, output_dir: str = "outputs") -> str:
+def process_single_prompt(file: str, folder: str, prompt: str, output_dir: str = "outputs", output_file_name: str = None) -> str:
     print(f"Processing: {folder}")
     prompt = build_document_prompt(file, prompt, image_folder=folder)
     response = ask_gemini(
         user_prompt=prompt,
     )
     output_path = save_result(
-        file=file,
+        file=output_file_name if output_file_name else file,
         output_dir=output_dir,
         response=response
     )
     print("Single prompt completed, results are saved successfully")
+    return str(output_path)
+
+
+def _architecture_group(data, key: str) -> list:
+    """Pull a named group list (architectural_units / patterns) from a loaded JSON.
+
+    Tolerates the model returning the list directly, the expected dict shape, or
+    a dict whose only list value is the group.
+    """
+    if isinstance(data, dict):
+        if isinstance(data.get(key), list):
+            return data[key]
+        lists = [v for v in data.values() if isinstance(v, list)]
+        return lists[0] if len(lists) == 1 else []
+    return data or []
+
+
+def merge_architecture(units_json_dir: str, patterns_json_dir: str,
+                       output_file_name: str = "architecture",
+                       output_dir: str = "outputs") -> str:
+    """Combine the separately-extracted units and patterns into one architecture file.
+
+    The two prompts run independently with disjoint id namespaces (AU_xx for
+    units, P_xx for patterns) and no cross-group isPartOf references, so merging
+    is a straight concatenation into the {architectural_units, patterns} shape the
+    evaluator expects — no id remapping is needed.
+    """
+    print(f"Merging architecture: units={units_json_dir} patterns={patterns_json_dir}")
+    units = _architecture_group(extract_json_from_file(units_json_dir), "architectural_units")
+    patterns = _architecture_group(extract_json_from_file(patterns_json_dir), "patterns")
+
+    merged = {"architectural_units": units, "patterns": patterns}
+    output_path = save_json(merged, output_file_name, output_dir)
+    print(f"Architecture merge saved successfully: {output_path}")
     return str(output_path)
 
 
@@ -189,13 +223,28 @@ def _parent_requirement_id(split_id: str, original_by_id: dict) -> Union[str, No
     return stripped if stripped in original_by_id else None
 
 
+def _append_fix(fixes, label: str) -> list:
+    """Return `fixes` as a list with `label` appended (no duplicates)."""
+    if not fixes:
+        normalized = []
+    elif isinstance(fixes, list):
+        normalized = list(fixes)
+    else:
+        normalized = [fixes]
+    if label not in normalized:
+        normalized.append(label)
+    return normalized
+
+
 def merge_split_requirements(original: list, split: list) -> list:
     """Re-attach the non-text fields onto the split requirements.
 
     The splitting step only returns id + description. For each returned element
     we copy every other field (type, pageNumber, concept, categorization,
     relatedTo, fixes, ...) from its parent requirement, then overwrite id and
-    description with the split values.
+    description with the split values. Parts that actually resulted from a split
+    (their id differs from the parent id, e.g. R_01a from R_01) get "Split"
+    appended to their "fixes" field here in code, not via the prompt.
     """
     original_by_id = {r["id"]: r for r in original if r.get("id")}
     merged = []
@@ -210,6 +259,8 @@ def merge_split_requirements(original: list, split: list) -> list:
             record["id"] = sid
         if sdesc is not None:
             record["description"] = sdesc
+        if parent_id is not None and sid is not None and sid != parent_id:
+            record["fixes"] = _append_fix(record.get("fixes"), "Split")
         merged.append(record)
     return merged
 
@@ -234,6 +285,71 @@ def process_requirement_splitting(input_json_dir: str, output_file_name: str = "
 
     output_path = save_json(merged, output_file_name, output_dir)
     print(f"Requirement splitting saved successfully for: {input_json_dir}")
+    return str(output_path)
+
+
+def _is_criterion(record: dict) -> bool:
+    return str(record.get("type", "")).strip().lower() == "criterion"
+
+
+def _reduce_criteria_with_related(requirements: list) -> list:
+    """Build the cleanup input: each criterion as id + description, plus its
+    related requirement's description as read-only context for comparison."""
+    by_id = {r.get("id"): r for r in requirements if r.get("id")}
+    reduced = []
+    for r in requirements:
+        if not _is_criterion(r):
+            continue
+        item = {"id": r.get("id"), "description": r.get("description")}
+        related = by_id.get(r.get("relatedTo"))
+        if related is not None:
+            item["relatedRequirement"] = related.get("description")
+        reduced.append(item)
+    return reduced
+
+
+def filter_cleaned_criteria(original: list, cleaned: list) -> list:
+    """Drop the criteria the cleanup step removed, keeping everything else intact.
+
+    Only entries whose type is "criterion" may be removed: a criterion survives
+    only if its id is still present in the model's cleaned output. Every other
+    requirement (FR, QR, constraint) is always kept, with its original field
+    values and order preserved — the model's keep/remove decision is the only
+    thing trusted here, so nothing changes except the removals.
+    """
+    kept_ids = {c.get("id") for c in cleaned if c.get("id")}
+    result = []
+    for r in original:
+        if _is_criterion(r) and r.get("id") not in kept_ids:
+            continue
+        result.append(r)
+    return result
+
+
+def process_criterion_cleanup(input_json_dir: str, output_file_name: str = "criterion_cleanup", output_dir: str = "outputs") -> str:
+
+    print(f"Processing criterion cleanup: {input_json_dir}")
+    original = _as_requirements_list(extract_json_from_file(input_json_dir))
+
+    # Send ONLY the criteria (id + description) plus each one's related requirement as context.
+    reduced_criteria = _reduce_criteria_with_related(original)
+    if reduced_criteria:
+        reduced_json = json.dumps({"requirements": reduced_criteria}, ensure_ascii=False, indent=2)
+        cleanup_prompt = build_requirements_json_prompt(Prompts.CRITERION_CLEANUP_PROMPT, reduced_json)
+
+        cleanup_response = ask_gemini(
+            user_prompt=cleanup_prompt
+        )
+
+        # The model returns the surviving criteria; merge back onto the original file
+        # so only the removed criteria are gone and every other field stays untouched.
+        cleaned_items = _as_requirements_list(extract_json_from_response(cleanup_response))
+        cleaned = filter_cleaned_criteria(original, cleaned_items)
+    else:
+        cleaned = original  # no criteria to review
+
+    output_path = save_json(cleaned, output_file_name, output_dir)
+    print(f"Criterion cleanup saved successfully for: {input_json_dir}")
     return str(output_path)
 
 def process_validation_prompt(file: str, input_json_dir: str, prompt:str, output_file_name: str, output_dir: str = "outputs") -> None:

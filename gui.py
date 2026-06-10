@@ -43,11 +43,16 @@ import pandas as pd
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _shorten(text, max_len=120):
+def _oneline(text):
+    """Collapse a description to a single clean line.
+
+    Keeps the FULL text (no truncation) but folds newlines / runs of
+    whitespace into single spaces so it sits nicely in a one-line table cell.
+    The horizontal scrollbar and the Details panel make the whole text reachable.
+    """
     if not text:
         return ""
-    s = str(text)
-    return s if len(s) <= max_len else s[:max_len] + "…"
+    return " ".join(str(text).split())
 
 
 # ---------------------------------------------------------------------------
@@ -60,6 +65,14 @@ class EvaluatorGUI(tk.Tk):
         self.title("Requirements Evaluator — Manual Match")
         self.geometry("1400x900")
         self.minsize(900, 600)
+
+        # Slightly taller rows and bold headings make the tables easier to scan.
+        style = ttk.Style(self)
+        try:
+            style.configure("Treeview", rowheight=26)
+            style.configure("Treeview.Heading", font=("", 9, "bold"))
+        except tk.TclError:
+            pass
 
         # State
         self._gt = []
@@ -201,6 +214,33 @@ class EvaluatorGUI(tk.Tk):
         fn_cols = ["GT_ID", "GT_type", "GT_description", "best_similarity", "closest_LLM_ID"]
         self._fn_tree = self._make_tree(gt_frame, fn_cols, height=12, selectmode="browse")
 
+        # Selecting any row reveals its full text below; double-click opens a window.
+        self._bind_detail_views(self._matched_tree, "matched")
+        self._bind_detail_views(self._fp_tree, "fp")
+        self._bind_detail_views(self._fn_tree, "fn")
+
+        # ── Details panel: full, word-wrapped text of the selected row ─
+        detail_frame = ttk.LabelFrame(
+            f, text="Details — full description of the selected row "
+                    "(double-click any row to open it in a window)",
+            padding=6)
+        detail_frame.pack(fill="x", padx=8, pady=(4, 4))
+
+        dwrap = ttk.Frame(detail_frame)
+        dwrap.pack(fill="both", expand=True)
+        self._detail_text = tk.Text(dwrap, height=7, wrap="word", state="disabled",
+                                    font=("", 11), background="#fbfbfb",
+                                    relief="flat", padx=8, pady=6)
+        dsb = ttk.Scrollbar(dwrap, orient="vertical", command=self._detail_text.yview)
+        self._detail_text.configure(yscrollcommand=dsb.set)
+        self._detail_text.grid(row=0, column=0, sticky="nsew")
+        dsb.grid(row=0, column=1, sticky="ns")
+        dwrap.rowconfigure(0, weight=1)
+        dwrap.columnconfigure(0, weight=1)
+        self._detail_text.tag_configure("header", font=("", 10, "bold"),
+                                        foreground="#1a5276", spacing3=4)
+        self._detail_text.tag_configure("body", spacing3=10)
+
         # ── Action bar for creating matches ───────────────────────────
         bottom = ttk.Frame(f)
         bottom.pack(fill="x", padx=8, pady=(0, 8))
@@ -221,8 +261,16 @@ class EvaluatorGUI(tk.Tk):
                             height=height, selectmode=selectmode)
         for col in columns:
             tree.heading(col, text=col)
-            w = 200 if "description" in col.lower() else 90
-            tree.column(col, width=w, minwidth=50)
+            lc = col.lower()
+            if "description" in lc:
+                width = 420
+            elif lc.endswith("_id") or lc == "source":
+                width = 80
+            else:
+                width = 110
+            # Fixed widths (stretch=False) so wide columns overflow the frame and
+            # the horizontal scrollbar becomes usable; columns stay drag-resizable.
+            tree.column(col, width=width, minwidth=60, anchor="w", stretch=False)
 
         vsb = ttk.Scrollbar(frame, orient="vertical",   command=tree.yview)
         hsb = ttk.Scrollbar(frame, orient="horizontal", command=tree.xview)
@@ -329,8 +377,8 @@ class EvaluatorGUI(tk.Tk):
             vals = ["manual" if is_manual else "auto",
                     self._llm[i].get("id", ""), self._gt[j].get("id", ""),
                     round(float(s), 4),
-                    _shorten(self._llm[i].get("description", "")),
-                    _shorten(self._gt[j].get("description", ""))]
+                    _oneline(self._llm[i].get("description", "")),
+                    _oneline(self._gt[j].get("description", ""))]
             self._matched_tree.insert("", "end", iid=f"{i}_{j}", values=vals,
                                       tags=("manual",) if is_manual else ())
 
@@ -348,7 +396,7 @@ class EvaluatorGUI(tk.Tk):
             vals = [
                 r.get("id", ""),
                 r.get("type", ""),
-                _shorten(r.get("description", "")),
+                _oneline(r.get("description", "")),
                 round(float(self._sim[i].max()), 4),
                 self._gt[best_j].get("id", ""),
             ]
@@ -362,7 +410,7 @@ class EvaluatorGUI(tk.Tk):
             vals = [
                 r.get("id", ""),
                 r.get("type", ""),
-                _shorten(r.get("description", "")),
+                _oneline(r.get("description", "")),
                 round(float(self._sim[:, j].max()), 4),
                 self._llm[best_i].get("id", ""),
             ]
@@ -413,6 +461,82 @@ class EvaluatorGUI(tk.Tk):
                  f"GT[{self._gt[j].get('id','')}] — both back in the lists below.",
             foreground="orange")
         self._refresh_report()
+
+    # ------------------------------------------------------------------
+    # Detail views (full, untruncated descriptions)
+    # ------------------------------------------------------------------
+
+    def _bind_detail_views(self, tree, kind):
+        tree.bind("<<TreeviewSelect>>", lambda e, k=kind: self._on_row_select(k))
+        tree.bind("<Double-1>", lambda e, k=kind: self._open_detail_popup(k))
+
+    def _selected_records(self, kind):
+        """Return [(label, record), ...] for the current selection of `kind`."""
+        if kind == "matched":
+            sel = self._matched_tree.selection()
+            if not sel:
+                return []
+            i, j = (int(x) for x in sel[0].split("_"))
+            return [("LLM", self._llm[i]), ("GT", self._gt[j])]
+        if kind == "fp":
+            sel = self._fp_tree.selection()
+            return [("LLM", self._llm[int(sel[0])])] if sel else []
+        if kind == "fn":
+            sel = self._fn_tree.selection()
+            return [("GT", self._gt[int(sel[0])])] if sel else []
+        return []
+
+    def _on_row_select(self, kind):
+        """Show the full text of the selected row in the inline Details panel."""
+        records = self._selected_records(kind)
+        if not records:
+            return
+        self._detail_text.config(state="normal")
+        self._detail_text.delete("1.0", "end")
+        for label, rec in records:
+            self._detail_text.insert(
+                "end",
+                f"[{label}] {rec.get('id', '')}    type: {rec.get('type', '')}\n",
+                "header")
+            self._detail_text.insert(
+                "end",
+                (rec.get("description", "") or "(no description)") + "\n",
+                "body")
+        self._detail_text.config(state="disabled")
+
+    def _open_detail_popup(self, kind):
+        """Open the selected row's full record in a resizable, scrollable window."""
+        records = self._selected_records(kind)
+        if not records:
+            return
+        win = tk.Toplevel(self)
+        win.title("Requirement details")
+        win.geometry("780x480")
+        win.minsize(420, 240)
+
+        btnbar = ttk.Frame(win)
+        btnbar.pack(side="bottom", fill="x")
+        ttk.Button(btnbar, text="Close", command=win.destroy).pack(side="right", padx=8, pady=6)
+
+        body = ttk.Frame(win)
+        body.pack(side="top", fill="both", expand=True)
+        txt = tk.Text(body, wrap="word", font=("", 12), padx=12, pady=10)
+        sb = ttk.Scrollbar(body, orient="vertical", command=txt.yview)
+        txt.configure(yscrollcommand=sb.set)
+        txt.pack(side="left", fill="both", expand=True)
+        sb.pack(side="right", fill="y")
+        txt.tag_configure("header", font=("", 12, "bold"),
+                          foreground="#1a5276", spacing3=6)
+
+        for label, rec in records:
+            txt.insert("end",
+                       f"[{label}] {rec.get('id', '')}    type: {rec.get('type', '')}\n",
+                       "header")
+            for extra in ("pageNumber", "concept", "categorization", "relatedTo", "fixes"):
+                if rec.get(extra):
+                    txt.insert("end", f"{extra}: {rec.get(extra)}\n")
+            txt.insert("end", "\n" + (rec.get("description", "") or "(no description)") + "\n\n")
+        txt.config(state="disabled")
 
     # ------------------------------------------------------------------
     # Save

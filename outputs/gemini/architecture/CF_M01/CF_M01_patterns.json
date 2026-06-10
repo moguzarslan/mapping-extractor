@@ -1,0 +1,55 @@
+{
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The platform is a web service where the client makes requests to a server that processes them and returns the response.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three Layers",
+            "description": "The system is divided into three layers: presentation layer, business layer, and data layer.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The business and data layers are divided into several different services to improve security, scalability, and availability.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "API Gateway",
+            "description": "A design pattern that allows only one component to interact between users and the services provided by the platform, handling authorization and SSL.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Data Lake",
+            "description": "A centralized repository that allows for the storage of structured and unstructured data at any scale without needing to modify or structure it initially.",
+            "pageNumber": "8, 47",
+            "isPartOf": [],
+            "fixes": []
+        }
+    ]
+}
