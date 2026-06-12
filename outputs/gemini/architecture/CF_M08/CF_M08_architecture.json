@@ -13,7 +13,7 @@
             "id": "AU_02",
             "type": "Service",
             "name": "Security Service",
-            "description": "Reverse proxy and load balancer managing incoming HTTP/HTTPS traffic.",
+            "description": "Reverse proxy and load balancer managing HTTP/HTTPS traffic.",
             "pageNumber": "41, 43",
             "isPartOf": [],
             "fixes": []
@@ -22,18 +22,19 @@
             "id": "AU_03",
             "type": "Technology",
             "name": "Traefik",
-            "description": "Reverse proxy and load balancer tool.",
+            "description": "Reverse proxy and load balancer tool used for the Security Service.",
             "pageNumber": "41, 43",
             "isPartOf": [
                 "AU_02"
-            ]
+            ],
+            "fixes": []
         },
         {
             "id": "AU_04",
             "type": "Service",
             "name": "System Service",
-            "description": "Core application service responsible for web rendering and business logic.",
-            "pageNumber": "41, 42",
+            "description": "Core application service serving the web interface and business logic.",
+            "pageNumber": "41, 42, 44",
             "isPartOf": [],
             "fixes": []
         },
@@ -41,241 +42,313 @@
             "id": "AU_05",
             "type": "Technology",
             "name": "Next.js",
-            "description": "Web framework used for the System Service.",
+            "description": "Framework used to build the System Service.",
             "pageNumber": "42, 44",
             "isPartOf": [
                 "AU_04"
-            ]
+            ],
+            "fixes": []
         },
         {
             "id": "AU_06",
-            "type": "Service",
-            "name": "Data Service",
-            "description": "Service providing relational database storage.",
-            "pageNumber": "42",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "React",
+            "description": "Library used for building user interfaces within the System Service.",
+            "pageNumber": "42, 47",
+            "isPartOf": [
+                "AU_04"
+            ],
             "fixes": []
         },
         {
             "id": "AU_07",
-            "type": "Technology",
-            "name": "PostgreSQL",
-            "description": "Relational database engine.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_06"
-            ]
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Service providing relational database storage.",
+            "pageNumber": "41, 42",
+            "isPartOf": [],
+            "fixes": []
         },
         {
             "id": "AU_08",
             "type": "Technology",
-            "name": "Docker",
-            "description": "Containerization platform for managing service execution.",
-            "pageNumber": "41, 42, 76",
+            "name": "PostgreSQL",
+            "description": "Relational database engine used by the Data Service.",
+            "pageNumber": "42, 71",
             "isPartOf": [
-                "AU_02",
-                "AU_04",
-                "AU_06"
-            ]
+                "AU_07"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_09",
             "type": "Technology",
-            "name": "Amazon EC2",
-            "description": "Cloud infrastructure hosting the services.",
-            "pageNumber": "41",
+            "name": "Prisma",
+            "description": "ORM tool used to manage database access.",
+            "pageNumber": "42, 50",
             "isPartOf": [
-                "AU_02",
-                "AU_04",
-                "AU_06"
-            ]
+                "AU_04"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_10",
             "type": "Service",
             "name": "Authentication Service",
-            "description": "External service for user authentication.",
+            "description": "External service for user authentication via Google.",
             "pageNumber": "42",
-            "isPartOf": [],
+            "isPartOf": [
+                "AU_04"
+            ],
             "fixes": []
         },
         {
             "id": "AU_11",
-            "type": "Technology",
-            "name": "Google OAuth",
-            "description": "Authentication provider.",
+            "type": "Service",
+            "name": "Storage Service",
+            "description": "External cloud storage service for files.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_10"
-            ]
+                "AU_04"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_12",
-            "type": "Service",
-            "name": "Storage Service",
-            "description": "External service for cloud file storage.",
-            "pageNumber": "42",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Cloud storage provider used for the Storage Service.",
+            "pageNumber": "42, 73",
+            "isPartOf": [
+                "AU_11"
+            ],
             "fixes": []
         },
         {
             "id": "AU_13",
-            "type": "Technology",
-            "name": "Amazon S3",
-            "description": "Cloud storage provider.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_12"
-            ]
-        },
-        {
-            "id": "AU_14",
             "type": "Service",
             "name": "Payment Service",
             "description": "External service for handling payments and subscriptions.",
             "pageNumber": "42",
-            "isPartOf": [],
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Payment processing platform used for the Payment Service.",
+            "pageNumber": "42, 75",
+            "isPartOf": [
+                "AU_13"
+            ],
             "fixes": []
         },
         {
             "id": "AU_15",
-            "type": "Technology",
-            "name": "Stripe",
-            "description": "Payment processing platform.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_14"
-            ]
-        },
-        {
-            "id": "AU_16",
             "type": "Service",
             "name": "Analytics Service",
             "description": "External service for tracking and analyzing site traffic.",
             "pageNumber": "42",
-            "isPartOf": [],
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Analytics tool used for the Analytics Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_15"
+            ],
             "fixes": []
         },
         {
             "id": "AU_17",
-            "type": "Technology",
-            "name": "Google Analytics",
-            "description": "Analytics tool.",
+            "type": "Service",
+            "name": "Error Tracking Service",
+            "description": "External service for monitoring and managing application errors.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_16"
-            ]
+                "AU_04"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_18",
-            "type": "Service",
-            "name": "Monitoring Service",
-            "description": "External service for tracking and managing application errors.",
-            "pageNumber": "42",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Error monitoring tool used for the Error Tracking Service.",
+            "pageNumber": "42, 74",
+            "isPartOf": [
+                "AU_17"
+            ],
             "fixes": []
         },
         {
             "id": "AU_19",
-            "type": "Technology",
-            "name": "Sentry",
-            "description": "Error tracking tool.",
+            "type": "Service",
+            "name": "Email Service",
+            "description": "External service for sending and managing emails.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_18"
-            ]
+                "AU_04"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_20",
-            "type": "Service",
-            "name": "Email Service",
-            "description": "External service for creating and sending emails.",
-            "pageNumber": "42",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Email marketing and communication platform used for the Email Service.",
+            "pageNumber": "42, 73",
+            "isPartOf": [
+                "AU_19"
+            ],
             "fixes": []
         },
         {
             "id": "AU_21",
             "type": "Technology",
-            "name": "Brevo",
-            "description": "Email and marketing communication platform.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_20"
-            ]
+            "name": "Docker",
+            "description": "Containerization platform used to manage and run services.",
+            "pageNumber": "41, 76",
+            "isPartOf": [],
+            "fixes": []
         },
         {
             "id": "AU_22",
-            "type": "Component",
-            "name": "Server Component",
-            "description": "Next.js component rendered on the server.",
-            "pageNumber": "44, 78",
-            "isPartOf": [
-                "AU_04"
-            ]
+            "type": "Technology",
+            "name": "Amazon EC2",
+            "description": "Cloud infrastructure hosting the application services.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixes": []
         },
         {
             "id": "AU_23",
-            "type": "Component",
-            "name": "Client Component",
-            "description": "Next.js component rendered on the client.",
-            "pageNumber": "44, 82",
+            "type": "Connector",
+            "name": "",
+            "description": "The User interacts with the Security Service (Traefik).",
+            "pageNumber": "41, 43",
             "isPartOf": [
-                "AU_04"
-            ]
+                "AU_01",
+                "AU_02"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_24",
-            "type": "Component",
-            "name": "Server Action",
-            "description": "Mechanism for client components to execute server-side logic.",
-            "pageNumber": "46, 84",
+            "type": "Connector",
+            "name": "",
+            "description": "The Security Service (Traefik) routes traffic to the System Service (Next.js).",
+            "pageNumber": "41, 43",
             "isPartOf": [
+                "AU_02",
                 "AU_04"
-            ]
+            ],
+            "fixes": []
         },
         {
             "id": "AU_25",
-            "type": "Component",
-            "name": "Prisma ORM",
-            "description": "Object-Relational Mapping tool for database interaction.",
-            "pageNumber": "42, 50",
+            "type": "Connector",
+            "name": "",
+            "description": "The System Service (Next.js) communicates with the Data Service (PostgreSQL) using Prisma.",
+            "pageNumber": "41, 42",
             "isPartOf": [
-                "AU_04"
-            ]
+                "AU_04",
+                "AU_07"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_26",
             "type": "Connector",
             "name": "",
-            "description": "User to Security Service connection.",
-            "pageNumber": "41",
+            "description": "The System Service (Next.js) interacts with the Authentication Service (Google).",
+            "pageNumber": "42",
             "isPartOf": [
-                "AU_01",
-                "AU_02"
-            ]
+                "AU_04",
+                "AU_10"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_27",
             "type": "Connector",
             "name": "",
-            "description": "Security Service to System Service connection.",
-            "pageNumber": "41",
+            "description": "The System Service (Next.js) interacts with the Storage Service (Amazon S3).",
+            "pageNumber": "42",
             "isPartOf": [
-                "AU_02",
-                "AU_04"
-            ]
+                "AU_04",
+                "AU_11"
+            ],
+            "fixes": []
         },
         {
             "id": "AU_28",
             "type": "Connector",
             "name": "",
-            "description": "System Service to Data Service connection.",
+            "description": "The System Service (Next.js) interacts with the Payment Service (Stripe).",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_04",
-                "AU_06"
-            ]
+                "AU_13"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Connector",
+            "name": "",
+            "description": "The System Service (Next.js) interacts with the Analytics Service (Google Analytics).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_15"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Connector",
+            "name": "",
+            "description": "The System Service (Next.js) interacts with the Error Tracking Service (Sentry).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_17"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Connector",
+            "name": "",
+            "description": "The System Service (Next.js) interacts with the Email Service (Brevo).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_19"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Connector",
+            "name": "",
+            "description": "The User interacts with the System Service (Next.js) via client components.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_01",
+                "AU_04"
+            ],
+            "fixes": []
         }
     ],
     "patterns": [

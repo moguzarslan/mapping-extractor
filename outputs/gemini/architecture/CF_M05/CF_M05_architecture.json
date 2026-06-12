@@ -4,7 +4,7 @@
             "id": "AU_01",
             "type": "Other",
             "name": "User",
-            "description": "The end user of the system, including business users, support staff, and administrators.",
+            "description": "The end user of the portal and applications.",
             "pageNumber": "9, 47",
             "isPartOf": [],
             "fixes": []
@@ -12,8 +12,8 @@
         {
             "id": "AU_02",
             "type": "Service",
-            "name": "Leader",
-            "description": "Central routing service that manages traffic and communications between external services and internal microservices.",
+            "name": "Leader Service",
+            "description": "Central routing service that manages traffic and security between external requests and internal microservices.",
             "pageNumber": "57, 60",
             "isPartOf": [],
             "fixes": []
@@ -21,8 +21,8 @@
         {
             "id": "AU_03",
             "type": "Service",
-            "name": "Portal",
-            "description": "Centralized interface for accessing applications and hosting frontend binaries.",
+            "name": "Portal Service",
+            "description": "Centralized interface for accessing VWGS applications, also hosting frontend binaries.",
             "pageNumber": "57, 60",
             "isPartOf": [],
             "fixes": []
@@ -30,8 +30,8 @@
         {
             "id": "AU_04",
             "type": "Service",
-            "name": "Access Control",
-            "description": "Service responsible for user authentication, authorization, and role management.",
+            "name": "Access Control Service",
+            "description": "Manages user authentication, roles, and permissions.",
             "pageNumber": "58, 60",
             "isPartOf": [],
             "fixes": []
@@ -39,79 +39,197 @@
         {
             "id": "AU_05",
             "type": "Service",
-            "name": "Communication Log",
-            "description": "Service that records all system communications for traceability and auditing.",
-            "pageNumber": "58",
+            "name": "Communication Log Service",
+            "description": "Records and audits all system communications and provides analytics.",
+            "pageNumber": "58, 60",
             "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_06",
             "type": "Service",
-            "name": "Scheduler",
-            "description": "Service for planning and automating system tasks and maintenance.",
-            "pageNumber": "59",
+            "name": "Scheduler Service",
+            "description": "Handles planning and automation of system tasks.",
+            "pageNumber": "59, 60",
             "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_07",
             "type": "Technology",
-            "name": "Amazon RDS",
-            "description": "Managed relational database service used for data persistence.",
-            "pageNumber": "60",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_08",
-            "type": "Technology",
-            "name": "Amazon Web Services",
+            "name": "Amazon Web Services (AWS)",
             "description": "Cloud provider hosting the system infrastructure.",
             "pageNumber": "60, 81",
             "isPartOf": [],
             "fixes": []
         },
         {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Amazon EKS",
+            "description": "Managed Kubernetes service for container orchestration.",
+            "pageNumber": "81",
+            "isPartOf": [
+                "AU_07"
+            ],
+            "fixes": []
+        },
+        {
             "id": "AU_09",
-            "type": "Connector",
-            "name": "",
-            "description": "Connection between User and Internet.",
+            "type": "Technology",
+            "name": "Amazon RDS",
+            "description": "Managed database service for data persistence.",
             "pageNumber": "60",
             "isPartOf": [
-                "AU_01",
-                "AU_10"
+                "AU_07"
             ],
             "fixes": []
         },
         {
             "id": "AU_10",
-            "type": "Technology",
-            "name": "Internet",
-            "description": "Network medium for user access.",
-            "pageNumber": "60",
-            "isPartOf": [
-                "AU_09"
-            ],
+            "type": "Layer",
+            "name": "Presentation Layer (Frontend)",
+            "description": "Handles user interface and interaction, implemented as a Single-Page Application.",
+            "pageNumber": "61, 62",
+            "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_11",
-            "type": "Connector",
-            "name": "",
-            "description": "Connection between Internet and Portal Gateway.",
-            "pageNumber": "60",
+            "type": "Component",
+            "name": "View",
+            "description": "HTML and SCSS files responsible for screen presentation and capturing user input.",
+            "pageNumber": "62",
             "isPartOf": [
-                "AU_10",
-                "AU_03"
+                "AU_10"
             ],
             "fixes": []
         },
         {
             "id": "AU_12",
+            "type": "Component",
+            "name": "ViewModel",
+            "description": "TypeScript files and services that process data and orchestrate HTTP calls.",
+            "pageNumber": "64",
+            "isPartOf": [
+                "AU_10"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Component",
+            "name": "Model (Frontend)",
+            "description": "TypeScript classes defining the data contract for the frontend.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_10"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Layer",
+            "name": "Server Layer (Backend)",
+            "description": "Handles business logic, security, and data persistence.",
+            "pageNumber": "61, 68",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Component",
+            "name": "Controller",
+            "description": "Handles REST API requests and responses.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Component",
+            "name": "Service (Backend)",
+            "description": "Implements business logic and processes data.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Component",
+            "name": "Model (Backend)",
+            "description": "Represents internal persistent data entities.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Component",
+            "name": "DTO / Mapper",
+            "description": "Handles data transfer objects and conversion between models and external representations.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Component",
+            "name": "Repository",
+            "description": "Handles database access and queries.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Frontend framework used for the client-side application.",
+            "pageNumber": "61, 76",
+            "isPartOf": [
+                "AU_10"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Backend framework used for the server-side application.",
+            "pageNumber": "61, 76",
+            "isPartOf": [
+                "AU_14"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_22",
             "type": "Connector",
             "name": "",
-            "description": "Connection between Portal Gateway and Leader.",
+            "description": "The User communicates with the Portal Service via the internet.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_01",
+                "AU_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "name": "",
+            "description": "The Portal Service communicates with the Leader Service for traffic routing and security.",
             "pageNumber": "60",
             "isPartOf": [
                 "AU_03",
@@ -120,11 +238,23 @@
             "fixes": []
         },
         {
-            "id": "AU_13",
+            "id": "AU_24",
             "type": "Connector",
             "name": "",
-            "description": "Connection between Leader and internal microservices.",
-            "pageNumber": "60",
+            "description": "The Leader Service communicates with the Scheduler Service.",
+            "pageNumber": "56, 59",
+            "isPartOf": [
+                "AU_02",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "name": "",
+            "description": "The Leader Service communicates with the Access Control Service.",
+            "pageNumber": "56, 58",
             "isPartOf": [
                 "AU_02",
                 "AU_04"
@@ -132,147 +262,158 @@
             "fixes": []
         },
         {
-            "id": "AU_14",
+            "id": "AU_26",
             "type": "Connector",
             "name": "",
-            "description": "Connection between internal microservices and Amazon RDS.",
-            "pageNumber": "60",
+            "description": "The Leader Service communicates with the Communication Log Service.",
+            "pageNumber": "56, 58",
             "isPartOf": [
-                "AU_04",
-                "AU_07"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_15",
-            "type": "Layer",
-            "name": "Presentation Layer",
-            "description": "Frontend layer handling user interface and interactions.",
-            "pageNumber": "61, 68",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_16",
-            "type": "Layer",
-            "name": "Business Logic Layer",
-            "description": "Service layer implementing domain rules and processing.",
-            "pageNumber": "68, 70",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_17",
-            "type": "Layer",
-            "name": "Data Access Layer",
-            "description": "Repository layer interacting with the database.",
-            "pageNumber": "68, 74",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_18",
-            "type": "Layer",
-            "name": "Domain Layer",
-            "description": "Layer defining internal data models.",
-            "pageNumber": "68, 71",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_19",
-            "type": "Layer",
-            "name": "Contract Layer",
-            "description": "Layer containing DTOs and Mappers for API communication.",
-            "pageNumber": "68, 73",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_20",
-            "type": "Component",
-            "name": "View",
-            "description": "Frontend component responsible for display and user input capture.",
-            "pageNumber": "62",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_21",
-            "type": "Component",
-            "name": "ViewModel",
-            "description": "Frontend component managing behavior, data processing, and service orchestration.",
-            "pageNumber": "64",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_22",
-            "type": "Component",
-            "name": "Model",
-            "description": "Frontend component defining data contracts.",
-            "pageNumber": "66",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_23",
-            "type": "Technology",
-            "name": "Angular",
-            "description": "Frontend framework used for building the SPA.",
-            "pageNumber": "61, 76",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_24",
-            "type": "Technology",
-            "name": "Spring Boot",
-            "description": "Backend framework for building microservices.",
-            "pageNumber": "61, 76",
-            "isPartOf": [
-                "AU_16"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_25",
-            "type": "Technology",
-            "name": "REST API",
-            "description": "Communication protocol used between client and server.",
-            "pageNumber": "61, 69",
-            "isPartOf": [
-                "AU_13"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_26",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "Protocol for message exchange.",
-            "pageNumber": "61",
-            "isPartOf": [
-                "AU_13"
+                "AU_02",
+                "AU_05"
             ],
             "fixes": []
         },
         {
             "id": "AU_27",
-            "type": "Technology",
-            "name": "JSON",
-            "description": "Data format for communication.",
-            "pageNumber": "61",
+            "type": "Connector",
+            "name": "",
+            "description": "The Leader Service communicates with the Portal Service.",
+            "pageNumber": "56, 57",
             "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Connector",
+            "name": "",
+            "description": "The Scheduler Service communicates with Amazon RDS for data persistence.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_06",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Connector",
+            "name": "",
+            "description": "The Access Control Service communicates with Amazon RDS for data persistence.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_04",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Connector",
+            "name": "",
+            "description": "The Communication Log Service communicates with Amazon RDS for data persistence.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_05",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Connector",
+            "name": "",
+            "description": "The Portal Service communicates with Amazon RDS for data persistence.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_03",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Connector",
+            "name": "",
+            "description": "The Presentation Layer communicates with the ViewModel component.",
+            "pageNumber": "61, 64",
+            "isPartOf": [
+                "AU_10",
+                "AU_12"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_33",
+            "type": "Connector",
+            "name": "",
+            "description": "The ViewModel component communicates with the Model (Frontend) component.",
+            "pageNumber": "64, 66",
+            "isPartOf": [
+                "AU_12",
                 "AU_13"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_34",
+            "type": "Connector",
+            "name": "",
+            "description": "The ViewModel component sends HTTP requests to the Controller component.",
+            "pageNumber": "64, 68",
+            "isPartOf": [
+                "AU_12",
+                "AU_15"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "name": "",
+            "description": "The Controller component communicates with the Service (Backend) component.",
+            "pageNumber": "68, 70",
+            "isPartOf": [
+                "AU_15",
+                "AU_16"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "name": "",
+            "description": "The Service (Backend) component communicates with the Repository component.",
+            "pageNumber": "70, 74",
+            "isPartOf": [
+                "AU_16",
+                "AU_19"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_37",
+            "type": "Connector",
+            "name": "",
+            "description": "The Repository component communicates with the Model (Backend) component.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_19",
+                "AU_17"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_38",
+            "type": "Connector",
+            "name": "",
+            "description": "The Service (Backend) component communicates with the DTO / Mapper component.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_16",
+                "AU_18"
             ],
             "fixes": []
         }

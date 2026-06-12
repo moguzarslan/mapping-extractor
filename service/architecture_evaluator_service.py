@@ -113,6 +113,14 @@ FIELD_SPECS = [
 
 ANCHOR_FIELD = "name"
 
+# Per-element validation field for the overall (full) Precision/Recall. A matched
+# pair counts as correct only when this field agrees: named elements (units,
+# patterns) are validated on `name`; connectors carry no name, so they are
+# validated on `isPartOf` (the set of units they link). Every element class is
+# included in the metric — change a value here to validate a class on another field.
+VALIDATION_FIELD = {"unit": "name", "pattern": "name", "connector": "isPartOf"}
+SPEC_BY_NAME = {s["name"]: s for s in FIELD_SPECS}
+
 ID_JSON_CANDIDATES = ["id", "ID", "unit_id", "au_id", "ad_id"]
 ID_GT_CANDIDATES = ["AU ID", "AD ID", "ID", "Id", "id", "AU_ID", "AD_ID"]
 
@@ -144,6 +152,12 @@ def match_class(rec: dict) -> str:
     if is_connector(rec):
         return "connector"
     return rec.get("group") or "unit"
+
+
+def validation_spec(rec: dict) -> dict:
+    """The field spec used to validate this element in the full Precision/Recall:
+    `name` for units & patterns, `isPartOf` for connectors (see VALIDATION_FIELD)."""
+    return SPEC_BY_NAME[VALIDATION_FIELD.get(match_class(rec), ANCHOR_FIELD)]
 
 
 def match_text(rec: dict) -> str:
@@ -432,6 +446,26 @@ def build_report(gt, llm, sim, pairs, threshold):
             "matched_pairs (TP)": tp,
         })
 
+    # Full element-level Precision/Recall over ALL elements (units, patterns AND
+    # connectors). Every matched pair is validated on its type-appropriate field —
+    # name for units/patterns, isPartOf (endpoint set) for connectors — and the
+    # denominators span every element. Surfaced as the headline row of the field
+    # metrics so the precision/recall there includes connectors, not just named items.
+    full_correct = 0
+    for i, j, _ in pairs:
+        agree, _s = field_agrees(validation_spec(gt[j]), llm[i], gt[j], threshold,
+                                 llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt)
+        if agree:
+            full_correct += 1
+    full_precision = (full_correct / len(llm)) if llm else None
+    full_recall = (full_correct / len(gt)) if gt else None
+    name_rows.insert(0, {
+        "field": "all elements (name | isPartOf)",
+        "precision": _fmt(full_precision),
+        "recall": _fmt(full_recall),
+        "mean semantic meaning": "-",
+    })
+
     field_metrics_name = pd.DataFrame(name_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
     field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy", "mean semantic meaning"])
     field_counts = pd.DataFrame(count_rows)
@@ -457,16 +491,15 @@ def build_report(gt, llm, sim, pairs, threshold):
         })
     class_breakdown = pd.DataFrame(class_rows)
 
-    item_precision = (tp / len(llm)) if llm else None
-    item_recall = (tp / len(gt)) if gt else None
     summary = pd.DataFrame([
         {"Metric": "Ground truth count", "Value": len(gt)},
         {"Metric": "LLM extracted count", "Value": len(llm)},
         {"Metric": "True Positives (matched)", "Value": tp},
+        {"Metric": "Validated correct (name for units/patterns, isPartOf for connectors)", "Value": full_correct},
         {"Metric": "False Positives", "Value": fp},
         {"Metric": "False Negatives", "Value": fn},
-        {"Metric": "Element Precision", "Value": _fmt(item_precision)},
-        {"Metric": "Element Recall", "Value": _fmt(item_recall)},
+        {"Metric": "Precision (all elements; units/patterns by name, connectors by isPartOf)", "Value": _fmt(full_precision)},
+        {"Metric": "Recall (all elements; units/patterns by name, connectors by isPartOf)", "Value": _fmt(full_recall)},
         {"Metric": "Match threshold (cosine)", "Value": threshold},
     ])
 

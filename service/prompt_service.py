@@ -67,6 +67,39 @@ INPUT DATA:
     content = [{"type": "text", "text": full_text}]
     return content
 
+def build_document_json_prompt(
+        file: str,
+        prompt: str,
+        image_folder: str,
+        json_payload: str,
+) -> Union[str, list]:
+    """
+    Builds a multimodal prompt combining the document text, an injected JSON
+    payload (the already-extracted Architectural Units), and the diagrams. Used by
+    the connector pass, which needs the diagrams to see the arrows/lines AND the
+    unit ids to link each connector's two endpoints.
+    """
+    document_text = read_document(file)
+
+    full_text = f"""
+{prompt}
+
+ALREADY-EXTRACTED ARCHITECTURAL UNITS (JSON):
+{json_payload}
+
+Document:
+\"\"\"
+{document_text}
+\"\"\"
+""".strip()
+
+    content = [types.Part.from_text(text=full_text)]
+
+    if image_folder:
+        content.extend(ImageTransformer.from_folder(image_folder))
+
+    return content
+
 def build_requirements_json_prompt(
         prompt: str,
         requirements_json: str,
@@ -140,23 +173,91 @@ def _architecture_group(data, key: str) -> list:
     return data or []
 
 
-def merge_architecture(units_json_dir: str, patterns_json_dir: str,
-                       output_file_name: str = "architecture",
-                       output_dir: str = "outputs") -> str:
-    """Combine the separately-extracted units and patterns into one architecture file.
+_AU_ID = re.compile(r"AU[_-]?(\d+)", re.IGNORECASE)
 
-    The two prompts run independently with disjoint id namespaces (AU_xx for
-    units, P_xx for patterns) and no cross-group isPartOf references, so merging
-    is a straight concatenation into the {architectural_units, patterns} shape the
-    evaluator expects — no id remapping is needed.
+
+def merge_connectors(units: list, connectors: list) -> list:
+    """Append the connector records to the unit list.
+
+    The connector pass already numbers connectors by continuing the units' AU
+    sequence; here each is re-numbered defensively to the next free AU id so the
+    final file is guaranteed collision-free even if the model miscounts or repeats
+    an id. A connector's isPartOf references existing unit ids (the two units it
+    links), which are left untouched.
     """
-    print(f"Merging architecture: units={units_json_dir} patterns={patterns_json_dir}")
-    units = _architecture_group(extract_json_from_file(units_json_dir), "architectural_units")
-    patterns = _architecture_group(extract_json_from_file(patterns_json_dir), "patterns")
+    units = list(units)
+    max_idx = 0
+    for u in units:
+        m = _AU_ID.search(str(u.get("id") or ""))
+        if m:
+            max_idx = max(max_idx, int(m.group(1)))
 
-    merged = {"architectural_units": units, "patterns": patterns}
-    output_path = save_json(merged, output_file_name, output_dir)
-    print(f"Architecture merge saved successfully: {output_path}")
+    appended = []
+    for c in connectors:
+        if not isinstance(c, dict):
+            continue
+        max_idx += 1
+        c = dict(c)
+        c["id"] = f"AU_{max_idx:02d}"
+        c["type"] = c.get("type") or "Connector"
+        parents = c.get("isPartOf") or []
+        if isinstance(parents, str):
+            parents = [parents]
+        c["isPartOf"] = [str(p).strip() for p in parents]
+        appended.append(c)
+    return units + appended
+
+
+def extract_architecture_group(file: str, folder: str, prompt: str, group_key: str) -> list:
+    """Run a document + images architecture prompt and return its group list
+    (architectural_units or patterns). Nothing is written to disk."""
+    print(f"Extracting {group_key} from: {folder}")
+    built = build_document_prompt(file, prompt, image_folder=folder)
+    response = ask_gemini(user_prompt=built)
+    return _architecture_group(extract_json_from_response(response), group_key)
+
+
+def extract_connectors(file: str, folder: str, units: list) -> list:
+    """Run the connector prompt with the document, diagrams and the already-extracted
+    units; return the connector records. Nothing is written to disk.
+
+    The units (id/type/name/description) are sent so the model can link each
+    connector's two endpoints by id.
+    """
+    print(f"Extracting connectors from: {folder}")
+    units_payload = json.dumps(
+        {"architectural_units": [
+            {"id": u.get("id"), "type": u.get("type"),
+             "name": u.get("name"), "description": u.get("description")}
+            for u in units]},
+        ensure_ascii=False, indent=2,
+    )
+    built = build_document_json_prompt(
+        file=file,
+        prompt=Prompts.CONNECTOR_EXTRACTION_PROMPT,
+        image_folder=folder,
+        json_payload=units_payload,
+    )
+    response = ask_gemini(user_prompt=built)
+    return _architecture_group(extract_json_from_response(response), "connectors")
+
+
+def save_architecture(units: list, connectors: list, patterns: list,
+                      output_file_name: str = "architecture",
+                      output_dir: str = "outputs") -> str:
+    """Merge the connectors into the units, combine with the patterns, and write the
+    single canonical architecture file — the ONLY file the architecture pass saves.
+
+    Units use the AU_xx id namespace (connectors continue it) and patterns use P_xx,
+    with no cross-group isPartOf references, so this is a straight concatenation into
+    the {architectural_units, patterns} shape the evaluator expects.
+    """
+    architecture = {
+        "architectural_units": merge_connectors(units, connectors),
+        "patterns": patterns,
+    }
+    output_path = save_json(architecture, output_file_name, output_dir)
+    print(f"Architecture saved: {output_path}")
     return str(output_path)
 
 

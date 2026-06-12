@@ -241,46 +241,40 @@ class Prompts:
 
     ARCHITECTURAL_UNIT_EXTRACTION_PROMPT = """
 # Objective
-    You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document and its accompanying images (diagrams). Do NOT extract the architectural or design Patterns themselves (those are produced by a separate prompt), but DO extract the concrete units a pattern is composed of — its layers, components and services (e.g. the View, ViewModel and Model parts of an MVC / MVVM frontend are Components and must be extracted here).
+    You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document and its accompanying images (diagrams).
 
 # Instructions
     1. Carefully read the entire document.
-    2. Carefully inspect every provided image (architecture diagrams, deployment diagrams, etc.). Diagrams are a primary source: every box is usually a unit and every arrow/line is usually a Connector. Communications described only in the text ("X communicates with Y", "interacts with", "connects to", "calls", "sends to", "mediates between", "acts as an intermediary between") are Connectors too — extract them even when they are not drawn. When one unit is said to mediate, link, or sit between two others (e.g. "A is an intermediary between B and C"), output one Connector for each pair it connects (A–B and A–C).
-    3. Identify ALL Architectural Units across the ENTIRE document, not only the ones drawn in the main diagram. A system is usually presented through several complementary views — e.g. a deployment / infrastructure view, a runtime or microservices view, a frontend component structure, and a backend layering — and these often live in different sections or in prose rather than in a single diagram. Extract the units from every such view and every section; treat the diagram as one source among several and never let it limit what you extract.
-    4. Decompose the findings to the finest grain — do not merge or summarise several elements into one. When a unit is itself broken down into named sub-parts, or when several units are presented together as a list (e.g. a set of layers, the parts of a UI / presentation pattern, or a list of external services the system uses), extract each sub-part and each listed item as its own unit.
-    5. ALWAYS write every output field in English. If the document is in another language (e.g. Spanish or Catalan), translate every "name" and "description" into English as you extract; never leave a name or description in the source language (e.g. translate "Plataforma Web" to "Web Platform", "Base de dades" to "Database").
+    2. Carefully inspect every provided image (architecture diagrams, deployment diagrams, etc.).
+    3. Identify all Architectural Units across the entire document.
+    4. Decompose the findings to the finest grain, following the type definitions and rules below.
 
-# Type Definitions (choose exactly one type per unit; when a unit could fit two types, decide with the "NOT this type" lines below — a specific named product or tool is always a Technology, and an independently running or externally integrated capability is always a Service)
+# Type Definitions (choose exactly one type per unit; when a unit could fit two types, use the "NOT this type" lines to decide)
 
 ## Layer
-    - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture. Extract every named layer as its own unit.
+    - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
     - Examples: presentation layer (controllers), business / business-logic layer (services), domain layer (models), data-access layer (repositories), contract layer (DTOs / mappers), service layer, persistence / data layer, infrastructure layer.
     - NOT a Layer: a single service or component that lives inside a layer (extract that as a Service / Component).
 
 ## Component
-    - Definition: a concrete structural module of THIS system that is not exposed as an independently running service. When a structural or presentation pattern (e.g. MVC / MVVM, or a client split into parts) names its constituent parts, extract EACH named part as its own Component instead of the whole as one.
+    - Definition: a concrete structural module of THIS system that is not exposed as an independently running service.
     - Examples: frontend, backend, database, View, ViewModel, Model (the parts of an MVC / MVVM design), controller, repository, cache, message broker.
     - NOT a Component: a specific named third-party product (that is a Technology); a module that runs independently or is an external integration (that is a Service).
 
 ## Service
-    - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls. Extract EVERY such service as its own unit — including ones that are only listed together, named in passing, or mentioned in prose — and never collapse several of them into one unit. Name each service by its capability or function (e.g. authentication, payment, storage, email, analytics), not by the product that implements it; when a named product provides that capability, additionally output the product as a separate Technology whose isPartOf is this Service.
+    - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
     - Examples: an API gateway, a core / business service, a microservice, an authentication / authorization / payment / email / storage / analytics / logging / monitoring service, any external or third-party service the system integrates with or calls.
     - NOT a Service: the specific named product or vendor that implements the capability (that is a Technology); a horizontal tier (Layer).
 
 ## Device
     - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
     - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
-    - NOT a Device: a network or medium such as the Internet (the communication is a Connector and any protocol is a Technology); a software process (Service / Other).
-
-## Connector
-    - Definition: a communication relationship between EXACTLY TWO units — it represents the connection of that single pair. Every arrow / line in a diagram and every communication described in the text is a Connector. A Connector has no name. Output a SEPARATE Connector for each pair of units; when the same communication method (same protocol, channel, or kind of call) links several different pairs, create one Connector per pair and never combine more than two units into a single Connector.
-    - Examples: one layer communicating with one other layer, a service calling one other service, a service reading from one database, a client talking to a server.
-    - NOT a Connector: the protocol used for the communication (a protocol is a Technology whose isPartOf is the Connector); either unit at the end of the communication.
+    - NOT a Device: a network or medium such as the Internet; a software process (Service / Other).
 
 ## Technology
-    - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration. Extract every named technology, including ones mentioned only in the prose; when a product implements a capability, set its isPartOf to the Service that capability represents.
+    - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
     - Examples: a communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC), a programming language or framework, a database engine, a cloud service, a monitoring / analysis / testing tool, a named vendor product or library.
-    - NOT a Technology: the generic capability the product provides for this system (that is a Service); the communication itself (Connector).
+    - NOT a Technology: the generic capability the product provides for this system (that is a Service).
 
 ## Other
     - Definition: an external actor, role, or human / organisational entity that takes part in the architecture but does not fit any technical type above.
@@ -290,18 +284,17 @@ class Prompts:
 # Extraction Rules
     - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
     - For each unit, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
-    - For each unit, specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Connector", "Technology" or "Other".
+    - For each unit, specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology" or "Other".
     - "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
-        - A Technology isPartOf the Service / Component / Connector that uses it.
+        - A Technology isPartOf the Service / Component that uses it.
         - A Service / Component isPartOf its Layer; if it has no Layer, isPartOf its parent Service / Component.
-        - A Connector isPartOf the exactly two units it links.
         - Leave "isPartOf" as an empty list when no containing unit applies. Do NOT reference patterns here — relationships between units and patterns are out of scope for this step.
     - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
     - Architectural Unit should have the following JSON Schema:
         {
         "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
-        "type": "<Layer | Component | Service | Device | Connector | Technology | Other>",
-        "name": "<Name of the unit in English (leave empty for an unnamed Connector)>",
+        "type": "<Layer | Component | Service | Device | Technology | Other>",
+        "name": "<Name of the unit in English >",
         "description": "<Description of the unit in English, supported by the document or an image>",
         "pageNumber": "<Page number(s) where the unit is described>",
         "isPartOf": ["<id of the unit this unit is part of>"],
@@ -310,9 +303,12 @@ class Prompts:
 
 # Rules:
 - Ensure every unit is strictly supported by the document or an image; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
-- Extract each distinct unit exactly once: do not output the same real unit twice under different names, and do not split one real unit into several.
-- A Connector must connect EXACTLY two units; put exactly those two unit ids in its "isPartOf". If the same communication method links several pairs of units, output one separate Connector per pair — never list more than two units in one Connector.
-- Never classify a protocol or technology as a Connector; protocols are Technology units.
+- Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from the main diagram.
+- Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+- Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+- When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component.
+- Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+- Extract every named technology, including ones mentioned only in the prose.
 - Output should be given in JSON format as in the Example Output section.
 - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
     - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
@@ -341,33 +337,6 @@ class Prompts:
     },
     {
       "id": "AU_03",
-      "type": "Connector",
-      "name": "",
-      "description": "Communication between the client and the server is carried out over the internet using the HTTP protocol and the REST API model.",
-      "pageNumber": "41",
-      "isPartOf": ["AU_01", "AU_02"],
-      "fixes": []
-    },
-    {
-      "id": "AU_04",
-      "type": "Technology",
-      "name": "HTTP",
-      "description": "Communication between the two components is carried out over the internet using the HTTP protocol.",
-      "pageNumber": "41",
-      "isPartOf": ["AU_03"],
-      "fixes": []
-    },
-    {
-      "id": "AU_05",
-      "type": "Technology",
-      "name": "REST",
-      "description": "Communication between the two components uses the REST API model.",
-      "pageNumber": "41",
-      "isPartOf": ["AU_03"],
-      "fixes": []
-    },
-    {
-      "id": "AU_06",
       "type": "Layer",
       "name": "Presentation Layer",
       "description": "It is the layer that is responsible for displaying information to the user.",
@@ -376,7 +345,7 @@ class Prompts:
       "fixes": []
     },
     {
-      "id": "AU_07",
+      "id": "AU_04",
       "type": "Layer",
       "name": "Business Layer",
       "description": "This layer is the core of the application and is responsible for processing all the information.",
@@ -385,7 +354,7 @@ class Prompts:
       "fixes": []
     },
     {
-      "id": "AU_08",
+      "id": "AU_05",
       "type": "Layer",
       "name": "Data Layer",
       "description": "It is the layer that is responsible for storing all the data.",
@@ -394,21 +363,21 @@ class Prompts:
       "fixes": []
     },
     {
-      "id": "AU_09",
+      "id": "AU_06",
       "type": "Service",
       "name": "API Gateway Service",
-      "description": "This service is responsible for the management, authentication and authorization of platform users and defines all the REST API routes.",
+      "description": "This service is responsible for the management, authentication and authorization of platform users.",
       "pageNumber": "44",
-      "isPartOf": ["AU_07"],
+      "isPartOf": ["AU_04"],
       "fixes": []
     },
     {
-      "id": "AU_15",
-      "type": "Connector",
-      "name": "",
-      "description": "The presentation layer communicates with the business layer, more specifically with the API Gateway.",
-      "pageNumber": "42",
-      "isPartOf": ["AU_06", "AU_09"],
+      "id": "AU_07",
+      "type": "Technology",
+      "name": "Spring Boot",
+      "description": "Backend framework used to implement the API Gateway Service.",
+      "pageNumber": "44",
+      "isPartOf": ["AU_06"],
       "fixes": []
     }
   ]
@@ -492,6 +461,78 @@ class Prompts:
       "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
       "pageNumber": "43",
       "isPartOf": ["P_03"],
+      "fixes": []
+    }
+  ]
+}
+    ...
+    """
+
+    CONNECTOR_EXTRACTION_PROMPT = """
+# Objective
+    You are an expert software architect and system design analyst. Given the already-extracted Architectural Units (provided below as JSON) and the software document with its accompanying images (diagrams), extract the Connectors of the system — the communications between its Architectural Units.
+
+# Instructions
+    1. Carefully read the entire document and inspect every provided image (diagrams).
+    2. Use the provided Architectural Units as the endpoints, referring to them by their given ids (AU_xx).
+    3. First, extract one Connector for every arrow or line drawn between two units in the diagrams.
+    4. Then, sweep the document text section by section and extract one Connector for every communication stated in prose that is not already covered by a diagram arrow.
+    5. Output one Connector per pair of communicating units.
+
+## What is connector
+    - Definition: a communication relationship between exactly two Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
+    - Examples: a presentation layer communicating with a business layer; a service calling another service; a service reading from a database; a device sending data to a service; a frontend component exchanging data with a backend service; a user, client or external actor communicating with the system or a server.
+    - NOT a Connector: the protocol or technology used for the communication (that is a Technology); either of the two units at the ends of the communication; a hosting, deployment, containment or management relationship (e.g. one unit hosts, runs, deploys, contains or manages another) — that is structure, not communication.
+
+# Extraction Rules
+    - Continue the units' AU_xx id sequence: give each Connector the next sequential AU id after the highest AU id among the provided units (e.g. if the units end at AU_20, the connectors are AU_21, AU_22, AU_23...). Never reuse an id that already belongs to a provided unit.
+    - "isPartOf" is the list of the EXACTLY TWO Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links.
+    - Leave "name" empty.
+    - Specify the page number from the document text (not the PDF page number) where the communication is described or shown. If it spans several pages, list them all.
+    - Connector should have the following JSON Schema:
+        {
+        "id": "<Next sequential AU id continuing from the provided units (e.g. AU_21, AU_22)>",
+        "type": "Connector",
+        "name": "",
+        "description": "<What the connector communicates and how, in English>",
+        "pageNumber": "<Page number(s) where the communication is described>",
+        "isPartOf": ["<id of the first unit>", "<id of the second unit>"],
+        "fixes": []
+        }
+
+# Rules:
+- A Connector connects EXACTLY two units; put exactly those two unit ids in "isPartOf". If the same communication method links several pairs of units, output one separate Connector per pair — never list more than two units in one Connector.
+- A Connector may link any unit type to any unit type.
+- Extract connectors at every level of abstraction the document describes — between layers, between a layer and a service or component, and between services. When the document states a communication between two layers or tiers (e.g. "the presentation layer communicates with the business layer"), connect those layer units directly; never substitute the services or components inside a layer for the layer itself.
+- When one statement describes a communication at several levels (e.g. "the presentation layer communicates with the business layer, more specifically with the API Gateway"), output a separate Connector for EACH stated level (layer–layer AND layer–service); do not collapse them into one.
+- A communication described as indirect (e.g. "X communicates with Y through Z") is still a Connector between X and Y, in addition to the direct connectors that are stated.
+- Reference only ids from the provided Architectural Units; if an endpoint you see is not in the list, link it to the closest matching provided unit.
+- Extract communications from every view and section, including ones described only in the prose (e.g. "X communicates with Y", "X interacts with Y"), not only the arrows drawn in the main diagram.
+- When one unit mediates between two others (e.g. "X acts as an intermediary between Y and Z"), ALWAYS output TWO Connectors: one Y–X and one X–Z; never output only one of the pair.
+- Ensure every connector is strictly supported by the document or an image; do not invent communications. Do not infer a connector merely because two units could plausibly interact (for example, do not connect every service to a shared database or infrastructure unit) — extract only the communications the document explicitly states or a diagram explicitly draws.
+- Output should be given in JSON format as in the Example Output section.
+- The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+
+# Example Output (JSON)
+{
+  "connectors": [
+    {
+      "id": "AU_07",
+      "type": "Connector",
+      "name": "",
+      "description": "The presentation layer communicates with the business layer.",
+      "pageNumber": "42",
+      "isPartOf": ["AU_03", "AU_04"],
+      "fixes": []
+    },
+    {
+      "id": "AU_08",
+      "type": "Connector",
+      "name": "",
+      "description": "The presentation layer sends requests to the API Gateway Service.",
+      "pageNumber": "44",
+      "isPartOf": ["AU_03", "AU_06"],
       "fixes": []
     }
   ]

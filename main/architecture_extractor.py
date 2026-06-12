@@ -2,7 +2,7 @@ from resource.prompts.prompts import Prompts
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from service.prompt_service import process_single_prompt, merge_architecture
+from service.prompt_service import extract_architecture_group, extract_connectors, save_architecture
 from service.architecture_evaluator_service import evaluate_architecture
 load_dotenv()
 
@@ -29,43 +29,34 @@ if __name__ == "__main__":
                 folder = ("../resource/docs/" + file_name).strip()
                 file = folder + "/" + file_name + ".pdf"
 
-                # Architecture is extracted with two independent prompts (run
-                # separately) whose results are merged in the program. Images in
-                # `folder` are sent along with the text so the model can read the
-                # architecture diagrams. The two prompts use disjoint id namespaces
-                # (AU_xx for units, P_xx for patterns) and no cross-group part-of.
+                # Architecture is extracted with separate prompts whose results are
+                # merged in the program. Images in `folder` are sent along with the
+                # text so the model can read the architecture diagrams. Units use the
+                # AU_xx id namespace and patterns use P_xx, with no cross-group part-of.
                 architecture_output_dir = "../outputs/gemini/architecture/" + file_name
 
                 # Pass A — Architectural Units (Layer, Component, Service, Device,
-                # Connector, Technology, Other).
-                units_json_path = process_single_prompt(
-                    file=file,
-                    folder=folder,
-                    prompt=Prompts.ARCHITECTURAL_UNIT_EXTRACTION_PROMPT,
-                    output_dir=architecture_output_dir,
-                    output_file_name=file_name + "_units"
-                )
-                print(f"Architectural units saved: {units_json_path}")
+                # Technology, Other; connectors are extracted in Pass C). Kept in
+                # memory — only the final merged file is written.
+                units = extract_architecture_group(
+                    file, folder, Prompts.ARCHITECTURAL_UNIT_EXTRACTION_PROMPT, "architectural_units")
 
                 # Pass B — Patterns (Architectural Pattern, Design Pattern).
-                patterns_json_path = process_single_prompt(
-                    file=file,
-                    folder=folder,
-                    prompt=Prompts.PATTERN_EXTRACTION_PROMPT,
-                    output_dir=architecture_output_dir,
-                    output_file_name=file_name + "_patterns"
-                )
-                print(f"Patterns saved: {patterns_json_path}")
+                patterns = extract_architecture_group(
+                    file, folder, Prompts.PATTERN_EXTRACTION_PROMPT, "patterns")
 
-                # Merge the two results into the canonical architecture file that
-                # the evaluation consumes.
-                llm_json_path = merge_architecture(
-                    units_json_dir=units_json_path,
-                    patterns_json_dir=patterns_json_path,
+                # Pass C — Connectors (the communications between units), extracted
+                # with the document, diagrams and the already-extracted units.
+                connectors = extract_connectors(file, folder, units)
+
+                # Merge units + connectors with the patterns and write the single
+                # canonical architecture file that the evaluation consumes.
+                llm_json_path = save_architecture(
+                    units, connectors, patterns,
                     output_file_name=file_name + "_architecture",
-                    output_dir=architecture_output_dir
+                    output_dir=architecture_output_dir,
                 )
-                print(f"Architecture (units + patterns) merged: {llm_json_path}")
+                print(f"Architecture (units + connectors + patterns) saved: {llm_json_path}")
 
                 # Evaluate against the architecture ground truth if available.
                 gt_path = f"../resource/groundTruths/architecture/{file_name}_ground_truth_architecture.xlsx"

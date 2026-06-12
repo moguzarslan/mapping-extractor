@@ -13,8 +13,8 @@
             "id": "AU_02",
             "type": "Layer",
             "name": "Business Layer",
-            "description": "Core layer responsible for processing information and user requests.",
-            "pageNumber": "41, 42",
+            "description": "Core layer responsible for processing information and business logic.",
+            "pageNumber": "41, 42, 43",
             "isPartOf": [],
             "fixes": []
         },
@@ -31,7 +31,7 @@
             "id": "AU_04",
             "type": "Component",
             "name": "Web Platform",
-            "description": "Web interface of the Waapiti platform.",
+            "description": "Web interface for the Waapiti platform.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_01"
@@ -42,7 +42,7 @@
             "id": "AU_05",
             "type": "Component",
             "name": "Mobile Platform",
-            "description": "Mobile interface of the Waapiti platform.",
+            "description": "Mobile interface for the Waapiti platform.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_01"
@@ -53,7 +53,7 @@
             "id": "AU_06",
             "type": "Service",
             "name": "API Gateway",
-            "description": "Service responsible for management, authentication, authorization, and routing of API requests.",
+            "description": "Service responsible for management, authentication, authorization, and routing requests between clients and microservices.",
             "pageNumber": "43",
             "isPartOf": [
                 "AU_02"
@@ -64,7 +64,7 @@
             "id": "AU_07",
             "type": "Service",
             "name": "Core",
-            "description": "Central service responsible for business logic and database interaction.",
+            "description": "Main business logic service of the platform.",
             "pageNumber": "43",
             "isPartOf": [
                 "AU_02"
@@ -74,8 +74,8 @@
         {
             "id": "AU_08",
             "type": "Service",
-            "name": "Analytics Module",
-            "description": "Service responsible for obtaining and processing playlogs, connections, and platform actions.",
+            "name": "Analytical Module",
+            "description": "Service for obtaining and processing playlogs, connections, and platform actions.",
             "pageNumber": "43, 62",
             "isPartOf": [
                 "AU_02"
@@ -97,7 +97,7 @@
             "id": "AU_10",
             "type": "Service",
             "name": "Web Socket",
-            "description": "Service enabling bidirectional communication between the platform and players.",
+            "description": "Service for bidirectional communication between the platform and players.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_02"
@@ -117,8 +117,19 @@
         },
         {
             "id": "AU_12",
+            "type": "Technology",
+            "name": "RDS",
+            "description": "AWS service implementing the MySQL database.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_11"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_13",
             "type": "Service",
-            "name": "Cloud Services",
+            "name": "Cloud Services Set",
             "description": "Collection of AWS services forming a data lake for historical data processing.",
             "pageNumber": "45",
             "isPartOf": [
@@ -127,24 +138,13 @@
             "fixes": []
         },
         {
-            "id": "AU_13",
-            "type": "Technology",
-            "name": "MySQL",
-            "description": "Database engine used for the relational database.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_11"
-            ],
-            "fixes": []
-        },
-        {
             "id": "AU_14",
             "type": "Technology",
             "name": "Amazon S3",
-            "description": "Object storage service for JSON documents.",
+            "description": "Object storage service used for the data lake.",
             "pageNumber": "45, 48",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -155,7 +155,7 @@
             "description": "NoSQL database service for real-time playlog storage.",
             "pageNumber": "45, 48",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -163,10 +163,10 @@
             "id": "AU_16",
             "type": "Technology",
             "name": "Amazon Athena",
-            "description": "Service for querying data stored in S3 using SQL.",
+            "description": "Service for performing SQL queries on data stored in S3.",
             "pageNumber": "49",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -174,10 +174,10 @@
             "id": "AU_17",
             "type": "Technology",
             "name": "AWS Glue",
-            "description": "Data integration service used for metadata management and data cataloging.",
+            "description": "Data integration service used for metadata cataloging.",
             "pageNumber": "49",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -188,7 +188,7 @@
             "description": "Service for real-time data streaming.",
             "pageNumber": "50",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -199,7 +199,7 @@
             "description": "Service for loading streaming data into data stores.",
             "pageNumber": "51",
             "isPartOf": [
-                "AU_12"
+                "AU_13"
             ],
             "fixes": []
         },
@@ -207,160 +207,17 @@
             "id": "AU_20",
             "type": "Device",
             "name": "Player",
-            "description": "Miniature computer device connected to screens for content reproduction.",
+            "description": "Hardware device (miniature computer) connected to screens for content reproduction.",
             "pageNumber": "8",
             "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_21",
-            "type": "Connector",
-            "name": "",
-            "description": "HTTP communication between presentation layer and API Gateway.",
-            "pageNumber": "41, 42",
-            "isPartOf": [
-                "AU_01",
-                "AU_06"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_22",
-            "type": "Connector",
-            "name": "",
-            "description": "TCP communication between API Gateway and Core.",
-            "pageNumber": "43",
-            "isPartOf": [
-                "AU_06",
-                "AU_07"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_23",
-            "type": "Connector",
-            "name": "",
-            "description": "TCP communication between API Gateway and Analytics Module.",
-            "pageNumber": "43",
-            "isPartOf": [
-                "AU_06",
-                "AU_08"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_24",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Players and API Player.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_20",
-                "AU_09"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_25",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Players and Web Socket.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_20",
-                "AU_10"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_26",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Web Socket and Cloud Services.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_10",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_27",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Core and Database.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_07",
-                "AU_11"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_28",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Core and Cloud Services.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_07",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_29",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Analytics Module and Cloud Services.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_08",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_30",
-            "type": "Connector",
-            "name": "",
-            "description": "Communication between Analytics Module and Database.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_08",
-                "AU_11"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_31",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "Protocol used for communication between presentation and business layers.",
-            "pageNumber": "41",
-            "isPartOf": [
-                "AU_21"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_32",
-            "type": "Technology",
-            "name": "TCP",
-            "description": "Protocol used for communication between microservices.",
-            "pageNumber": "43",
-            "isPartOf": [
-                "AU_22",
-                "AU_23"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_33",
             "type": "Technology",
             "name": "NestJS",
             "description": "Backend framework used for developing microservices.",
-            "pageNumber": "8, 46",
+            "pageNumber": "46, 60",
             "isPartOf": [
                 "AU_06",
                 "AU_07",
@@ -371,50 +228,170 @@
             "fixes": []
         },
         {
-            "id": "AU_34",
+            "id": "AU_22",
             "type": "Technology",
             "name": "TypeScript",
             "description": "Programming language used for development.",
-            "pageNumber": "8, 46",
+            "pageNumber": "46",
             "isPartOf": [
-                "AU_33"
+                "AU_21"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "name": "",
+            "description": "The Web Platform communicates with the API Gateway.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "name": "",
+            "description": "The Mobile Platform communicates with the API Gateway.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "name": "",
+            "description": "The API Gateway communicates with the Core service.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Connector",
+            "name": "",
+            "description": "The API Gateway communicates with the Analytical Module.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_06",
+                "AU_08"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Connector",
+            "name": "",
+            "description": "The Player device communicates with the API Player service.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_20",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Connector",
+            "name": "",
+            "description": "The Player device communicates with the Web Socket service.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_20",
+                "AU_10"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Connector",
+            "name": "",
+            "description": "The Web Socket service communicates with the Database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_10",
+                "AU_11"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Connector",
+            "name": "",
+            "description": "The Web Socket service communicates with the Cloud Services Set.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_10",
+                "AU_13"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Connector",
+            "name": "",
+            "description": "The Core service communicates with the Database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_07",
+                "AU_11"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Connector",
+            "name": "",
+            "description": "The Core service communicates with the Cloud Services Set.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_07",
+                "AU_13"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_33",
+            "type": "Connector",
+            "name": "",
+            "description": "The Analytical Module communicates with the Database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_08",
+                "AU_11"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_34",
+            "type": "Connector",
+            "name": "",
+            "description": "The Analytical Module communicates with the Cloud Services Set.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_08",
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_35",
-            "type": "Other",
-            "name": "SAT",
-            "description": "Technical support department of Waapiti.",
-            "pageNumber": "9, 10",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_36",
-            "type": "Other",
-            "name": "Product Owner",
-            "description": "Stakeholder responsible for product value and requirements.",
-            "pageNumber": "10",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_37",
-            "type": "Other",
-            "name": "Developer",
-            "description": "Author of the project responsible for design and implementation.",
-            "pageNumber": "10",
-            "isPartOf": [],
-            "fixes": []
-        },
-        {
-            "id": "AU_38",
-            "type": "Other",
-            "name": "Clients",
-            "description": "External beneficiaries of the platform.",
-            "pageNumber": "10",
-            "isPartOf": [],
+            "type": "Connector",
+            "name": "",
+            "description": "The Cloud Services Set communicates with the Database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_13",
+                "AU_11"
+            ],
             "fixes": []
         }
     ],
