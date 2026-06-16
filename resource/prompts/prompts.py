@@ -246,24 +246,23 @@ class Prompts:
 # Instructions
     1. Carefully read the entire document.
     2. Carefully inspect every provided image (architecture diagrams, deployment diagrams, etc.).
-    3. Identify all Architectural Units across the entire document.
-    4. Decompose the findings to the finest grain, following the type definitions and rules below.
+    3. Identify all Architectural Units across the entire document following the definitions and rules below.
 
-# Type Definitions (choose exactly one type per unit; when a unit could fit two types, use the "NOT this type" lines to decide)
+# Type Definitions
+Below are the definitions for each type and their concrete examples.
 
 ## Layer
     - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
-    - Examples: presentation layer (controllers), business / business-logic layer (services), domain layer (models), data-access layer (repositories), contract layer (DTOs / mappers), service layer, persistence / data layer, infrastructure layer.
-    - NOT a Layer: a single service or component that lives inside a layer (extract that as a Service / Component).
+    - Examples: presentation layer, business / business logic layer, domain layer, data-access layer, contract layer, service layer, persistence / data layer, infrastructure layer.
 
 ## Component
     - Definition: a concrete structural module of THIS system that is not exposed as an independently running service.
-    - Examples: frontend, backend, database, View, ViewModel, Model (the parts of an MVC / MVVM design), controller, repository, cache, message broker.
+    - Examples: frontend, backend, database, View, ViewModel, Model, controller, repository, cache, message broker.
     - NOT a Component: a specific named third-party product (that is a Technology); a module that runs independently or is an external integration (that is a Service).
 
 ## Service
     - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
-    - Examples: an API gateway, a core / business service, a microservice, an authentication / authorization / payment / email / storage / analytics / logging / monitoring service, any external or third-party service the system integrates with or calls.
+    - Examples: an API gateway, a microservice, an authentication / authorization / payment / email / analytics / logging / monitoring service.
     - NOT a Service: the specific named product or vendor that implements the capability (that is a Technology); a horizontal tier (Layer).
 
 ## Device
@@ -273,7 +272,12 @@ class Prompts:
 
 ## Technology
     - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
-    - Examples: a communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC), a programming language or framework, a database engine, a cloud service, a monitoring / analysis / testing tool, a named vendor product or library.
+    - Examples: 
+        - a communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC etc.)
+        - a programming language or framework (Java, Python, Next.js etc.)
+        - a database engine (PostgreSQL, MySQL, Oracle etc.)
+        - a cloud service (AWS, Azure, etc.) 
+        - a monitoring / analysis / testing tool (Grafana, Dynatrace, Sonarqube etc.) 
     - NOT a Technology: the generic capability the product provides for this system (that is a Service).
 
 ## Other
@@ -281,14 +285,14 @@ class Prompts:
     - Examples: an end user, a customer, an administrator, an external organisation.
     - NOT Other: a physical hardware device (Device); a software service of the system (Service).
 
-# Extraction Rules
+# Extraction Process
     - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
     - For each unit, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
     - For each unit, specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology" or "Other".
     - "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
         - A Technology isPartOf the Service / Component that uses it.
         - A Service / Component isPartOf its Layer; if it has no Layer, isPartOf its parent Service / Component.
-        - Leave "isPartOf" as an empty list when no containing unit applies. Do NOT reference patterns here — relationships between units and patterns are out of scope for this step.
+        - Leave "isPartOf" as an empty list when no containing unit applies.
     - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
     - Architectural Unit should have the following JSON Schema:
         {
@@ -302,17 +306,17 @@ class Prompts:
         }
 
 # Rules:
-- Ensure every unit is strictly supported by the document or an image; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
-- Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from the main diagram.
-- Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
-- Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
-- When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component.
-- Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
-- Extract every named technology, including ones mentioned only in the prose.
-- Output should be given in JSON format as in the Example Output section.
-- The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
-    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-- Avoid adding any extra explanation, just provide the required data.
+    - Ensure every unit is strictly supported by the document or an image; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+    - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from the main diagram.
+    - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+    - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+    - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+    - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+    - Extract every named technology, including ones mentioned only in the prose.
+    - Output should be given in JSON format as in the Example Output section.
+    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+    - Avoid adding any extra explanation, just provide the required data.
 
 # Example Output (JSON)
 {

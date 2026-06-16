@@ -122,7 +122,7 @@ VALIDATION_FIELD = {"unit": "name", "pattern": "name", "connector": "isPartOf"}
 SPEC_BY_NAME = {s["name"]: s for s in FIELD_SPECS}
 
 ID_JSON_CANDIDATES = ["id", "ID", "unit_id", "au_id", "ad_id"]
-ID_GT_CANDIDATES = ["AU ID", "AD ID", "ID", "Id", "id", "AU_ID", "AD_ID"]
+ID_GT_CANDIDATES = ["AU ID", "AD ID", "P ID", "P_ID", "PID", "ID", "Id", "id", "AU_ID", "AD_ID"]
 
 # GT sheet names -> element group.
 GT_SHEET_GROUPS = {
@@ -200,6 +200,36 @@ def endpoint_names(rec: dict, records: list[dict], id_index: dict) -> list[str]:
         if nm:
             names.append(nm)
     return names
+
+
+def endpoint_indices(rec: dict, id_index: dict) -> list[int]:
+    """The record indices of the architectural units a connector links (its
+    isPartOf ids resolved within its own side). Unresolved ids are skipped."""
+    out = []
+    for ref in to_id_list(rec.get("isPartOf")):
+        idx = id_index.get(str(ref).strip())
+        if idx is not None:
+            out.append(idx)
+    return out
+
+
+def endpoints_match_through_units(llm_idxs: list[int], gt_idxs: list[int],
+                                  llm_to_gt: dict) -> bool:
+    """True if an LLM connector links the SAME units a GT connector links, judged
+    THROUGH the unit matching: each LLM endpoint-unit is mapped to the GT unit it
+    matched, and the resulting GT-unit set must equal the GT connector's endpoint
+    set. This recognises two connectors as the same when their endpoints already
+    matched as units, even if the endpoint names differ (e.g. "payment service"
+    vs "payment processing"). Returns False if any endpoint unit did not match."""
+    if not llm_idxs or not gt_idxs:
+        return False
+    mapped = set()
+    for li in llm_idxs:
+        gj = llm_to_gt.get(li)
+        if gj is None:
+            return False
+        mapped.add(gj)
+    return mapped == set(gt_idxs)
 
 
 def name_sets_match(a: list[str], b: list[str], threshold: float) -> bool:
@@ -358,12 +388,16 @@ def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict, threshold: float,
         sim = text_similarity(ta, tb) if (ta and tb) else 0.0
         return (sim >= threshold), sim
     if kind == "parents":  # isPartOf
-        # For connectors, agreement uses the same endpoint-name-set rule that
-        # matched them, so a name-matched connector is consistently correct here.
+        # For connectors, agreement uses the same rule that matched them: the
+        # endpoints agree when they resolve to the same matched units (through the
+        # unit matching), or, failing that, when the endpoint names agree.
         if is_connector(llm_rec) and is_connector(gt_rec):
-            return name_sets_match(llm_rec.get("_endpoint_names") or [],
-                                   gt_rec.get("_endpoint_names") or [],
-                                   threshold), None
+            agree = endpoints_match_through_units(llm_rec.get("_endpoint_idx") or [],
+                                                  gt_rec.get("_endpoint_idx") or [],
+                                                  llm_to_gt) \
+                or name_sets_match(llm_rec.get("_endpoint_names") or [],
+                                   gt_rec.get("_endpoint_names") or [], threshold)
+            return agree, None
         pred = set()
         for ref in to_id_list(a):
             li = resolve_id(llm_idx, ref)
@@ -622,9 +656,11 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.35):
     for r in llm:
         if is_connector(r):
             r["_endpoint_names"] = endpoint_names(r, llm, llm_id_index)
+            r["_endpoint_idx"] = endpoint_indices(r, llm_id_index)
     for r in gt:
         if is_connector(r):
             r["_endpoint_names"] = endpoint_names(r, gt, gt_id_index)
+            r["_endpoint_idx"] = endpoint_indices(r, gt_id_index)
 
     # Pass 1 — named elements (everything except connectors) matched on name,
     # gated so patterns only match patterns and units only match units (override
@@ -642,7 +678,10 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.35):
         )
         pairs.extend((nonconn_llm[a], nonconn_gt[b], s) for a, b, s in sub_pairs)
 
-    # Pass 2 — connectors matched on their endpoint-name sets (order-independent).
+    # Pass 2 — connectors matched on the units they link. A connector matches when
+    # its endpoint units already matched as units (resolved THROUGH the Pass-1 unit
+    # matching), or, failing that, when the endpoint names themselves agree.
+    llm_to_gt = {i: j for i, j, _ in pairs}
     llm_conn = [i for i in range(len(llm)) if is_connector(llm[i])]
     gt_conn = [j for j in range(len(gt)) if is_connector(gt[j])]
     used_gt = set()
@@ -650,7 +689,8 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.35):
         for j in gt_conn:
             if j in used_gt:
                 continue
-            if name_sets_match(llm[i]["_endpoint_names"], gt[j]["_endpoint_names"], threshold):
+            if endpoints_match_through_units(llm[i]["_endpoint_idx"], gt[j]["_endpoint_idx"], llm_to_gt) \
+               or name_sets_match(llm[i]["_endpoint_names"], gt[j]["_endpoint_names"], threshold):
                 pairs.append((i, j, 1.0))
                 used_gt.add(j)
                 break

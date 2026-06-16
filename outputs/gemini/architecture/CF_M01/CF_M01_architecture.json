@@ -14,7 +14,7 @@
             "type": "Layer",
             "name": "Business Layer",
             "description": "Core layer responsible for processing information and business logic.",
-            "pageNumber": "41, 42, 43",
+            "pageNumber": "41, 42",
             "isPartOf": [],
             "fixes": []
         },
@@ -53,8 +53,8 @@
             "id": "AU_06",
             "type": "Service",
             "name": "API Gateway",
-            "description": "Service responsible for management, authentication, authorization, and routing requests between clients and microservices.",
-            "pageNumber": "43",
+            "description": "Service responsible for management, authentication, and authorization of users, acting as the entry point for the business layer.",
+            "pageNumber": "43, 44",
             "isPartOf": [
                 "AU_02"
             ],
@@ -64,8 +64,8 @@
             "id": "AU_07",
             "type": "Service",
             "name": "Core",
-            "description": "Main business logic service of the platform.",
-            "pageNumber": "43",
+            "description": "Main service responsible for the platform's core business logic.",
+            "pageNumber": "44",
             "isPartOf": [
                 "AU_02"
             ],
@@ -75,8 +75,8 @@
             "id": "AU_08",
             "type": "Service",
             "name": "Analytical Module",
-            "description": "Service for obtaining and processing playlogs, connections, and platform actions.",
-            "pageNumber": "43, 62",
+            "description": "Service responsible for obtaining and processing playlogs, connections, and platform actions.",
+            "pageNumber": "44",
             "isPartOf": [
                 "AU_02"
             ],
@@ -97,7 +97,7 @@
             "id": "AU_10",
             "type": "Service",
             "name": "Web Socket",
-            "description": "Service for bidirectional communication between the platform and players.",
+            "description": "Service responsible for bidirectional communication between the platform and players.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_02"
@@ -106,9 +106,9 @@
         },
         {
             "id": "AU_11",
-            "type": "Service",
+            "type": "Component",
             "name": "Database",
-            "description": "Relational database for storing system data.",
+            "description": "Relational database storing system data.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_03"
@@ -117,19 +117,8 @@
         },
         {
             "id": "AU_12",
-            "type": "Technology",
-            "name": "RDS",
-            "description": "AWS service implementing the MySQL database.",
-            "pageNumber": "45",
-            "isPartOf": [
-                "AU_11"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_13",
             "type": "Service",
-            "name": "Cloud Services Set",
+            "name": "Cloud Services",
             "description": "Collection of AWS services forming a data lake for historical data processing.",
             "pageNumber": "45",
             "isPartOf": [
@@ -138,78 +127,91 @@
             "fixes": []
         },
         {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Database engine used for the relational database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_11"
+            ],
+            "fixes": []
+        },
+        {
             "id": "AU_14",
             "type": "Technology",
-            "name": "Amazon S3",
-            "description": "Object storage service used for the data lake.",
-            "pageNumber": "45, 48",
+            "name": "Amazon RDS",
+            "description": "AWS service hosting the MySQL database.",
+            "pageNumber": "44",
             "isPartOf": [
-                "AU_13"
+                "AU_11"
             ],
             "fixes": []
         },
         {
             "id": "AU_15",
             "type": "Technology",
-            "name": "DynamoDB",
-            "description": "NoSQL database service for real-time playlog storage.",
+            "name": "Amazon S3",
+            "description": "Object storage service used for the data lake.",
             "pageNumber": "45, 48",
             "isPartOf": [
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
             "id": "AU_16",
             "type": "Technology",
-            "name": "Amazon Athena",
-            "description": "Service for performing SQL queries on data stored in S3.",
-            "pageNumber": "49",
+            "name": "DynamoDB",
+            "description": "NoSQL database service used for real-time playlog storage.",
+            "pageNumber": "45, 48",
             "isPartOf": [
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
             "id": "AU_17",
             "type": "Technology",
-            "name": "AWS Glue",
-            "description": "Data integration service used for metadata cataloging.",
+            "name": "Amazon Athena",
+            "description": "Query service for analyzing data in S3.",
             "pageNumber": "49",
             "isPartOf": [
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
             "id": "AU_18",
             "type": "Technology",
-            "name": "Kinesis Data Streams",
-            "description": "Service for real-time data streaming.",
-            "pageNumber": "50",
+            "name": "AWS Glue",
+            "description": "Data integration and catalog service for metadata management.",
+            "pageNumber": "49",
             "isPartOf": [
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
             "id": "AU_19",
             "type": "Technology",
-            "name": "Kinesis Data Firehose",
-            "description": "Service for loading streaming data into data stores.",
-            "pageNumber": "51",
+            "name": "Kinesis Data Streams",
+            "description": "Streaming service for real-time data ingestion.",
+            "pageNumber": "50",
             "isPartOf": [
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
             "id": "AU_20",
-            "type": "Device",
-            "name": "Player",
-            "description": "Hardware device (miniature computer) connected to screens for content reproduction.",
-            "pageNumber": "8",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "Service for loading streaming data into data stores.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_12"
+            ],
             "fixes": []
         },
         {
@@ -234,12 +236,61 @@
             "description": "Programming language used for development.",
             "pageNumber": "46",
             "isPartOf": [
-                "AU_21"
+                "AU_06",
+                "AU_07",
+                "AU_08",
+                "AU_09",
+                "AU_10"
             ],
             "fixes": []
         },
         {
             "id": "AU_23",
+            "type": "Device",
+            "name": "Player",
+            "description": "Hardware device (miniature computer) that connects screens to the platform to reproduce content.",
+            "pageNumber": "8",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Other",
+            "name": "SAT",
+            "description": "Technical support department of Waapiti.",
+            "pageNumber": "9, 10",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Other",
+            "name": "Product Owner",
+            "description": "Stakeholder responsible for product value and investment return.",
+            "pageNumber": "10",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Other",
+            "name": "Developer",
+            "description": "Author of the project responsible for design and implementation.",
+            "pageNumber": "10",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Other",
+            "name": "Clients",
+            "description": "External beneficiaries of the platform.",
+            "pageNumber": "10",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_28",
             "type": "Connector",
             "name": "",
             "description": "The Web Platform communicates with the API Gateway.",
@@ -251,7 +302,7 @@
             "fixes": []
         },
         {
-            "id": "AU_24",
+            "id": "AU_29",
             "type": "Connector",
             "name": "",
             "description": "The Mobile Platform communicates with the API Gateway.",
@@ -263,11 +314,11 @@
             "fixes": []
         },
         {
-            "id": "AU_25",
+            "id": "AU_30",
             "type": "Connector",
             "name": "",
             "description": "The API Gateway communicates with the Core service.",
-            "pageNumber": "43",
+            "pageNumber": "43, 44",
             "isPartOf": [
                 "AU_06",
                 "AU_07"
@@ -275,11 +326,11 @@
             "fixes": []
         },
         {
-            "id": "AU_26",
+            "id": "AU_31",
             "type": "Connector",
             "name": "",
             "description": "The API Gateway communicates with the Analytical Module.",
-            "pageNumber": "43",
+            "pageNumber": "43, 44",
             "isPartOf": [
                 "AU_06",
                 "AU_08"
@@ -287,31 +338,31 @@
             "fixes": []
         },
         {
-            "id": "AU_27",
+            "id": "AU_32",
             "type": "Connector",
             "name": "",
-            "description": "The Player device communicates with the API Player service.",
+            "description": "The Player communicates with the API Player service.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_20",
+                "AU_23",
                 "AU_09"
             ],
             "fixes": []
         },
         {
-            "id": "AU_28",
+            "id": "AU_33",
             "type": "Connector",
             "name": "",
-            "description": "The Player device communicates with the Web Socket service.",
+            "description": "The Player communicates with the Web Socket service.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_20",
+                "AU_23",
                 "AU_10"
             ],
             "fixes": []
         },
         {
-            "id": "AU_29",
+            "id": "AU_34",
             "type": "Connector",
             "name": "",
             "description": "The Web Socket service communicates with the Database.",
@@ -323,19 +374,19 @@
             "fixes": []
         },
         {
-            "id": "AU_30",
+            "id": "AU_35",
             "type": "Connector",
             "name": "",
-            "description": "The Web Socket service communicates with the Cloud Services Set.",
+            "description": "The Web Socket service communicates with the Cloud Services.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_10",
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
-            "id": "AU_31",
+            "id": "AU_36",
             "type": "Connector",
             "name": "",
             "description": "The Core service communicates with the Database.",
@@ -347,19 +398,31 @@
             "fixes": []
         },
         {
-            "id": "AU_32",
+            "id": "AU_37",
             "type": "Connector",
             "name": "",
-            "description": "The Core service communicates with the Cloud Services Set.",
+            "description": "The Core service communicates with the Cloud Services.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_07",
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
         {
-            "id": "AU_33",
+            "id": "AU_38",
+            "type": "Connector",
+            "name": "",
+            "description": "The Analytical Module communicates with the Cloud Services.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_08",
+                "AU_12"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_39",
             "type": "Connector",
             "name": "",
             "description": "The Analytical Module communicates with the Database.",
@@ -371,26 +434,26 @@
             "fixes": []
         },
         {
-            "id": "AU_34",
+            "id": "AU_40",
             "type": "Connector",
             "name": "",
-            "description": "The Analytical Module communicates with the Cloud Services Set.",
-            "pageNumber": "44",
+            "description": "The Presentation Layer communicates with the Business Layer.",
+            "pageNumber": "41",
             "isPartOf": [
-                "AU_08",
-                "AU_13"
+                "AU_01",
+                "AU_02"
             ],
             "fixes": []
         },
         {
-            "id": "AU_35",
+            "id": "AU_41",
             "type": "Connector",
             "name": "",
-            "description": "The Cloud Services Set communicates with the Database.",
-            "pageNumber": "44",
+            "description": "The Business Layer communicates with the Data Layer.",
+            "pageNumber": "41",
             "isPartOf": [
-                "AU_13",
-                "AU_11"
+                "AU_02",
+                "AU_03"
             ],
             "fixes": []
         }
