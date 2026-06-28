@@ -6,7 +6,7 @@ Usage:
         <ground_truth_architecture.xlsx> <llm_architecture.json> <output_report.xlsx> [threshold]
 
 Defaults:
-    threshold = 0.35  (cosine similarity below this is not a match)
+    threshold = 0.75  (embedding cosine similarity below this is not a match)
 
 Data model
 ----------
@@ -44,13 +44,23 @@ What it does
        Accuracy_F = correct_F / (matched pairs where LLM populated F)
    Mean Semantic Meaning is additionally reported for `description` and `fixes`.
 
-4. A per-class breakdown (Unit / Pattern / Connector) reports element-level
-   Precision/Recall so Connector extraction quality (matched on description) is
-   visible even though Connectors carry no name.
+4. Connectors are additionally scored at the UNIT-PAIR level for the headline and
+   the per-class breakdown. Each connector (GT and LLM) is star-decomposed into the
+   set of unit-to-unit communications it asserts — the central (first) endpoint
+   paired with every other endpoint — and Precision/Recall are computed over those
+   pair sets, with LLM pairs mapped to GT units through the unit matching. This
+   removes the group-vs-split ambiguity (a one-to-many connector and the equivalent
+   pairwise connectors decompose to the same pairs) and gives partial credit to a
+   partially-correct connector. The headline metric micro-averages named elements
+   (counted one each) with connector unit-pairs (counted one each).
+
+5. A per-class breakdown reports Precision/Recall for Units, Patterns (element
+   level) and Connectors (unit-pair level), so connector quality is visible even
+   though connectors carry no name.
 
 Per-field agreement
 -------------------
-    name, description   cosine similarity >= threshold (blended word+char TF-IDF)
+    name, description   embedding cosine similarity >= threshold
     type                case-insensitive exact match
     pageNumber          the page-number sets overlap (non-empty intersection)
     isPartOf            for connectors: the endpoint-name sets agree (same rule
@@ -85,7 +95,7 @@ from service.evaluator_service import (
     fixes_to_text,
     compute_similarity,
     text_similarity,
-    greedy_match,
+    optimal_match,
     _fmt,
     _pick,
 )
@@ -251,6 +261,78 @@ def name_sets_match(a: list[str], b: list[str], threshold: float) -> bool:
             return False
         remaining.pop(hit)
     return True
+
+
+def connector_pairs(rec: dict, id_index: dict) -> set[frozenset]:
+    """Star-decompose a connector into the set of unordered endpoint-index pairs
+    centered on its first (hub) endpoint: {hub, e1}, {hub, e2}, ...
+
+    A connector linking N units therefore asserts N-1 pairwise communications, not
+    a full clique. This mirrors the extraction convention (a one-to-many connector
+    lists the central unit first, then every unit it communicates with), so the
+    decomposition recovers exactly the intended unit-to-unit communications.
+    Indices are resolved within the connector's own side; duplicates are dropped.
+    """
+    idxs: list[int] = []
+    for x in endpoint_indices(rec, id_index):
+        if x not in idxs:
+            idxs.append(x)
+    if len(idxs) < 2:
+        return set()
+    hub = idxs[0]
+    return {frozenset((hub, other)) for other in idxs[1:] if other != hub}
+
+
+def _map_pair_through_units(pair_llm: frozenset, llm_to_gt: dict) -> frozenset | None:
+    """Map an LLM endpoint-index pair to the GT-index pair it corresponds to, via
+    the unit matching. Returns None if either endpoint unit did not match a GT unit
+    or both endpoints collapse onto the same GT unit."""
+    mapped = set()
+    for li in pair_llm:
+        gj = llm_to_gt.get(li)
+        if gj is None:
+            return None
+        mapped.add(gj)
+    return frozenset(mapped) if len(mapped) == 2 else None
+
+
+def connector_pair_stats(gt: list, llm: list, llm_to_gt: dict,
+                         gt_id_index: dict, llm_id_index: dict) -> dict:
+    """Pair-level connector scoring.
+
+    Every connector (GT and LLM) is star-decomposed into the set of unit-to-unit
+    communications it asserts. LLM pairs are mapped to GT units THROUGH the unit
+    matching, then precision/recall are computed over the distinct pair sets. This
+    removes the group-vs-split ambiguity — a one-to-many connector and the
+    equivalent set of pairwise connectors decompose to the same pairs — and lets a
+    partially-correct connector earn partial credit instead of nothing.
+    """
+    gt_pairs: set[frozenset] = set()
+    for r in gt:
+        if is_connector(r):
+            gt_pairs |= connector_pairs(r, gt_id_index)
+    llm_pairs: set[frozenset] = set()
+    for r in llm:
+        if is_connector(r):
+            llm_pairs |= connector_pairs(r, llm_id_index)
+
+    precision_tp = 0
+    covered_gt: set[frozenset] = set()
+    for p in llm_pairs:
+        mp = _map_pair_through_units(p, llm_to_gt)
+        if mp is not None and mp in gt_pairs:
+            precision_tp += 1
+            covered_gt.add(mp)
+    recall_tp = len(covered_gt)
+
+    return {
+        "gt_pairs": len(gt_pairs),
+        "llm_pairs": len(llm_pairs),
+        "precision_tp": precision_tp,
+        "recall_tp": recall_tp,
+        "precision": (precision_tp / len(llm_pairs)) if llm_pairs else None,
+        "recall": (recall_tp / len(gt_pairs)) if gt_pairs else None,
+    }
 
 
 def page_set(v) -> set[int]:
@@ -480,21 +562,33 @@ def build_report(gt, llm, sim, pairs, threshold):
             "matched_pairs (TP)": tp,
         })
 
-    # Full element-level Precision/Recall over ALL elements (units, patterns AND
-    # connectors). Every matched pair is validated on its type-appropriate field —
-    # name for units/patterns, isPartOf (endpoint set) for connectors — and the
-    # denominators span every element. Surfaced as the headline row of the field
-    # metrics so the precision/recall there includes connectors, not just named items.
-    full_correct = 0
+    # Headline Precision/Recall over ALL elements. Named elements (units, patterns)
+    # are scored at the ELEMENT level on `name`; connectors are scored at the PAIR
+    # level — each connector is star-decomposed into the unit-to-unit communications
+    # it asserts, so a one-to-many connector and the equivalent pairwise connectors
+    # are credited identically (no group-vs-split penalty) and a partially-correct
+    # connector earns partial credit. The metric micro-averages the two: a named
+    # element counts as one item, a connector counts as its unit-pairs.
+    conn_stats = connector_pair_stats(gt, llm, llm_to_gt, gt_idx, llm_idx)
+
+    named_correct = 0
     for i, j, _ in pairs:
+        if is_connector(gt[j]):
+            continue
         agree, _s = field_agrees(validation_spec(gt[j]), llm[i], gt[j], threshold,
                                  llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt)
         if agree:
-            full_correct += 1
-    full_precision = (full_correct / len(llm)) if llm else None
-    full_recall = (full_correct / len(gt)) if gt else None
+            named_correct += 1
+
+    named_llm = sum(1 for r in llm if not is_connector(r))
+    named_gt = sum(1 for r in gt if not is_connector(r))
+
+    full_precision_den = named_llm + conn_stats["llm_pairs"]
+    full_recall_den = named_gt + conn_stats["gt_pairs"]
+    full_precision = ((named_correct + conn_stats["precision_tp"]) / full_precision_den) if full_precision_den else None
+    full_recall = ((named_correct + conn_stats["recall_tp"]) / full_recall_den) if full_recall_den else None
     name_rows.insert(0, {
-        "field": "all elements (name | isPartOf)",
+        "field": "all elements (units/patterns by name, connectors by unit-pair)",
         "precision": _fmt(full_precision),
         "recall": _fmt(full_recall),
         "mean semantic meaning": "-",
@@ -504,12 +598,13 @@ def build_report(gt, llm, sim, pairs, threshold):
     field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy", "mean semantic meaning"])
     field_counts = pd.DataFrame(count_rows)
 
-    # Per-class element-level Precision/Recall (Unit / Pattern / Connector).
+    # Per-class Precision/Recall. Units and Patterns are scored at the element
+    # level; Connectors are scored at the unit-pair level (see connector_pair_stats),
+    # so the counts in the connector row are pairs, not elements.
     class_rows = []
-    classes = ["unit", "pattern", "connector"]
     gt_class = [match_class(r) for r in gt]
     llm_class = [match_class(r) for r in llm]
-    for c in classes:
+    for c in ("unit", "pattern"):
         gt_c = sum(1 for x in gt_class if x == c)
         llm_c = sum(1 for x in llm_class if x == c)
         tp_c = sum(1 for i, j, _ in pairs if gt_class[j] == c)
@@ -523,17 +618,27 @@ def build_report(gt, llm, sim, pairs, threshold):
             "precision": _fmt(precision),
             "recall": _fmt(recall),
         })
+    class_rows.append({
+        "class": "connector (unit-pairs)",
+        "gt_count": conn_stats["gt_pairs"],
+        "llm_count": conn_stats["llm_pairs"],
+        "matched (TP)": conn_stats["recall_tp"],
+        "precision": _fmt(conn_stats["precision"]),
+        "recall": _fmt(conn_stats["recall"]),
+    })
     class_breakdown = pd.DataFrame(class_rows)
 
     summary = pd.DataFrame([
         {"Metric": "Ground truth count", "Value": len(gt)},
         {"Metric": "LLM extracted count", "Value": len(llm)},
-        {"Metric": "True Positives (matched)", "Value": tp},
-        {"Metric": "Validated correct (name for units/patterns, isPartOf for connectors)", "Value": full_correct},
+        {"Metric": "True Positives (matched elements)", "Value": tp},
+        {"Metric": "Named correct (units/patterns by name)", "Value": named_correct},
+        {"Metric": "Connector unit-pairs (GT / LLM)", "Value": f"{conn_stats['gt_pairs']} / {conn_stats['llm_pairs']}"},
+        {"Metric": "Connector pair TP (recall / precision)", "Value": f"{conn_stats['recall_tp']} / {conn_stats['precision_tp']}"},
         {"Metric": "False Positives", "Value": fp},
         {"Metric": "False Negatives", "Value": fn},
-        {"Metric": "Precision (all elements; units/patterns by name, connectors by isPartOf)", "Value": _fmt(full_precision)},
-        {"Metric": "Recall (all elements; units/patterns by name, connectors by isPartOf)", "Value": _fmt(full_recall)},
+        {"Metric": "Precision (units/patterns by name, connectors by unit-pair)", "Value": _fmt(full_precision)},
+        {"Metric": "Recall (units/patterns by name, connectors by unit-pair)", "Value": _fmt(full_recall)},
         {"Metric": "Match threshold (cosine)", "Value": threshold},
     ])
 
@@ -639,7 +744,7 @@ def build_report(gt, llm, sim, pairs, threshold):
     }
 
 
-def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.35):
+def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
     gt = load_ground_truth(gt_path)
     llm = load_llm_extraction(llm_path)
     if not gt or not llm:
@@ -664,13 +769,15 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.35):
 
     # Pass 1 — named elements (everything except connectors) matched on name,
     # gated so patterns only match patterns and units only match units (override
-    # disabled with >1.0 so the class gate is always enforced).
+    # disabled with >1.0 so the class gate is always enforced). Optimal (Hungarian)
+    # assignment is used so a valid >= threshold match is never lost to greedy
+    # contention (a higher-similarity pair stealing a node another match needed).
     nonconn_llm = [i for i in range(len(llm)) if not is_connector(llm[i])]
     nonconn_gt = [j for j in range(len(gt)) if not is_connector(gt[j])]
     pairs = []
     if nonconn_llm and nonconn_gt:
         subsim = sim[np.ix_(nonconn_llm, nonconn_gt)]
-        sub_pairs = greedy_match(
+        sub_pairs = optimal_match(
             subsim, threshold,
             llm_types=[match_class(llm[i]) for i in nonconn_llm],
             gt_types=[match_class(gt[j]) for j in nonconn_gt],

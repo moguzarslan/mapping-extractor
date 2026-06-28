@@ -70,14 +70,12 @@ INPUT DATA:
 def build_document_json_prompt(
         file: str,
         prompt: str,
-        image_folder: str,
         json_payload: str,
 ) -> Union[str, list]:
     """
-    Builds a multimodal prompt combining the document text, an injected JSON
-    payload (the already-extracted Architectural Units), and the diagrams. Used by
-    the connector pass, which needs the diagrams to see the arrows/lines AND the
-    unit ids to link each connector's two endpoints.
+    Builds a text prompt combining the document text and an injected JSON payload
+    (the already-extracted Architectural Units). Used by the connector pass, which
+    needs the unit ids to link each connector's two endpoints.
     """
     document_text = read_document(file)
 
@@ -94,9 +92,6 @@ Document:
 """.strip()
 
     content = [types.Part.from_text(text=full_text)]
-
-    if image_folder:
-        content.extend(ImageTransformer.from_folder(image_folder))
 
     return content
 
@@ -208,23 +203,23 @@ def merge_connectors(units: list, connectors: list) -> list:
     return units + appended
 
 
-def extract_architecture_group(file: str, folder: str, prompt: str, group_key: str) -> list:
-    """Run a document + images architecture prompt and return its group list
+def extract_architecture_group(file: str, prompt: str, group_key: str) -> list:
+    """Run a document-only architecture prompt and return its group list
     (architectural_units or patterns). Nothing is written to disk."""
-    print(f"Extracting {group_key} from: {folder}")
-    built = build_document_prompt(file, prompt, image_folder=folder)
+    print(f"Extracting {group_key} from: {file}")
+    built = build_document_prompt(file, prompt, image_folder=None)
     response = ask_gemini(user_prompt=built)
     return _architecture_group(extract_json_from_response(response), group_key)
 
 
-def extract_connectors(file: str, folder: str, units: list) -> list:
-    """Run the connector prompt with the document, diagrams and the already-extracted
-    units; return the connector records. Nothing is written to disk.
+def extract_connectors(file: str, units: list) -> list:
+    """Run the connector prompt with the document and the already-extracted units;
+    return the connector records. Nothing is written to disk.
 
     The units (id/type/name/description) are sent so the model can link each
     connector's two endpoints by id.
     """
-    print(f"Extracting connectors from: {folder}")
+    print(f"Extracting connectors from: {file}")
     units_payload = json.dumps(
         {"architectural_units": [
             {"id": u.get("id"), "type": u.get("type"),
@@ -235,11 +230,85 @@ def extract_connectors(file: str, folder: str, units: list) -> list:
     built = build_document_json_prompt(
         file=file,
         prompt=Prompts.CONNECTOR_EXTRACTION_PROMPT,
-        image_folder=folder,
         json_payload=units_payload,
     )
     response = ask_gemini(user_prompt=built)
     return _architecture_group(extract_json_from_response(response), "connectors")
+
+
+def _reduce_for_linking(elements: list) -> list:
+    """Reduce units/patterns to the fields the linking step needs to reason about
+    containment: id (to reference), type, name and description (to decide it)."""
+    return [
+        {"id": e.get("id"), "type": e.get("type"),
+         "name": e.get("name"), "description": e.get("description")}
+        for e in elements
+    ]
+
+
+def _links_to_map(data) -> dict:
+    """Normalise the linking response into {element id: [isPartOf ids]}.
+
+    Tolerates the model returning {"isPartOf": [...]}, the list directly, or a dict
+    whose only list value is the entries.
+    """
+    if isinstance(data, dict):
+        items = data.get("isPartOf")
+        if not isinstance(items, list):
+            lists = [v for v in data.values() if isinstance(v, list)]
+            items = lists[0] if len(lists) == 1 else []
+    else:
+        items = data or []
+
+    out: dict = {}
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        eid = it.get("id")
+        if eid is None:
+            continue
+        parents = it.get("isPartOf") or []
+        if isinstance(parents, str):
+            parents = [parents]
+        out[str(eid).strip()] = [str(p).strip() for p in parents if str(p).strip()]
+    return out
+
+
+def apply_ispartof(elements: list, links: dict) -> list:
+    """Overwrite each element's isPartOf with the linking result, matched by id.
+    Elements the linking step did not return keep their existing isPartOf."""
+    out = []
+    for e in elements:
+        e = dict(e)
+        eid = str(e.get("id")).strip() if e.get("id") is not None else None
+        if eid is not None and eid in links:
+            e["isPartOf"] = links[eid]
+        out.append(e)
+    return out
+
+
+def extract_ispartof_links(file: str, units: list, patterns: list) -> dict:
+    """Run the dedicated containment pass over the already-extracted units and
+    patterns and return {id: [isPartOf ids]}.
+
+    Only the reduced fields (id/type/name/description) of both groups are sent, with
+    the document, so the model can build cross-namespace links (unit -> unit,
+    unit -> pattern, pattern -> pattern) referring to elements by their AU_xx / P_xx
+    ids. Connectors are not included — they keep their own endpoint isPartOf.
+    """
+    print(f"Extracting isPartOf links from: {file}")
+    payload = json.dumps(
+        {"architectural_units": _reduce_for_linking(units),
+         "patterns": _reduce_for_linking(patterns)},
+        ensure_ascii=False, indent=2,
+    )
+    built = build_document_json_prompt(
+        file=file,
+        prompt=Prompts.ISPARTOF_LINKING_PROMPT,
+        json_payload=payload,
+    )
+    response = ask_gemini(user_prompt=built)
+    return _links_to_map(extract_json_from_response(response))
 
 
 def save_architecture(units: list, connectors: list, patterns: list,
@@ -248,9 +317,10 @@ def save_architecture(units: list, connectors: list, patterns: list,
     """Merge the connectors into the units, combine with the patterns, and write the
     single canonical architecture file — the ONLY file the architecture pass saves.
 
-    Units use the AU_xx id namespace (connectors continue it) and patterns use P_xx,
-    with no cross-group isPartOf references, so this is a straight concatenation into
-    the {architectural_units, patterns} shape the evaluator expects.
+    Units use the AU_xx id namespace (connectors continue it) and patterns use P_xx.
+    isPartOf may reference either namespace (the linking pass builds unit->pattern
+    links), so this is a straight concatenation into the {architectural_units,
+    patterns} shape the evaluator expects.
     """
     architecture = {
         "architectural_units": merge_connectors(units, connectors),
@@ -296,9 +366,21 @@ def _as_requirements_list(data) -> list:
     return data or []
 
 
-def _reduce_to_id_description(requirements: list) -> list:
-    """Keep only id and description for each requirement (the splitting input)."""
-    return [{"id": r.get("id"), "description": r.get("description")} for r in requirements]
+def _reduce_for_splitting(requirements: list) -> list:
+    """Build the splitting input: id + description, plus relatedTo when present.
+
+    relatedTo is sent so the model can re-point any link whose target id changes
+    when that target is split (e.g. R_17 -> R_17a / R_17b); without it the model
+    cannot see — let alone fix — references that the split would leave dangling.
+    """
+    reduced = []
+    for r in requirements:
+        item = {"id": r.get("id"), "description": r.get("description")}
+        related = r.get("relatedTo")
+        if related:
+            item["relatedTo"] = related
+        reduced.append(item)
+    return reduced
 
 
 def _parent_requirement_id(split_id: str, original_by_id: dict) -> Union[str, None]:
@@ -340,12 +422,15 @@ def _append_fix(fixes, label: str) -> list:
 def merge_split_requirements(original: list, split: list) -> list:
     """Re-attach the non-text fields onto the split requirements.
 
-    The splitting step only returns id + description. For each returned element
-    we copy every other field (type, pageNumber, concept, categorization,
-    relatedTo, fixes, ...) from its parent requirement, then overwrite id and
-    description with the split values. Parts that actually resulted from a split
-    (their id differs from the parent id, e.g. R_01a from R_01) get "Split"
-    appended to their "fixes" field here in code, not via the prompt.
+    The splitting step returns id + description (+ a possibly re-pointed
+    relatedTo). For each returned element we copy every other field (type,
+    pageNumber, concept, categorization, fixes, ...) from its parent requirement,
+    then overwrite id and description with the split values. relatedTo is taken
+    from the split output when the model provided it (it re-points links whose
+    target id changed during splitting) and otherwise inherited from the parent.
+    Parts that actually resulted from a split (their id differs from the parent
+    id, e.g. R_01a from R_01) get "Split" appended to their "fixes" field here in
+    code, not via the prompt.
     """
     original_by_id = {r["id"]: r for r in original if r.get("id")}
     merged = []
@@ -360,6 +445,10 @@ def merge_split_requirements(original: list, split: list) -> list:
             record["id"] = sid
         if sdesc is not None:
             record["description"] = sdesc
+        if "relatedTo" in s:
+            # The model re-points relatedTo when a referenced requirement is
+            # split, so honour its value rather than the parent's stale one.
+            record["relatedTo"] = s.get("relatedTo")
         if parent_id is not None and sid is not None and sid != parent_id:
             record["fixes"] = _append_fix(record.get("fixes"), "Split")
         merged.append(record)
@@ -371,8 +460,8 @@ def process_requirement_splitting(input_json_dir: str, output_file_name: str = "
     print(f"Processing requirement splitting: {input_json_dir}")
     original = _as_requirements_list(extract_json_from_file(input_json_dir))
 
-    # Send ONLY id + description to the model.
-    reduced = _reduce_to_id_description(original)
+    # Send id + description (+ relatedTo) to the model so it can realign links.
+    reduced = _reduce_for_splitting(original)
     reduced_json = json.dumps({"requirements": reduced}, ensure_ascii=False, indent=2)
     split_prompt = build_requirements_json_prompt(Prompts.REQUIREMENT_SPLITTING_PROMPT, reduced_json)
 

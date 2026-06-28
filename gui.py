@@ -32,6 +32,7 @@ from service.evaluator_service import (
     compute_similarity,
     greedy_match,
     build_report,
+    write_report,
     norm_text,
     norm_categorical,
     FIELD_SPECS,
@@ -79,7 +80,7 @@ class EvaluatorGUI(tk.Tk):
         self._llm = []
         self._sim = None
         self._pairs = []      # list of (llm_idx, gt_idx, score)
-        self._threshold = 0.35
+        self._threshold = 0.75
         self._report = None
         self._manual_keys = set()  # {(llm_idx, gt_idx)} created/kept via the GUI
 
@@ -101,7 +102,7 @@ class EvaluatorGUI(tk.Tk):
         self._gt_var   = self._file_row(top, "Ground Truth xlsx:", 0)
         self._llm_var  = self._file_row(top, "LLM JSON:          ", 1)
         self._out_var  = self._file_row(top, "Output xlsx:       ", 2, save=True)
-        self._thr_var  = tk.StringVar(value="0.35")
+        self._thr_var  = tk.StringVar(value="0.75")
 
         ttk.Label(top, text="Threshold:").grid(row=3, column=0, sticky="w", pady=2)
         ttk.Entry(top, textvariable=self._thr_var, width=8).grid(row=3, column=1, sticky="w")
@@ -553,17 +554,7 @@ class EvaluatorGUI(tk.Tk):
         if not out_path:
             return
         try:
-            report = self._report
-            Path(out_path).parent.mkdir(parents=True, exist_ok=True)
-            with pd.ExcelWriter(out_path, engine="openpyxl") as w:
-                desc_df  = report["Field_Metrics_Desc"]
-                other_df = report["Field_Metrics_Other"]
-                desc_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=0)
-                other_df.to_excel(w, sheet_name="Field_Metrics", index=False,
-                                  startrow=len(desc_df) + 3)
-                for sheet in ("Field_Counts", "Requirement_Matching",
-                              "Matched_TP", "False_Positives", "False_Negatives"):
-                    report[sheet].to_excel(w, sheet_name=sheet, index=False)
+            write_report(self._report, out_path)
             self._status.config(text=f"Saved → {out_path}", foreground="green")
         except Exception as exc:
             messagebox.showerror("Save error", str(exc))

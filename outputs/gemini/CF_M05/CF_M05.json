@@ -2,261 +2,178 @@
     {
         "id": "R_01",
         "type": "FR",
-        "description": "Access the portal using personal credentials authentication.",
-        "pageNumber": "48",
-        "fixes": []
+        "description": "The system shall allow users to access the portal through personal credential authentication.",
+        "pageNumber": "48"
     },
     {
         "id": "R_02",
         "type": "criterion",
-        "description": "The system shall validate user credentials and grant access to the portal if they are valid.",
+        "description": "The system shall validate user credentials and grant access to the portal only if they are valid.",
         "pageNumber": "48",
-        "relatedTo": "R_01",
-        "fixes": []
+        "relatedTo": "R_01"
     },
     {
         "id": "R_03",
         "type": "FR",
-        "description": "Visualize the applications in the portal to which the user has access.",
-        "pageNumber": "48",
-        "fixes": []
+        "description": "The system shall display a list of applications to which the authenticated user has access.",
+        "pageNumber": "48"
     },
     {
         "id": "R_04",
         "type": "criterion",
-        "description": "The system shall display a list of applications corresponding to the user's access permissions upon login.",
+        "description": "The system shall only show the applications for which the user has authorized access.",
         "pageNumber": "48",
-        "relatedTo": "R_03",
-        "fixes": []
+        "relatedTo": "R_03"
     },
     {
         "id": "R_05",
         "type": "FR",
-        "description": "Access applications from the portal.",
-        "pageNumber": "48",
-        "fixes": []
+        "description": "The system shall allow users to access applications from the portal.",
+        "pageNumber": "48"
     },
     {
         "id": "R_06",
-        "type": "criterion",
-        "description": "The system shall redirect the user to the main page of the selected application.",
-        "pageNumber": "48",
-        "relatedTo": "R_05",
-        "fixes": []
+        "type": "FR",
+        "description": "The system shall restrict data visualization and actions (create, modify, delete) based on the user's assigned roles.",
+        "pageNumber": "49"
     },
     {
         "id": "R_07",
         "type": "FR",
-        "description": "Restrict data visualization and actions (create, modify, delete) based on assigned user roles.",
-        "pageNumber": "49",
-        "fixes": []
+        "description": "The system shall prevent users from accessing data belonging to other clients.",
+        "pageNumber": "49"
     },
     {
         "id": "R_08",
-        "type": "criterion",
-        "description": "The system shall verify user roles and permissions to allow or deny access to specific screens and data actions.",
-        "pageNumber": "49",
-        "relatedTo": "R_07",
-        "fixes": []
+        "type": "FR",
+        "description": "The system shall convert any mention of the old name to the new name throughout the portal and data.",
+        "pageNumber": "49"
     },
     {
         "id": "R_09",
         "type": "FR",
-        "description": "Restrict access between clients.",
-        "pageNumber": "49",
-        "fixes": []
+        "description": "The system shall allow administrators to assign or revoke access to applications for users.",
+        "pageNumber": "50"
     },
     {
         "id": "R_10",
-        "type": "criterion",
-        "description": "The system shall ensure that users can only access data associated with their specific client.",
-        "pageNumber": "49",
-        "relatedTo": "R_09",
-        "fixes": []
-    },
-    {
-        "id": "R_11",
-        "type": "FR",
-        "description": "Convert any mention of the old name to the new name.",
-        "pageNumber": "49",
-        "fixes": []
-    },
-    {
-        "id": "R_12",
-        "type": "criterion",
-        "description": "The system shall display the new name in all screens and data where the old name was mentioned.",
-        "pageNumber": "49",
-        "relatedTo": "R_11",
-        "fixes": []
-    },
-    {
-        "id": "R_13",
-        "type": "FR",
-        "description": "Assign or revoke access to applications for users.",
-        "pageNumber": "50",
-        "fixes": []
-    },
-    {
-        "id": "R_14",
-        "type": "criterion",
-        "description": "The system shall update the user's access list upon administrator confirmation, reflecting changes in the portal.",
-        "pageNumber": "50",
-        "relatedTo": "R_13",
-        "fixes": []
-    },
-    {
-        "id": "R_15",
         "type": "QR",
         "description": "The new content must maintain visual coherence with the design of the old version of the application.",
         "pageNumber": "52",
         "concept": "10a. Appearance",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_16",
+        "id": "R_11",
         "type": "criterion",
         "description": "Design, colors, fonts, and organization must be consistent with the old version.",
         "pageNumber": "52",
-        "relatedTo": "R_15",
-        "fixes": []
+        "relatedTo": "R_10"
     },
     {
-        "id": "R_17",
+        "id": "R_12",
         "type": "QR",
         "description": "The system must be easy to use for any user.",
         "pageNumber": "53",
         "concept": "11a. Ease of use",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_18",
+        "id": "R_13",
         "type": "criterion",
         "description": "80% of users shall not need to ask for help from third parties to use the application.",
         "pageNumber": "53",
-        "relatedTo": "R_17",
-        "fixes": []
+        "relatedTo": "R_12"
     },
     {
-        "id": "R_19",
+        "id": "R_14",
         "type": "QR",
-        "description": "The application must be available in several languages.",
+        "description": "The application must be available in multiple languages.",
         "pageNumber": "53",
-        "concept": "11b. Personalization and internationalization",
-        "categorization": "Volere",
-        "fixes": []
+        "concept": "11b. Customization and internationalization",
+        "categorization": "Volere"
     },
     {
-        "id": "R_20",
+        "id": "R_15",
         "type": "criterion",
         "description": "Translations must be complete and correct in both languages.",
         "pageNumber": "53",
-        "relatedTo": "R_19",
-        "fixes": []
+        "relatedTo": "R_14"
     },
     {
-        "id": "R_21",
+        "id": "R_16",
         "type": "QR",
         "description": "The user must be able to perform new operations without special training.",
         "pageNumber": "53",
         "concept": "11c. Learning",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_22",
+        "id": "R_17",
         "type": "criterion",
         "description": "The learning time for new functionalities should not exceed 5 minutes.",
         "pageNumber": "53",
-        "relatedTo": "R_21",
-        "fixes": []
+        "relatedTo": "R_16"
     },
     {
-        "id": "R_23",
+        "id": "R_18",
         "type": "QR",
-        "description": "Query operations must have a loading time of less than 1 second.",
+        "description": "Query operations must have a load time of less than 1 second.",
         "pageNumber": "53",
         "concept": "12a. Speed and latency",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_24",
+        "id": "R_19",
         "type": "criterion",
-        "description": "Response time shall not exceed 1 second in 95% of queries.",
+        "description": "Response time must not exceed 1 second in 95% of queries.",
         "pageNumber": "53",
-        "relatedTo": "R_23",
-        "fixes": []
+        "relatedTo": "R_18"
     },
     {
-        "id": "R_25",
+        "id": "R_20",
         "type": "QR",
         "description": "The web application must guarantee continuous and stable operation, ensuring its availability at all times.",
         "pageNumber": "54",
         "concept": "12a. Availability",
-        "categorization": "Volere",
-        "fixes": [
-            "Requirement was labeled as 12a. Availability, which is a sub-characteristic of Reliability in ISO/IEC 25010, but categorized as Volere in the document."
-        ]
+        "categorization": "Volere"
     },
     {
-        "id": "R_26",
+        "id": "R_21",
         "type": "criterion",
-        "description": "System availability must be at least 99.9%, even during periods of intensive use.",
+        "description": "System availability must be at least 99.9%, even during peak usage times.",
         "pageNumber": "54",
-        "relatedTo": "R_25",
-        "fixes": []
+        "relatedTo": "R_20"
     },
     {
-        "id": "R_27",
+        "id": "R_22",
         "type": "QR",
         "description": "The web application must support a large number of concurrent users without degrading its performance.",
         "pageNumber": "54",
         "concept": "12f. Capacity",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_28",
-        "type": "criterion",
-        "description": "System availability must be at least 99.9%, even during periods of intensive use.",
-        "pageNumber": "54",
-        "relatedTo": "R_27",
-        "fixes": []
-    },
-    {
-        "id": "R_29",
+        "id": "R_23",
         "type": "QR",
-        "description": "The system must allow the creation, query, modification, and deletion of data for authorized users.",
+        "description": "The system must allow the creation, consultation, modification, and deletion of data for authorized users.",
         "pageNumber": "54",
         "concept": "15a. Access",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_30",
-        "type": "criterion",
-        "description": "The system must have a secure authentication and permission verification mechanism to ensure each user only accesses authorized information and functionalities.",
-        "pageNumber": "54",
-        "relatedTo": "R_29",
-        "fixes": []
-    },
-    {
-        "id": "R_31",
+        "id": "R_24",
         "type": "QR",
         "description": "The application must manage a strict separation of data for each client.",
         "pageNumber": "55",
         "concept": "15b. Integrity",
-        "categorization": "Volere",
-        "fixes": []
+        "categorization": "Volere"
     },
     {
-        "id": "R_32",
+        "id": "R_25",
         "type": "criterion",
         "description": "No user can access data from other clients.",
         "pageNumber": "55",
-        "relatedTo": "R_31",
-        "fixes": []
+        "relatedTo": "R_24"
     }
 ]

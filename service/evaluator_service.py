@@ -5,14 +5,14 @@ Usage:
     python evaluate.py <ground_truth.xlsx> <llm_extraction.json> <output_report.xlsx> [threshold]
 
 Defaults:
-    threshold = 0.35  (cosine similarity below this is not a match)
+    threshold = 0.75  (embedding cosine similarity below this is not a match)
 
 What it does
 ------------
 1. Matches each LLM-extracted requirement to at most one ground-truth (GT)
-   requirement using the *description* text (combined word + char TF-IDF,
-   greedy one-to-one assignment at `threshold`). This produces the true
-   positives (TP) the per-field scoring is built on.
+   requirement using the *description* text (cosine similarity of sentence
+   embeddings, greedy one-to-one assignment at `threshold`). This produces the
+   true positives (TP) the per-field scoring is built on.
 2. For each of seven fields, reports Precision, Recall, and Mean Semantic
    Meaning:
 
@@ -63,18 +63,19 @@ Because `description` is the matching anchor, its Precision/Recall equal the
 requirement-level Precision/Recall, and its Mean Semantic Meaning is the mean
 similarity of the matched pairs.
 
-Output: an xlsx with sheets — Field_Metrics (the 7x3 table), Field_Counts,
-Requirement_Matching, Matched_TP, False_Positives, False_Negatives.
+Output: a single compacted xlsx with four sheets — Metrics (requirement-level
+summary stacked on the per-field metrics table), Matched, False_Positives,
+False_Negatives.
 """
 import json
+import os
 import re
 import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from scipy.optimize import linear_sum_assignment
 
 
 # ---------------------------------------------------------------------------
@@ -231,24 +232,80 @@ def load_llm_extraction(json_path: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Matching (on description)
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Semantic similarity via sentence embeddings
+# ---------------------------------------------------------------------------
+# Matching is anchored on the cosine similarity of sentence embeddings rather
+# than lexical TF-IDF, so paraphrases ("System saves the playlogs" vs "The
+# system shall store playlogs") are recognised as the same requirement instead
+# of being split into a false positive plus a false negative. Embeddings are
+# served by the same Vertex AI client the extraction pipeline uses.
+EMBED_MODEL  = os.getenv("EVAL_EMBEDDING_MODEL", "text-embedding-005")
+EMBED_TASK   = os.getenv("EVAL_EMBEDDING_TASK", "SEMANTIC_SIMILARITY")
+_EMBED_BATCH = 100
+
+_embed_client = None
+_embed_cache: dict[str, np.ndarray] = {}
+_embed_dim: int | None = None
+
+
+def _get_embed_client():
+    global _embed_client
+    if _embed_client is None:
+        from infra.gemini_client import create_gemini_client
+        _embed_client = create_gemini_client()
+    return _embed_client
+
+
+def _embed_texts(texts: list[str]) -> np.ndarray:
+    """Return an L2-normalised embedding matrix (len(texts) x dim).
+
+    Blank texts map to a zero vector (cosine 0 against anything). Embeddings are
+    cached per unique text, so identical descriptions and repeated GUI
+    re-matching do not re-hit the API.
+    """
+    global _embed_dim
+    todo = [t for t in dict.fromkeys(texts) if t and t not in _embed_cache]
+    if todo:
+        client = _get_embed_client()
+        for i in range(0, len(todo), _EMBED_BATCH):
+            batch = todo[i:i + _EMBED_BATCH]
+            try:
+                resp = client.models.embed_content(
+                    model=EMBED_MODEL, contents=batch,
+                    config={"task_type": EMBED_TASK},
+                )
+            except Exception as e:  # noqa: BLE001 - surface a clear, actionable error
+                raise RuntimeError(
+                    f"Embedding request failed for model '{EMBED_MODEL}'. Vertex AI "
+                    f"credentials must be configured (ADC / GOOGLE_CLOUD_PROJECT — see "
+                    f"infra/gemini_client.py). Original error: {e}"
+                ) from e
+            for t, emb in zip(batch, resp.embeddings):
+                v = np.asarray(emb.values, dtype=float)
+                norm = np.linalg.norm(v)
+                _embed_cache[t] = v / norm if norm else v
+                _embed_dim = v.shape[0]
+
+    dim = _embed_dim or 768
+    out = np.zeros((len(texts), dim))
+    for k, t in enumerate(texts):
+        if t and t in _embed_cache:
+            out[k] = _embed_cache[t]
+    return out
+
+
 def compute_similarity(gt_texts: list[str], llm_texts: list[str]) -> np.ndarray:
-    """Cosine similarity (LLM rows x GT cols): elementwise max of word & char TF-IDF."""
-    all_texts = gt_texts + llm_texts
-    n_gt = len(gt_texts)
-
-    v_word = TfidfVectorizer(lowercase=True, stop_words="english", ngram_range=(1, 2), min_df=1)
-    v_char = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), lowercase=True)
-
-    Xw = v_word.fit_transform(all_texts)
-    Xc = v_char.fit_transform(all_texts)
-
-    sim_w = cosine_similarity(Xw[n_gt:], Xw[:n_gt])
-    sim_c = cosine_similarity(Xc[n_gt:], Xc[:n_gt])
-    return np.maximum(sim_w, sim_c)
+    """Cosine similarity (LLM rows x GT cols) of sentence embeddings."""
+    if not gt_texts or not llm_texts:
+        return np.zeros((len(llm_texts), len(gt_texts)))
+    Eg = _embed_texts(list(gt_texts))
+    El = _embed_texts(list(llm_texts))
+    return El @ Eg.T  # vectors are L2-normalised, so dot product == cosine
 
 
 def text_similarity(a: str, b: str) -> float:
-    """Standalone pairwise similarity for fixes text (same blended TF-IDF idea)."""
+    """Standalone pairwise embedding cosine similarity (used for fixes text)."""
     if _is_blank(a) or _is_blank(b):
         return 0.0
     try:
@@ -306,6 +363,56 @@ def greedy_match(sim: np.ndarray, threshold: float,
         used_llm.add(i)
         used_gt.add(j)
     return pairs
+
+
+def optimal_match(sim: np.ndarray, threshold: float,
+                  llm_types: list[str | None] | None = None,
+                  gt_types: list[str | None] | None = None,
+                  type_override_sim: float = 0.9) -> list[tuple[int, int, float]]:
+    """Optimal one-to-one assignment with the same gating as `greedy_match`.
+
+    Identical contract and gates as `greedy_match` (a pair is eligible only when
+    its score >= threshold and the types are compatible, with the same
+    `type_override_sim` relaxation), but solved exactly with the Hungarian
+    algorithm instead of the greedy similarity-sorted walk. Each eligible pair is
+    weighted 1 + score and every other cell 0, so the assignment maximises the
+    NUMBER of eligible matches first and uses similarity only as the tie-breaker.
+
+    Because it is the exact solution to the assignment problem greedy approximates,
+    the matched count is always >= greedy's: it never drops a valid >= threshold
+    match because a higher-similarity pair stole a node the match needed.
+    """
+    n_llm, n_gt = sim.shape
+    if n_llm == 0 or n_gt == 0:
+        return []
+    check_types = llm_types is not None and gt_types is not None
+
+    def types_compatible(i: int, j: int, score: float) -> bool:
+        if not check_types:
+            return True
+        if score >= type_override_sim:
+            return True
+        lt = llm_types[i]   # type: ignore[index]
+        gt = gt_types[j]    # type: ignore[index]
+        if lt is None or gt is None:
+            return True
+        return norm_categorical(lt) == norm_categorical(gt)
+
+    # Eligible cells weigh 1 + score (>= 1) so maximising total weight maximises
+    # the count of eligible matches first; ineligible cells weigh 0 and are
+    # dropped from the result after the assignment.
+    valid = np.zeros((n_llm, n_gt), dtype=bool)
+    profit = np.zeros((n_llm, n_gt), dtype=float)
+    for i in range(n_llm):
+        for j in range(n_gt):
+            s = float(sim[i, j])
+            if s >= threshold and types_compatible(i, j, s):
+                valid[i, j] = True
+                profit[i, j] = 1.0 + s
+
+    rows, cols = linear_sum_assignment(profit, maximize=True)
+    return [(int(i), int(j), float(sim[i, j]))
+            for i, j in zip(rows, cols) if valid[i, j]]
 
 
 # ---------------------------------------------------------------------------
@@ -459,14 +566,19 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
                   for r in field_rows if r["field"] != DESC_REQUIRED_NAME]
     field_metrics_desc  = pd.DataFrame(desc_rows,  columns=["field", "precision", "recall", "mean semantic meaning"])
     field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy"])
+    field_metrics = pd.DataFrame(field_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
     field_counts  = pd.DataFrame(count_rows)
 
+    req_precision = (tp / (tp + fp)) if (tp + fp) else None
+    req_recall    = (tp / (tp + fn)) if (tp + fn) else None
     req_summary = pd.DataFrame([
         {"Metric": "Ground truth count",     "Value": len(gt)},
         {"Metric": "LLM extracted count",    "Value": len(llm)},
         {"Metric": "True Positives (matched)", "Value": tp},
         {"Metric": "False Positives",        "Value": fp},
         {"Metric": "False Negatives",        "Value": fn},
+        {"Metric": "Requirement precision",  "Value": _fmt(req_precision)},
+        {"Metric": "Requirement recall",     "Value": _fmt(req_recall)},
         {"Metric": "Match threshold (cosine)", "Value": threshold},
     ])
 
@@ -499,55 +611,40 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
         for j in range(len(gt)) if j not in matched_gt
     ])
 
-    gt_report = pd.DataFrame([
-        {
-            "GT_ID": gt[j]["id"],
-            "GT_description": gt[j].get("description"),
-            "GT_type": gt[j].get("type"),
-            "GT_pageNumber": gt[j].get("pageNumber"),
-            "GT_concept": gt[j].get("concept"),
-            "GT_categorization": gt[j].get("categorization"),
-            "GT_relatedTo": gt[j].get("relatedTo"),
-            "GT_fixes": fixes_to_text(gt[j].get("fixes")),
-            "closest_LLM_ID": llm[int(sim[:, j].argmax())]["id"],
-            "closest_LLM_description": llm[int(sim[:, j].argmax())].get("description"),
-            "best_similarity": round(float(sim[:, j].max()), 4),
-        }
-        for j in range(len(gt)) if j not in matched_gt
-    ])
-
-    llm_report = pd.DataFrame([
-        {
-            "LLM_ID": llm[i]["id"],
-            "LLM_description": llm[i].get("description"),
-            "LLM_type": llm[i].get("type"),
-            "LLM_pageNumber": llm[i].get("pageNumber"),
-            "LLM_concept": llm[i].get("concept"),
-            "LLM_categorization": llm[i].get("categorization"),
-            "LLM_relatedTo": llm[i].get("relatedTo"),
-            "LLM_fixes": fixes_to_text(llm[i].get("fixes")),
-            "closest_GT_ID": gt[int(sim[i].argmax())]["id"],
-            "closest_GT_description": gt[int(sim[i].argmax())].get("description"),
-            "best_similarity": round(float(sim[i].max()), 4),
-        }
-        for i in range(len(llm)) if i not in matched_llm
-    ])
-
     return {
         "Field_Metrics_Desc": field_metrics_desc,
         "Field_Metrics_Other": field_metrics_other,
+        "Field_Metrics": field_metrics,
         "Field_Counts": field_counts,
         "Requirement_Matching": req_summary,
         "Matched_TP": matched,
         "False_Positives": fps,
         "False_Negatives": fns,
-        "LLM_Requirements_Report": llm_report,
-        "GT_Requirements_Report": gt_report,
         "stats": {"tp": tp, "fp": fp, "fn": fn, "field_metrics": field_rows},
     }
 
 
-def evaluate(gt_path, llm_path, output_path, threshold=0.35):
+def write_report(report: dict, output_path) -> None:
+    """Write the compacted requirement evaluation workbook — a single file with
+    four sheets: Metrics, Matched, False_Positives, False_Negatives.
+
+    The Metrics sheet stacks the requirement-level summary (counts, precision,
+    recall, threshold) on top of the per-field metrics table.
+    """
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    summary = report["Requirement_Matching"]
+    field_metrics = report["Field_Metrics"]
+    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
+        summary.to_excel(w, sheet_name="Metrics", index=False, startrow=0)
+        field_metrics.to_excel(w, sheet_name="Metrics", index=False,
+                               startrow=len(summary) + 3)  # one blank row separator
+        report["Matched_TP"].to_excel(w, sheet_name="Matched", index=False)
+        report["False_Positives"].to_excel(w, sheet_name="False_Positives", index=False)
+        report["False_Negatives"].to_excel(w, sheet_name="False_Negatives", index=False)
+
+
+def evaluate(gt_path, llm_path, output_path, threshold=0.75):
     gt  = load_ground_truth(gt_path)
     llm = load_llm_extraction(llm_path)
     if not gt or not llm:
@@ -561,26 +658,7 @@ def evaluate(gt_path, llm_path, output_path, threshold=0.35):
     gt_types  = [norm_categorical(r.get(type_spec["name"])) for r in gt]
     pairs = greedy_match(sim, threshold, llm_types=llm_types, gt_types=gt_types)
     report = build_report(gt, llm, sim, pairs, threshold)
-
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
-        # Field_Metrics: description table first, then other-fields table below it
-        desc_df  = report["Field_Metrics_Desc"]
-        other_df = report["Field_Metrics_Other"]
-        desc_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=0)
-        other_start = len(desc_df) + 3  # leave one blank row as separator
-        other_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=other_start)
-        for sheet in ("Field_Counts", "Requirement_Matching",
-                      "Matched_TP", "False_Positives", "False_Negatives"):
-            report[sheet].to_excel(w, sheet_name=sheet, index=False)
-
-    report_path = Path(output_path).with_name(Path(output_path).stem + "_llm_report.xlsx")
-    with pd.ExcelWriter(report_path, engine="openpyxl") as w:
-        report["LLM_Requirements_Report"].to_excel(w, sheet_name="LLM_Requirements_Report", index=False)
-
-    gt_report_path = Path(output_path).with_name(Path(output_path).stem + "_gt_report.xlsx")
-    with pd.ExcelWriter(gt_report_path, engine="openpyxl") as w:
-        report["GT_Requirements_Report"].to_excel(w, sheet_name="GT_Requirements_Report", index=False)
+    write_report(report, output_path)
     return report
 
 

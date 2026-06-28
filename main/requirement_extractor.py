@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
                 gt_path = f"resource/groundTruths/{file_name}_ground_truth.xlsx"
                 if Path(gt_path).exists():
-                    eval_output_path = f"outputs/evaluation/{file_name}_req_eval.xlsx"
+                    eval_output_path = f"outputs/evaluation/requirement/{file_name}_req_eval.xlsx"
                     evaluate(gt_path, cleanup_json_path, eval_output_path)
                     print(f"Evaluation saved: {eval_output_path}")
                 else:

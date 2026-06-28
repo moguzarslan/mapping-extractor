@@ -6,77 +6,69 @@ class Prompts:
 # Instructions
     1. Review the entire document.
     2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria for all of them.
-    3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the Extraction Rules by Type section below, during the extraction make sure to oblige the rules defined in Rules section.
+    3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the Extraction Process by Type section below, during the extraction make sure to oblige the rules defined in Rules section.
 
-# Extraction Rules by Type
+# Extraction Process by Type
 
 ## For All Types
    	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
     - For each type, specify the page number from the document text (not the PDF page number) where the requirement starts.
     - For each type, specify the type (FR, QR, constraint or criterion).
-    - If the source document misclassifies a requirement (e.g., an FR labeled as a QR), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
          
-## For FR, QR and Constraints (Requirements)
-    - In the case of a requirement expressed textually, the requirement is the full text.
-
 ## For FR
-    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, the requirement will be I WANT something.
-    - In the case of a functional requirement expressed in a use case specification, the requirement is the objective.
-	- FR should have the following JSON Schema:
+    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, extract I WANT something.
+    - In the case of a functional requirement expressed in a use case specification, extract the objective.
+    - In the case of a FR expressed as a plain text without a specific format, FR is the text.
+	- Extracted FR should have the following JSON Schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type": "<FR>",
         "description": "<FR in English>",
-		“pageNumber”: “<Page number of the FR>”,
-		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+		“pageNumber”: “<Page number of the FR>”
         }
 
 ## For QR
     - For QRs, concept and categorization should be extracted from the document.
         - In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
         - In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
-    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Description contents.
-	- QR should have the following JSON schema:
+    - In case of a QR expressed using Volere with Description and Acceptance, extract the Description contents.
+    - In the case of a QR expressed as a plain text without a specific format, FR is the text.
+	- Extracted QR should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type": "<QR>",
         "description": "<QR in English>",
 		“pageNumber”: “<Page number of the requirement>”,
         "concept": "<Type of QR (in English) >",
-        "categorization": "<Volere or ISO/IEC 25010>",
-		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        "categorization": "<Volere or ISO/IEC 25010>"
         }
 
 ## For Constraint
-	- Constraint should have the following JSON Schema:
+	- Extracted constraint should have the following JSON Schema:
         {
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type": "<Constraint>",
         "description": "<Constraint in English>",
-		“pageNumber”: “<Page number of the Constraint>”,
-		“fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+		“pageNumber”: “<Page number of the Constraint>”
         }	
         	
 ## For Criterion
-    - In the case of a user history with several acceptance criteria, they should be added as separate requirements.
-    - In case of a QR expressed using Volere with Description and Acceptance, the requirement is the Acceptance contents.
-    - The link between an acceptance criterion and its related requirement is explicitly represented by stating the ID of the related requirement.
-    - Criterion should have the following JSON schema:
+    - In the case of a user story with several acceptance criteria, they should be added as separate criteria.
+    - In case of a QR expressed using Volere with Description and Acceptance, extract the Acceptance contents.
+    - The link between an acceptance criterion and its related requirement should be explicitly represented by stating the ID of the related requirement.
+    - Extracted criterion should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type":”<criterion>”
 		"description": “<Actual acceptance criterion of the requirement in English>,>”,
 		"pageNumber": “<Page number of the criterion>”,
-        "relatedTo":”<Id of the related requirement>”,
-        “fixes”: [“Brief explanation if any mistakes corrected from the source document”]
+        "relatedTo":”<Id of the related requirement>”
         }
         
 # Rules:
 - Ensure that all information is strictly supported by the document.
 - Output should be given in JSON format as in Example Output section.
 - Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
-    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-- Avoid adding any extra explanation, just provide the required data.
 - Avoid extracting:
     - Implementation workflows and processing sequences.
     - Database queries, algorithms, or internal logic.
@@ -92,27 +84,22 @@ class Prompts:
     "The application stores its data using a particular database technology."
     "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
     "The software is implemented using a specific programming language, framework, or cloud platform."
-- Avoid extracting post conditions or procedures as an acceptance criteria.
-    Invalid criterion examples:
-    "After entering the cridentials, user must access main view"
+- Avoid extracting criterion from post conditions or procedures fields defined in the document.
+
  
 # Example Output (JSON)
  {
   "id": "R_01",
   "type": "FR",
   "description": "The system shall allow users to reset their password via email verification.",
-  "pageNumber": "12",
-  "fixes": [
-    "Requirement was originally classified as a QR but was reclassified as an FR because it describes a system functionality."
-  ]
+  "pageNumber": "12"
 },
 {
   "id": "R_02",
   "type": "criterion",
   "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
   "pageNumber": "12",
-  "relatedTo": "R_01",
-  "fixes": []
+  "relatedTo": "R_01"
 },
 {
   "id": "R_03",
@@ -120,29 +107,33 @@ class Prompts:
   "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
   "pageNumber": "15",
   "concept": "12a. Speed and latency",
-  "categorization": "Volere",
-  "fixes": [ ]
+  "categorization": "Volere"
 },
 {
   "id": "R_04",
   "type": "criterion",
   "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
   "pageNumber": "15",
-  "relatedTo": "R_03",
-  "fixes": []
+  "relatedTo": "R_03"
 }
     ... 
     """
 
     REQUIREMENT_SPLITTING_PROMPT = """
     # Objective:
-    You are an expert software requirements analyst. You are given a JSON of already extracted requirements. Your task is to review each requirement and split it into multiple atomic requirements ONLY when it clearly expresses more than one independent need.
+    You are an expert software requirements analyst. You are given a JSON of already extracted requirements. Your task is to review each requirement/criterion and split it into multiple atomic requirements/criteria ONLY when it clearly expresses more than one independent need.
 
     # Instructions:
-    1. Process each requirement in the input JSON one by one.
+    1. Process each requirement/criterion in the input JSON one by one.
     2. Decide whether the requirement expresses a single need (atomic) or multiple needs (compound). Obligate the rules defined by the Rules section.
        - If atomic, keep it unchanged (same id and same field values).
-       - If compound, split it into the minimum number of atomic requirements, one per distinct need. Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed). Keep the original id as the base and append sequential lowercase letters (R_01 -> R_01a, R_01b, R_01c ...).
+       - If compound, split it into the minimum number of atomic requirements, one per distinct need:
+         - Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed).
+         - Keep the original id as the base and append sequential lowercase letters (R_01 -> R_01a, R_01b, R_01c ...).
+    3. Handle the "relatedTo" field (a criterion's link to the requirement it verifies, given as that requirement's id):
+       - Always carry "relatedTo" through to the output.
+       - Splitting a requirement changes its id (R_01 -> R_01a, R_01b, ...). When a target is split, re-point every "relatedTo" that referenced the original id to the split part whose description best matches it.
+       - Never leave a "relatedTo" referencing an id that no longer exists.
 
     # Example Split:
     - {
@@ -159,10 +150,33 @@ class Prompts:
         "description": "The system should support Turkish."
       }
 
+    # Example relatedTo realignment (a referenced requirement is split):
+    - {
+        "id": "R_05",
+        "description": "The system shall authenticate users and register new accounts."
+      },
+      {
+        "id": "R_06",
+        "description": "Authentication must lock the account after three failed attempts.",
+        "relatedTo": "R_05"
+      }
+      ->
+      {
+        "id": "R_05a",
+        "description": "The system shall authenticate users."
+      },
+      {
+        "id": "R_05b",
+        "description": "The system shall register new accounts."
+      },
+      {
+        "id": "R_06",
+        "description": "Authentication must lock the account after three failed attempts.",
+        "relatedTo": "R_05a"
+      }
+
     # Rules:
     - Preserve the original order of requirements.
-
-    ## Avoid splitting:
     - Avoid splitting when the conjunction joins parts of a single indivisible need (e.g. "username and password" forming one credential, "save and exit" as one action if treated atomically in the source).
     - Avoid splitting closely related, paired, or opposite actions on the same target (e.g. "create/update/delete", "add or remove", "enable or disable", "assign or revoke", "grant or deny").
     - Avoid splitting an enumeration that defines the allowed values, permitted states, options, or range of a single attribute (e.g. "The order status can only be open or closed."); the "and"/"or" lists a value domain, not separate needs. 
@@ -191,7 +205,8 @@ class Prompts:
         },
         {
           "id": "R_02",
-          "description": "..."
+          "description": "...",
+          "relatedTo": "R_01a"
         }
       ]
     }
@@ -210,11 +225,11 @@ class Prompts:
     3. Preserve the original order of the remaining criteria.
 
     # Rules:
-    - Remove a criterion that merely restates its related requirement without adding any new, testable detail (i.e. it is basically the same as the requirement).
-    - Remove a criterion that is not measurable or verifiable (it states no observable outcome, condition, threshold, metric, or acceptance condition that can be tested).
-    - Remove a criterion that only states a post condition or a procedure / sequence of steps rather than an acceptance condition (e.g. "After entering the credentials, the user must access the main view.").
-    - Keep every criterion that adds a concrete, measurable, or verifiable acceptance condition to its related requirement.
-    - When in doubt, keep the criterion.
+    - Default to KEEPING every criterion. Removal is the exception, not the norm; when unsure, keep it.
+    - Decide with this test: a criterion is redundant ONLY if successfully verifying its related requirement would, on its own, already verify the criterion — i.e. they amount to the same single check with nothing extra to confirm. If verifying the requirement would NOT automatically confirm the criterion, the criterion adds value and must be kept.
+    - Under that test, keep the criterion whenever it pins down anything the requirement leaves open, even with similar wording — for instance a measurable threshold or metric, a required verification/monitoring/testing method or acceptance evidence, a narrower scope, or an extra qualifying condition.
+    - Separately, remove a criterion that states only a post condition or a procedure / sequence of steps rather than an acceptance condition (e.g. "After entering the credentials, the user must access the main view.").
+    - Reworded phrasing alone is never a reason to remove a criterion.
     - Avoid changing the meaning, wording, or id of the criteria that are kept.
     - Avoid adding any explanation or commentary.
 
@@ -241,12 +256,11 @@ class Prompts:
 
     ARCHITECTURAL_UNIT_EXTRACTION_PROMPT = """
 # Objective
-    You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document and its accompanying images (diagrams).
+    You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document.
 
 # Instructions
     1. Carefully read the entire document.
-    2. Carefully inspect every provided image (architecture diagrams, deployment diagrams, etc.).
-    3. Identify all Architectural Units across the entire document following the definitions and rules below.
+    2. Identify all Architectural Units across the entire document following the definitions and rules below.
 
 # Type Definitions
 Below are the definitions for each type and their concrete examples.
@@ -281,15 +295,16 @@ Below are the definitions for each type and their concrete examples.
     - NOT a Technology: the generic capability the product provides for this system (that is a Service).
 
 ## Other
-    - Definition: an external actor, role, or human / organisational entity that takes part in the architecture but does not fit any technical type above.
-    - Examples: an end user, a customer, an administrator, an external organisation.
+    - Definition: an external actor that directly interacts with the running system as part of its architecture, and does not fit any technical type above.
+    - Examples: an end user, client.
     - NOT Other: a physical hardware device (Device); a software service of the system (Service).
 
 # Extraction Process
     - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
-    - For each unit, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
     - For each unit, specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology" or "Other".
-    - "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
+    - For each unit "description" must be the sentence or sentences from the document that states the unit — the evidence proving the unit.
+    - For each unit, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+    - For each unit, "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
         - A Technology isPartOf the Service / Component that uses it.
         - A Service / Component isPartOf its Layer; if it has no Layer, isPartOf its parent Service / Component.
         - Leave "isPartOf" as an empty list when no containing unit applies.
@@ -299,20 +314,24 @@ Below are the definitions for each type and their concrete examples.
         "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
         "type": "<Layer | Component | Service | Device | Technology | Other>",
         "name": "<Name of the unit in English >",
-        "description": "<Description of the unit in English, supported by the document or an image>",
+        "description": "<The exact document sentence(s) stating the unit, translated to English>",
         "pageNumber": "<Page number(s) where the unit is described>",
         "isPartOf": ["<id of the unit this unit is part of>"],
         "fixes": ["<Brief explanation if any mistake was corrected from the source document>"]
         }
 
 # Rules:
-    - Ensure every unit is strictly supported by the document or an image; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
-    - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from the main diagram.
+    - Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+    - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
     - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
     - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
     - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
     - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+        - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+            - a Service named by the capability it provides
+            - a Technology named by the product, whose isPartOf is that Service.
     - Extract every named technology, including ones mentioned only in the prose.
+    - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
     - Output should be given in JSON format as in the Example Output section.
     - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
         - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
@@ -391,42 +410,44 @@ Below are the definitions for each type and their concrete examples.
 
     PATTERN_EXTRACTION_PROMPT = """
 # Objective
-    You are an expert software architect and system design analyst. Extract the Patterns (the reusable design solutions the system is built upon) from the provided software document and its accompanying images (diagrams). Do NOT extract Architectural Units (layers, components, services, technologies, devices, connectors) — those are produced by a separate prompt.
+    You are an expert software architect and system design analyst. Extract the Patterns (the reusable design solutions the system is built upon) from the provided software document. Do NOT extract Architectural Units (layers, components, services, technologies, devices, connectors) — those are produced by a separate prompt.
 
 # Instructions
     1. Carefully read the entire document.
-    2. Carefully inspect every provided image (architecture diagrams, deployment diagrams, etc.).
-    3. Identify all architectural styles and design solutions that are explicitly stated or clearly shown in the document and images.
-    4. ALWAYS write every output field in English. If the document is in another language (e.g. Spanish or Catalan), translate every "name" and "description" into English as you extract.
+    2. Identify all architectural and design patterns that are explicitly stated in the document.
 
-# Extraction Rules
+# Pattern Definitions
+    Below are the definitions for each type and their concrete examples.
+
+## Architectural Pattern
+    A high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
+## Design Pattern 
+    A lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
+
+# Extraction Process
     - Assign each Pattern a strict sequential id: P_01, P_02, P_03...
     - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+    - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
     - For each pattern, specify its type using exactly one of:
-        - "Architectural Pattern": a high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
-        - "Design Pattern": a lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
-    - Extract EVERY architectural style and design solution named in the document, even when several co-exist (a system can be Client-Server AND Three-Layer AND Service-oriented AND Microservices at the same time). Do not stop at the first pattern you find.
     - "isPartOf" is the list of OTHER Pattern ids (P_xx) this pattern belongs to (e.g. "Three Layers" isPartOf "Client-Server"; a Design Pattern isPartOf the Architectural Pattern that introduces it). Leave it as an empty list when no parent pattern applies. Do NOT reference architectural units here — relationships between patterns and units are out of scope for this step.
     - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
     - Pattern should have the following JSON Schema:
+
         {
         "id": "<Sequential Pattern id (P_01, P_02)>",
         "type": "<Architectural Pattern | Design Pattern>",
         "name": "<Name of the pattern in English>",
-        "description": "<Why or where this pattern applies, supported by the document or an image>",
+        "description": "<The exact document sentence(s) stating the pattern, translated to English>",
         "pageNumber": "<Page number(s) where the pattern is described>",
         "isPartOf": ["<id of the pattern this pattern is part of>"],
         "fixes": ["<Brief explanation if any mistake was corrected from the source document>"]
         }
 
 # Rules:
-- Ensure that all information is strictly supported by the document and the images. Do not output a pattern whose name does not actually appear in the source.
-- Avoid inventing patterns that are not supported by the source; include an inferred item only when the evidence is strong.
-- Do NOT extract Architectural Units; they are extracted separately.
-- Output should be given in JSON format as in the Example Output section.
-- The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
-    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-- Avoid adding any extra explanation, just provide the required data.
+    - Ensure that all information is strictly supported by the document. Do not output a pattern whose name does not actually appear in the source.
+    - Output should be given in JSON format as in the Example Output section.
+    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
 
 # Example Output (JSON)
 {
@@ -474,46 +495,50 @@ Below are the definitions for each type and their concrete examples.
 
     CONNECTOR_EXTRACTION_PROMPT = """
 # Objective
-    You are an expert software architect and system design analyst. Given the already-extracted Architectural Units (provided below as JSON) and the software document with its accompanying images (diagrams), extract the Connectors of the system — the communications between its Architectural Units.
+    You are an expert software architect and system design analyst. Given the already-extracted Architectural Units (provided below as JSON) and the software document, extract the Connectors of the system — the communications between its Architectural Units.
 
 # Instructions
-    1. Carefully read the entire document and inspect every provided image (diagrams).
+    1. Carefully read the entire document.
     2. Use the provided Architectural Units as the endpoints, referring to them by their given ids (AU_xx).
-    3. First, extract one Connector for every arrow or line drawn between two units in the diagrams.
-    4. Then, sweep the document text section by section and extract one Connector for every communication stated in prose that is not already covered by a diagram arrow.
-    5. Output one Connector per pair of communicating units.
+    3. Sweep the document text section by section and extract one Connector for every communication stated between units.
+    4. A single Connector may link two units (one-to-one) or one unit to several units (one-to-many).
 
 ## What is connector
-    - Definition: a communication relationship between exactly two Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
-    - Examples: a presentation layer communicating with a business layer; a service calling another service; a service reading from a database; a device sending data to a service; a frontend component exchanging data with a backend service; a user, client or external actor communicating with the system or a server.
-    - NOT a Connector: the protocol or technology used for the communication (that is a Technology); either of the two units at the ends of the communication; a hosting, deployment, containment or management relationship (e.g. one unit hosts, runs, deploys, contains or manages another) — that is structure, not communication.
+    - Definition: a communication or interaction relationship among two or more Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
+    - One-to-one: a communication stated between two units.
+    - One-to-many: a single stated communication in which one unit communicates with several other units (e.g. a unit that routes, distributes, logs, or mediates communication among many units).
+    - NOT a Connector: the protocol or technology used for the communication (that is a Technology); any of the units at the ends of the communication; a hosting, deployment, containment or management relationship (e.g. one unit hosts, runs, deploys, contains or manages another) — that is structure, not communication.
+    - NOT a Connector: an individual step of a use-case, scenario, user flow, or action sequence that narrates runtime behaviour over time (e.g. a user performing an action and the system responding step by step) — this is behaviour, not a structural communication between architectural units.
 
 # Extraction Rules
     - Continue the units' AU_xx id sequence: give each Connector the next sequential AU id after the highest AU id among the provided units (e.g. if the units end at AU_20, the connectors are AU_21, AU_22, AU_23...). Never reuse an id that already belongs to a provided unit.
-    - "isPartOf" is the list of the EXACTLY TWO Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links.
+    - "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
+    - "description" must be the sentence or sentences from the document that states the communication — the evidence proving the connection.
+        - In case of multiple sentences from different pages, sentences should be separated with "[...]"
     - Leave "name" empty.
-    - Specify the page number from the document text (not the PDF page number) where the communication is described or shown. If it spans several pages, list them all.
+    - Specify the page number from the document text (not the PDF page number) where the communication is described. If it spans several pages, list them all.
     - Connector should have the following JSON Schema:
         {
         "id": "<Next sequential AU id continuing from the provided units (e.g. AU_21, AU_22)>",
         "type": "Connector",
         "name": "",
-        "description": "<What the connector communicates and how, in English>",
+        "description": "<The exact document sentence(s) stating the communication, translated to English>",
         "pageNumber": "<Page number(s) where the communication is described>",
-        "isPartOf": ["<id of the first unit>", "<id of the second unit>"],
+        "isPartOf": ["<id of a linked unit>", "<id of another linked unit>", "..."],
         "fixes": []
         }
 
 # Rules:
-- A Connector connects EXACTLY two units; put exactly those two unit ids in "isPartOf". If the same communication method links several pairs of units, output one separate Connector per pair — never list more than two units in one Connector.
+- A Connector links two or more units; put every unit the stated communication involves in "isPartOf".
+- When a single statement describes one unit communicating with a set of units in the same way (one-to-many — e.g. a unit that routes, distributes, logs, or mediates among many units), output ONE Connector with that central unit listed FIRST, followed by every unit in the set; do not split it into separate pairs.
+- Output a separate Connector for each independently stated communication; do not merge communications the document states separately into one Connector.
+- Do not extract the individual steps of a use-case, scenario, or action sequence as connectors; capture only the structural communications between the architectural units involved.
 - A Connector may link any unit type to any unit type.
-- Extract connectors at every level of abstraction the document describes — between layers, between a layer and a service or component, and between services. When the document states a communication between two layers or tiers (e.g. "the presentation layer communicates with the business layer"), connect those layer units directly; never substitute the services or components inside a layer for the layer itself.
-- When one statement describes a communication at several levels (e.g. "the presentation layer communicates with the business layer, more specifically with the API Gateway"), output a separate Connector for EACH stated level (layer–layer AND layer–service); do not collapse them into one.
-- A communication described as indirect (e.g. "X communicates with Y through Z") is still a Connector between X and Y, in addition to the direct connectors that are stated.
+- Extract connectors at every level of abstraction the document describes — between layers, between a layer and a service or component, and between services. When the document states a communication between two layers or tiers, connect those layer units directly; never substitute the services or components inside a layer for the layer itself.
+- When one statement describes a communication at several levels (e.g. a layer communicating with another layer, and more specifically with a service inside it), output a separate Connector for EACH stated level; do not collapse them into one.
 - Reference only ids from the provided Architectural Units; if an endpoint you see is not in the list, link it to the closest matching provided unit.
-- Extract communications from every view and section, including ones described only in the prose (e.g. "X communicates with Y", "X interacts with Y"), not only the arrows drawn in the main diagram.
-- When one unit mediates between two others (e.g. "X acts as an intermediary between Y and Z"), ALWAYS output TWO Connectors: one Y–X and one X–Z; never output only one of the pair.
-- Ensure every connector is strictly supported by the document or an image; do not invent communications. Do not infer a connector merely because two units could plausibly interact (for example, do not connect every service to a shared database or infrastructure unit) — extract only the communications the document explicitly states or a diagram explicitly draws.
+- Extract communications from every view and section described in the prose, not only from a single section.
+- Ensure every connector is strictly supported by the document; do not invent communications. Do not infer a connector merely because two units could plausibly interact (for example, do not connect every service to a shared database or infrastructure unit) — extract only the communications the document explicitly states.
 - Output should be given in JSON format as in the Example Output section.
 - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
     - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
@@ -525,8 +550,8 @@ Below are the definitions for each type and their concrete examples.
       "id": "AU_07",
       "type": "Connector",
       "name": "",
-      "description": "The presentation layer communicates with the business layer.",
-      "pageNumber": "42",
+      "description": "The presentation layer communicates with the business layer. [...] presentation layer communicates with business layer for calling the necessary functions.",
+      "pageNumber": "42,61",
       "isPartOf": ["AU_03", "AU_04"],
       "fixes": []
     },
@@ -534,11 +559,45 @@ Below are the definitions for each type and their concrete examples.
       "id": "AU_08",
       "type": "Connector",
       "name": "",
-      "description": "The presentation layer sends requests to the API Gateway Service.",
+      "description": "The gateway service routes every incoming request to the corresponding microservice.",
       "pageNumber": "44",
-      "isPartOf": ["AU_03", "AU_06"],
+      "isPartOf": ["AU_06", "AU_09", "AU_10", "AU_11"],
       "fixes": []
     }
+  ]
+}
+    ...
+    """
+
+    ISPARTOF_LINKING_PROMPT = """
+# Objective
+    You are an expert software architect and system design analyst. You are given the already-extracted Architectural Units and Patterns of a system (as JSON, with id/type/name/description) and the software document. Determine the "isPartOf" containment relationship for each provided element, referring to elements only by their given ids (AU_xx for units, P_xx for patterns).
+
+# Instructions
+    1. Carefully read the entire document.
+    2. For each provided Architectural Unit and Pattern, decide which element it is contained by or belongs to, following the containment rules below.
+    3. Refer to every element by its given id; the result must reference only ids present in the provided input.
+
+# Containment Rules
+    - A Technology isPartOf the Service or Component that uses it.
+    - A Layer, Service, or Component that constitutes or realizes a named Pattern isPartOf that Pattern (P_xx).
+    - A Layer, Service, or Component that does not constitute a Pattern isPartOf its parent unit (its Layer, or its parent Service / Component).
+    - A Pattern isPartOf the parent Pattern it belongs to.
+    - Assign each element a single primary container; list more than one id only when the document clearly states the element belongs to several.
+    - Leave "isPartOf" as an empty list when no containing element applies.
+
+# Rules:
+    - Reference only ids from the provided input (AU_xx for units, P_xx for patterns); never invent an id.
+    - Base every relationship strictly on the document; do not infer a containment the document does not support.
+    - Return one entry per provided element, giving only its id and its isPartOf; do not repeat other fields and do not add any extra explanation.
+    - Output should be given in JSON format as in the Example Output section.
+
+# Example Output (JSON)
+{
+  "isPartOf": [
+    { "id": "AU_03", "isPartOf": ["P_02"] },
+    { "id": "AU_07", "isPartOf": ["AU_06"] },
+    { "id": "P_04", "isPartOf": ["P_01"] }
   ]
 }
     ...

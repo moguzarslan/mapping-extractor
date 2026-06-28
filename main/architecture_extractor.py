@@ -2,7 +2,7 @@ from resource.prompts.prompts import Prompts
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from service.prompt_service import extract_architecture_group, extract_connectors, save_architecture
+from service.prompt_service import extract_architecture_group, extract_connectors, extract_ispartof_links, apply_ispartof, save_architecture
 from service.architecture_evaluator_service import evaluate_architecture
 load_dotenv()
 
@@ -30,24 +30,31 @@ if __name__ == "__main__":
                 file = folder + "/" + file_name + ".pdf"
 
                 # Architecture is extracted with separate prompts whose results are
-                # merged in the program. Images in `folder` are sent along with the
-                # text so the model can read the architecture diagrams. Units use the
-                # AU_xx id namespace and patterns use P_xx, with no cross-group part-of.
+                # merged in the program. Only the document text is sent to the model.
+                # Units use the AU_xx id namespace and patterns use P_xx, with no
+                # cross-group part-of.
                 architecture_output_dir = "../outputs/gemini/architecture/" + file_name
 
                 # Pass A — Architectural Units (Layer, Component, Service, Device,
                 # Technology, Other; connectors are extracted in Pass C). Kept in
                 # memory — only the final merged file is written.
                 units = extract_architecture_group(
-                    file, folder, Prompts.ARCHITECTURAL_UNIT_EXTRACTION_PROMPT, "architectural_units")
+                    file, Prompts.ARCHITECTURAL_UNIT_EXTRACTION_PROMPT, "architectural_units")
 
                 # Pass B — Patterns (Architectural Pattern, Design Pattern).
                 patterns = extract_architecture_group(
-                    file, folder, Prompts.PATTERN_EXTRACTION_PROMPT, "patterns")
+                    file, Prompts.PATTERN_EXTRACTION_PROMPT, "patterns")
 
                 # Pass C — Connectors (the communications between units), extracted
-                # with the document, diagrams and the already-extracted units.
-                connectors = extract_connectors(file, folder, units)
+                # with the document and the already-extracted units.
+                connectors = extract_connectors(file, units)
+
+                # Pass D — isPartOf containment links across units + patterns
+                # (unit->unit, unit->pattern, pattern->pattern), built with both id
+                # namespaces visible. Connectors keep their own endpoint isPartOf.
+                links = extract_ispartof_links(file, units, patterns)
+                units = apply_ispartof(units, links)
+                patterns = apply_ispartof(patterns, links)
 
                 # Merge units + connectors with the patterns and write the single
                 # canonical architecture file that the evaluation consumes.

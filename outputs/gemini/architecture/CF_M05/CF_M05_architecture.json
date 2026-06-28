@@ -2,199 +2,232 @@
     "architectural_units": [
         {
             "id": "AU_01",
-            "type": "Other",
-            "name": "User",
-            "description": "The end user of the portal and applications.",
-            "pageNumber": "9, 47",
-            "isPartOf": [],
+            "type": "Service",
+            "name": "Leader",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_02",
             "type": "Service",
-            "name": "Leader Service",
-            "description": "Microservice responsible for routing communications to the appropriate microservice and managing traffic.",
-            "pageNumber": "57, 60",
-            "isPartOf": [],
+            "name": "Portal",
+            "description": "El microservei del portal té com a funció principal oferir una interfície centralitzada per a l’accés a les diferents aplicacions de VWGS.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_03",
             "type": "Service",
-            "name": "Portal Service",
-            "description": "Microservice providing a centralized interface for accessing applications and hosting frontend binaries.",
-            "pageNumber": "57, 60",
-            "isPartOf": [],
+            "name": "Access Control",
+            "description": "El microservei Access Control té com a objectiu principal la gestió d’autenticació d’usuaris i els seus permisos dins de l’aplicació.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_04",
             "type": "Service",
-            "name": "Access Control Service",
-            "description": "Microservice responsible for user authentication and permission management.",
-            "pageNumber": "58, 60",
-            "isPartOf": [],
+            "name": "Communication Log",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_05",
             "type": "Service",
-            "name": "Communication Log Service",
-            "description": "Microservice for logging system communications and providing audit/statistical data.",
-            "pageNumber": "58",
-            "isPartOf": [],
+            "name": "Scheduler",
+            "description": "Té com a funció principal la planificació i programació de processos dins del sistema.",
+            "pageNumber": "59",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_06",
             "type": "Service",
-            "name": "Scheduler Service",
-            "description": "Microservice for planning and executing automated system tasks.",
-            "pageNumber": "59",
-            "isPartOf": [],
+            "name": "Ordering",
+            "description": "Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_07",
-            "type": "Technology",
-            "name": "Amazon Web Services",
-            "description": "Cloud provider hosting the system infrastructure.",
-            "pageNumber": "60, 81",
-            "isPartOf": [],
+            "type": "Service",
+            "name": "GSB",
+            "description": "Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "AU_08",
             "type": "Technology",
-            "name": "Amazon RDS",
-            "description": "Database engine used for data persistence.",
-            "pageNumber": "60",
-            "isPartOf": [],
+            "name": "Angular",
+            "description": "El client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA).",
+            "pageNumber": "61",
+            "isPartOf": [
+                "P_03"
+            ],
             "fixes": []
         },
         {
             "id": "AU_09",
             "type": "Technology",
-            "name": "Angular",
-            "description": "Frontend framework used for building the SPA.",
-            "pageNumber": "61, 76",
-            "isPartOf": [],
+            "name": "Spring Boot",
+            "description": "Pel servidor s’ha utilitzat Spring Boot, que proporciona una plataforma per exposar una API REST.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "P_03"
+            ],
             "fixes": []
         },
         {
             "id": "AU_10",
             "type": "Technology",
-            "name": "Spring Boot",
-            "description": "Backend framework used for developing microservices and REST APIs.",
-            "pageNumber": "61, 76",
-            "isPartOf": [],
+            "name": "HTTP",
+            "description": "El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "P_03"
+            ],
             "fixes": []
         },
         {
             "id": "AU_11",
-            "type": "Component",
-            "name": "View",
-            "description": "Frontend component responsible for UI presentation (HTML/SCSS).",
-            "pageNumber": "62",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "JSON",
+            "description": "El format de dades emprat és JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "P_03"
+            ],
             "fixes": []
         },
         {
             "id": "AU_12",
             "type": "Component",
-            "name": "ViewModel",
-            "description": "Frontend component responsible for logic, data processing, and service orchestration (TS).",
-            "pageNumber": "64",
-            "isPartOf": [],
+            "name": "View",
+            "description": "El component que anomenem View, Vista en català, està format pels fitxers HTML i SCSS de cada component que conformen l’aplicació.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "P_04"
+            ],
             "fixes": []
         },
         {
             "id": "AU_13",
             "type": "Component",
-            "name": "Model",
-            "description": "Frontend component defining data contracts.",
-            "pageNumber": "66",
-            "isPartOf": [],
+            "name": "ViewModel",
+            "description": "El component ViewModel agrupa els fitxers TS dels components i els serveis que tenen associats.",
+            "pageNumber": "64",
+            "isPartOf": [
+                "P_04"
+            ],
             "fixes": []
         },
         {
             "id": "AU_14",
-            "type": "Layer",
-            "name": "Presentation Layer (Controller)",
-            "description": "Backend layer handling REST requests and responses.",
-            "pageNumber": "68",
-            "isPartOf": [],
+            "type": "Component",
+            "name": "Model",
+            "description": "Els Models són les classes TypeScript que defineixen el contracte de dades consumit per la vista i pel ViewModel.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_04"
+            ],
             "fixes": []
         },
         {
             "id": "AU_15",
             "type": "Layer",
-            "name": "Business Logic Layer (Service)",
-            "description": "Backend layer implementing business rules.",
-            "pageNumber": "70",
-            "isPartOf": [],
+            "name": "Capa de presentació",
+            "description": "La capa de presentació rep les peticions i construeix les respostes.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "P_05"
+            ],
             "fixes": []
         },
         {
             "id": "AU_16",
             "type": "Layer",
-            "name": "Domain Layer (Model)",
-            "description": "Backend layer defining internal data entities.",
-            "pageNumber": "71",
-            "isPartOf": [],
+            "name": "Capa de lògica de negoci",
+            "description": "La capa de lògica de negoci aplica les regles del domini.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "P_05"
+            ],
             "fixes": []
         },
         {
             "id": "AU_17",
             "type": "Layer",
-            "name": "Contract Layer (DTO/Mapper)",
-            "description": "Backend layer separating internal models from external API representations.",
-            "pageNumber": "73",
-            "isPartOf": [],
+            "name": "Capa d’accés a dades",
+            "description": "La capa d’accés a dades interactua amb la base de dades.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "P_05"
+            ],
             "fixes": []
         },
         {
             "id": "AU_18",
             "type": "Layer",
-            "name": "Data Access Layer (Repository)",
-            "description": "Backend layer interacting with the database.",
-            "pageNumber": "74",
-            "isPartOf": [],
+            "name": "Capa de domini",
+            "description": "La capa de domini defineix el model de dades.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "P_05"
+            ],
             "fixes": []
         },
         {
             "id": "AU_19",
-            "type": "Connector",
-            "name": "",
-            "description": "The User communicates with the Portal Service via the internet.",
-            "pageNumber": "60",
+            "type": "Layer",
+            "name": "Capa de contracte",
+            "description": "S’hi afegeix una capa transversal de contracte que separa el model intern de la representació externa de l’API.",
+            "pageNumber": "68",
             "isPartOf": [
-                "AU_01",
-                "AU_03"
+                "P_05"
             ],
             "fixes": []
         },
         {
             "id": "AU_20",
-            "type": "Connector",
-            "name": "",
-            "description": "The Leader Service routes communications to the Scheduler Service.",
-            "pageNumber": "57, 60",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "El proveïdor per aquest projecte és Amazon Web Services el qual té un ampli catàleg de serveis i recursos cloud.",
+            "pageNumber": "60",
             "isPartOf": [
-                "AU_02",
-                "AU_06"
+                "P_02"
             ],
             "fixes": []
         },
         {
             "id": "AU_21",
-            "type": "Connector",
-            "name": "",
-            "description": "The Leader Service routes communications to the Access Control Service.",
-            "pageNumber": "57, 60",
+            "type": "Technology",
+            "name": "Kubernetes",
+            "description": "Pel desplegament de l’aplicació s’ha fet ús d’Amazon EKS, un servei que ofereix AWS el qual permet utilitzar Kubernetes (K8s).",
+            "pageNumber": "81",
             "isPartOf": [
-                "AU_02",
-                "AU_04"
+                "P_02"
             ],
             "fixes": []
         },
@@ -202,11 +235,13 @@
             "id": "AU_22",
             "type": "Connector",
             "name": "",
-            "description": "The Leader Service routes communications to the Communication Log Service.",
-            "pageNumber": "57, 60",
+            "description": "El client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA). [...] El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP. [...] El format de dades emprat és JSON.",
+            "pageNumber": "61",
             "isPartOf": [
-                "AU_02",
-                "AU_05"
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11"
             ],
             "fixes": []
         },
@@ -214,11 +249,12 @@
             "id": "AU_23",
             "type": "Connector",
             "name": "",
-            "description": "The Leader Service routes communications to the Portal Service.",
-            "pageNumber": "57, 60",
+            "description": "El component que anomenem View, Vista en català, està format pels fitxers HTML i SCSS de cada component que conformen l’aplicació. [...] El component ViewModel agrupa els fitxers TS dels components i els serveis que tenen associats. [...] Els Models són les classes TypeScript que defineixen el contracte de dades consumit per la vista i pel ViewModel.",
+            "pageNumber": "62,64,66",
             "isPartOf": [
-                "AU_02",
-                "AU_03"
+                "AU_12",
+                "AU_13",
+                "AU_14"
             ],
             "fixes": []
         },
@@ -226,11 +262,14 @@
             "id": "AU_24",
             "type": "Connector",
             "name": "",
-            "description": "The Scheduler Service reads from and writes to Amazon RDS.",
-            "pageNumber": "60",
+            "description": "La capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades. S’hi afegeix una capa transversal de contracte que separa el model intern de la representació externa de l’API.",
+            "pageNumber": "68",
             "isPartOf": [
-                "AU_06",
-                "AU_08"
+                "AU_15",
+                "AU_16",
+                "AU_17",
+                "AU_18",
+                "AU_19"
             ],
             "fixes": []
         },
@@ -238,11 +277,11 @@
             "id": "AU_25",
             "type": "Connector",
             "name": "",
-            "description": "The Access Control Service reads from and writes to Amazon RDS.",
+            "description": "En cada portal es realitzen els controls d’autentificació i autorització pertinents amb ajuda del Leader el qual decideix a quin domini funcional s’ha d’encaminar cada usuari.",
             "pageNumber": "60",
             "isPartOf": [
-                "AU_04",
-                "AU_08"
+                "AU_02",
+                "AU_01"
             ],
             "fixes": []
         },
@@ -250,11 +289,15 @@
             "id": "AU_26",
             "type": "Connector",
             "name": "",
-            "description": "The Communication Log Service reads from and writes to Amazon RDS.",
-            "pageNumber": "60",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema. [...] Actua com a punt central de gestió del trànsit, garantint que qualsevol interacció, tant amb serveis externs com entre microserveis interns, es realitzi de manera ordenada i segura.",
+            "pageNumber": "57",
             "isPartOf": [
+                "AU_01",
+                "AU_03",
+                "AU_04",
                 "AU_05",
-                "AU_08"
+                "AU_06",
+                "AU_07"
             ],
             "fixes": []
         },
@@ -262,71 +305,16 @@
             "id": "AU_27",
             "type": "Connector",
             "name": "",
-            "description": "The Portal Service reads from and writes to Amazon RDS.",
-            "pageNumber": "60",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
             "isPartOf": [
+                "AU_04",
+                "AU_01",
+                "AU_02",
                 "AU_03",
-                "AU_08"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_28",
-            "type": "Connector",
-            "name": "",
-            "description": "The View component captures user interactions and sends them to the ViewModel.",
-            "pageNumber": "62, 64",
-            "isPartOf": [
-                "AU_11",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_29",
-            "type": "Connector",
-            "name": "",
-            "description": "The ViewModel orchestrates HTTP calls to the backend Presentation Layer.",
-            "pageNumber": "64",
-            "isPartOf": [
-                "AU_12",
-                "AU_14"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_30",
-            "type": "Connector",
-            "name": "",
-            "description": "The Presentation Layer communicates with the Business Logic Layer.",
-            "pageNumber": "68, 70",
-            "isPartOf": [
-                "AU_14",
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_31",
-            "type": "Connector",
-            "name": "",
-            "description": "The Business Logic Layer interacts with the Data Access Layer.",
-            "pageNumber": "70, 74",
-            "isPartOf": [
-                "AU_15",
-                "AU_18"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_32",
-            "type": "Connector",
-            "name": "",
-            "description": "The Data Access Layer interacts with Amazon RDS.",
-            "pageNumber": "74",
-            "isPartOf": [
-                "AU_18",
-                "AU_08"
+                "AU_05",
+                "AU_06",
+                "AU_07"
             ],
             "fixes": []
         }
@@ -336,8 +324,8 @@
             "id": "P_01",
             "type": "Architectural Pattern",
             "name": "Microservices",
-            "description": "The system is divided into small, independent, and autonomous services where each microservice is responsible for a specific functionality and communicates with others via messaging systems.",
-            "pageNumber": "9, 56",
+            "description": "The application has an architecture based on microservices, which consists of dividing the system into a set of small, independent, and autonomous services where each microservice is responsible for a specific functionality.",
+            "pageNumber": "56",
             "isPartOf": [],
             "fixes": []
         },
@@ -345,7 +333,7 @@
             "id": "P_02",
             "type": "Architectural Pattern",
             "name": "Cloud Architecture",
-            "description": "The application is designed, deployed, and executed using cloud computing services (AWS) instead of local or physical servers, allowing for scalability, availability, and accessibility.",
+            "description": "The application is designed, deployed, and executed using cloud services (cloud computing) instead of local or physical servers.",
             "pageNumber": "60",
             "isPartOf": [],
             "fixes": []
@@ -354,19 +342,21 @@
             "id": "P_03",
             "type": "Design Pattern",
             "name": "Client-Server",
-            "description": "The application organizes code into two distinct components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
+            "description": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
             "pageNumber": "61",
-            "isPartOf": [],
+            "isPartOf": [
+                "P_01"
+            ],
             "fixes": []
         },
         {
             "id": "P_04",
             "type": "Design Pattern",
-            "name": "MVVM (Model-View-ViewModel)",
-            "description": "Used in the Angular frontend, this pattern separates the user interface (View) from the logic and data processing (ViewModel) and the data contract (Model).",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
             "pageNumber": "62",
             "isPartOf": [
-                "P_03"
+                "P_01"
             ],
             "fixes": []
         },
@@ -374,21 +364,10 @@
             "id": "P_05",
             "type": "Design Pattern",
             "name": "Layered Architecture",
-            "description": "The server (backend) organizes code into layers to separate responsibilities: presentation, business logic, data access, domain, and contract layers.",
+            "description": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies domain rules, the data access layer interacts with the database, and the domain layer defines the data model.",
             "pageNumber": "68",
             "isPartOf": [
-                "P_03"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "P_06",
-            "type": "Design Pattern",
-            "name": "Single-Page Application (SPA)",
-            "description": "The client is developed as a Single-Page Application that renders dynamic views and manages internal navigation without reloading the page.",
-            "pageNumber": "61",
-            "isPartOf": [
-                "P_03"
+                "P_01"
             ],
             "fixes": []
         }
