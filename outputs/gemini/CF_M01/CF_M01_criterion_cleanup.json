@@ -108,6 +108,13 @@
         "categorization": "Volere"
     },
     {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "Any user must be able to access the platform at any time of the day, except during scheduled updates.",
+        "pageNumber": "38",
+        "relatedTo": "R_17"
+    },
+    {
         "id": "R_19",
         "type": "QR",
         "description": "The system shall support an unlimited number of concurrent connections.",

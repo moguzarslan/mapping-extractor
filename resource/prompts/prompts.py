@@ -221,8 +221,7 @@ class Prompts:
     1. Process each acceptance criterion in the input JSON one by one. Obligate the rules defined by the Rules section.
        - If the criterion must be removed, omit it from the output entirely.
        - Otherwise, keep it unchanged (same id and same description).
-    2. Use "relatedRequirement" only as context to judge the criterion; never output it and never treat it as a criterion of its own.
-    3. Preserve the original order of the remaining criteria.
+
 
     # Rules:
     - Default to KEEPING every criterion. Removal is the exception, not the norm; when unsure, keep it.
@@ -230,6 +229,8 @@ class Prompts:
     - Under that test, keep the criterion whenever it pins down anything the requirement leaves open, even with similar wording — for instance a measurable threshold or metric, a required verification/monitoring/testing method or acceptance evidence, a narrower scope, or an extra qualifying condition.
     - Separately, remove a criterion that states only a post condition or a procedure / sequence of steps rather than an acceptance condition (e.g. "After entering the credentials, the user must access the main view.").
     - Reworded phrasing alone is never a reason to remove a criterion.
+    - Use "relatedRequirement" only as context to judge the criterion; never output it and never treat it as a criterion of its own.
+    - Preserve the original order of the remaining criteria.
     - Avoid changing the meaning, wording, or id of the criteria that are kept.
     - Avoid adding any explanation or commentary.
 
@@ -414,7 +415,7 @@ Below are the definitions for each type and their concrete examples.
 
 # Instructions
     1. Carefully read the entire document.
-    2. Identify all architectural and design patterns that are explicitly stated in the document.
+    2. Extract all architectural and design patterns that are explicitly stated in the document following the definitions and rules below.
 
 # Pattern Definitions
     Below are the definitions for each type and their concrete examples.
@@ -429,7 +430,7 @@ Below are the definitions for each type and their concrete examples.
     - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
     - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
     - For each pattern, specify its type using exactly one of:
-    - "isPartOf" is the list of OTHER Pattern ids (P_xx) this pattern belongs to (e.g. "Three Layers" isPartOf "Client-Server"; a Design Pattern isPartOf the Architectural Pattern that introduces it). Leave it as an empty list when no parent pattern applies. Do NOT reference architectural units here — relationships between patterns and units are out of scope for this step.
+    - "isPartOf" is the list of OTHER Pattern ids (P_xx) this pattern belongs to (e.g. "Three Layers" isPartOf "Client-Server"; a Design Pattern isPartOf the Architectural Pattern that introduces it). Leave it as an empty list when no parent pattern applies. 
     - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
     - Pattern should have the following JSON Schema:
 
@@ -501,21 +502,19 @@ Below are the definitions for each type and their concrete examples.
     1. Carefully read the entire document.
     2. Use the provided Architectural Units as the endpoints, referring to them by their given ids (AU_xx).
     3. Sweep the document text section by section and extract one Connector for every communication stated between units.
-    4. A single Connector may link two units (one-to-one) or one unit to several units (one-to-many).
 
 ## What is connector
     - Definition: a communication or interaction relationship among two or more Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
     - One-to-one: a communication stated between two units.
     - One-to-many: a single stated communication in which one unit communicates with several other units (e.g. a unit that routes, distributes, logs, or mediates communication among many units).
-    - NOT a Connector: the protocol or technology used for the communication (that is a Technology); any of the units at the ends of the communication; a hosting, deployment, containment or management relationship (e.g. one unit hosts, runs, deploys, contains or manages another) — that is structure, not communication.
-    - NOT a Connector: an individual step of a use-case, scenario, user flow, or action sequence that narrates runtime behaviour over time (e.g. a user performing an action and the system responding step by step) — this is behaviour, not a structural communication between architectural units.
+    - NOT a Connector: the protocol or technology used for the communication (that is a Technology); any of the units at the ends of the communication; a hosting, deployment, containment or management relationship (e.g. one unit hosts, runs, deploys, contains or manages another).
+    - NOT a Connector: an individual step of a use-case, scenario, user flow, or action sequence that narrates runtime behaviour over time (e.g. a user performing an action and the system responding step by step).
 
 # Extraction Rules
     - Continue the units' AU_xx id sequence: give each Connector the next sequential AU id after the highest AU id among the provided units (e.g. if the units end at AU_20, the connectors are AU_21, AU_22, AU_23...). Never reuse an id that already belongs to a provided unit.
     - "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
     - "description" must be the sentence or sentences from the document that states the communication — the evidence proving the connection.
         - In case of multiple sentences from different pages, sentences should be separated with "[...]"
-    - Leave "name" empty.
     - Specify the page number from the document text (not the PDF page number) where the communication is described. If it spans several pages, list them all.
     - Connector should have the following JSON Schema:
         {
@@ -549,7 +548,6 @@ Below are the definitions for each type and their concrete examples.
     {
       "id": "AU_07",
       "type": "Connector",
-      "name": "",
       "description": "The presentation layer communicates with the business layer. [...] presentation layer communicates with business layer for calling the necessary functions.",
       "pageNumber": "42,61",
       "isPartOf": ["AU_03", "AU_04"],
@@ -571,33 +569,30 @@ Below are the definitions for each type and their concrete examples.
 
     ISPARTOF_LINKING_PROMPT = """
 # Objective
-    You are an expert software architect and system design analyst. You are given the already-extracted Architectural Units and Patterns of a system (as JSON, with id/type/name/description) and the software document. Determine the "isPartOf" containment relationship for each provided element, referring to elements only by their given ids (AU_xx for units, P_xx for patterns).
+    You are an expert software architect and system design analyst. You are given the already-extracted Architectural Units and Patterns of a system (as JSON, with id/type/name/description) and the software document. Determine ONLY the "isPartOf" relations BETWEEN a unit and a pattern, referring to elements by their given ids (AU_xx for units, P_xx for patterns).
 
 # Instructions
     1. Carefully read the entire document.
-    2. For each provided Architectural Unit and Pattern, decide which element it is contained by or belongs to, following the containment rules below.
-    3. Refer to every element by its given id; the result must reference only ids present in the provided input.
-
-# Containment Rules
-    - A Technology isPartOf the Service or Component that uses it.
-    - A Layer, Service, or Component that constitutes or realizes a named Pattern isPartOf that Pattern (P_xx).
-    - A Layer, Service, or Component that does not constitute a Pattern isPartOf its parent unit (its Layer, or its parent Service / Component).
-    - A Pattern isPartOf the parent Pattern it belongs to.
-    - Assign each element a single primary container; list more than one id only when the document clearly states the element belongs to several.
-    - Leave "isPartOf" as an empty list when no containing element applies.
+    2. For each element, decide whether it has a containment relation with an element of the OTHER group:
+        - a Unit that constitutes or realizes a Pattern isPartOf that Pattern (AU_xx -> P_xx).
+        - a Pattern that is applied within or belongs to a Unit isPartOf that Unit (P_xx -> AU_xx).
+    3. Refer to every element by its given id; reference only ids present in the provided input.
 
 # Rules:
-    - Reference only ids from the provided input (AU_xx for units, P_xx for patterns); never invent an id.
-    - Base every relationship strictly on the document; do not infer a containment the document does not support.
-    - Return one entry per provided element, giving only its id and its isPartOf; do not repeat other fields and do not add any extra explanation.
+    - Produce ONLY unit-to-pattern or pattern-to-unit relations; do NOT output unit-to-unit or pattern-to-pattern relations (those are already determined elsewhere).
+    - The relation may go in either direction: a unit can be isPartOf a pattern, and a pattern can be isPartOf a unit.
+    - Leave "isPartOf" as an empty list when the element has no relation with an element of the other group.
+    - Reference only ids from the provided input (AU_xx, P_xx); never invent an id.
+    - Base every relation strictly on the document; do not infer a relation the document does not support.
+    - Return one entry per element, giving only its id and its isPartOf; do not repeat other fields and do not add any extra explanation.
     - Output should be given in JSON format as in the Example Output section.
 
 # Example Output (JSON)
 {
   "isPartOf": [
     { "id": "AU_03", "isPartOf": ["P_02"] },
-    { "id": "AU_07", "isPartOf": ["AU_06"] },
-    { "id": "P_04", "isPartOf": ["P_01"] }
+    { "id": "AU_07", "isPartOf": [] },
+    { "id": "P_04", "isPartOf": ["AU_09"] }
   ]
 }
     ...

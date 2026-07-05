@@ -275,14 +275,29 @@ def _links_to_map(data) -> dict:
 
 
 def apply_ispartof(elements: list, links: dict) -> list:
-    """Overwrite each element's isPartOf with the linking result, matched by id.
-    Elements the linking step did not return keep their existing isPartOf."""
+    """Union the cross-group (unit<->pattern) links from the linking pass into each
+    element's existing isPartOf, matched by id.
+
+    The extraction passes already produce the within-group links (unit->unit,
+    pattern->pattern); the linking pass adds only the cross-group ones, so the two
+    are merged (existing first, duplicates dropped) rather than overwritten. An
+    element with no cross-group link (empty or absent in the linking result) keeps
+    its existing isPartOf unchanged.
+    """
     out = []
     for e in elements:
         e = dict(e)
         eid = str(e.get("id")).strip() if e.get("id") is not None else None
-        if eid is not None and eid in links:
-            e["isPartOf"] = links[eid]
+        add = links.get(eid, []) if eid is not None else []
+        if add:
+            existing = e.get("isPartOf") or []
+            if isinstance(existing, str):
+                existing = [existing]
+            merged = list(existing)
+            for x in add:
+                if x not in merged:
+                    merged.append(x)
+            e["isPartOf"] = merged
         out.append(e)
     return out
 

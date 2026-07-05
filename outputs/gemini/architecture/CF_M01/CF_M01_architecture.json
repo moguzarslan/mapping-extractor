@@ -49,7 +49,9 @@
             "description": "This service is responsible for the management, authentication and authorization of platform users.",
             "pageNumber": "43, 44",
             "isPartOf": [
-                "P_03"
+                "AU_03",
+                "P_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -60,7 +62,8 @@
             "description": "This service is responsible for performing the business logic of the platform, it would be the main core of the platform.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -71,7 +74,8 @@
             "description": "This service is the service that has begun to be developed during the development of this TFG.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -82,7 +86,8 @@
             "description": "This service is responsible for communicating with the players receiving all the information corresponding to it.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -93,7 +98,8 @@
             "description": "This service is responsible for carrying out the communication between the platform and the players.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -141,11 +147,7 @@
             "description": "Programming language used for the development of the backend.",
             "pageNumber": "46",
             "isPartOf": [
-                "AU_05",
-                "AU_06",
-                "AU_07",
-                "AU_08",
-                "AU_09"
+                "AU_12"
             ],
             "fixes": []
         },
@@ -222,7 +224,8 @@
             "description": "Communication protocol used between the client and the server.",
             "pageNumber": "41, 42",
             "isPartOf": [
-                "AU_02"
+                "AU_02",
+                "AU_05"
             ],
             "fixes": []
         },
@@ -233,11 +236,7 @@
             "description": "Communication protocol used between the services.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_05",
-                "AU_06",
-                "AU_07",
-                "AU_08",
-                "AU_09"
+                "AU_03"
             ],
             "fixes": []
         },
@@ -253,7 +252,6 @@
         {
             "id": "AU_23",
             "type": "Connector",
-            "name": "",
             "description": "The presentation layer communicates with the business layer, more specifically with the Api Gateway, using the HTTP protocol.",
             "pageNumber": "42",
             "isPartOf": [
@@ -265,8 +263,7 @@
         {
             "id": "AU_24",
             "type": "Connector",
-            "name": "",
-            "description": "The Api Gateway service communicates with the Core service and the Analytical Module using the TCP protocol.",
+            "description": "The Api Gateway processes requests to send them to the Core service and the analytical module.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_05",
@@ -278,7 +275,6 @@
         {
             "id": "AU_25",
             "type": "Connector",
-            "name": "",
             "description": "The Core service interacts with the database, although it also interacts to a lesser extent with cloud services.",
             "pageNumber": "44",
             "isPartOf": [
@@ -291,8 +287,7 @@
         {
             "id": "AU_26",
             "type": "Connector",
-            "name": "",
-            "description": "The Analytical Module service interacts with cloud services, although it also interacts to a lesser extent with the database.",
+            "description": "The analytical module interacts with cloud services, although it also interacts to a lesser extent with the database.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_07",
@@ -304,7 +299,6 @@
         {
             "id": "AU_27",
             "type": "Connector",
-            "name": "",
             "description": "The Web Socket service processes data from players and stores it in the database and cloud services.",
             "pageNumber": "44",
             "isPartOf": [
@@ -317,20 +311,7 @@
         {
             "id": "AU_28",
             "type": "Connector",
-            "name": "",
-            "description": "The Web Socket service carries out the communication between the platform and the players.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_09",
-                "AU_22"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_29",
-            "type": "Connector",
-            "name": "",
-            "description": "The Api Player service is responsible for communicating with the players receiving all the information corresponding to it.",
+            "description": "The Api Player communicates with players receiving all information corresponding to it. [...] This information is processed and stored.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_08",
@@ -339,52 +320,58 @@
             "fixes": []
         },
         {
+            "id": "AU_29",
+            "type": "Connector",
+            "description": "The Web Socket service is responsible for carrying out the communication between the platform and the players.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_09",
+                "AU_22"
+            ],
+            "fixes": []
+        },
+        {
             "id": "AU_30",
             "type": "Connector",
-            "name": "",
-            "description": "The microservices (Core and Web Socket) act as producers for Kinesis Data Streams.",
+            "description": "Kinesis Data Streams reads data from different generators (Producers) and sends them to the consumers. [...] In the case of playlogs the generator is the WebSocket microservice. [...] While the audit trail has as a generator the Core.",
             "pageNumber": "50",
             "isPartOf": [
-                "AU_06",
+                "AU_18",
                 "AU_09",
-                "AU_18"
+                "AU_06"
             ],
             "fixes": []
         },
         {
             "id": "AU_31",
             "type": "Connector",
-            "name": "",
-            "description": "Kinesis Data Firehose acts as a consumer of Kinesis Data Streams and stores data in Amazon S3.",
+            "description": "For the consumers we have the Kinesis Data Firehose service, which is responsible for saving the data in S3.",
             "pageNumber": "50",
             "isPartOf": [
-                "AU_18",
                 "AU_19",
-                "AU_14"
+                "AU_11"
             ],
             "fixes": []
         },
         {
             "id": "AU_32",
             "type": "Connector",
-            "name": "",
-            "description": "Amazon Athena performs SQL queries on data stored in Amazon S3.",
-            "pageNumber": "49",
+            "description": "The analytical module uses the AWS Athena service to perform queries on data stored in Amazon S3.",
+            "pageNumber": "49,62",
             "isPartOf": [
-                "AU_16",
-                "AU_14"
+                "AU_07",
+                "AU_16"
             ],
             "fixes": []
         },
         {
             "id": "AU_33",
             "type": "Connector",
-            "name": "",
-            "description": "AWS Glue Data Catalog works in conjunction with Amazon Athena so that it can read data from S3 correctly.",
-            "pageNumber": "49",
+            "description": "The analytical module also has the database service, which is responsible for connecting and performing queries to the platform's database.",
+            "pageNumber": "63",
             "isPartOf": [
-                "AU_17",
-                "AU_16"
+                "AU_07",
+                "AU_10"
             ],
             "fixes": []
         }
@@ -414,14 +401,24 @@
             "id": "P_03",
             "type": "Design Pattern",
             "name": "API Gateway",
-            "description": "Això és degut de què es segueix el patró de disseny de microserveis Api Gateway. Aquest patró de disseny permet que solament un component sigui qui interactuï entre els usuaris i els serveis que proporciona la plataforma.",
+            "description": "Aquest patró de disseny permet que solament un component sigui qui interactuï entre els usuaris i els serveis que proporciona la plataforma.",
             "pageNumber": "43",
+            "isPartOf": [
+                "P_02",
+                "AU_05"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_04",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "L’objectiu d’això és millorar la seguretat, l’escalabilitat i la disponibilitat del sistema... les diferents capes que formen el sistema es componen de diversos serveis que interactuen entre si.",
+            "pageNumber": "42",
             "isPartOf": [
                 "P_02"
             ],
-            "fixes": [
-                "The document labels this as a 'patró de disseny de microserveis' (microservices design pattern). While it is a pattern used in microservices, it is classified here as a Design Pattern as per the provided definitions."
-            ]
+            "fixes": []
         }
     ]
 }

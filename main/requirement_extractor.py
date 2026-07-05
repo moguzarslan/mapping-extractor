@@ -59,7 +59,7 @@ if __name__ == "__main__":
                     output_dir=requirements_output_dir
                 )
 
-                gt_path = f"resource/groundTruths/{file_name}_ground_truth.xlsx"
+                gt_path = f"resource/groundTruths/requirement/{file_name}_ground_truth.xlsx"
                 if Path(gt_path).exists():
                     eval_output_path = f"outputs/evaluation/requirement/{file_name}_req_eval.xlsx"
                     evaluate(gt_path, cleanup_json_path, eval_output_path)

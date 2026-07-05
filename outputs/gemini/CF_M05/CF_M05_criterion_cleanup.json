@@ -6,6 +6,16 @@
         "pageNumber": "48"
     },
     {
+        "id": "R_02a",
+        "type": "criterion",
+        "description": "The system shall validate user credentials.",
+        "pageNumber": "48",
+        "relatedTo": "R_01",
+        "fixes": [
+            "Split"
+        ]
+    },
+    {
         "id": "R_02b",
         "type": "criterion",
         "description": "The system shall grant access to the portal only if credentials are valid.",
@@ -20,13 +30,6 @@
         "type": "FR",
         "description": "The system shall display a list of applications to which the authenticated user has access.",
         "pageNumber": "48"
-    },
-    {
-        "id": "R_04",
-        "type": "criterion",
-        "description": "The system shall only show the applications for which the user has authorized access.",
-        "pageNumber": "48",
-        "relatedTo": "R_03"
     },
     {
         "id": "R_05",

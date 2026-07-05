@@ -49,9 +49,10 @@ if __name__ == "__main__":
                 # with the document and the already-extracted units.
                 connectors = extract_connectors(file, units)
 
-                # Pass D — isPartOf containment links across units + patterns
-                # (unit->unit, unit->pattern, pattern->pattern), built with both id
-                # namespaces visible. Connectors keep their own endpoint isPartOf.
+                # Pass D — cross-group isPartOf links only (unit<->pattern, either
+                # direction); the within-group links (unit->unit, pattern->pattern)
+                # come from the extraction passes and are unioned in. Connectors keep
+                # their own endpoint isPartOf.
                 links = extract_ispartof_links(file, units, patterns)
                 units = apply_ispartof(units, links)
                 patterns = apply_ispartof(patterns, links)
