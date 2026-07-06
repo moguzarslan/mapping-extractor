@@ -2,7 +2,7 @@ from resource.prompts.prompts import Prompts
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from service.prompt_service import process_single_prompt, process_chained_prompt, process_requirement_splitting, process_criterion_cleanup
+from service.prompt_service import process_single_prompt, process_chained_prompt, process_requirement_splitting, process_criterion_cleanup, process_concept_extraction
 from service.evaluator_service import evaluate
 load_dotenv()
 
@@ -66,6 +66,16 @@ if __name__ == "__main__":
                     print(f"Evaluation saved: {eval_output_path}")
                 else:
                     print(f"No ground truth found for '{file_name}', skipping evaluation.")
+
+                # Concept extraction is purely programmatic (no model call) and runs
+                # after evaluation, on the same file the evaluator scored, so it
+                # never affects the evaluation.
+                concepts_json_path = process_concept_extraction(
+                    input_json_dir=cleanup_json_path,
+                    output_file_name=file_name + "_concepts",
+                    output_dir=requirements_output_dir
+                )
+                print(f"Concept extraction saved: {concepts_json_path}")
             except Exception as file_error:
                 print(f"Error while processing '{file_name}': {file_error}")
 

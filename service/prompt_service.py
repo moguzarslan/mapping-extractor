@@ -557,6 +557,53 @@ def process_criterion_cleanup(input_json_dir: str, output_file_name: str = "crit
     print(f"Criterion cleanup saved successfully for: {input_json_dir}")
     return str(output_path)
 
+def extract_concepts(requirements: list) -> tuple[list, list]:
+    """Replace each requirement's `concept` text with a concept id (C_01, C_02, ...)
+    and return the concept records those ids point to.
+
+    Concept text is deduplicated case-insensitively (whitespace-trimmed), so two
+    requirements sharing the same concept get the same id; ids are assigned in
+    order of first appearance. Requirements with no concept (blank/missing) are
+    returned unchanged.
+    """
+    concept_id_by_key: dict = {}
+    concepts: list = []
+    updated: list = []
+
+    for r in requirements:
+        r = dict(r)
+        raw = r.get("concept")
+        if raw is not None and str(raw).strip():
+            key = str(raw).strip().casefold()
+            if key not in concept_id_by_key:
+                cid = f"C_{len(concepts) + 1:02d}"
+                concept_id_by_key[key] = cid
+                concepts.append({"id": cid, "name": str(raw).strip()})
+            r["concept"] = concept_id_by_key[key]
+        updated.append(r)
+
+    return updated, concepts
+
+
+def process_concept_extraction(input_json_dir: str, output_file_name: str = "concepts",
+                               output_dir: str = "outputs") -> str:
+    """Post-process an already-final requirements JSON: pull each distinct
+    `concept` value out into its own object (id + name) and point each
+    requirement's `concept` field at that id instead of the raw text.
+
+    Purely programmatic (no model call, no prompt involved) and meant to run on
+    the same file the evaluator already scored, so the concept-id rewrite never
+    affects the evaluation.
+    """
+    print(f"Processing concept extraction: {input_json_dir}")
+    requirements = _as_requirements_list(extract_json_from_file(input_json_dir))
+    updated, concepts = extract_concepts(requirements)
+
+    output_path = save_json(updated + concepts, output_file_name, output_dir)
+    print(f"Concept extraction saved successfully for: {input_json_dir}")
+    return str(output_path)
+
+
 def process_validation_prompt(file: str, input_json_dir: str, prompt:str, output_file_name: str, output_dir: str = "outputs") -> None:
 
     print(f"Processing validation prompt: {file}")

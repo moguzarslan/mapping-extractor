@@ -72,11 +72,15 @@ Per-field agreement
     fixes               cosine similarity >= threshold
 
 Output: an xlsx with sheets — Field_Metrics, Class_Breakdown, Matching_Summary,
-Field_Counts, Matched_TP, False_Positives, False_Negatives. Two side-car files
+Field_Counts, Matched_TP, False_Positives, False_Negatives. Three side-car files
 are written next to it (matching the requirements evaluator): `<stem>_gt_report.xlsx`
-(the unmatched GT elements / false negatives) and `<stem>_llm_report.xlsx` (the
+(the unmatched GT elements / false negatives), `<stem>_llm_report.xlsx` (the
 unmatched LLM elements / false positives), each with all fields and the closest
-counterpart on the other side.
+counterpart on the other side, and `<stem>_by_type.xlsx` with a Type_Breakdown
+sheet: per element `type` value (Layer, Component, Service, Device, Connector,
+Technology, Other, Architectural Pattern, Design Pattern), the successful
+extractions (TP), false positives, false negatives, precision, recall and F1 —
+ordered most successful (highest F1) to least.
 """
 import json
 import re
@@ -96,6 +100,7 @@ from service.evaluator_service import (
     compute_similarity,
     text_similarity,
     optimal_match,
+    build_type_breakdown,
     _fmt,
     _pick,
 )
@@ -727,6 +732,11 @@ def build_report(gt, llm, sim, pairs, threshold):
         for i in range(len(llm)) if i not in matched_llm
     ])
 
+    # Per-type breakdown (Layer/Component/Service/Device/Connector/Technology/
+    # Other/Architectural Pattern/Design Pattern), ranked most successful (F1)
+    # to least — reuses the same convention as the requirements evaluator.
+    type_breakdown = build_type_breakdown(gt, llm, pairs)
+
     return {
         "Field_Metrics_Name": field_metrics_name,
         "Field_Metrics_Other": field_metrics_other,
@@ -738,6 +748,7 @@ def build_report(gt, llm, sim, pairs, threshold):
         "False_Negatives": fns,
         "LLM_Architecture_Report": llm_report,
         "GT_Architecture_Report": gt_report,
+        "Type_Breakdown": type_breakdown,
         "stats": {"tp": tp, "fp": fp, "fn": fn,
                   "name_metrics": name_rows, "other_metrics": other_rows,
                   "class_breakdown": class_rows},
@@ -825,6 +836,10 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
     gt_report_path = Path(output_path).with_name(Path(output_path).stem + "_gt_report.xlsx")
     with pd.ExcelWriter(gt_report_path, engine="openpyxl") as w:
         report["GT_Architecture_Report"].to_excel(w, sheet_name="GT_Architecture_Report", index=False)
+
+    type_breakdown_path = Path(output_path).with_name(Path(output_path).stem + "_by_type.xlsx")
+    with pd.ExcelWriter(type_breakdown_path, engine="openpyxl") as w:
+        report["Type_Breakdown"].to_excel(w, sheet_name="Type_Breakdown", index=False)
     return report
 
 

@@ -65,7 +65,11 @@ similarity of the matched pairs.
 
 Output: a single compacted xlsx with four sheets — Metrics (requirement-level
 summary stacked on the per-field metrics table), Matched, False_Positives,
-False_Negatives.
+False_Negatives. A side-car `<stem>_by_type.xlsx` is also written with a
+Type_Breakdown sheet: per requirement-`type` value (e.g. Functional,
+Non-Functional), the successful extractions (TP), false positives, false
+negatives, precision, recall and F1 — ordered most successful (highest F1)
+to least, so the weakest-performing requirement types stand out.
 """
 import json
 import os
@@ -484,6 +488,70 @@ def _fmt(x):
     return "-" if x is None else round(float(x), 4)
 
 
+def build_type_breakdown(gt: list[dict], llm: list[dict],
+                         pairs: list[tuple[int, int, float]],
+                         type_field: str = "type") -> pd.DataFrame:
+    """Per-type Precision/Recall/F1, ranked most successful (highest F1) first.
+
+    Follows the multi-class `classification_report` convention: a matched pair
+    counts as a successful extraction (TP) for a type only when BOTH sides
+    agree on that type. A matched pair with disagreeing types therefore counts
+    as a false negative for the GT's type and a false positive for the LLM's
+    type, and an unmatched item falls back to its own recorded type. Items
+    with no value in `type_field` are grouped under "(unspecified)".
+    """
+    llm_to_gt = {i: j for i, j, _ in pairs}
+    gt_to_llm = {j: i for i, j, _ in pairs}
+
+    def type_of(rec):
+        return norm_categorical(rec.get(type_field)) or "(unspecified)"
+
+    counts: dict[str, dict[str, int]] = {}
+
+    def bump(t, key):
+        counts.setdefault(t, {"tp": 0, "fp": 0, "fn": 0, "gt_count": 0, "llm_count": 0})[key] += 1
+
+    for j, rec in enumerate(gt):
+        t = type_of(rec)
+        bump(t, "gt_count")
+        i = gt_to_llm.get(j)
+        if i is not None and type_of(llm[i]) == t:
+            bump(t, "tp")
+        else:
+            bump(t, "fn")
+
+    for i, rec in enumerate(llm):
+        t = type_of(rec)
+        bump(t, "llm_count")
+        j = llm_to_gt.get(i)
+        if not (j is not None and type_of(gt[j]) == t):
+            bump(t, "fp")
+
+    rows = []
+    for t, c in counts.items():
+        tp, fp, fn = c["tp"], c["fp"], c["fn"]
+        precision = (tp / (tp + fp)) if (tp + fp) else None
+        recall = (tp / (tp + fn)) if (tp + fn) else None
+        f1 = (2 * precision * recall / (precision + recall)) if (precision and recall) else None
+        rows.append({
+            "type": t,
+            "gt_count": c["gt_count"],
+            "llm_count": c["llm_count"],
+            "successful_extractions": tp,
+            "false_positives": fp,
+            "false_negatives": fn,
+            "precision": _fmt(precision),
+            "recall": _fmt(recall),
+            "f1": _fmt(f1),
+        })
+
+    rows.sort(key=lambda r: (r["f1"] if isinstance(r["f1"], (int, float)) else -1,
+                             r["successful_extractions"]), reverse=True)
+    return pd.DataFrame(rows, columns=["type", "gt_count", "llm_count", "successful_extractions",
+                                       "false_positives", "false_negatives",
+                                       "precision", "recall", "f1"])
+
+
 def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
     """Assemble the evaluation report from a set of matched pairs.
 
@@ -611,6 +679,8 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
         for j in range(len(gt)) if j not in matched_gt
     ])
 
+    type_breakdown = build_type_breakdown(gt, llm, pairs)
+
     return {
         "Field_Metrics_Desc": field_metrics_desc,
         "Field_Metrics_Other": field_metrics_other,
@@ -620,6 +690,7 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
         "Matched_TP": matched,
         "False_Positives": fps,
         "False_Negatives": fns,
+        "Type_Breakdown": type_breakdown,
         "stats": {"tp": tp, "fp": fp, "fn": fn, "field_metrics": field_rows},
     }
 
@@ -644,6 +715,16 @@ def write_report(report: dict, output_path) -> None:
         report["False_Negatives"].to_excel(w, sheet_name="False_Negatives", index=False)
 
 
+def write_type_breakdown_report(report: dict, output_path) -> None:
+    """Write the per-type breakdown as its own single-sheet workbook, named
+    `<stem>_by_type.xlsx` next to the main report (same side-car convention
+    the architecture evaluator uses for its GT/LLM reports)."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
+        report["Type_Breakdown"].to_excel(w, sheet_name="Type_Breakdown", index=False)
+
+
 def evaluate(gt_path, llm_path, output_path, threshold=0.75):
     gt  = load_ground_truth(gt_path)
     llm = load_llm_extraction(llm_path)
@@ -659,6 +740,9 @@ def evaluate(gt_path, llm_path, output_path, threshold=0.75):
     pairs = greedy_match(sim, threshold, llm_types=llm_types, gt_types=gt_types)
     report = build_report(gt, llm, sim, pairs, threshold)
     write_report(report, output_path)
+
+    type_breakdown_path = Path(output_path).with_name(Path(output_path).stem + "_by_type.xlsx")
+    write_type_breakdown_report(report, type_breakdown_path)
     return report
 
 
