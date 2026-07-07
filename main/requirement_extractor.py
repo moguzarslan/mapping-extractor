@@ -2,7 +2,7 @@ from resource.prompts.prompts import Prompts
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from service.prompt_service import process_single_prompt, process_chained_prompt, process_requirement_splitting, process_criterion_cleanup, process_concept_extraction
+from service.prompt_service import extract_requirements, process_chained_prompt, split_requirements, cleanup_criteria, extract_concepts, save_requirements
 from service.evaluator_service import evaluate
 load_dotenv()
 
@@ -37,45 +37,42 @@ if __name__ == "__main__":
                 # )
 
                 requirements_output_dir = "outputs/gemini/" + file_name
-                llm_json_path = process_single_prompt(
+
+                requirements = extract_requirements(
                     file=file,
                     folder=folder,
                     prompt=Prompts.REQUIREMENT_EXTRACTION_PROMPT,
-                    output_dir=requirements_output_dir
                 )
 
                 # Split compound requirements (model sees only id + description),
                 # then copy the remaining fields back onto the split ids.
-                split_json_path = process_requirement_splitting(
-                    input_json_dir=llm_json_path,
-                    output_file_name=file_name + "_split",
-                    output_dir=requirements_output_dir
-                )
+                requirements = split_requirements(requirements)
 
                 # Remove low-value acceptance criteria from the split output.
-                cleanup_json_path = process_criterion_cleanup(
-                    input_json_dir=split_json_path,
-                    output_file_name=file_name + "_criterion_cleanup",
-                    output_dir=requirements_output_dir
-                )
+                requirements = cleanup_criteria(requirements)
 
+                # Evaluate against the ground truth BEFORE the concept-id rewrite
+                # below, so the evaluator still compares the raw concept text.
                 gt_path = f"resource/groundTruths/requirement/{file_name}_ground_truth.xlsx"
                 if Path(gt_path).exists():
                     eval_output_path = f"outputs/evaluation/requirement/{file_name}_req_eval.xlsx"
-                    evaluate(gt_path, cleanup_json_path, eval_output_path)
+                    evaluate(gt_path, requirements, eval_output_path)
                     print(f"Evaluation saved: {eval_output_path}")
                 else:
                     print(f"No ground truth found for '{file_name}', skipping evaluation.")
 
                 # Concept extraction is purely programmatic (no model call) and runs
-                # after evaluation, on the same file the evaluator scored, so it
-                # never affects the evaluation.
-                concepts_json_path = process_concept_extraction(
-                    input_json_dir=cleanup_json_path,
-                    output_file_name=file_name + "_concepts",
+                # after evaluation, so it never affects the evaluation. Its output,
+                # written here, is the ONLY pair of files the requirements pipeline
+                # persists: <file_name>_requirements.json and <file_name>_concepts.json.
+                requirements, concepts = extract_concepts(requirements)
+                requirements_json_path, concepts_json_path = save_requirements(
+                    requirements, concepts,
+                    output_file_name=file_name,
                     output_dir=requirements_output_dir
                 )
-                print(f"Concept extraction saved: {concepts_json_path}")
+                print(f"Requirements saved: {requirements_json_path}")
+                print(f"Concepts saved: {concepts_json_path}")
             except Exception as file_error:
                 print(f"Error while processing '{file_name}': {file_error}")
 

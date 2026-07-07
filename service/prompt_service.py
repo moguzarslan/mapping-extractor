@@ -139,19 +139,14 @@ DOCUMENT:
 
     content = [{"type": "text", "text": full_text}]
     return content
-def process_single_prompt(file: str, folder: str, prompt: str, output_dir: str = "outputs", output_file_name: str = None) -> str:
-    print(f"Processing: {folder}")
-    prompt = build_document_prompt(file, prompt, image_folder=folder)
-    response = ask_gemini(
-        user_prompt=prompt,
-    )
-    output_path = save_result(
-        file=output_file_name if output_file_name else file,
-        output_dir=output_dir,
-        response=response
-    )
-    print("Single prompt completed, results are saved successfully")
-    return str(output_path)
+def extract_requirements(file: str, folder: str, prompt: str) -> list:
+    """Run the requirement-extraction prompt over the document and return the
+    parsed requirements list. Nothing is written to disk — the requirements
+    pipeline only persists its final artifacts (see `save_requirements`)."""
+    print(f"Extracting requirements from: {file}")
+    built = build_document_prompt(file, prompt, image_folder=folder)
+    response = ask_gemini(user_prompt=built)
+    return _as_requirements_list(extract_json_from_response(response))
 
 
 def _architecture_group(data, key: str) -> list:
@@ -470,13 +465,13 @@ def merge_split_requirements(original: list, split: list) -> list:
     return merged
 
 
-def process_requirement_splitting(input_json_dir: str, output_file_name: str = "requirement_split", output_dir: str = "outputs") -> str:
-
-    print(f"Processing requirement splitting: {input_json_dir}")
-    original = _as_requirements_list(extract_json_from_file(input_json_dir))
-
+def split_requirements(requirements: list) -> list:
+    """Run the requirement-splitting prompt (id + description + relatedTo only)
+    and re-attach the remaining fields onto the split ids. Nothing is written to
+    disk."""
+    print("Splitting compound requirements")
     # Send id + description (+ relatedTo) to the model so it can realign links.
-    reduced = _reduce_for_splitting(original)
+    reduced = _reduce_for_splitting(requirements)
     reduced_json = json.dumps({"requirements": reduced}, ensure_ascii=False, indent=2)
     split_prompt = build_requirements_json_prompt(Prompts.REQUIREMENT_SPLITTING_PROMPT, reduced_json)
 
@@ -486,11 +481,7 @@ def process_requirement_splitting(input_json_dir: str, output_file_name: str = "
 
     # Parse the model output and copy the remaining fields back onto split ids.
     split_items = _as_requirements_list(extract_json_from_response(split_response))
-    merged = merge_split_requirements(original, split_items)
-
-    output_path = save_json(merged, output_file_name, output_dir)
-    print(f"Requirement splitting saved successfully for: {input_json_dir}")
-    return str(output_path)
+    return merge_split_requirements(requirements, split_items)
 
 
 def _is_criterion(record: dict) -> bool:
@@ -531,31 +522,26 @@ def filter_cleaned_criteria(original: list, cleaned: list) -> list:
     return result
 
 
-def process_criterion_cleanup(input_json_dir: str, output_file_name: str = "criterion_cleanup", output_dir: str = "outputs") -> str:
-
-    print(f"Processing criterion cleanup: {input_json_dir}")
-    original = _as_requirements_list(extract_json_from_file(input_json_dir))
-
+def cleanup_criteria(requirements: list) -> list:
+    """Run the criterion-cleanup prompt (surviving acceptance criteria only) and
+    drop the criteria the model removed. Nothing is written to disk."""
     # Send ONLY the criteria (id + description) plus each one's related requirement as context.
-    reduced_criteria = _reduce_criteria_with_related(original)
-    if reduced_criteria:
-        reduced_json = json.dumps({"requirements": reduced_criteria}, ensure_ascii=False, indent=2)
-        cleanup_prompt = build_requirements_json_prompt(Prompts.CRITERION_CLEANUP_PROMPT, reduced_json)
+    reduced_criteria = _reduce_criteria_with_related(requirements)
+    if not reduced_criteria:
+        return requirements  # no criteria to review
 
-        cleanup_response = ask_gemini(
-            user_prompt=cleanup_prompt
-        )
+    print("Cleaning up acceptance criteria")
+    reduced_json = json.dumps({"requirements": reduced_criteria}, ensure_ascii=False, indent=2)
+    cleanup_prompt = build_requirements_json_prompt(Prompts.CRITERION_CLEANUP_PROMPT, reduced_json)
 
-        # The model returns the surviving criteria; merge back onto the original file
-        # so only the removed criteria are gone and every other field stays untouched.
-        cleaned_items = _as_requirements_list(extract_json_from_response(cleanup_response))
-        cleaned = filter_cleaned_criteria(original, cleaned_items)
-    else:
-        cleaned = original  # no criteria to review
+    cleanup_response = ask_gemini(
+        user_prompt=cleanup_prompt
+    )
 
-    output_path = save_json(cleaned, output_file_name, output_dir)
-    print(f"Criterion cleanup saved successfully for: {input_json_dir}")
-    return str(output_path)
+    # The model returns the surviving criteria; merge back onto the original list
+    # so only the removed criteria are gone and every other field stays untouched.
+    cleaned_items = _as_requirements_list(extract_json_from_response(cleanup_response))
+    return filter_cleaned_criteria(requirements, cleaned_items)
 
 def extract_concepts(requirements: list) -> tuple[list, list]:
     """Replace each requirement's `concept` text with a concept id (C_01, C_02, ...)
@@ -585,22 +571,116 @@ def extract_concepts(requirements: list) -> tuple[list, list]:
     return updated, concepts
 
 
-def process_concept_extraction(input_json_dir: str, output_file_name: str = "concepts",
-                               output_dir: str = "outputs") -> str:
-    """Post-process an already-final requirements JSON: pull each distinct
-    `concept` value out into its own object (id + name) and point each
-    requirement's `concept` field at that id instead of the raw text.
-
-    Purely programmatic (no model call, no prompt involved) and meant to run on
-    the same file the evaluator already scored, so the concept-id rewrite never
-    affects the evaluation.
+def save_requirements(requirements: list, concepts: list, output_file_name: str,
+                      output_dir: str = "outputs") -> tuple[str, str]:
+    """Write the two final requirement-pipeline artifacts — the ONLY files it
+    persists: `<output_file_name>_requirements.json` (the requirements, each
+    `concept` field pointing at a concept id) and `<output_file_name>_concepts.json`
+    (the concept records those ids refer to). Returns (requirements_path, concepts_path).
     """
-    print(f"Processing concept extraction: {input_json_dir}")
-    requirements = _as_requirements_list(extract_json_from_file(input_json_dir))
-    updated, concepts = extract_concepts(requirements)
+    requirements_path = save_json(requirements, f"{output_file_name}_requirements", output_dir)
+    concepts_path = save_json(concepts, f"{output_file_name}_concepts", output_dir)
+    return str(requirements_path), str(concepts_path)
 
-    output_path = save_json(updated + concepts, output_file_name, output_dir)
-    print(f"Concept extraction saved successfully for: {input_json_dir}")
+
+def build_decision_extraction_prompt(
+        file: str,
+        prompt: str,
+        requirements_json: str,
+        architecture_json: str,
+) -> Union[str, list]:
+    """
+    Builds a text prompt combining the document text with the two already-extracted
+    JSON payloads (requirements + concepts, architectural units + patterns) the
+    decision pass needs to reference a source and an element by id.
+    """
+    document_text = read_document(file)
+
+    full_text = f"""
+{prompt}
+
+ALREADY-EXTRACTED REQUIREMENTS AND CONCEPTS (JSON):
+{requirements_json}
+
+ALREADY-EXTRACTED ARCHITECTURE (JSON):
+{architecture_json}
+
+Document:
+\"\"\"
+{document_text}
+\"\"\"
+""".strip()
+
+    content = [types.Part.from_text(text=full_text)]
+    return content
+
+
+def _reduce_requirements_for_decision(requirements: list) -> list:
+    """Reduce the requirements+concepts list to id + description/name only — the
+    fields the decision pass needs to reference a source (requirement or concept)
+    by id."""
+    reduced = []
+    for r in requirements:
+        if not isinstance(r, dict):
+            continue
+        item = {"id": r.get("id")}
+        if r.get("name") is not None:
+            item["name"] = r.get("name")
+        else:
+            item["description"] = r.get("description")
+        reduced.append(item)
+    return reduced
+
+
+def _reduce_architecture_for_decision(architecture) -> dict:
+    """Reduce units+patterns to id/type/name/description — the fields the decision
+    pass needs to reference an architectural element by id."""
+    if not isinstance(architecture, dict):
+        architecture = {"architectural_units": architecture or [], "patterns": []}
+
+    def reduce_group(items):
+        return [
+            {"id": e.get("id"), "type": e.get("type"),
+             "name": e.get("name"), "description": e.get("description")}
+            for e in (items or []) if isinstance(e, dict)
+        ]
+
+    return {
+        "architectural_units": reduce_group(architecture.get("architectural_units")),
+        "patterns": reduce_group(architecture.get("patterns")),
+    }
+
+
+def process_decision_extraction(
+        file: str,
+        requirements_json_dir: str,
+        concepts_json_dir: str,
+        architecture_json_dir: str,
+        prompt: str,
+        output_dir: str = "outputs",
+        output_file_name: str = "decisions",
+) -> str:
+    """Extract Architectural Decisions from the document, given the already-final
+    requirements JSON, concepts JSON, and architecture JSON on disk."""
+    print(f"Processing decision extraction: {file}")
+    requirements = _as_requirements_list(extract_json_from_file(requirements_json_dir))
+    concepts = _as_requirements_list(extract_json_from_file(concepts_json_dir))
+    architecture = extract_json_from_file(architecture_json_dir)
+
+    requirements_json = json.dumps(
+        {"requirements": _reduce_requirements_for_decision(requirements + concepts)},
+        ensure_ascii=False, indent=2,
+    )
+    architecture_json = json.dumps(
+        _reduce_architecture_for_decision(architecture),
+        ensure_ascii=False, indent=2,
+    )
+
+    built = build_decision_extraction_prompt(file, prompt, requirements_json, architecture_json)
+    response = ask_gemini(user_prompt=built)
+
+    output_path = save_result(output_file_name, output_dir, response)
+    print(f"Decision extraction saved successfully for: {file}")
     return str(output_path)
 
 

@@ -209,10 +209,18 @@ def load_ground_truth(xlsx_path: str) -> list[dict]:
     return records
 
 
-def load_llm_extraction(json_path: str) -> list[dict]:
-    """Read LLM JSON (list or {requirements: [...]}) into canonical records."""
-    with open(json_path) as f:
-        data = json.load(f)
+def load_llm_extraction(json_path_or_data) -> list[dict]:
+    """Read LLM JSON (list or {requirements: [...]}) into canonical records.
+
+    Accepts either a path to a JSON file or already-parsed data (a list or
+    dict), so the requirements pipeline can evaluate its in-memory result
+    without round-tripping it through an intermediate file on disk.
+    """
+    if isinstance(json_path_or_data, (list, dict)):
+        data = json_path_or_data
+    else:
+        with open(json_path_or_data) as f:
+            data = json.load(f)
     items = data.get("requirements", data) if isinstance(data, dict) else data
     if not items:
         return []

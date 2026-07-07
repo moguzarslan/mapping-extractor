@@ -1,0 +1,88 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementId": "P_03",
+            "architecturalDecisionSource": "C_05",
+            "rationale": "Aquest patró de disseny permet que solament un component sigui qui interactuï entre els usuaris i els serveis que proporciona la plataforma.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementId": "AU_05",
+            "architecturalDecisionSource": "C_05",
+            "rationale": "Augmenta la seguretat del sistema al reduir les portes d’enllaç amb l’exterior, ja que l’única manera d’interactuar amb els microserveis és a través de l’Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementId": "AU_05",
+            "architecturalDecisionSource": "C_02",
+            "rationale": "Dona la capacitat de manegar caigudes parcials del sistema, manegant quins serveis estan en funcionament en tot moment.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementId": "AU_05",
+            "architecturalDecisionSource": "R_23",
+            "rationale": "És solament l’Api Gateway que s’encarrega de l’autorització i el SSL amb el client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementId": "AU_11",
+            "architecturalDecisionSource": "C_03",
+            "rationale": "L’objectiu d’aquests serveis és formar un data lake on s’emmagatzemi tots els històrics per poder processar-los en el mòdul analític.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementId": "AU_13",
+            "architecturalDecisionSource": "C_01",
+            "rationale": "S’ha decidit la utilització d’aquest llenguatge, i no JavaScript, ja que és el llenguatge per defecte per NestJS i perquè gràcies al seu tipatge estàtic permet la detecció d’errors en temps de compilació.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementId": "AU_11",
+            "architecturalDecisionSource": "C_04",
+            "rationale": "S’ha decidit la utilització d’AWS i no altres serveis cloud pel seu baix preu i la seva utilització prèvia per part de l’empresa.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementId": "AU_14",
+            "architecturalDecisionSource": "C_03",
+            "rationale": "L’emmagatzament s’ha fet d’aquesta manera, ja que com s’explicarà més endavant, fa que la lectura de dades sigui més eficient.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementId": "AU_16",
+            "architecturalDecisionSource": "C_04",
+            "rationale": "Aquest servei, al ser un servei sense servidor fa que no sigui necessari administrar la infraestructura quan hi ha un augment en el conjunt de dades i usuaris.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementId": "AU_16",
+            "architecturalDecisionSource": "C_01",
+            "rationale": "A més, per poder obtenir les dades d’una manera ràpida, Athena realitza les consultes en paral·lel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementId": "AU_18",
+            "architecturalDecisionSource": "C_01",
+            "rationale": "Perquè sigui la transmissió de dades la més ràpida possible s’han fet ús de dos serveis d’Amazon, que ens permeten realitzar una transmissió en quasi temps real.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementId": "AU_17",
+            "architecturalDecisionSource": "C_03",
+            "rationale": "L’ús d’aquestes [particions] fa que les consultes d’Amazon Athena no llegeixin totes les dades que hi ha en el bucket.",
+            "pageNumber": "55"
+        }
+    ]
+}

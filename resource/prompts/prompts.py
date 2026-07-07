@@ -598,158 +598,65 @@ Below are the definitions for each type and their concrete examples.
     ...
     """
 
-    MAPPING_EXTRACTION_PROMPT = """
-    Objective:
+    ARCHITECTURAL_DECISION_EXTRACTION_PROMPT = """
+# Objective
+    You are an expert software architect and requirements engineer. Given the already-extracted Requirements (and Concepts) and the already-extracted Architecture (Architectural Units and Patterns), both provided below as JSON, and the software document, extract the Architectural Decisions of the system — the explicit rationale that ties an architectural element to the requirement or concept that motivated it.
 
-    You are an expert software architect and requirements engineer.
-    Your task is to create a mapping between architectural components and requirements based on the provided software product document.
-
-    Instructions:
+# Instructions
     1. Carefully read the entire document.
-    2. Carefully inspect provided images.
-    3. First, identify and extract all functional, non-functional requirements and constraints.
-    4. Then identify all architectural item mentioned explicitly or strongly implied by the document. Seperate the architectural items to:
-        - Architectural Pattern: High-level structural organization of the system, such as microservices, layered architecture, client-server, event-driven architecture, hexagonal architecture, MVC, service-oriented architecture, etc.
-        - Component: Concrete system building blocks or modules, such as frontend, backend service, API gateway, authentication service, database, message broker, cache, reporting module, etc.
-        - Design Pattern: Lower-level software design solutions used within components, such as Strategy, Factory, Observer, Repository, Adapter, Singleton, Builder, etc. 
-    5. Analyze how each item supports, implements, or is related to the identified requirements.
-    6. For each architectural item, provide a detailed mapping that includes:
-       - The relevant requirements it addresses (one or more).
-       - A clear explanation of how the item fulfills or contributes to each requirement.
-    7. The relationship between architectural items and requirements can be many-to-many.
-    8. If the document is in a language other than English, translate all extracted information into clear English.
-    9. Give page number reference for each section for each item. 
+    2. Use the provided Requirements/Concepts and Architectural Units/Patterns as the only valid endpoints, referring to them by their given ids (R_xx or C_xx for the source; AU_xx or P_xx for the architectural element).
+    3. Sweep the document text section by section and extract one Architectural Decision for every sentence (or group of sentences) where the document explicitly justifies, motivates, or explains why an architectural element (a unit or a pattern) was chosen, in terms of a requirement or a concept (quality attribute) it addresses.
 
-    
-    Rules:
-    - Ensure that all information is strictly supported by the document.
-    - Give the corresponding mappings under three separate title (architectural patterns, components, design patterns) 
-    - Give the output in json format.
-    - Give the whole output in English.
-    
-    
-    Output Format (JSON):
+## What is an Architectural Decision
+    - Definition: a stated link between ONE architectural element (a unit or a pattern) and ONE requirement or concept that motivated it, evidenced by a rationale sentence explaining WHY the element was chosen, or what it achieves, with respect to that requirement/concept.
+    - The source of the decision "architecturalDecisionSource" is the id of the requirement or the concept the element addresses.
+    - The related architecture "architecturalElementId" is the id of the unit or the pattern the decision is about.
+    - NOT an Architectural Decision: a plain structural description of a unit or a pattern with no stated justification (that is already captured by the unit's/pattern's own "description"); a requirement or acceptance criterion with no architectural element attached to it.
+
+# Extraction Process
+    - Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
+    - "architecturalElementId" must be exactly one id taken from the provided Architectural Units/Patterns (AU_xx or P_xx).
+    - "architecturalDecisionSource" must be exactly one id taken from the provided Requirements/Concepts (R_xx or C_xx).
+    - "rationale" must be the sentence or sentences from the document (translated to English) that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
+        - In case of multiple sentences from different pages, sentences should be separated with "[...]"
+    - Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
+    - Architectural Decision should have the following JSON Schema:
+        {
+        "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
+        "architecturalElementId": "<id of the related unit or pattern (AU_xx or P_xx)>",
+        "architecturalDecisionSource": "<id of the related requirement or concept (R_xx or C_xx)>",
+        "rationale": "<The exact document sentence(s) justifying the decision, translated to English>",
+        "pageNumber": "<Page number(s) where the rationale is stated>"
+        }
+
+# Rules:
+    - Ensure every decision is strictly supported by the document; never invent a rationale, and never link an element to a requirement/concept the document does not explicitly connect.
+    - Reference only ids from the provided Requirements/Concepts and Architectural Units/Patterns; if the source or the element you see is not in the provided lists, skip it rather than inventing an id.
+    - When one rationale motivates several requirements/concepts for the same element, or several elements for the same requirement/concept, output one Architectural Decision per pair.
+    - Do not extract a decision from a plain structural description that carries no justification (e.g. "The system has three layers." alone, with no stated reason).
+    - Output should be given in JSON format as in the Example Output section.
+    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+
+# Example Output (JSON)
+{
+  "architectural_decisions": [
     {
-      "mappings": {
-        "architectural_patterns": [
-          {
-            "pattern_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the architectural pattern>",
-                "page_number": "<Page Number for the requirement>"
-              }
-            ],
-            "page_number": [
-              "<page numbers for the architectural pattern>"
-            ]
-          }
-        ],
-        "components": [
-          {
-            "component_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the component>",
-                "page_number": "<Page Number for the requirement>"
-              }
-            ],
-            "page_number": [
-              "<page numbers for the component>"
-            ]
-          }
-        ],
-        "design_patterns": [
-          {
-            "pattern_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the design pattern>",
-                "page_number": "<Page Number for the requirement>"
-              }
-            ],
-            "page_number": [
-              "<page numbers for the design pattern>"
-            ]
-          }
-        ]
-      }
-    }
-    ... 
-    """
-
-    CHAINED_MAPPING_EXTRACTION_PROMPT = """
-    Objective:
-    You are an expert software architect and requirements engineer.
-    Your task is to create a mapping between architectural components and requirements using the provided JSON inputs.
-
-    You will be given:
-    1. A JSON containing extracted architectural items with their descriptions. Architectural items seperated into:
-        - Architectural pattern
-        - Component
-        - Design Pattern
-    2. A JSON containing extracted functional, non-functional requirements and constraints.
-
-    Instructions:
-    1. Carefully analyze both JSON inputs.
-    2. For each architectural item, provide a detailed mapping that includes:
-       - The relevant requirements it addresses (one or more).
-       - A clear explanation of how the architectural item fulfills or contributes to each requirement.    
-    4. Establish many-to-many relationships where applicable (a component can map to multiple requirements and vice versa).
-    5. Base your mapping strictly on the provided data — avoid inventing unsupported relationships.
-    6. Use architectural item explanations to justify mappings.
-    
-    Rules:
-    - Give the corresponding mappings under three separate title (architectural patterns, components, design patterns) 
-    - Give the output in json format.
-    - Give the whole output in English.
-
-    Input Format:
+      "id": "AD_01",
+      "architecturalElementId": "AU_10",
+      "architecturalDecisionSource": "C_01",
+      "rationale": "Increases system security [...] It is only the Api Gateway that is responsible for authorization and SSL with the client",
+      "pageNumber": "43"
+    },
     {
-      "requirements": {requirements_json}
-      "architecture": {architecture_json},
+      "id": "AD_02",
+      "architecturalElementId": "AU_16",
+      "architecturalDecisionSource": "C_05",
+      "rationale": "The decision was made to use AWS and not other cloud services due to its low price and its previous use by the company.",
+      "pageNumber": "46"
     }
-    
-    Output Format (JSON):
-    {
-      "mappings": {
-        "architectural_patterns": [
-          {
-            "pattern_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the architectural pattern>"
-              }
-            ]
-          }
-        ],
-        "components": [
-          {
-            "component_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the component>"
-              }
-            ]
-          }
-        ],
-        "design_patterns": [
-          {
-            "pattern_name": "<name>",
-            "related_requirements": [
-              {
-                "requirement": "<Requirement>",
-                "explanation": "<Why this requirement related to the design pattern>"
-              }
-            ]
-          }
-        ]
-      }
-    }
+  ]
+}
     ...
     """
+

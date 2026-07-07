@@ -1,0 +1,60 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementId": "P_01",
+            "architecturalDecisionSource": "R_22",
+            "rationale": "Aquesta estructura permet desenvolupar, desplegar i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementId": "P_02",
+            "architecturalDecisionSource": "C_06",
+            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementId": "AU_08",
+            "architecturalDecisionSource": "R_07",
+            "rationale": "A més de la seva tasca d’encaminament, aquest component incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions. Concretament, bloqueja qualsevol intent de connexió no autoritzada i aplica determinats protocols de seguretat per prevenir accessos indeguts i possibles vulnerabilitats.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementId": "AU_09",
+            "architecturalDecisionSource": "C_01",
+            "rationale": "Això garanteix que la capa de presentació estigui disponible i actualitzada, facilitant el desplegament i reduint la dependència d’elements externs. D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementId": "AU_10",
+            "architecturalDecisionSource": "R_08",
+            "rationale": "Aquest microservei és essencial per mantenir la confidencialitat i protecció de dades.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementId": "AU_18",
+            "architecturalDecisionSource": "C_02",
+            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis. [...] El patró MVVM és un derivat del clàssic patró Model-Vista-Controlador, pensat per a la implementació d’interfícies d’usuari.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementId": "AU_19",
+            "architecturalDecisionSource": "C_05",
+            "rationale": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats [...] Aquesta estructura clarifica rols, evita acoblaments innecessaris i facilita provar, reutilitzar i mantenir el codi amb el pas del temps.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementId": "AU_22",
+            "architecturalDecisionSource": "C_06",
+            "rationale": "Per això s’ha triat AWS en comptes d’altres opcions com Google Cloud Platform o Microsoft Azure. El fet de disposar de tants serveis disponibles deixa centrar l’esforç en el desenvolupament de la solució, sense haver d’invertir temps extra en qüestions d’infraestructura.",
+            "pageNumber": "82"
+        }
+    ]
+}
