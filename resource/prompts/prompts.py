@@ -12,27 +12,29 @@ class Prompts:
 
 ## For All Types
    	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
-    - For each type, specify the page number from the document text (not the PDF page number) where the requirement starts.
-    - For each type, specify the type (FR, QR, constraint or criterion).
+    - Specify the page number from the document text (not the PDF page number) where the requirement starts.
+    - Specify the type (FR, QR, constraint or criterion).
+
+## For FR, QR and Constraint
+    - In the case of document stating incorrect type correct it and specify the fix
          
 ## For FR
-    - In the case of a user story AS A actor I WANT something IN ORDER TO whatever, extract I WANT something.
-    - In the case of a functional requirement expressed in a use case specification, extract the objective.
+    - In the case of a FR expressed as a user story AS A actor I WANT something IN ORDER TO whatever, extract I WANT something.
+    - In the case of a FR expressed in a use case specification, extract the objective.
     - In the case of a FR expressed as a plain text without a specific format, FR is the text.
 	- Extracted FR should have the following JSON Schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type": "<FR>",
         "description": "<FR in English>",
-		“pageNumber”: “<Page number of the FR>”
+		“pageNumber”: “<Page number of the FR>”,
+		"fix": "<Changed from ... to FR>"
         }
 
 ## For QR
     - For QRs, concept and categorization should be extracted from the document.
-        - In case of a QR expressed using Volere, the concept is the QR type written in the Requirement part and categorization is Volere.
-        - In case of a QR classified from ISO/IEC 25010, the concept is the subcharacteristic or, in case it is not stated, the characteristic. And the categorization is ISO/IEC 25010.
     - In case of a QR expressed using Volere with Description and Acceptance, extract the Description contents.
-    - In the case of a QR expressed as a plain text without a specific format, FR is the text.
+    - In the case of a QR expressed as a plain text without a specific format, QR is the text.
 	- Extracted QR should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
@@ -40,7 +42,7 @@ class Prompts:
         "description": "<QR in English>",
 		“pageNumber”: “<Page number of the requirement>”,
         "concept": "<Type of QR (in English) >",
-        "categorization": "<Volere or ISO/IEC 25010>"
+        "fix": "<Changed from ... to QR>"
         }
 
 ## For Constraint
@@ -49,74 +51,59 @@ class Prompts:
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
 		"type": "<Constraint>",
         "description": "<Constraint in English>",
-		“pageNumber”: “<Page number of the Constraint>”
+		“pageNumber”: “<Page number of the Constraint>”,
+		"fix": "<Changed from ... to Constraint>"
         }	
         	
 ## For Criterion
-    - In the case of a user story with several acceptance criteria, they should be added as separate criteria.
-    - In case of a QR expressed using Volere with Description and Acceptance, extract the Acceptance contents.
+    - Acceptance criteria should be extracted from acceptance criteria section for each requirement (if exists).
+    - In case of a QR expressed using Volere with several acceptance criterion, each should be added as a separate criterion.
+    - In the case of FR expressed as a user story with several acceptance criterion, each should be added as separate criterion.
     - The link between an acceptance criterion and its related requirement should be explicitly represented by stating the ID of the related requirement.
     - Extracted criterion should have the following JSON schema:
 		{
 		"id":<Sequential Id shared with all types (R_01, R_02)>,
-		"type":”<criterion>”
-		"description": “<Actual acceptance criterion of the requirement in English>,>”,
+		"type":”<criterion>”,
+		"description": “<Actual acceptance criterion of the requirement in English>>”,
 		"pageNumber": “<Page number of the criterion>”,
         "relatedTo":”<Id of the related requirement>”
         }
         
 # Rules:
-- Ensure that all information is strictly supported by the document.
-- Output should be given in JSON format as in Example Output section.
-- Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
-- Avoid extracting:
-    - Implementation workflows and processing sequences.
-    - Database queries, algorithms, or internal logic.
-    - Database constraints even though they are under "constraints" or "integrity constraints".
-    - API routes, method names, class names, or source code details.
-    - Data model definitions (tables, entities, foreign keys, schemas).
-    - Development tools, IDEs or build systems.
-    - Deployment and infrastructure details unless explicitly stated as a stakeholder requirement
-    Some invalid requirement examples:
-    "After receiving the input, the information is passed to another internal component for processing."
-    "The system executes a database query to retrieve the requested data."
-    "The functionality is exposed through a specific API endpoint and HTTP method."
-    "The application stores its data using a particular database technology."
-    "The database schema contains tables, fields, primary keys, foreign keys, and relationships between entities."
-    "The software is implemented using a specific programming language, framework, or cloud platform."
-- Avoid extracting criterion from post conditions or procedures fields defined in the document.
+    - Ensure that all information is strictly supported by the document.
+    - Output should be given in JSON format as in Example Output section.
+    - Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
 
- 
 # Example Output (JSON)
- {
-  "id": "R_01",
-  "type": "FR",
-  "description": "The system shall allow users to reset their password via email verification.",
-  "pageNumber": "12"
-},
-{
-  "id": "R_02",
-  "type": "criterion",
-  "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
-  "pageNumber": "12",
-  "relatedTo": "R_01"
-},
-{
-  "id": "R_03",
-  "type": "QR",
-  "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
-  "pageNumber": "15",
-  "concept": "12a. Speed and latency",
-  "categorization": "Volere"
-},
-{
-  "id": "R_04",
-  "type": "criterion",
-  "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
-  "pageNumber": "15",
-  "relatedTo": "R_03"
-}
-    ... 
+     {
+      "id": "R_01",
+      "type": "FR",
+      "description": "The system shall allow users to reset their password via email verification.",
+      "pageNumber": "12",
+      "fix": "Changed from QR to FR"
+    },
+    {
+      "id": "R_02",
+      "type": "criterion",
+      "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
+      "pageNumber": "12",
+      "relatedTo": "R_01",
+    },
+    {
+      "id": "R_03",
+      "type": "QR",
+      "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
+      "pageNumber": "15",
+      "concept": "12a. Speed and latency",
+    },
+    {
+      "id": "R_04",
+      "type": "criterion",
+      "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
+      "pageNumber": "15",
+      "relatedTo": "R_03"
+    }
+        ... 
     """
 
     REQUIREMENT_SPLITTING_PROMPT = """
@@ -617,15 +604,15 @@ Below are the definitions for each type and their concrete examples.
     - Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
     - "architecturalElementId" must be exactly one id taken from the provided Architectural Units/Patterns (AU_xx or P_xx).
     - "architecturalDecisionSource" must be exactly one id taken from the provided Requirements/Concepts (R_xx or C_xx).
-    - "rationale" must be the sentence or sentences from the document (translated to English) that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
-        - In case of multiple sentences from different pages, sentences should be separated with "[...]"
+    - "rationale" must be the text from the document translated to English that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
+        - In case of multiple text from different pages, sentences should be separated with "[...]"
     - Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
     - Architectural Decision should have the following JSON Schema:
         {
         "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
         "architecturalElementId": "<id of the related unit or pattern (AU_xx or P_xx)>",
         "architecturalDecisionSource": "<id of the related requirement or concept (R_xx or C_xx)>",
-        "rationale": "<The exact document sentence(s) justifying the decision, translated to English>",
+        "rationale": "<The document sentence(s) justifying the decision, translated to English>",
         "pageNumber": "<Page number(s) where the rationale is stated>"
         }
 
@@ -635,9 +622,11 @@ Below are the definitions for each type and their concrete examples.
     - When one rationale motivates several requirements/concepts for the same element, or several elements for the same requirement/concept, output one Architectural Decision per pair.
     - Do not extract a decision from a plain structural description that carries no justification (e.g. "The system has three layers." alone, with no stated reason).
     - Output should be given in JSON format as in the Example Output section.
-    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+    - The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
         - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-
+    - "rationale" field should extract only the sentences making a connection between requirement/concept and architectural element. Avoid extracting requirement sentence as an rationale.
+    - If both a requirement and a concept can be linked to the architectural decision, choose concept.
+    
 # Example Output (JSON)
 {
   "architectural_decisions": [

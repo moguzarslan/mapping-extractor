@@ -32,8 +32,8 @@ if __name__ == "__main__":
                 # The decision pass consumes the three already-final extraction
                 # artifacts (requirements, concepts, architecture) plus the
                 # document itself; it produces no new ids of its own for them.
-                requirements_json_path = f"../outputs/gemini/{file_name}/{file_name}_requirements.json"
-                concepts_json_path = f"../outputs/gemini/{file_name}/{file_name}_concepts.json"
+                requirements_json_path = f"../outputs/gemini/requirement/{file_name}/{file_name}_requirements.json"
+                concepts_json_path = f"../outputs/gemini/requirement/{file_name}/{file_name}_concepts.json"
                 architecture_json_path = f"../outputs/gemini/architecture/{file_name}/{file_name}_architecture.json"
 
                 if not Path(requirements_json_path).exists():
@@ -66,10 +66,13 @@ if __name__ == "__main__":
                 # resolved through those artifacts.
                 gt_decision_path = f"../resource/groundTruths/decision/{file_name}_ground_truth_decision.xlsx"
                 gt_architecture_path = f"../resource/groundTruths/architecture/{file_name}_ground_truth_architecture.xlsx"
-                gt_requirement_path = f"../resource/groundTruths/requirement/{file_name}_ground_truth.xlsx"
-                gt_concept_path = f"../resource/groundTruths/concept/{file_name}_ground_truth_concept.xlsx"
+                # The combined GT workbook holds both a Requirements sheet and a
+                # Concepts sheet (Concept ID -> Description), so both paths point
+                # at the same file — see service/evaluator_service.load_ground_truth_concepts.
+                gt_requirement_path = f"../resource/groundTruths/requirement/{file_name}_ground_truth_requirement.xlsx"
+                gt_concept_path = gt_requirement_path
                 if (Path(gt_decision_path).exists() and Path(gt_architecture_path).exists()
-                        and Path(gt_requirement_path).exists() and Path(gt_concept_path).exists()):
+                        and Path(gt_requirement_path).exists()):
                     eval_output_path = f"../outputs/evaluation/decision/{file_name}_decision_eval.xlsx"
                     evaluate_decisions(
                         gt_decision_path=gt_decision_path,

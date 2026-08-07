@@ -1,0 +1,22 @@
+[
+    {
+        "id": "C_01",
+        "name": "11b. Personalization and Internationalization Requirements"
+    },
+    {
+        "id": "C_02",
+        "name": "11a. Usability Requirements"
+    },
+    {
+        "id": "C_03",
+        "name": "15c. Privacy Requirements"
+    },
+    {
+        "id": "C_04",
+        "name": "12e. Robustness or Fault Tolerance Requirements"
+    },
+    {
+        "id": "C_05",
+        "name": "14c. Adaptability Requirements"
+    }
+]

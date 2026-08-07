@@ -2,7 +2,12 @@
 Evaluate LLM-extracted requirements against a ground-truth Excel, per field.
 
 Usage:
-    python evaluate.py <ground_truth.xlsx> <llm_extraction.json> <output_report.xlsx> [threshold]
+    python evaluate.py <ground_truth_requirement.xlsx> <llm_extraction.json> <output_report.xlsx> \
+        [--llm-concepts <llm_concepts.json>] [threshold]
+
+`<ground_truth_requirement.xlsx>` is the combined GT workbook: a
+"Requirements" sheet plus an optional "Concepts" sheet (Document ID, Concept
+ID, Description, Page Number) used to resolve the `concept` field.
 
 Defaults:
     threshold = 0.75  (embedding cosine similarity below this is not a match)
@@ -13,23 +18,27 @@ What it does
    requirement using the *description* text (cosine similarity of sentence
    embeddings, greedy one-to-one assignment at `threshold`). This produces the
    true positives (TP) the per-field scoring is built on.
-2. For each of seven fields, reports Precision, Recall, and Mean Semantic
-   Meaning:
+2. Reports two separate per-field metric tables, since `description` (the
+   matching anchor) is the only field with genuinely distinct Precision and
+   Recall — every other field is scored as a success rate over the matched
+   pairs, where Precision and Recall are equal by construction, so it is
+   reported as a single Accuracy metric instead:
 
+       Description field (requirement-level):
        field           precision   recall   mean semantic meaning
-       type               x          x              -
-       pageNumber         x          x              -
        description        x          x              x
-       concept            x          x              -
-       categorization     x          x              -
-       relatedTo          x          x              -
-       fixes              x          x              x
 
-   - Mean Semantic Meaning is computed ONLY for `description` and `fixes`
-     (cosine similarity of the matched pair's values). For every other field
-     the cell is "-".
-   - Precision/Recall are computed for every field except `id` (id is the key
-     used to resolve cross-references, not a scored field).
+       Other fields (accuracy over matched pairs):
+       field           accuracy
+       type               x
+       pageNumber         x
+       concept            x
+       categorization     x
+       relatedTo          x
+       fixes              x
+
+   - Precision/Recall/Accuracy are computed for every field except `id` (id is
+     the key used to resolve cross-references, not a scored field).
    - When a field is not populated on either side at all (e.g. nobody has
      `fixes`), its metrics are "-".
 
@@ -53,7 +62,23 @@ fraction of matched pairs where the field was correctly identified:
 "Agreement" per field:
     type, categorization   case-insensitive exact match
     pageNumber             integer equality
-    concept                normalized match (leading "10a."/"12th." labels stripped)
+    concept                each side's conceptId is resolved to its concept's
+                           text (LLM: `<stem>_concepts.json`, id -> name; GT:
+                           the "Concepts" sheet of the ground truth workbook,
+                           Concept ID -> Description) and the two texts are
+                           compared by cosine similarity >= threshold. A value
+                           that is not a known id (e.g. legacy free text) falls back to
+                           being compared as its own raw text. The two sides
+                           use unrelated id namespaces, so resolving to text
+                           first is required — same approach as
+                           `architecturalDecisionSource` in the decision
+                           evaluator. A concept ID prefixed with '*' in the
+                           GT "Concepts" sheet (or referenced with that prefix
+                           directly) is a manual "ignore this concept"
+                           annotation (see `load_excluded_concept_ids`): a
+                           pair referencing it is dropped from the `concept`
+                           field's scoring on both sides, as if unpopulated,
+                           rather than counted as a mismatch.
     description, fixes      cosine similarity >= threshold
     relatedTo              both criteria point at the *same* parent requirement,
                            resolved through the matching (so the differing
@@ -64,8 +89,9 @@ requirement-level Precision/Recall, and its Mean Semantic Meaning is the mean
 similarity of the matched pairs.
 
 Output: a single compacted xlsx with four sheets — Metrics (requirement-level
-summary stacked on the per-field metrics table), Matched, False_Positives,
-False_Negatives. A side-car `<stem>_by_type.xlsx` is also written with a
+summary, stacked on the description field's precision/recall/mean-semantic
+table, stacked on every other field's accuracy table), Matched,
+False_Positives, False_Negatives. A side-car `<stem>_by_type.xlsx` is also written with a
 Type_Breakdown sheet: per requirement-`type` value (e.g. Functional,
 Non-Functional), the successful extractions (TP), false positives, false
 negatives, precision, recall and F1 — ordered most successful (highest F1)
@@ -96,7 +122,7 @@ FIELD_SPECS = [
     {"name": "description",    "json": ["description", "requirement", "text", "Requirement"],
      "gt": ["Requirement", "Description", "Text"],            "kind": "semantic",    "semantic": True},
     {"name": "concept",        "json": ["concept", "Concept"],
-     "gt": ["Concept"],                                       "kind": "concept",     "semantic": False},
+     "gt": ["Concept"],                                       "kind": "concept",     "semantic": True},
     {"name": "categorization", "json": ["categorization", "Categorization"],
      "gt": ["Categorization"],                                "kind": "categorical", "semantic": False},
     {"name": "relatedTo",      "json": ["relatedTo", "related_to", "RelatedTo", "relatedto"],
@@ -147,10 +173,16 @@ def norm_page(v):
         return s.lower()
 
 
-def norm_concept(v):
+def resolve_concept_text(v, idx: dict) -> str | None:
+    """Resolve a concept reference (a conceptId, or legacy free text) to its
+    canonical text: looked up in `idx` (id -> name/description) when it is a
+    known id, else kept as its own raw text. Either way, a leading Volere-style
+    label ("10a.", "12th.") is stripped before comparison."""
     if _is_blank(v):
         return None
-    return _CONCEPT_PREFIX.sub("", str(v).strip()).strip().lower()
+    key = str(v).strip()
+    text = idx.get(key, key)
+    return _CONCEPT_PREFIX.sub("", text).strip() or None
 
 
 def fixes_to_text(v):
@@ -181,8 +213,14 @@ def _pick(colnames, candidates):
 
 
 def load_ground_truth(xlsx_path: str) -> list[dict]:
-    """Read GT xlsx into canonical records; merge wrapped continuation rows."""
-    df = pd.read_excel(xlsx_path)
+    """Read the GT requirements sheet into canonical records; merge wrapped
+    continuation rows. Reads the "Requirements" sheet of the combined
+    `<stem>_ground_truth_requirement.xlsx` workbook (a Requirements sheet plus
+    an optional Concepts sheet, see `load_ground_truth_concepts`), falling
+    back to the first sheet for older single-sheet GT files."""
+    xl = pd.ExcelFile(xlsx_path)
+    sheet = "Requirements" if "Requirements" in xl.sheet_names else xl.sheet_names[0]
+    df = xl.parse(sheet)
     cols = list(df.columns)
 
     id_col   = _pick(cols, ID_GT_CANDIDATES)
@@ -239,6 +277,95 @@ def load_llm_extraction(json_path_or_data) -> list[dict]:
             rec[s["name"]] = get(item, s["json"])
         records.append(rec)
     return records
+
+
+def load_llm_concepts(json_path_or_data) -> dict[str, str]:
+    """Read the LLM's `<stem>_concepts.json` (list of {id, name}, or already-
+    parsed data) into {conceptId -> name} — the resolver for a requirement's
+    `concept` field, which stores a conceptId rather than free text."""
+    if isinstance(json_path_or_data, (list, dict)):
+        data = json_path_or_data
+    else:
+        with open(json_path_or_data) as f:
+            data = json.load(f)
+    items = data.get("concepts", data) if isinstance(data, dict) else data
+    id_to_name = {}
+    for item in items or []:
+        if not isinstance(item, dict):
+            continue
+        cid, name = item.get("id"), item.get("name")
+        if not _is_blank(cid) and not _is_blank(name):
+            id_to_name[str(cid).strip()] = str(name).strip()
+    return id_to_name
+
+
+def load_ground_truth_concepts(xlsx_path: str) -> dict[str, str]:
+    """Read the "Concepts" sheet of the combined GT workbook (Document ID,
+    Concept ID, Description, Page Number) into {Concept ID -> Description} —
+    the resolver for a GT requirement's `concept` field. Returns {} when the
+    workbook has no dedicated Concepts sheet (older GT files with no concept
+    catalog), so callers can treat `concept` as unresolvable rather than fail."""
+    xl = pd.ExcelFile(xlsx_path)
+    if "Concepts" not in xl.sheet_names:
+        return {}
+    df = xl.parse("Concepts")
+    cols = list(df.columns)
+    id_col = _pick(cols, ["Concept ID", "ConceptID", "ID", "Id", "id"])
+    desc_col = _pick(cols, ["Description", "Name", "Concept"])
+    if id_col is None or desc_col is None:
+        raise ValueError(f"Could not find Concept ID / Description columns in {cols}")
+
+    id_to_text = {}
+    for _, row in df.iterrows():
+        cid = row[id_col]
+        if _is_blank(cid):
+            continue
+        desc = row[desc_col]
+        if not _is_blank(desc):
+            id_to_text[str(cid).strip()] = str(desc).strip()
+    return id_to_text
+
+
+CONCEPT_EXCLUDE_MARK = "*"
+
+
+def load_excluded_concept_ids(xlsx_path: str) -> set[str]:
+    """Read the "Concepts" sheet and return the set of Concept IDs (star
+    stripped) whose ID is marked with a leading '*' — a manual annotation on
+    the GT concept catalog meaning "ignore this concept in the `concept`
+    field's evaluation" (e.g. a duplicate or otherwise unreliable catalog
+    entry). Requirements reference such a concept by its plain, unstarred ID
+    (the star lives on the catalog definition, not the reference), so the
+    star is stripped here for membership checks against those references.
+    Returns an empty set when the workbook has no Concepts sheet."""
+    xl = pd.ExcelFile(xlsx_path)
+    if "Concepts" not in xl.sheet_names:
+        return set()
+    df = xl.parse("Concepts")
+    id_col = _pick(list(df.columns), ["Concept ID", "ConceptID", "ID", "Id", "id"])
+    if id_col is None:
+        return set()
+
+    excluded = set()
+    for cid in df[id_col]:
+        if _is_blank(cid):
+            continue
+        s = str(cid).strip()
+        if s.startswith(CONCEPT_EXCLUDE_MARK):
+            excluded.add(s[len(CONCEPT_EXCLUDE_MARK):].strip())
+    return excluded
+
+
+def is_excluded_concept_ref(v, excluded_ids: set[str]) -> bool:
+    """True if a raw `concept` value (LLM or GT) should be ignored: it is
+    itself marked with a leading '*' (a direct exclusion), or it references a
+    catalog concept that `load_excluded_concept_ids` flagged as excluded."""
+    if _is_blank(v):
+        return False
+    s = str(v).strip()
+    if s.startswith(CONCEPT_EXCLUDE_MARK):
+        return True
+    return s in excluded_ids
 
 
 # ---------------------------------------------------------------------------
@@ -327,38 +454,9 @@ def text_similarity(a: str, b: str) -> float:
         return 0.0
 
 
-def greedy_match(sim: np.ndarray, threshold: float,
-                 llm_types: list[str | None] | None = None,
-                 gt_types: list[str | None] | None = None,
-                 type_override_sim: float = 0.9) -> list[tuple[int, int, float]]:
-    """One-to-one greedy assignment over similarity-sorted pairs, score >= threshold.
-
-    If llm_types and gt_types are provided, a pair (i, j) is only considered
-    when both sides have the same type (case-insensitive), or when at least one
-    side has no type information (treated as a wildcard so untyped requirements
-    are still matchable).
-
-    `type_override_sim` relaxes that gate: when the description similarity of a
-    pair is at least this value, the type check is bypassed. A near-exact text
-    match almost always denotes the same requirement, so a differing type label
-    (e.g. a GT acceptance "criterion" vs an LLM "QR" that absorbed it, or a split
-    child that inherited its parent's type) must not veto an otherwise perfect
-    match. Set to a value > 1.0 to disable the override and always enforce types.
-    """
+def greedy_match(sim: np.ndarray, threshold: float) -> list[tuple[int, int, float]]:
+    """One-to-one greedy assignment over similarity-sorted pairs, score >= threshold."""
     n_llm, n_gt = sim.shape
-    check_types = llm_types is not None and gt_types is not None
-
-    def types_compatible(i: int, j: int, score: float) -> bool:
-        if not check_types:
-            return True
-        if score >= type_override_sim:
-            return True      # near-exact text match overrides a differing type label
-        lt = llm_types[i]   # type: ignore[index]
-        gt = gt_types[j]    # type: ignore[index]
-        if lt is None or gt is None:
-            return True      # wildcard: one side has no type, allow the pair
-        return norm_categorical(lt) == norm_categorical(gt)
-
     candidates = sorted(
         ((sim[i, j], i, j) for i in range(n_llm) for j in range(n_gt)),
         reverse=True,
@@ -368,8 +466,6 @@ def greedy_match(sim: np.ndarray, threshold: float,
         if score < threshold:
             break
         if i in used_llm or j in used_gt:
-            continue
-        if not types_compatible(i, j, score):
             continue
         pairs.append((i, j, float(score)))
         used_llm.add(i)
@@ -381,18 +477,20 @@ def optimal_match(sim: np.ndarray, threshold: float,
                   llm_types: list[str | None] | None = None,
                   gt_types: list[str | None] | None = None,
                   type_override_sim: float = 0.9) -> list[tuple[int, int, float]]:
-    """Optimal one-to-one assignment with the same gating as `greedy_match`.
+    """Optimal one-to-one assignment, solved exactly with the Hungarian algorithm.
 
-    Identical contract and gates as `greedy_match` (a pair is eligible only when
-    its score >= threshold and the types are compatible, with the same
-    `type_override_sim` relaxation), but solved exactly with the Hungarian
-    algorithm instead of the greedy similarity-sorted walk. Each eligible pair is
-    weighted 1 + score and every other cell 0, so the assignment maximises the
-    NUMBER of eligible matches first and uses similarity only as the tie-breaker.
+    A pair (i, j) is eligible when its score >= threshold and, if llm_types and
+    gt_types are given, the types are compatible (case-insensitive match, a
+    missing type on either side acting as a wildcard, or the pair's score
+    meeting `type_override_sim`, which relaxes that gate for near-exact text
+    matches). Each eligible pair is weighted 1 + score and every other cell 0,
+    so the assignment maximises the NUMBER of eligible matches first and uses
+    similarity only as the tie-breaker.
 
-    Because it is the exact solution to the assignment problem greedy approximates,
-    the matched count is always >= greedy's: it never drops a valid >= threshold
-    match because a higher-similarity pair stole a node the match needed.
+    Because it is the exact solution to the assignment problem a greedy
+    similarity-sorted walk only approximates, the matched count is always >= a
+    greedy walk's: it never drops a valid >= threshold match because a
+    higher-similarity pair stole a node the match needed.
     """
     n_llm, n_gt = sim.shape
     if n_llm == 0 or n_gt == 0:
@@ -459,7 +557,9 @@ def field_present(rec: dict, spec: dict) -> bool:
 
 
 def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict, threshold: float,
-                 *, llm_idx: dict, gt_idx: dict, llm_to_gt: dict) -> tuple[bool, float | None]:
+                 *, llm_idx: dict, gt_idx: dict, llm_to_gt: dict,
+                 llm_concept_idx: dict | None = None,
+                 gt_concept_idx: dict | None = None) -> tuple[bool, float | None]:
     """Return (agrees, similarity_or_None) for one matched pair on one field."""
     kind = spec["kind"]
     a, b = llm_rec.get(spec["name"]), gt_rec.get(spec["name"])
@@ -469,7 +569,13 @@ def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict, threshold: float,
     if kind == "page":
         return (norm_page(a) == norm_page(b)), None
     if kind == "concept":
-        return (norm_concept(a) == norm_concept(b)), None
+        # Each side stores a conceptId (LLM: concepts.json; GT: the ground
+        # truth concept xlsx), resolved to text before comparison since the
+        # two id namespaces are unrelated.
+        ta = resolve_concept_text(a, llm_concept_idx or {})
+        tb = resolve_concept_text(b, gt_concept_idx or {})
+        sim = text_similarity(ta, tb) if (ta and tb) else 0.0
+        return (sim >= threshold), sim
     if kind == "semantic":  # description anchor
         ta, tb = norm_text(a), norm_text(b)
         sim = text_similarity(ta, tb) if (ta and tb) else 0.0
@@ -560,7 +666,9 @@ def build_type_breakdown(gt: list[dict], llm: list[dict],
                                        "precision", "recall", "f1"])
 
 
-def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
+def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
+                 llm_concept_idx=None, gt_concept_idx=None,
+                 excluded_concept_ids=None):
     """Assemble the evaluation report from a set of matched pairs.
 
     `forced_pairs` is an optional set of (llm_idx, gt_idx) that were matched by a
@@ -568,8 +676,20 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
     pairs the *description anchor* is counted as agreeing regardless of its
     TF-IDF similarity, because the human has asserted the two requirements
     correspond. All other fields are still compared on their real values.
+
+    `llm_concept_idx` / `gt_concept_idx` resolve a `concept` field's conceptId
+    to text (see `load_llm_concepts` / `load_ground_truth_concepts`); omit them
+    to fall back to comparing each side's raw `concept` value as text.
+
+    `excluded_concept_ids` (see `load_excluded_concept_ids`) is the set of GT
+    concept IDs manually marked with a leading '*' to be ignored. For a pair
+    where either side's `concept` reference is excluded, the field is treated
+    as unpopulated on BOTH sides for that pair — dropped from the concept
+    field's precision/recall/accuracy the same way an unpopulated field is,
+    rather than counted as a miss. Other fields are unaffected.
     """
     forced_pairs = forced_pairs or set()
+    excluded_concept_ids = excluded_concept_ids or set()
     matched_llm = {i for i, _, _ in pairs}
     matched_gt  = {j for _, j, _ in pairs}
     llm_to_gt   = {i: j for i, j, _ in pairs}
@@ -582,14 +702,25 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
     field_rows, count_rows = [], []
     for spec in FIELD_SPECS:
         name = spec["name"]
-        llm_has_total = sum(field_present(r, spec) for r in llm)
-        gt_has_total  = sum(field_present(r, spec) for r in gt)
+        is_concept = name == "concept"
+
+        def _concept_ok(r):
+            return not is_excluded_concept_ref(r.get("concept"), excluded_concept_ids)
+
+        if is_concept:
+            llm_has_total = sum(field_present(r, spec) and _concept_ok(r) for r in llm)
+            gt_has_total  = sum(field_present(r, spec) and _concept_ok(r) for r in gt)
+        else:
+            llm_has_total = sum(field_present(r, spec) for r in llm)
+            gt_has_total  = sum(field_present(r, spec) for r in gt)
 
         correct, sims = 0, []
         llm_has_matched, gt_has_matched = 0, 0
         for i, j, _ in pairs:
             llm_populated = field_present(llm[i], spec)
             gt_populated  = field_present(gt[j], spec)
+            if is_concept and (not _concept_ok(llm[i]) or not _concept_ok(gt[j])):
+                llm_populated = gt_populated = False
             if llm_populated:
                 llm_has_matched += 1
             if gt_populated:
@@ -597,7 +728,8 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None):
             if not (llm_populated and gt_populated):
                 continue
             agree, s = field_agrees(spec, llm[i], gt[j], threshold,
-                                    llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt)
+                                    llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt,
+                                    llm_concept_idx=llm_concept_idx, gt_concept_idx=gt_concept_idx)
             # A human-forced match overrides the TF-IDF threshold on the
             # description anchor: the pair is a deliberate true correspondence.
             if name == DESC_REQUIRED_NAME and (i, j) in forced_pairs:
@@ -707,17 +839,24 @@ def write_report(report: dict, output_path) -> None:
     """Write the compacted requirement evaluation workbook — a single file with
     four sheets: Metrics, Matched, False_Positives, False_Negatives.
 
-    The Metrics sheet stacks the requirement-level summary (counts, precision,
-    recall, threshold) on top of the per-field metrics table.
+    The Metrics sheet stacks, top to bottom: the requirement-level summary
+    (counts, precision, recall, threshold), the description field's metrics
+    (precision, recall, mean semantic meaning — the only field with genuinely
+    distinct precision/recall, since it is the matching anchor), and every
+    other field's metrics (a single accuracy column, since precision == recall
+    for a field scored as a success rate over matched pairs).
     """
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     summary = report["Requirement_Matching"]
-    field_metrics = report["Field_Metrics"]
+    desc_metrics = report["Field_Metrics_Desc"]
+    other_metrics = report["Field_Metrics_Other"]
     with pd.ExcelWriter(output_path, engine="openpyxl") as w:
         summary.to_excel(w, sheet_name="Metrics", index=False, startrow=0)
-        field_metrics.to_excel(w, sheet_name="Metrics", index=False,
-                               startrow=len(summary) + 3)  # one blank row separator
+        desc_start = len(summary) + 3  # one blank row separator
+        desc_metrics.to_excel(w, sheet_name="Metrics", index=False, startrow=desc_start)
+        other_start = desc_start + len(desc_metrics) + 3  # one blank row separator
+        other_metrics.to_excel(w, sheet_name="Metrics", index=False, startrow=other_start)
         report["Matched_TP"].to_excel(w, sheet_name="Matched", index=False)
         report["False_Positives"].to_excel(w, sheet_name="False_Positives", index=False)
         report["False_Negatives"].to_excel(w, sheet_name="False_Negatives", index=False)
@@ -733,20 +872,178 @@ def write_type_breakdown_report(report: dict, output_path) -> None:
         report["Type_Breakdown"].to_excel(w, sheet_name="Type_Breakdown", index=False)
 
 
-def evaluate(gt_path, llm_path, output_path, threshold=0.75):
+def average_reports(reports: list[dict]) -> dict:
+    """Average the Requirement_Matching, Field_Metrics_Desc and
+    Field_Metrics_Other tables across N `evaluate()` reports (e.g. repeated
+    extraction runs over the same document) into a single report of the same
+    shape.
+
+    Each metric cell is either a rounded float or "-" (see `_fmt`); "-" /
+    non-numeric cells are excluded from the average rather than treated as 0,
+    so a field that was unscored in some runs is averaged only over the runs
+    that did score it. The threshold row is constant across runs and taken
+    as-is from the first report.
+    """
+    if not reports:
+        raise ValueError("average_reports requires at least one report")
+
+    def avg(values):
+        nums = [v for v in values if isinstance(v, (int, float))]
+        return round(sum(nums) / len(nums), 4) if nums else "-"
+
+    summaries = [r["Requirement_Matching"] for r in reports]
+    summary_rows = []
+    for metric in summaries[0]["Metric"]:
+        values = [s.loc[s["Metric"] == metric, "Value"].iloc[0] for s in summaries]
+        if metric == "Match threshold (cosine)":
+            summary_rows.append({"Metric": metric, "Value": values[0]})
+        else:
+            summary_rows.append({"Metric": metric, "Value": avg(values)})
+    avg_summary = pd.DataFrame(summary_rows, columns=["Metric", "Value"])
+
+    desc_tables = [r["Field_Metrics_Desc"] for r in reports]
+    desc_rows = []
+    for field in desc_tables[0]["field"]:
+        precisions = [t.loc[t["field"] == field, "precision"].iloc[0] for t in desc_tables]
+        recalls = [t.loc[t["field"] == field, "recall"].iloc[0] for t in desc_tables]
+        sems = [t.loc[t["field"] == field, "mean semantic meaning"].iloc[0] for t in desc_tables]
+        desc_rows.append({
+            "field": field,
+            "precision": avg(precisions),
+            "recall": avg(recalls),
+            "mean semantic meaning": avg(sems),
+        })
+    avg_field_metrics_desc = pd.DataFrame(
+        desc_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
+
+    other_tables = [r["Field_Metrics_Other"] for r in reports]
+    other_rows = []
+    for field in other_tables[0]["field"]:
+        accuracies = [t.loc[t["field"] == field, "accuracy"].iloc[0] for t in other_tables]
+        other_rows.append({"field": field, "accuracy": avg(accuracies)})
+    avg_field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy"])
+
+    return {
+        "Requirement_Matching": avg_summary,
+        "Field_Metrics_Desc": avg_field_metrics_desc,
+        "Field_Metrics_Other": avg_field_metrics_other,
+    }
+
+
+def write_average_report(reports: list[dict], output_path) -> None:
+    """Write the across-runs average Metrics sheet (same layout as
+    `write_report`'s Metrics sheet: requirement summary, then the description
+    field's precision/recall/mean-semantic table, then every other field's
+    accuracy table) to a standalone workbook."""
+    avg = average_reports(reports)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    summary = avg["Requirement_Matching"]
+    desc_metrics = avg["Field_Metrics_Desc"]
+    other_metrics = avg["Field_Metrics_Other"]
+    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
+        summary.to_excel(w, sheet_name="Metrics", index=False, startrow=0)
+        desc_start = len(summary) + 3  # one blank row separator
+        desc_metrics.to_excel(w, sheet_name="Metrics", index=False, startrow=desc_start)
+        other_start = desc_start + len(desc_metrics) + 3  # one blank row separator
+        other_metrics.to_excel(w, sheet_name="Metrics", index=False,
+                               startrow=other_start)
+
+
+def average_type_breakdowns(reports: list[dict]) -> pd.DataFrame:
+    """Average the Type_Breakdown tables across N `evaluate()` reports (e.g.
+    repeated extraction runs over the same document) into a single
+    per-type breakdown of the same shape as `build_type_breakdown`'s output.
+
+    A `type` value is not guaranteed to appear in every run's breakdown (e.g.
+    an "(unspecified)" type only shows up in a run where the LLM omitted the
+    type field). For the count columns (gt_count, llm_count,
+    successful_extractions, false_positives, false_negatives) a run missing a
+    type genuinely had zero occurrences of it, so it is averaged in as 0 over
+    all N runs. For precision/recall/f1 — which are "-" (undefined) rather
+    than 0 when a type doesn't occur — only the runs where the type is
+    present contribute to the average, same convention as `average_reports`.
+    """
+    if not reports:
+        raise ValueError("average_type_breakdowns requires at least one report")
+
+    tables = [r["Type_Breakdown"] for r in reports]
+    n = len(tables)
+
+    seen, all_types = set(), []
+    for t in tables:
+        for ty in t["type"]:
+            if ty not in seen:
+                seen.add(ty)
+                all_types.append(ty)
+
+    count_cols = ["gt_count", "llm_count", "successful_extractions",
+                  "false_positives", "false_negatives"]
+    ratio_cols = ["precision", "recall", "f1"]
+
+    def avg_ratio(values):
+        nums = [v for v in values if isinstance(v, (int, float))]
+        return round(sum(nums) / len(nums), 4) if nums else "-"
+
+    rows = []
+    for ty in all_types:
+        row = {"type": ty}
+        for col in count_cols:
+            total = sum(
+                (t.loc[t["type"] == ty, col].iloc[0] if (t["type"] == ty).any() else 0)
+                for t in tables
+            )
+            row[col] = round(total / n, 4)
+        for col in ratio_cols:
+            values = [t.loc[t["type"] == ty, col].iloc[0] for t in tables if (t["type"] == ty).any()]
+            row[col] = avg_ratio(values)
+        rows.append(row)
+
+    # Same ranking convention as `build_type_breakdown`: highest F1 first.
+    rows.sort(key=lambda r: (r["f1"] if isinstance(r["f1"], (int, float)) else -1,
+                             r["successful_extractions"]), reverse=True)
+    return pd.DataFrame(rows, columns=["type"] + count_cols + ratio_cols)
+
+
+def write_average_type_breakdown_report(reports: list[dict], output_path) -> None:
+    """Write the across-runs average Type_Breakdown as its own single-sheet
+    workbook, named `<stem>_avg_by_type.xlsx` (same side-car convention
+    `write_type_breakdown_report` uses for a single run's `_by_type.xlsx`)."""
+    avg_breakdown = average_type_breakdowns(reports)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
+        avg_breakdown.to_excel(w, sheet_name="Type_Breakdown", index=False)
+
+
+def evaluate(gt_path, llm_path, output_path, threshold=0.75, llm_concepts_path=None):
+    """
+    `gt_path` is the combined GT workbook — a "Requirements" sheet plus an
+    optional "Concepts" sheet (Concept ID -> Description), the latter used to
+    resolve a GT requirement's `concept` field to text. A Concept ID prefixed
+    with '*' in that sheet (see `load_excluded_concept_ids`) is ignored in the
+    `concept` field's scoring. `llm_concepts_path` points at the LLM's
+    `<stem>_concepts.json` (a path, or already-parsed data) used to resolve
+    the LLM side's conceptId the same way. Either concept source may be
+    absent, in which case `concept` values are compared as their own raw
+    text.
+    """
     gt  = load_ground_truth(gt_path)
     llm = load_llm_extraction(llm_path)
     if not gt or not llm:
         raise ValueError(f"Empty input — gt={len(gt)} llm={len(llm)}")
 
+    gt_concept_idx       = load_ground_truth_concepts(gt_path)
+    excluded_concept_ids = load_excluded_concept_ids(gt_path)
+    llm_concept_idx      = load_llm_concepts(llm_concepts_path) if llm_concepts_path else {}
+
     sim   = compute_similarity([norm_text(r["description"]) or "" for r in gt],
                                [norm_text(r["description"]) or "" for r in llm])
 
-    type_spec = next(s for s in FIELD_SPECS if s["name"] == "type")
-    llm_types = [norm_categorical(r.get(type_spec["name"])) for r in llm]
-    gt_types  = [norm_categorical(r.get(type_spec["name"])) for r in gt]
-    pairs = greedy_match(sim, threshold, llm_types=llm_types, gt_types=gt_types)
-    report = build_report(gt, llm, sim, pairs, threshold)
+    pairs = greedy_match(sim, threshold)
+    report = build_report(gt, llm, sim, pairs, threshold,
+                          llm_concept_idx=llm_concept_idx, gt_concept_idx=gt_concept_idx,
+                          excluded_concept_ids=excluded_concept_ids)
     write_report(report, output_path)
 
     type_breakdown_path = Path(output_path).with_name(Path(output_path).stem + "_by_type.xlsx")

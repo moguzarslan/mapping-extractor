@@ -1,0 +1,147 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow users to register as either a donor or a company.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_02",
+        "type": "FR",
+        "description": "The system shall be available in both Spanish and English.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "The system shall authenticate existing users via email.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "The system shall allow logged-in users to view company profiles and their products.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "A company shall be able to modify its public profile and preview it while editing.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "A company shall be able to register a product to be visible on its public profile.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "A company shall be able to register a route to link it to its products.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "A user shall be able to return a product registered by a company using its routes.",
+        "pageNumber": "30",
+        "fix": "None"
+    },
+    {
+        "id": "R_09",
+        "type": "QR",
+        "description": "The system must be available in different languages.",
+        "pageNumber": "31",
+        "concept": "C_01",
+        "fix": "None"
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The system shall be available in both Spanish and English (verified by a translator).",
+        "pageNumber": "31",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_11",
+        "type": "QR",
+        "description": "The user interface must be intuitive and easy to use for non-technical users.",
+        "pageNumber": "31",
+        "concept": "C_02",
+        "fix": "None"
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "Usability testing with at least 10 representative users, achieving a minimum satisfaction score of 8/10.",
+        "pageNumber": "31",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_13",
+        "type": "QR",
+        "description": "The system must protect user information through secure authentication.",
+        "pageNumber": "32",
+        "concept": "C_03",
+        "fix": "None"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The system must pass security audits without critical vulnerabilities.",
+        "pageNumber": "32",
+        "relatedTo": "R_13"
+    },
+    {
+        "id": "R_15",
+        "type": "QR",
+        "description": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour.",
+        "pageNumber": "32",
+        "concept": "C_04",
+        "fix": "None"
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "Uptime monitoring demonstrating 99.9% uptime and disaster recovery tests meeting the specified recovery time.",
+        "pageNumber": "32",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "QR",
+        "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+        "pageNumber": "33",
+        "concept": "C_05",
+        "fix": "None"
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "Compatibility tests demonstrating functionality on major browsers and mobile devices.",
+        "pageNumber": "33",
+        "relatedTo": "R_17"
+    },
+    {
+        "id": "R_19",
+        "type": "Constraint",
+        "description": "Products/routes/profile of a company can only be editable and accessible by that company.",
+        "pageNumber": "33",
+        "fix": "Changed from QR to Constraint"
+    },
+    {
+        "id": "R_20",
+        "type": "criterion",
+        "description": "Verify that only the company user can access their products/routes/profile.",
+        "pageNumber": "33",
+        "relatedTo": "R_19"
+    }
+]

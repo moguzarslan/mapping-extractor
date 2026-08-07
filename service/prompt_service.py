@@ -3,7 +3,6 @@ import json
 import re
 
 from infra.document_service import read_document
-from utils.image_transformer import ImageTransformer
 from utils.json_service import extract_json_from_response, save_json, extract_json_from_file
 from resource.prompts.prompts import Prompts
 from infra.gemini_client import ask_gemini
@@ -37,9 +36,6 @@ Document:
     content = [
         types.Part.from_text(text=full_text)
     ]
-
-    if image_folder:
-        content.extend(ImageTransformer.from_folder(image_folder))
 
     return content
 

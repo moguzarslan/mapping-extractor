@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -37,9 +38,12 @@ def ask_gemini(
 ) -> str:
     client = create_gemini_client()
 
+    timestamp = datetime.now(timezone.utc).isoformat()
+    timestamped_prompt = f"[{timestamp}]\n{user_prompt}"
+
     response = client.models.generate_content(
         model=model,
-        contents=user_prompt,
+        contents=timestamped_prompt,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
             temperature=0,

@@ -9,6 +9,10 @@ Usage:
         <llm_requirement.json> <llm_concepts.json> \
         <output_report.xlsx> [threshold]
 
+`<ground_truth_requirement.xlsx>` and `<ground_truth_concept.xlsx>` may be the
+same combined workbook (a "Requirements" sheet plus a "Concepts" sheet) — see
+`service.evaluator_service.load_ground_truth` / `load_ground_truth_concepts`.
+
 Defaults:
     threshold = 0.75  (embedding cosine similarity below this is not a match)
 
@@ -76,6 +80,7 @@ from service.evaluator_service import (
     _pick,
 )
 from service.evaluator_service import load_ground_truth as load_requirement_ground_truth
+from service.evaluator_service import load_ground_truth_concepts
 from service.architecture_evaluator_service import (
     load_ground_truth as load_architecture_ground_truth,
     load_llm_extraction as load_architecture_llm_extraction,
@@ -196,30 +201,6 @@ def build_gt_requirement_id_to_text(gt_requirements: list[dict]) -> dict:
         r["id"]: norm_text(r.get("description"))
         for r in gt_requirements if r.get("id") and not _is_blank(r.get("description"))
     }
-
-
-def load_ground_truth_concepts(xlsx_path: str) -> dict:
-    """Read the GT concept xlsx (Document ID, Concept ID, Description, Page
-    Number) into {Concept ID -> Description}. This is the authoritative source
-    for resolving a GT decision's concept references (e.g. 'CF_M01_C01' ->
-    'Security'), replacing the earlier guesswork of reconstructing concept ids
-    from repeated `concept` text on the requirement ground truth."""
-    df = pd.read_excel(xlsx_path)
-    cols = list(df.columns)
-    id_col = _pick(cols, ["Concept ID", "ConceptID", "ID", "Id", "id"])
-    desc_col = _pick(cols, ["Description", "Name", "Concept"])
-    if id_col is None or desc_col is None:
-        raise ValueError(f"Could not find Concept ID / Description columns in {cols}")
-
-    id_to_text = {}
-    for _, row in df.iterrows():
-        cid = row[id_col]
-        if _is_blank(cid):
-            continue
-        name = row[desc_col]
-        if not _is_blank(name):
-            id_to_text[str(cid).strip()] = norm_text(name)
-    return id_to_text
 
 
 def build_llm_requirement_id_to_text(requirements_json_path: str, concepts_json_path: str) -> dict:

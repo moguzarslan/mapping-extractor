@@ -1,0 +1,329 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "The client is the user of the platform.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "In this case, the presentation layer is the client, that is, the user's web browser.",
+            "pageNumber": "55, 57",
+            "isPartOf": [
+                "P_01",
+                "P_02"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Business Layer",
+            "description": "In this case, the business layer is the server, that is, the software that is responsible for processing the user's requests.",
+            "pageNumber": "55, 57",
+            "isPartOf": [
+                "P_01",
+                "P_02"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "It is the layer that is responsible for storing all the data.",
+            "pageNumber": "55, 58",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Business Service",
+            "description": "It is responsible for user management, authentication and authorization of the same.",
+            "pageNumber": "57, 58",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Functional Service",
+            "description": "This is the service that performs all the important logic of the platform.",
+            "pageNumber": "57, 58",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Relational Database Service",
+            "description": "RDS is a distributed relational database service.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "Object Storage Service",
+            "description": "Amazon S3 is the AWS object storage service.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Cache Service",
+            "description": "To improve the system's response speed, there is a user cache system stored in Amazon DynamoDB.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "React",
+            "description": "React is a JavaScript library (considered a framework) for building user interfaces.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_02",
+                "P_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "NestJS is a NodeJS framework for creating backend applications.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_05",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "In the case of Waapiti, a MySQL database is used and it contains all the system information.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_07"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Amazon S3 is the AWS object storage service.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_08"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Amazon DynamoDB",
+            "description": "To improve the system's response speed, there is a user cache system stored in Amazon DynamoDB.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "REST API",
+            "description": "The communication between both is done through the internet using the REST API model.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_05"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The communication between both is done through the internet using the REST API model and the HTTP communication protocol.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_05"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "The communication is carried out using the TCP communication protocol.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The presentation layer is the client, that is, the user's web browser. [...] The communication between both is done through the internet using the REST API model and the HTTP communication protocol.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "These requests are processed and sent via an internal connection to the functional service [...] The communication is carried out using the TCP communication protocol.",
+            "pageNumber": "57,58",
+            "isPartOf": [
+                "AU_05",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "This is the service that performs all the important logic of the platform. It is the service that has communication with the data layer.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_06",
+                "AU_04"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "To improve the system's response speed, there is a user cache system stored in Amazon DynamoDB, which the business service has access to.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05",
+                "AU_09"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "For this particular case it is necessary to obtain the link to the asset images. To do this, it accesses the AWS S3 service and the link of each image is obtained.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_06",
+                "AU_08"
+            ],
+            "fixes": []
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "La plataforma de Waapiti es un servicio web, por tanto, como es habitual en este tipo de softwares, sigue la arquitectura cliente-servidor.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three Layers",
+            "description": "Para desacoplar las partes que componen el modelo de cliente-servidor, se ha utilizado la arquitectura de 3 capas.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "Flux es una arquitectura de frontend desarrollada por Facebook para el desarrollo de aplicaciones web.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Model-View-Controller",
+            "description": "Esta arquitectura se basa en el patrón de diseño Modelo-Vista-Controlador (MVC), pero con la diferencia de que no existe una comunicación bidireccional entre la vista y el modelo, sino que la comunicación es unidireccional.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "El patrón observador es un patrón de diseño de software que define una dependencia de uno a muchos entre objetos, de forma que cuando un objeto cambia su estado, todos los objetos que dependen de él son notificados y actualizados automáticamente.",
+            "pageNumber": "59",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Provider",
+            "description": "El patrón provider es un patrón de diseño de software que permite compartir información entre componentes de React sin necesidad de utilizar props.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_07",
+            "type": "Design Pattern",
+            "name": "Module",
+            "description": "Este patrón permite encapsular la información y exponer solo aquella que se desea compartir entre módulos (como funciones o componentes).",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixes": []
+        },
+        {
+            "id": "P_08",
+            "type": "Design Pattern",
+            "name": "Hook",
+            "description": "Los ganchos son funciones que permiten engancharse al estado de React.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixes": []
+        }
+    ]
+}

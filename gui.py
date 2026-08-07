@@ -34,8 +34,6 @@ from service.evaluator_service import (
     build_report,
     write_report,
     norm_text,
-    norm_categorical,
-    FIELD_SPECS,
 )
 import pandas as pd
 
@@ -311,11 +309,7 @@ class EvaluatorGUI(tk.Tk):
                     [norm_text(r["description"]) or "" for r in gt],
                     [norm_text(r["description"]) or "" for r in llm],
                 )
-                type_spec = next(s for s in FIELD_SPECS if s["name"] == "type")
-                llm_types = [norm_categorical(r.get(type_spec["name"])) for r in llm]
-                gt_types  = [norm_categorical(r.get(type_spec["name"])) for r in gt]
-                pairs = greedy_match(sim, self._threshold,
-                                     llm_types=llm_types, gt_types=gt_types)
+                pairs = greedy_match(sim, self._threshold)
                 self.after(0, lambda: self._on_eval_done(gt, llm, sim, pairs))
             except Exception as exc:
                 self.after(0, lambda: self._on_eval_error(exc))

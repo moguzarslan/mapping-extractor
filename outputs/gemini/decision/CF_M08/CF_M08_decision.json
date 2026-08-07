@@ -9,45 +9,45 @@
         },
         {
             "id": "AD_02",
-            "architecturalElementId": "AU_02",
-            "architecturalDecisionSource": "R_18",
-            "rationale": "The system must protect user information through secure authentication. [...] Traefik opens the port 443 to handle HTTPS traffic, which is the standard for secure communications on the web. HTTPS encrypts the data transmitted between clients and the server, protecting the integrity and confidentiality of information.",
+            "architecturalElementId": "AU_03",
+            "architecturalDecisionSource": "C_04",
+            "rationale": "Balanceador de Carga: Distribuye el tráfico entre múltiples instancias de un servicio, mejorando la disponibilidad y la capacidad de respuesta de la aplicación. [...] El sistema debe tener un tiempo de actividad del 99.9% y ser capaz de recuperarse de fallos en menos de 1 hora.",
             "pageNumber": "32, 43"
         },
         {
             "id": "AD_03",
             "architecturalElementId": "AU_03",
-            "architecturalDecisionSource": "C_04",
-            "rationale": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour. [...] Load Balancer: Distributes traffic between multiple instances of a service, improving the availability and responsiveness of the application.",
+            "architecturalDecisionSource": "C_03",
+            "rationale": "HTTPS cifra los datos transmitidos entre los clientes y el servidor, protegiendo la integridad y confidencialidad de la información. [...] El sistema debe proteger la información de los usuarios mediante la autenticación segura.",
             "pageNumber": "32, 43"
         },
         {
             "id": "AD_04",
             "architecturalElementId": "P_02",
-            "architecturalDecisionSource": "C_02",
-            "rationale": "The interface of the user must be intuitive and easy to use for non-technical users. [...] The Component-Based pattern focuses on building the user interface by creating independent and reusable components.",
-            "pageNumber": "31, 66"
-        },
-        {
-            "id": "AD_05",
-            "architecturalElementId": "P_05",
             "architecturalDecisionSource": "C_05",
-            "rationale": "The system must be easy to maintain and update with clear and complete documentation. [...] It is a programming technique to convert data between the type system used in an object-oriented programming language and the use of a relational database as a persistence engine.",
-            "pageNumber": "32, 72"
-        },
-        {
-            "id": "AD_06",
-            "architecturalElementId": "P_03",
-            "architecturalDecisionSource": "C_05",
-            "rationale": "The system must be easy to maintain and update with clear and complete documentation. [...] The Observer pattern establishes a one-to-many relationship between objects, where an object known as the subject maintains a list of other objects called observers.",
+            "rationale": "Este enfoque promueve la modularidad, la reutilización de código y la mantenibilidad, facilitando la gestión de la aplicación. [...] El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
             "pageNumber": "32, 66"
         },
         {
-            "id": "AD_07",
+            "id": "AD_05",
             "architecturalElementId": "P_04",
             "architecturalDecisionSource": "C_05",
-            "rationale": "The system must be easy to maintain and update with clear and complete documentation. [...] The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance.",
+            "rationale": "Se utiliza generalmente para gestionar recursos compartidos, como configuraciones, registros o conexiones a bases de datos, donde tener múltiples instancias podría llevar a estados inconsistentes o al uso ineficiente de recursos. [...] El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
             "pageNumber": "32, 67"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementId": "AU_23",
+            "architecturalDecisionSource": "C_05",
+            "rationale": "Se ha empleado para mejorar la mantenibilidad y escalabilidad del código. [...] El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+            "pageNumber": "32, 75"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementId": "AU_17",
+            "architecturalDecisionSource": "C_05",
+            "rationale": "Sentry se ha empleado para capturar y reportar errores y excepciones, facilitando el debugging y mejorando la estabilidad de la aplicación. [...] El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+            "pageNumber": "32, 74"
         }
     ]
 }

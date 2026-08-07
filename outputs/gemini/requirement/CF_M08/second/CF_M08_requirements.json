@@ -1,0 +1,199 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow registering new users.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_02",
+        "type": "FR",
+        "description": "The system shall authenticate existing users via email.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "The system shall allow users to log out.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "The system shall allow logged-in users to view company profiles and their products.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall store all images of products and users.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "A company shall be able to modify its public profile and preview it while editing.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "A company shall have access to a dashboard to manage internal functionalities and information.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "A company shall be able to register a product to make it visible on its public profile.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "A company shall be able to register a route to link it to its products.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "A user shall be able to return a product registered by a company using its routes.",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "The system shall provide an affiliation/plan system for companies (free, basic, premium).",
+        "pageNumber": "30",
+        "fix": "Changed from plain text to FR"
+    },
+    {
+        "id": "R_12",
+        "type": "QR",
+        "description": "The system shall be available in different languages.",
+        "pageNumber": "31",
+        "concept": "C_01",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "The system shall be available in both Spanish and English (verified by a translator).",
+        "pageNumber": "31",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "QR",
+        "description": "The user interface must be intuitive and easy to use for non-technical users.",
+        "pageNumber": "31",
+        "concept": "C_02",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "Conduct usability testing with at least 10 representative users, achieving a minimum satisfaction score of 8/10.",
+        "pageNumber": "31",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_16",
+        "type": "QR",
+        "description": "The system must protect user information through secure authentication.",
+        "pageNumber": "32",
+        "concept": "C_03",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "The system must pass security audits without critical vulnerabilities.",
+        "pageNumber": "32",
+        "relatedTo": "R_16"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour.",
+        "pageNumber": "32",
+        "concept": "C_04",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "Uptime monitoring demonstrating 99.9% uptime and disaster recovery tests meeting the specified recovery time.",
+        "pageNumber": "32",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The system must be easy to maintain and update with clear and complete documentation.",
+        "pageNumber": "32",
+        "concept": "C_05",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "Complete and updated documentation, with an average implementation time for updates and troubleshooting not exceeding 2 hours.",
+        "pageNumber": "32",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+        "pageNumber": "33",
+        "concept": "C_06",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "Compatibility tests demonstrating functionality in major browsers and mobile devices.",
+        "pageNumber": "33",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "QR",
+        "description": "The system must be scalable to handle an increase in the number of users and data volume.",
+        "pageNumber": "33",
+        "concept": "C_07",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "Capacity to increase server resources and maintain performance with a 50% increase in workload.",
+        "pageNumber": "33",
+        "relatedTo": "R_24"
+    },
+    {
+        "id": "R_26",
+        "type": "QR",
+        "description": "Company products/routes/profiles can only be editable and accessible by that company.",
+        "pageNumber": "33",
+        "concept": "C_08",
+        "fix": "Changed from Volere to QR"
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "Verify that only company users can access their products/routes/profile.",
+        "pageNumber": "33",
+        "relatedTo": "R_26"
+    }
+]
