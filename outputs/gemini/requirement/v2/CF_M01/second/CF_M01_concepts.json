@@ -1,0 +1,26 @@
+[
+    {
+        "id": "C_01",
+        "name": "12a. Speed and latency"
+    },
+    {
+        "id": "C_02",
+        "name": "12d. Availability and reliability"
+    },
+    {
+        "id": "C_03",
+        "name": "12f. Capacity"
+    },
+    {
+        "id": "C_04",
+        "name": "12g. Scalability"
+    },
+    {
+        "id": "C_05",
+        "name": "15a. Access"
+    },
+    {
+        "id": "C_06",
+        "name": "15c. Privacy"
+    }
+]

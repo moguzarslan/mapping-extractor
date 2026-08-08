@@ -16,7 +16,7 @@ class Prompts:
     - Specify the type (FR, QR, constraint or criterion).
 
 ## For FR, QR and Constraint
-    - In the case of document stating incorrect type correct it and specify the fix
+    - In the case of document stating incorrect type correct it and specify the changed type in fixedType field.
          
 ## For FR
     - In the case of a FR expressed as a user story AS A actor I WANT something IN ORDER TO whatever, extract I WANT something.
@@ -28,7 +28,7 @@ class Prompts:
 		"type": "<FR>",
         "description": "<FR in English>",
 		“pageNumber”: “<Page number of the FR>”,
-		"fix": "<Changed from ... to FR>"
+		"fixedType": "<If fixed QR or constraint, else empty>"
         }
 
 ## For QR
@@ -42,7 +42,7 @@ class Prompts:
         "description": "<QR in English>",
 		“pageNumber”: “<Page number of the requirement>”,
         "concept": "<Type of QR (in English) >",
-        "fix": "<Changed from ... to QR>"
+        "fixedType": "<If fixed, FR or constraint else empty>"
         }
 
 ## For Constraint
@@ -52,7 +52,7 @@ class Prompts:
 		"type": "<Constraint>",
         "description": "<Constraint in English>",
 		“pageNumber”: “<Page number of the Constraint>”,
-		"fix": "<Changed from ... to Constraint>"
+		"fixedType": "<If fixed, QR or FR else empty>"
         }	
         	
 ## For Criterion
@@ -80,7 +80,7 @@ class Prompts:
       "type": "FR",
       "description": "The system shall allow users to reset their password via email verification.",
       "pageNumber": "12",
-      "fix": "Changed from QR to FR"
+      "fixedType": "QR"
     },
     {
       "id": "R_02",
@@ -95,6 +95,7 @@ class Prompts:
       "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
       "pageNumber": "15",
       "concept": "12a. Speed and latency",
+      "fixedType": ""
     },
     {
       "id": "R_04",

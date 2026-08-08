@@ -1,0 +1,182 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow registering new users.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "Users shall be able to create an account as either a company or a donor.",
+        "pageNumber": "34",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "The system shall authenticate existing users via email.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "Users shall be able to log in using a MagicLink sent to their email or via Google authentication.",
+        "pageNumber": "34",
+        "relatedTo": "R_03"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow users to log out.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "The system shall allow logged-in users to view company profiles and their products.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "The system shall store all images of products and users.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "A company shall be able to modify its public profile and preview it while editing.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "A company shall have access to a dashboard for internal functionalities and information.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "A company shall be able to register a product to be visible on its public profile.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "A company shall be able to register a route to link it to its products.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "A user shall be able to return a product registered by a company using its routes.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "FR",
+        "description": "The system shall provide an affiliation/plan system for companies (free, basic, premium).",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_14",
+        "type": "QR",
+        "description": "The system shall be available in both Spanish and English.",
+        "pageNumber": "30",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "The system interface shall be available in Spanish and English, verified by a translator.",
+        "pageNumber": "31",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_16",
+        "type": "QR",
+        "description": "The user interface must be intuitive and easy to use for non-technical users.",
+        "pageNumber": "31",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "Usability testing with at least 10 representative users shall achieve a minimum satisfaction score of 8/10.",
+        "pageNumber": "31",
+        "relatedTo": "R_16"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "The system must protect user information through secure authentication.",
+        "pageNumber": "32",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "The system must pass security audits without critical vulnerabilities.",
+        "pageNumber": "32",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The system must have 99.9% uptime and be able to recover from failures in less than 1 hour.",
+        "pageNumber": "32",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "Uptime monitoring must demonstrate 99.9% availability and disaster recovery tests must meet the 1-hour recovery time.",
+        "pageNumber": "32",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The system must be compatible with common web browsers (Chrome, Firefox, Safari, Edge) and mobile devices.",
+        "pageNumber": "32",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "Compatibility tests must demonstrate functionality across major browsers and mobile devices.",
+        "pageNumber": "32",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "Constraint",
+        "description": "Products, routes, and company profiles can only be edited and accessed by the owning company.",
+        "pageNumber": "33",
+        "fixedType": "QR"
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "Verify that only the company user can access their specific products, routes, and profile.",
+        "pageNumber": "33",
+        "relatedTo": "R_24"
+    }
+]

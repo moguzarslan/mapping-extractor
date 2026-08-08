@@ -1,0 +1,38 @@
+[
+    {
+        "id": "C_01",
+        "name": "10a. Appearance"
+    },
+    {
+        "id": "C_02",
+        "name": "11a. Usability"
+    },
+    {
+        "id": "C_03",
+        "name": "11b. Customization and internationalization"
+    },
+    {
+        "id": "C_04",
+        "name": "11c. Learnability"
+    },
+    {
+        "id": "C_05",
+        "name": "12a. Speed and latency"
+    },
+    {
+        "id": "C_06",
+        "name": "12a. Availability"
+    },
+    {
+        "id": "C_07",
+        "name": "12f. Capacity"
+    },
+    {
+        "id": "C_08",
+        "name": "15a. Access"
+    },
+    {
+        "id": "C_09",
+        "name": "15b. Integrity"
+    }
+]

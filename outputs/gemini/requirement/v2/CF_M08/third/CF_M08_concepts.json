@@ -1,0 +1,22 @@
+[
+    {
+        "id": "C_01",
+        "name": "11b. Personalization and Internationalization"
+    },
+    {
+        "id": "C_02",
+        "name": "11a. Usability"
+    },
+    {
+        "id": "C_03",
+        "name": "15c. Privacy"
+    },
+    {
+        "id": "C_04",
+        "name": "12e. Fault Tolerance"
+    },
+    {
+        "id": "C_05",
+        "name": "14c. Adaptability"
+    }
+]

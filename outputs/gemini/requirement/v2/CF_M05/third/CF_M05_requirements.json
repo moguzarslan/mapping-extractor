@@ -1,0 +1,193 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow users to access the portal via personal credential authentication.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "Upon entering valid credentials, the user shall be authenticated and granted access to the portal functionalities.",
+        "pageNumber": "48",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "The system shall display a list of applications to which the authenticated user has access.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The system shall only show applications for which the user has explicit access permissions.",
+        "pageNumber": "48",
+        "relatedTo": "R_03"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow users to access specific applications selected from the portal list.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "The system shall restrict data visualization and actions (create, modify, delete) based on the user's assigned roles.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "The system shall ensure that users cannot access data belonging to other clients.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "The system shall automatically convert any mention of the old name to the new name throughout the portal and applications.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "The system shall allow administrators to assign or revoke application access for users.",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "QR",
+        "description": "The new content must maintain visual coherence with the design of the old version of the application.",
+        "pageNumber": "52",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "Design, colors, fonts, and organization must be consistent with the previous version.",
+        "pageNumber": "52",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_12",
+        "type": "QR",
+        "description": "The system must be easy to use for any user.",
+        "pageNumber": "53",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "80% of users shall not need to ask for third-party help to use the application.",
+        "pageNumber": "53",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "QR",
+        "description": "The application must be available in multiple languages.",
+        "pageNumber": "53",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_15",
+        "type": "QR",
+        "description": "The user must be able to perform new operations without special training.",
+        "pageNumber": "53",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "The learning time for new functionalities should not exceed 5 minutes.",
+        "pageNumber": "53",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "QR",
+        "description": "Query operations must have a load time of less than 1 second.",
+        "pageNumber": "53",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "Response time must not exceed 1 second in 95% of queries.",
+        "pageNumber": "54",
+        "relatedTo": "R_17"
+    },
+    {
+        "id": "R_19",
+        "type": "QR",
+        "description": "The web application must guarantee continuous and stable operation, ensuring availability at all times.",
+        "pageNumber": "54",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "criterion",
+        "description": "System availability must be at least 99.9%, even during peak usage times.",
+        "pageNumber": "54",
+        "relatedTo": "R_19"
+    },
+    {
+        "id": "R_21",
+        "type": "QR",
+        "description": "The web application must support a large number of concurrent users without degrading performance.",
+        "pageNumber": "54",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The system must allow the creation, consultation, modification, and deletion of data by authorized users.",
+        "pageNumber": "54",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "QR",
+        "description": "The application must manage a strict separation of data for each client.",
+        "pageNumber": "55",
+        "concept": "C_09",
+        "fixedType": ""
+    },
+    {
+        "id": "R_24",
+        "type": "criterion",
+        "description": "No user shall be able to access data belonging to other clients.",
+        "pageNumber": "55",
+        "relatedTo": "R_23"
+    },
+    {
+        "id": "R_25",
+        "type": "Constraint",
+        "description": "Dates must be valid and cannot be in the future.",
+        "pageNumber": "51",
+        "fixedType": ""
+    },
+    {
+        "id": "R_26",
+        "type": "Constraint",
+        "description": "For all applicable tables, there cannot be elements of the same type with the same code.",
+        "pageNumber": "51",
+        "fixedType": ""
+    }
+]
