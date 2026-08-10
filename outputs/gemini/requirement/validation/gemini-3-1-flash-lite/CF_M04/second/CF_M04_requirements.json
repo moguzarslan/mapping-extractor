@@ -1,0 +1,168 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow delegated users to log in using their email or phone number.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system must allow entering an email address or a phone number.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The system must send an OTP code to the indicated address or number.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The user must be able to enter the received OTP code.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "criterion",
+        "description": "If the code is correct, the user must log in successfully.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "The system must handle authentication errors and incorrect codes.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "The system shall display a Home screen with relevant business information for authenticated users.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "The Home screen must show several independent informative widgets.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "Each widget must load its data autonomously.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The system must show loading and error states when necessary.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "The system shall provide intelligent response suggestions for reviews using the Cintia AI agent.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "The system must detect if the user has the Cintia functionality activated.",
+        "pageNumber": "41",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "If Cintia is active, the system must show a response suggestion automatically upon opening the response modal.",
+        "pageNumber": "41",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The system must display the response progressively (typing effect).",
+        "pageNumber": "41",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "The system shall allow users to view images and videos associated with a review.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "The system must display images and videos associated with a review under the review text.",
+        "pageNumber": "41",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "Images must be navigable via horizontal scroll.",
+        "pageNumber": "41",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "Clicking an image or video must display it in full screen.",
+        "pageNumber": "41",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_19",
+        "type": "QR",
+        "description": "The application must provide an intuitive and coherent interface that allows users to complete main tasks without prior training.",
+        "pageNumber": "45",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The application must function correctly on Android and iOS devices with different screen sizes and supported OS versions.",
+        "pageNumber": "46",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "QR",
+        "description": "System responses must have an acceptable response time, avoiding UI freezes or blocks.",
+        "pageNumber": "48",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "User data must be transmitted and managed securely, ensuring only authorized users can access the information.",
+        "pageNumber": "50",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "QR",
+        "description": "The code must be structured following best practices and architecture patterns that facilitate system maintenance and evolution.",
+        "pageNumber": "52",
+        "concept": "C_05",
+        "fixedType": ""
+    }
+]

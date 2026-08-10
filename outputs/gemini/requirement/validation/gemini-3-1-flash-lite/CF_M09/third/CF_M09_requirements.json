@@ -1,0 +1,228 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Create new spots in a location",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system shall allow assigning a name to each spot.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The system shall automatically assign a floor or allow creating new ones.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The system shall display the created spot automatically.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "Eliminate spots from a location",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "The system shall prevent the deletion of a spot if it has assigned assets.",
+        "pageNumber": "46",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "Create assets assigned to a spot",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "The system shall allow adding all asset and asset-type attributes.",
+        "pageNumber": "47",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "The system shall allow leaving the serial number blank, to be assigned during installation.",
+        "pageNumber": "47",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "Eliminate assets from a spot",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "The system shall only allow deleting an asset if it is not assigned to an intervention.",
+        "pageNumber": "47",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "Modify asset information",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "FR",
+        "description": "Introduce 3D map ID",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The system shall prevent introducing a new ID once one is already assigned.",
+        "pageNumber": "48",
+        "relatedTo": "R_13"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "View assets distributed in a location",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "FR",
+        "description": "View assets distributed in a location in 3D map format",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_17",
+        "type": "FR",
+        "description": "View all assets available to the user",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_18",
+        "type": "FR",
+        "description": "Create a new intervention",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "The system shall prevent including assets that are not in the location or are already in an intervention.",
+        "pageNumber": "49",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "FR",
+        "description": "Eliminate an intervention",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "The system shall only allow deleting an intervention if it is not finalized.",
+        "pageNumber": "49",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "FR",
+        "description": "Complete an intervention",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "QR",
+        "description": "The interface must follow the style and colors of the Waapiti platform.",
+        "pageNumber": "51",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_24",
+        "type": "QR",
+        "description": "The interface must be switchable to Catalan, Spanish, English, French, German, Italian, and Portuguese.",
+        "pageNumber": "51",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_25",
+        "type": "QR",
+        "description": "The system must be easy to learn for technical users.",
+        "pageNumber": "51",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_26",
+        "type": "QR",
+        "description": "The system must respond quickly to user actions.",
+        "pageNumber": "52",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_27",
+        "type": "QR",
+        "description": "The system must always be available, except during scheduled updates.",
+        "pageNumber": "52",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_28",
+        "type": "QR",
+        "description": "The system must support an unlimited number of simultaneous connections.",
+        "pageNumber": "52",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_29",
+        "type": "QR",
+        "description": "The system must adapt to screen changes (e.g., desktop to mobile).",
+        "pageNumber": "53",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_30",
+        "type": "QR",
+        "description": "Project functionalities must be accessible only to authorized users.",
+        "pageNumber": "53",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_31",
+        "type": "QR",
+        "description": "Confidential user information must be protected and privacy guaranteed.",
+        "pageNumber": "53",
+        "concept": "C_09",
+        "fixedType": ""
+    }
+]

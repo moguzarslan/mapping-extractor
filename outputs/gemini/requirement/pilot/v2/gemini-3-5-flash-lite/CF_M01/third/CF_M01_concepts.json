@@ -1,0 +1,26 @@
+[
+    {
+        "id": "C_01",
+        "name": "12a. Velocitat i latència"
+    },
+    {
+        "id": "C_02",
+        "name": "12d. Disponibilitat i fiabilitat"
+    },
+    {
+        "id": "C_03",
+        "name": "12f. Capacitat"
+    },
+    {
+        "id": "C_04",
+        "name": "12g. Escalabilitat"
+    },
+    {
+        "id": "C_05",
+        "name": "15a. Accés"
+    },
+    {
+        "id": "C_06",
+        "name": "15c. Privacitat"
+    }
+]

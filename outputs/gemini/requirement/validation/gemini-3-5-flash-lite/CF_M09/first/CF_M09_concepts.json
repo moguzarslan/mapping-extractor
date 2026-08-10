@@ -1,0 +1,38 @@
+[
+    {
+        "id": "C_01",
+        "name": "10a. Apariencia"
+    },
+    {
+        "id": "C_02",
+        "name": "11b. Personalización e internacionalización"
+    },
+    {
+        "id": "C_03",
+        "name": "11c. Aprendizaje"
+    },
+    {
+        "id": "C_04",
+        "name": "12a. Velocidad y latencia"
+    },
+    {
+        "id": "C_05",
+        "name": "12d. Disponibilidad y fiabilidad"
+    },
+    {
+        "id": "C_06",
+        "name": "12f. Capacidad"
+    },
+    {
+        "id": "C_07",
+        "name": "14c. Adaptabilidad"
+    },
+    {
+        "id": "C_08",
+        "name": "15a. Acceso"
+    },
+    {
+        "id": "C_09",
+        "name": "15c. Privacidad"
+    }
+]

@@ -1,0 +1,186 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Access the portal using personal credential authentication.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "FR",
+        "description": "Visualize the portal applications to which the user has access.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "Access the applications to which the user has access within the portal.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "Restrict the visualization and actions (create, modify, and delete) on data according to the roles assigned to the user.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "Ensure that data from other clients cannot be accessed.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "Convert any mention of the old name to the new name.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "Grant or remove access to applications for users.",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "QR",
+        "description": "The new content must maintain visual coherence with the design of the old version of the application.",
+        "pageNumber": "52",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "The design, colors, typographies, and organization must be consistent with the old version.",
+        "pageNumber": "52",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_10",
+        "type": "QR",
+        "description": "The system must be easy to use for any user.",
+        "pageNumber": "53",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "80% of users do not need to ask for help from third parties to use the application.",
+        "pageNumber": "53",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_12",
+        "type": "QR",
+        "description": "The application must be available in multiple languages.",
+        "pageNumber": "53",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "Complete and correct translations in both languages.",
+        "pageNumber": "53",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "QR",
+        "description": "The user must be able to perform new operations without special training.",
+        "pageNumber": "53",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "The learning time for the new functionalities should not exceed 5 minutes.",
+        "pageNumber": "53",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_16",
+        "type": "QR",
+        "description": "Query operations must have a loading time of less than 1 second.",
+        "pageNumber": "53",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "Response time must not exceed 1 second in 95% of queries.",
+        "pageNumber": "53",
+        "relatedTo": "R_16"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "The web application must guarantee continuous and stable operation, ensuring its availability at any time.",
+        "pageNumber": "54",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "The system availability must be a minimum of 99.9%, even during moments of intensive use.",
+        "pageNumber": "54",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The web application must support a large number of simultaneous users without degrading its performance.",
+        "pageNumber": "54",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "The system availability must be a minimum of 99.9%, even during moments of intensive use.",
+        "pageNumber": "54",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The system must allow the creation, consultation, modification, and deletion of data by authorized users.",
+        "pageNumber": "54",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "The system must have a secure authentication and permission verification mechanism to ensure that each user can only access the information and functionalities that correspond to them.",
+        "pageNumber": "54",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "QR",
+        "description": "The application must manage a strict separation of data for each client.",
+        "pageNumber": "55",
+        "concept": "C_09",
+        "fixedType": ""
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "No user can access data of other clients.",
+        "pageNumber": "55",
+        "relatedTo": "R_24"
+    }
+]

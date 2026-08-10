@@ -1,0 +1,22 @@
+[
+    {
+        "id": "C_01",
+        "name": "Usability"
+    },
+    {
+        "id": "C_02",
+        "name": "Compatibility"
+    },
+    {
+        "id": "C_03",
+        "name": "Performance"
+    },
+    {
+        "id": "C_04",
+        "name": "Security"
+    },
+    {
+        "id": "C_05",
+        "name": "Maintainability"
+    }
+]

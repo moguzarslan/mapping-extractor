@@ -1,0 +1,421 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of their clients.",
+        "pageNumber": "35",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "A list of clients with basic data shall be displayed.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The user shall be able to filter the list by different criteria and also order it.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The user shall be able to select a client and consult the list of locations.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of locations of a previously selected client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "A list of locations with their respective players shall be displayed.",
+        "pageNumber": "36",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "The user shall be able to filter the list by different criteria.",
+        "pageNumber": "36",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "The user shall be able to select a player and access the player management view.",
+        "pageNumber": "36",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "The system shall allow the partner to create a new location for a client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "A form shall be displayed to create a new location.",
+        "pageNumber": "36",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "Google Maps API shall be used to facilitate address search, thereby facilitating the work when filling out form fields.",
+        "pageNumber": "36",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "The system shall allow the partner to initiate the process of registering a player by scanning the QR code displayed on the screen.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "If the QR code is successfully scanned and is valid, the system shall navigate to the next screens to select the client and location.",
+        "pageNumber": "37",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "Once selected, the user only has to choose the player configuration.",
+        "pageNumber": "37",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the current status of the different players of their clients.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "In the list of a client's locations, information on the current status and the last connection shall be displayed for each player.",
+        "pageNumber": "37",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "FR",
+        "description": "The system shall allow the partner to perform different actions on a player in real time.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "Buttons for different actions shall be displayed on a player's screen: restart players, shut down, force synchronization, and restart playback.",
+        "pageNumber": "37",
+        "relatedTo": "R_17"
+    },
+    {
+        "id": "R_19",
+        "type": "FR",
+        "description": "The system shall allow the partner to visualize general information of a player.",
+        "pageNumber": "38",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "criterion",
+        "description": "In the INFO tab of a player screen, 'boxes' of different categories shall be displayed: general, configuration, preview, and storage.",
+        "pageNumber": "38",
+        "relatedTo": "R_19"
+    },
+    {
+        "id": "R_21",
+        "type": "FR",
+        "description": "The system shall allow the partner to visualize advanced information of a player.",
+        "pageNumber": "38",
+        "fixedType": ""
+    },
+    {
+        "id": "R_22",
+        "type": "criterion",
+        "description": "In the ADVANCED tab of a player screen, 'boxes' of different categories shall be displayed: actions, screen and orientation, audio, and synchronization.",
+        "pageNumber": "38",
+        "relatedTo": "R_21"
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "Each category shall contain information and buttons to perform changes.",
+        "pageNumber": "38",
+        "relatedTo": "R_21"
+    },
+    {
+        "id": "R_24",
+        "type": "FR",
+        "description": "The system shall allow the partner to visualize the uptime of a player.",
+        "pageNumber": "38",
+        "fixedType": ""
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "In the UPTIME tab of a player screen, a calendar with the uptime of each day by hours shall be displayed.",
+        "pageNumber": "38",
+        "relatedTo": "R_24"
+    },
+    {
+        "id": "R_26",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the log history of a player.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "In the PLAYLOGS tab of a player screen, a list with playback logs shall be displayed.",
+        "pageNumber": "39",
+        "relatedTo": "R_26"
+    },
+    {
+        "id": "R_28",
+        "type": "criterion",
+        "description": "Each log shall contain information of the content that has been played.",
+        "pageNumber": "39",
+        "relatedTo": "R_26"
+    },
+    {
+        "id": "R_29",
+        "type": "criterion",
+        "description": "Via sockets, logs can be received in real time.",
+        "pageNumber": "39",
+        "relatedTo": "R_26"
+    },
+    {
+        "id": "R_30",
+        "type": "FR",
+        "description": "The system shall allow the partner to edit the configuration of a player.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_31",
+        "type": "criterion",
+        "description": "In the INFO tab of a player screen, within the general 'box', there shall be a button to edit the configuration.",
+        "pageNumber": "39",
+        "relatedTo": "R_30"
+    },
+    {
+        "id": "R_32",
+        "type": "FR",
+        "description": "The system shall allow the partner to receive push notifications.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_33",
+        "type": "criterion",
+        "description": "If the user has notification permissions enabled, they shall receive push notifications on their device in case of incidents.",
+        "pageNumber": "39",
+        "relatedTo": "R_32"
+    },
+    {
+        "id": "R_34",
+        "type": "FR",
+        "description": "The system shall allow the partner to customize push notifications.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_35",
+        "type": "criterion",
+        "description": "The user shall be able to establish the types of notifications they want to receive in 3 levels (general, by client, and by player).",
+        "pageNumber": "40",
+        "relatedTo": "R_34"
+    },
+    {
+        "id": "R_36",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult a list of received push notifications.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_37",
+        "type": "criterion",
+        "description": "In the NOTIFICATIONS tab, a list with received notifications ordered chronologically shall be displayed.",
+        "pageNumber": "40",
+        "relatedTo": "R_36"
+    },
+    {
+        "id": "R_38",
+        "type": "criterion",
+        "description": "Read and unread notifications shall be differentiated.",
+        "pageNumber": "40",
+        "relatedTo": "R_36"
+    },
+    {
+        "id": "R_39",
+        "type": "criterion",
+        "description": "If the user clicks on a notification, it shall lead them to the corresponding player screen.",
+        "pageNumber": "40",
+        "relatedTo": "R_36"
+    },
+    {
+        "id": "R_40",
+        "type": "FR",
+        "description": "The system shall allow the partner to edit their profile information.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_41",
+        "type": "criterion",
+        "description": "The user shall be able to modify profile information such as name, profile photo, etc.",
+        "pageNumber": "40",
+        "relatedTo": "R_40"
+    },
+    {
+        "id": "R_42",
+        "type": "FR",
+        "description": "The system shall allow the partner to change their password.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_43",
+        "type": "criterion",
+        "description": "The user shall be able to modify their password.",
+        "pageNumber": "41",
+        "relatedTo": "R_42"
+    },
+    {
+        "id": "R_44",
+        "type": "criterion",
+        "description": "The user must confirm the current password in order to change it.",
+        "pageNumber": "41",
+        "relatedTo": "R_42"
+    },
+    {
+        "id": "R_45",
+        "type": "criterion",
+        "description": "The password must have a minimum of 8 characters, at least one uppercase letter, at least one number, and one special character.",
+        "pageNumber": "41",
+        "relatedTo": "R_42"
+    },
+    {
+        "id": "R_46",
+        "type": "FR",
+        "description": "The system shall allow the partner to change the application language.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_47",
+        "type": "criterion",
+        "description": "The user shall be able to choose among: catalan, spanish, english, french, italian, portuguese, and german.",
+        "pageNumber": "41",
+        "relatedTo": "R_46"
+    },
+    {
+        "id": "R_48",
+        "type": "QR",
+        "description": "The application must be simple to use for any user.",
+        "pageNumber": "42",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_49",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete when the feedback from test users is good.",
+        "pageNumber": "42",
+        "relatedTo": "R_48"
+    },
+    {
+        "id": "R_50",
+        "type": "QR",
+        "description": "The application must always be available to the user.",
+        "pageNumber": "42",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_51",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete if the service is continuously available.",
+        "pageNumber": "42",
+        "relatedTo": "R_50"
+    },
+    {
+        "id": "R_52",
+        "type": "QR",
+        "description": "The application must ensure that user data is confidential and protected from unauthorized access.",
+        "pageNumber": "43",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_53",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete if communications between the server and the application use the minimum possible information and are authenticated.",
+        "pageNumber": "43",
+        "relatedTo": "R_52"
+    },
+    {
+        "id": "R_54",
+        "type": "QR",
+        "description": "The application must be available for mobile devices with iOS and Android systems.",
+        "pageNumber": "43",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_55",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete if the application is available for both systems and works correctly.",
+        "pageNumber": "43",
+        "relatedTo": "R_54"
+    },
+    {
+        "id": "R_56",
+        "type": "QR",
+        "description": "The application must be compatible with different languages: english, french, german, catalan, spanish, portuguese, and italian.",
+        "pageNumber": "43",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_57",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete if the application is available in the previously specified languages.",
+        "pageNumber": "43",
+        "relatedTo": "R_56"
+    },
+    {
+        "id": "R_58",
+        "type": "QR",
+        "description": "The application must follow the corporate image of the company.",
+        "pageNumber": "44",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_59",
+        "type": "criterion",
+        "description": "The requirement will be understood as complete if the application follows the company's image.",
+        "pageNumber": "44",
+        "relatedTo": "R_58"
+    }
+]

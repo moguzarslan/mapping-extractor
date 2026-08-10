@@ -1,0 +1,424 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Create new spots in a location",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "A name can be assigned to each spot",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The floor is assigned automatically or new ones can be created",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The created spot is seen automatically",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "Eliminate spots of a location",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "A spot cannot be deleted if it has assigned assets",
+        "pageNumber": "46",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "The spot is removed from the list automatically",
+        "pageNumber": "46",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "Create assets assigned to a spot",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "All asset attributes and asset type attributes must be able to be added to the asset",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The spot is assigned automatically, although you can decide which spot you want to assign it to",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "The serial number can be left blank, in which case it will be assigned at installation",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "Eliminate assets from a spot",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "The asset is removed from the list automatically",
+        "pageNumber": "47",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "An asset can only be deleted if it is not assigned to an intervention",
+        "pageNumber": "47",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "Modify the information of an asset",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "Any attribute of the asset can be modified",
+        "pageNumber": "47",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "The spot to which it is assigned can be modified",
+        "pageNumber": "47",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_18",
+        "type": "FR",
+        "description": "Enter the 3D map ID",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "A new ID cannot be entered once assigned",
+        "pageNumber": "48",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "FR",
+        "description": "See the assets that are distributed in a location",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "Assets outside the location cannot be displayed",
+        "pageNumber": "48",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "criterion",
+        "description": "You must be able to see the details of each asset",
+        "pageNumber": "48",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_23",
+        "type": "FR",
+        "description": "See the assets that are distributed in a location in the form of a 3D map",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_24",
+        "type": "criterion",
+        "description": "Assets outside the location cannot be displayed",
+        "pageNumber": "48",
+        "relatedTo": "R_23"
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "You must be able to see the details of each asset",
+        "pageNumber": "48",
+        "relatedTo": "R_23"
+    },
+    {
+        "id": "R_26",
+        "type": "criterion",
+        "description": "The information must be the same as in the list view",
+        "pageNumber": "48",
+        "relatedTo": "R_23"
+    },
+    {
+        "id": "R_27",
+        "type": "FR",
+        "description": "See all the assets I have available",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_28",
+        "type": "criterion",
+        "description": "No user can see assets they do not have (except administrators, who see all)",
+        "pageNumber": "49",
+        "relatedTo": "R_27"
+    },
+    {
+        "id": "R_29",
+        "type": "criterion",
+        "description": "You must be able to see the details of each asset",
+        "pageNumber": "49",
+        "relatedTo": "R_27"
+    },
+    {
+        "id": "R_30",
+        "type": "FR",
+        "description": "Create a new intervention",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_31",
+        "type": "criterion",
+        "description": "You must be able to choose the intervened assets",
+        "pageNumber": "49",
+        "relatedTo": "R_30"
+    },
+    {
+        "id": "R_32",
+        "type": "criterion",
+        "description": "Each asset will be associated with an action",
+        "pageNumber": "49",
+        "relatedTo": "R_30"
+    },
+    {
+        "id": "R_33",
+        "type": "criterion",
+        "description": "Assets that are not in the location or that are already in an intervention must not be able to be included",
+        "pageNumber": "49",
+        "relatedTo": "R_30"
+    },
+    {
+        "id": "R_34",
+        "type": "FR",
+        "description": "Eliminate an intervention",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_35",
+        "type": "criterion",
+        "description": "The intervention is removed from the list automatically",
+        "pageNumber": "49",
+        "relatedTo": "R_34"
+    },
+    {
+        "id": "R_36",
+        "type": "criterion",
+        "description": "An intervention can only be deleted if it is not finished",
+        "pageNumber": "49",
+        "relatedTo": "R_34"
+    },
+    {
+        "id": "R_37",
+        "type": "FR",
+        "description": "Perform and complete an intervention",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_38",
+        "type": "criterion",
+        "description": "All intervention information must be seen simply",
+        "pageNumber": "50",
+        "relatedTo": "R_37"
+    },
+    {
+        "id": "R_39",
+        "type": "criterion",
+        "description": "To be able to finalize the intervention, all required information must be filled in",
+        "pageNumber": "50",
+        "relatedTo": "R_37"
+    },
+    {
+        "id": "R_40",
+        "type": "FR",
+        "description": "See the history of interventions performed",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_41",
+        "type": "criterion",
+        "description": "The registry must be able to be consulted at the location level or at the asset level",
+        "pageNumber": "50",
+        "relatedTo": "R_40"
+    },
+    {
+        "id": "R_42",
+        "type": "QR",
+        "description": "The interface must follow the style and colors of the Waapiti platform.",
+        "pageNumber": "51",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_43",
+        "type": "criterion",
+        "description": "All colors used in the interface correspond to those defined in the Waapiti color palette included in the platform code.",
+        "pageNumber": "51",
+        "relatedTo": "R_42"
+    },
+    {
+        "id": "R_44",
+        "type": "QR",
+        "description": "The interface must be able to be changed to Catalan, Spanish, English, French, German, Italian, and Portuguese.",
+        "pageNumber": "51",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_45",
+        "type": "criterion",
+        "description": "The interface can be understood by anyone who speaks one of the 7 languages and the default language is English.",
+        "pageNumber": "51",
+        "relatedTo": "R_44"
+    },
+    {
+        "id": "R_46",
+        "type": "QR",
+        "description": "The system must be easy for technical users to learn.",
+        "pageNumber": "51",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_47",
+        "type": "criterion",
+        "description": "Technical users learn to use the platform's functionalities in less than 30 minutes.",
+        "pageNumber": "51",
+        "relatedTo": "R_46"
+    },
+    {
+        "id": "R_48",
+        "type": "QR",
+        "description": "The system must respond quickly to user actions.",
+        "pageNumber": "52",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_49",
+        "type": "criterion",
+        "description": "The system responds to any user action in less than five seconds.",
+        "pageNumber": "52",
+        "relatedTo": "R_48"
+    },
+    {
+        "id": "R_50",
+        "type": "QR",
+        "description": "The system must always be available, except in cases of scheduled updates.",
+        "pageNumber": "52",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_51",
+        "type": "criterion",
+        "description": "Any user can access the platform at any time of the day, with the exception of scheduled updates.",
+        "pageNumber": "52",
+        "relatedTo": "R_50"
+    },
+    {
+        "id": "R_52",
+        "type": "QR",
+        "description": "The system must support an unlimited number of simultaneous connections.",
+        "pageNumber": "52",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_53",
+        "type": "criterion",
+        "description": "The platform scales dynamically with changes in simultaneous connections.",
+        "pageNumber": "52",
+        "relatedTo": "R_52"
+    },
+    {
+        "id": "R_54",
+        "type": "QR",
+        "description": "The system must adapt to screen changes, for example from a desktop computer to a mobile.",
+        "pageNumber": "53",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_55",
+        "type": "criterion",
+        "description": "The interface adapts to computer, tablet, and mobile screens.",
+        "pageNumber": "53",
+        "relatedTo": "R_54"
+    },
+    {
+        "id": "R_56",
+        "type": "QR",
+        "description": "The project's functionalities must be accessible only to authorized users.",
+        "pageNumber": "53",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_57",
+        "type": "criterion",
+        "description": "Users without permission cannot access to view and edit assets.",
+        "pageNumber": "53",
+        "relatedTo": "R_56"
+    },
+    {
+        "id": "R_58",
+        "type": "QR",
+        "description": "Confidential user information must be protected and its privacy must be guaranteed.",
+        "pageNumber": "53",
+        "concept": "C_09",
+        "fixedType": ""
+    },
+    {
+        "id": "R_59",
+        "type": "criterion",
+        "description": "No user can see information beyond their own.",
+        "pageNumber": "53",
+        "relatedTo": "R_58"
+    }
+]

@@ -1,0 +1,211 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Que el sistema guardi els playlogs dels players",
+        "pageNumber": "35",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "Cada playlog té una data, client i player assignat.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "Que el sistema guardi les connexions dels players",
+        "pageNumber": "35",
+        "fixedType": ""
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "Cada connexió té una data, client i player assignat.",
+        "pageNumber": "35",
+        "relatedTo": "R_03"
+    },
+    {
+        "id": "R_05",
+        "type": "criterion",
+        "description": "L’estat de la connexió solament pot ser connectat o no connectat.",
+        "pageNumber": "35",
+        "relatedTo": "R_03"
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "Que el sistema guardi les accions realitzades sobre la plataforma",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "Cada acció té una data, client, usuari i player assignat.",
+        "pageNumber": "36",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "Totes les accions són realitzades sobre una entitat de la plataforma.",
+        "pageNumber": "36",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "Poder llistar els diferents playlogs del sistema",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "Els playlogs que podrà veure l’usuari dependrà dels permisos que té.",
+        "pageNumber": "36",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "S’ha de poder veure tots els detalls del playlog.",
+        "pageNumber": "36",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "Poder llistar les diferents connexions dels players del sistema",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "Les connexions que podrà veure l’usuari dependrà dels permisos que té.",
+        "pageNumber": "36",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "Les connexions solament podran tenir dos estats: connectat o no connectat.",
+        "pageNumber": "36",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "Poder llistar les diferents accions que es realitzen sobre les diferents entitats de la plataforma",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "Les accions que podrà veure l’usuari dependrà dels permisos que té.",
+        "pageNumber": "37",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "Totes les accions han d'estar relacionades amb una entitat de la plataforma.",
+        "pageNumber": "37",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "El sistema ha de respondre ràpidament quan l’usuari realitzi alguna acció.",
+        "pageNumber": "37",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "El sistema respon a qualsevol acció de l’usuari en menys de 5 segons.",
+        "pageNumber": "37",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "El sistema ha d’estar sempre disponible en tot moment, excepte alguna puntualitat, com pot ser una actualització.",
+        "pageNumber": "38",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "Qualsevol usuari ha de poder accedir a la plataforma durant qualsevol moment del dia. Excepte en les actualitzacions programades.",
+        "pageNumber": "38",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "El sistema ha de poder ser capaç de suportar un nombre il·limitat de connexions al mateix temps.",
+        "pageNumber": "38",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "La plataforma escala de forma dinàmica amb els canvis de connexions simultànies.",
+        "pageNumber": "38",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "QR",
+        "description": "El sistema ha de poder créixer en capacitat quan el volum de dades augmenti.",
+        "pageNumber": "38",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "El sistema escala de manera automàtica a la vegada que van augmentant les dades.",
+        "pageNumber": "38",
+        "relatedTo": "R_24"
+    },
+    {
+        "id": "R_26",
+        "type": "QR",
+        "description": "Les funcionalitats del projecte han de ser solament accessibles als usuaris amb els permisos corresponents.",
+        "pageNumber": "39",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "Els usuaris sense permís no poden accedir a les dades de les quals no tenen permís.",
+        "pageNumber": "39",
+        "relatedTo": "R_26"
+    },
+    {
+        "id": "R_28",
+        "type": "QR",
+        "description": "La informació confidencial dels usuaris ha d’estar protegida per tal de garantir la seva privacitat.",
+        "pageNumber": "39",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_29",
+        "type": "criterion",
+        "description": "Els usuaris solament poden observar les dades confidencials del seu usuari i de ningú més.",
+        "pageNumber": "39",
+        "relatedTo": "R_28"
+    }
+]

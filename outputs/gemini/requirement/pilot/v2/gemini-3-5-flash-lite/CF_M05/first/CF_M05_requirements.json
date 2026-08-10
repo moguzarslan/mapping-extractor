@@ -1,0 +1,361 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Accedir al portal mitjançant una autentificació de credencials personals.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "L’usuari accedeix a la pantalla d’inici de sessió del portal.",
+        "pageNumber": "48",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "Introdueix usuari i contrasenya.",
+        "pageNumber": "48",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "El sistema valida les credencials.",
+        "pageNumber": "48",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "criterion",
+        "description": "Si són vàlides, s’accedeix al portal.",
+        "pageNumber": "48",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "Visualitzar les aplicacions del portal a les quals l’usuari té accés.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "L’usuari inicia sessió.",
+        "pageNumber": "48",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "El sistema consulta el llistat d’aplicacions a les quals l’usuari té accés.",
+        "pageNumber": "48",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "Es mostra el llistat d’aplicacions corresponent.",
+        "pageNumber": "48",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "Accedir a les aplicacions a les quals té accés en el portal.",
+        "pageNumber": "48",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "L’usuari accedeix al llistat d’aplicacions en el portal.",
+        "pageNumber": "48",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "Si l’usuari només té accés a una aplicació, és redirigit a la pàgina principal d’aquesta.",
+        "pageNumber": "48",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "Si l’usuari té accés a més d’una aplicació, selecciona l’aplicació a la qual vol accedir i és redirigit a la pàgina principal d’aquesta.",
+        "pageNumber": "48",
+        "relatedTo": "R_10"
+    },
+    {
+        "id": "R_14",
+        "type": "FR",
+        "description": "Restringir la visualització i les accions (crear, modificar i eliminar) sobre dades segons els rols assignats a l’usuari.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "L’usuari accedeix a la pàgina principal de l’aplicació de gestió de dades Commercial Cloud.",
+        "pageNumber": "49",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "El sistema verifica els rols i permisos de l’usuari.",
+        "pageNumber": "49",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "Es permet o denega les accions i accessos a pantalles corresponents als rols.",
+        "pageNumber": "49",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_18",
+        "type": "FR",
+        "description": "Garantir que no es pot accedir a les dades d’altres clients.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "L’usuari navega per les pantalles tant del portal com de les aplicacions.",
+        "pageNumber": "49",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "criterion",
+        "description": "El sistema verifica el client al qual està associat l’usuari.",
+        "pageNumber": "49",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "Només es mostren les dades del mateix client.",
+        "pageNumber": "49",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_22",
+        "type": "FR",
+        "description": "Convertir qualsevol menció de l’antic nom al nou nom.",
+        "pageNumber": "49",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "L’usuari navega per les pantalles tant del portal com de les aplicacions.",
+        "pageNumber": "49",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "criterion",
+        "description": "Es mostra el nou nom en qualsevol lloc on es faci menció.",
+        "pageNumber": "49",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_25",
+        "type": "FR",
+        "description": "Donar o treure accés a aplicacions als usuaris.",
+        "pageNumber": "50",
+        "fixedType": ""
+    },
+    {
+        "id": "R_26",
+        "type": "criterion",
+        "description": "L’usuari accedeix a l’aplicació Commercial Cloud.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "El sistema verifica que té rols d’administrador.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_28",
+        "type": "criterion",
+        "description": "Permet a l’usuari navegar per la pantalla de gestió d’aplicacions dels usuaris.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_29",
+        "type": "criterion",
+        "description": "L’usuari accedeix a la pantalla de gestió d’aplicacions dels usuaris.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_30",
+        "type": "criterion",
+        "description": "Selecciona l’usuari al qual vol afegir accés.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_31",
+        "type": "criterion",
+        "description": "Selecciona o desselecciona del llistat d’aplicacions disponibles les aplicacions a les quals vol que l’usuari tingui accés.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_32",
+        "type": "criterion",
+        "description": "El sistema actualitza les dades de l’usuari afectat.",
+        "pageNumber": "50",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_33",
+        "type": "QR",
+        "description": "El nou contingut ha de mantenir una coherència visual amb el disseny de l’antiga versió de l’aplicació.",
+        "pageNumber": "52",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_34",
+        "type": "criterion",
+        "description": "El disseny, colors, tipografies i organització han de ser consistents amb l’antiga versió.",
+        "pageNumber": "52",
+        "relatedTo": "R_33"
+    },
+    {
+        "id": "R_35",
+        "type": "QR",
+        "description": "El sistema ha de ser fàcil d’utilitzar per a qualsevol usuari",
+        "pageNumber": "53",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_36",
+        "type": "criterion",
+        "description": "El 80% dels usuaris no necessiten demanar a ajuda a tercer per a fer servir l’aplicació.",
+        "pageNumber": "53",
+        "relatedTo": "R_35"
+    },
+    {
+        "id": "R_37",
+        "type": "QR",
+        "description": "L’aplicació ha d’estar disponible en diversos idiomes.",
+        "pageNumber": "53",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_38",
+        "type": "criterion",
+        "description": "Traduccions completes i correctes en ambdues llengües.",
+        "pageNumber": "53",
+        "relatedTo": "R_37"
+    },
+    {
+        "id": "R_39",
+        "type": "QR",
+        "description": "L’usuari ha de poder efectuar les noves operacions sense formació especial.",
+        "pageNumber": "53",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_40",
+        "type": "criterion",
+        "description": "El temps d’aprenentatge per les noves funcionalitats no hauria de superar els 5 min.",
+        "pageNumber": "53",
+        "relatedTo": "R_39"
+    },
+    {
+        "id": "R_41",
+        "type": "QR",
+        "description": "Les operacions de consulta han de tenir un temps de càrrega inferior a 1 segon.",
+        "pageNumber": "53",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_42",
+        "type": "criterion",
+        "description": "Temps de resposta no ha superar 1 segon en el 95% de les consultes.",
+        "pageNumber": "54",
+        "relatedTo": "R_41"
+    },
+    {
+        "id": "R_43",
+        "type": "QR",
+        "description": "L’aplicació web ha de garantir un funcionament continu i estable, assegurant la seva disponibilitat en qualsevol moment.",
+        "pageNumber": "54",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_44",
+        "type": "criterion",
+        "description": "La disponibilitat del sistema ha de ser de mínim 99,9%, fins i tot durant els moments d’ús intensiu.",
+        "pageNumber": "54",
+        "relatedTo": "R_43"
+    },
+    {
+        "id": "R_45",
+        "type": "QR",
+        "description": "L’aplicació web ha de suportar un gran nombre d’usuaris simultanis sense degradar el seu rendiment.",
+        "pageNumber": "54",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_46",
+        "type": "criterion",
+        "description": "La disponibilitat del sistema ha de ser de mínim 99,9%, fins i tot durant els moments d’ús intensiu.",
+        "pageNumber": "54",
+        "relatedTo": "R_45"
+    },
+    {
+        "id": "R_47",
+        "type": "QR",
+        "description": "El sistema ha de permetre la creació, consulta, modificació i eliminació de dades als usuaris autoritzats.",
+        "pageNumber": "54",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_48",
+        "type": "criterion",
+        "description": "El sistema ha de disposar d’un mecanisme segur d’autenticació i verificació de permisos per assegurar que cada usuari només pugui accedir a la informació i funcionalitats que li corresponen.",
+        "pageNumber": "54",
+        "relatedTo": "R_47"
+    },
+    {
+        "id": "R_49",
+        "type": "QR",
+        "description": "L’aplicació ha de gestionar una separació estricta de dades per cada client.",
+        "pageNumber": "55",
+        "concept": "C_09",
+        "fixedType": ""
+    },
+    {
+        "id": "R_50",
+        "type": "criterion",
+        "description": "Cap usuari pot accedir a dades d’altres clients.",
+        "pageNumber": "55",
+        "relatedTo": "R_49"
+    }
+]

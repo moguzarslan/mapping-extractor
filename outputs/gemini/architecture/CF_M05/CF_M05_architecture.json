@@ -13,7 +13,7 @@
             "id": "AU_02",
             "type": "Other",
             "name": "Administrator",
-            "description": "The administrator is a user with additional permissions to manage application access for users.",
+            "description": "The administrator is a user with additional permissions to manage application access.",
             "pageNumber": "47",
             "isPartOf": [],
             "fixes": []
@@ -64,17 +64,6 @@
         },
         {
             "id": "AU_07",
-            "type": "Layer",
-            "name": "Contract Layer",
-            "description": "The contract layer separates the internal model from the external representation of the API.",
-            "pageNumber": "67",
-            "isPartOf": [
-                "P_05"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_08",
             "type": "Service",
             "name": "Leader",
             "description": "This microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
@@ -85,7 +74,7 @@
             "fixes": []
         },
         {
-            "id": "AU_09",
+            "id": "AU_08",
             "type": "Service",
             "name": "Portal",
             "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications.",
@@ -96,7 +85,7 @@
             "fixes": []
         },
         {
-            "id": "AU_10",
+            "id": "AU_09",
             "type": "Service",
             "name": "Access Control",
             "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
@@ -107,7 +96,7 @@
             "fixes": []
         },
         {
-            "id": "AU_11",
+            "id": "AU_10",
             "type": "Service",
             "name": "Communication Log",
             "description": "The Communication Log microservice has as its main purpose to record all communications that occur within the system.",
@@ -118,7 +107,7 @@
             "fixes": []
         },
         {
-            "id": "AU_12",
+            "id": "AU_11",
             "type": "Service",
             "name": "Scheduler",
             "description": "This microservice has as its main function the planning and programming of processes within the system.",
@@ -129,35 +118,33 @@
             "fixes": []
         },
         {
-            "id": "AU_13",
+            "id": "AU_12",
             "type": "Technology",
             "name": "Angular",
-            "description": "Angular is a web development framework used for the frontEnd of the application.",
+            "description": "Angular is a web development framework created by Google, used for the frontEnd of the application.",
             "pageNumber": "75",
             "isPartOf": [
-                "AU_09",
+                "AU_08",
                 "P_04"
             ],
             "fixes": []
         },
         {
-            "id": "AU_14",
+            "id": "AU_13",
             "type": "Technology",
             "name": "Spring Boot",
-            "description": "Spring Boot is a framework used to accelerate the development of microservices and enterprise applications.",
+            "description": "Spring Boot is a framework that simplifies the creation of Java applications based on Spring, used for the backEnd.",
             "pageNumber": "75",
             "isPartOf": [
-                "AU_08",
                 "AU_09",
                 "AU_10",
                 "AU_11",
-                "AU_12",
                 "P_05"
             ],
             "fixes": []
         },
         {
-            "id": "AU_15",
+            "id": "AU_14",
             "type": "Technology",
             "name": "Amazon Web Services",
             "description": "The provider for this project is Amazon Web Services which has a wide catalog of cloud services and resources.",
@@ -166,100 +153,77 @@
             "fixes": []
         },
         {
-            "id": "AU_16",
+            "id": "AU_15",
             "type": "Technology",
             "name": "Kubernetes",
-            "description": "Kubernetes is a container orchestration platform used for deployment.",
+            "description": "Kubernetes is a container orchestration platform used for deployment via Amazon EKS.",
             "pageNumber": "80",
             "isPartOf": [
-                "AU_15"
+                "AU_14"
             ],
+            "fixes": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The message exchange protocol used in this case is HTTP.",
+            "pageNumber": "60",
+            "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_17",
             "type": "Technology",
-            "name": "Docker",
-            "description": "Docker is used to create images for each microservice.",
-            "pageNumber": "80",
+            "name": "JSON",
+            "description": "The data format used is JSON.",
+            "pageNumber": "60",
             "isPartOf": [],
             "fixes": []
         },
         {
             "id": "AU_18",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "The exchange protocol used for communication between client and server.",
-            "pageNumber": "60",
-            "isPartOf": [],
+            "type": "Connector",
+            "description": "The Leader microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "AU_07",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11"
+            ],
             "fixes": []
         },
         {
             "id": "AU_19",
-            "type": "Technology",
-            "name": "JSON",
-            "description": "The data format used for communication.",
-            "pageNumber": "60",
-            "isPartOf": [],
+            "type": "Connector",
+            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications. [...] In each portal, the relevant authentication and authorization controls are carried out with the help of the Leader which decides to which functional domain each user should be routed.",
+            "pageNumber": "57,60",
+            "isPartOf": [
+                "AU_08",
+                "AU_07"
+            ],
             "fixes": []
         },
         {
             "id": "AU_20",
             "type": "Connector",
-            "description": "The Leader microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
-            "pageNumber": "57",
+            "description": "The Communication Log microservice has as its main purpose to record all communications that occur within the system, both between microservices and with external services.",
+            "pageNumber": "58",
             "isPartOf": [
+                "AU_10",
+                "AU_07",
                 "AU_08",
                 "AU_09",
-                "AU_10",
-                "AU_11",
-                "AU_12"
+                "AU_11"
             ],
             "fixes": []
         },
         {
             "id": "AU_21",
             "type": "Connector",
-            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications. [...] This component acts as an entry point for users, providing a unified experience.",
-            "pageNumber": "57",
-            "isPartOf": [
-                "AU_09",
-                "AU_08",
-                "AU_10",
-                "AU_11",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_22",
-            "type": "Connector",
-            "description": "The Communication Log microservice has as its main purpose to record all communications that occur within the system, both between microservices and with external services.",
-            "pageNumber": "58",
-            "isPartOf": [
-                "AU_11",
-                "AU_08",
-                "AU_09",
-                "AU_10",
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_23",
-            "type": "Connector",
-            "description": "The user accesses the portal and applications.",
-            "pageNumber": "48,57",
-            "isPartOf": [
-                "AU_01",
-                "AU_09"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_24",
-            "type": "Connector",
-            "description": "The presentation layer (frontEnd) communicates with the server (backEnd) via HTTP.",
+            "description": "The client, which we also call frontEnd, is responsible for the presentation and user experience of the application, encapsulating the interface logic and the coordination of calls to the server's API.",
             "pageNumber": "61",
             "isPartOf": [
                 "AU_03",
@@ -268,21 +232,10 @@
             "fixes": []
         },
         {
-            "id": "AU_25",
+            "id": "AU_22",
             "type": "Connector",
-            "description": "The presentation layer (Controllers) processes the requests received, manages the validation of the information and channels the requests to the corresponding modules or services of the data layer.",
-            "pageNumber": "69",
-            "isPartOf": [
-                "AU_03",
-                "AU_04"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_26",
-            "type": "Connector",
-            "description": "The business logic layer (Services) calls the corresponding functions to obtain the result of the request.",
-            "pageNumber": "70",
+            "description": "The controllers, by means of specific functions, process the received requests, manage the validation of the information and channel the requests to the corresponding modules or services of the data layer.",
+            "pageNumber": "68",
             "isPartOf": [
                 "AU_04",
                 "AU_05"
@@ -290,10 +243,21 @@
             "fixes": []
         },
         {
-            "id": "AU_27",
+            "id": "AU_23",
             "type": "Connector",
-            "description": "The data access layer (Repositories) is responsible for performing queries on the database.",
-            "pageNumber": "74",
+            "description": "The services offer the interface and the implementation of all the business logic of the application. [...] these call the corresponding functions to obtain the result of the request.",
+            "pageNumber": "69",
+            "isPartOf": [
+                "AU_04",
+                "AU_05"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "Finally, the Repositories are in charge of performing queries on the database.",
+            "pageNumber": "73",
             "isPartOf": [
                 "AU_05",
                 "AU_06"
@@ -337,7 +301,7 @@
             "pageNumber": "62",
             "isPartOf": [
                 "P_03",
-                "AU_13"
+                "AU_12"
             ],
             "fixes": []
         },
@@ -349,7 +313,7 @@
             "pageNumber": "68",
             "isPartOf": [
                 "P_03",
-                "AU_14"
+                "AU_13"
             ],
             "fixes": []
         }

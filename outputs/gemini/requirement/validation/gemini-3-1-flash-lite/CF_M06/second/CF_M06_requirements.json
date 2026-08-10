@@ -1,0 +1,169 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of their clients.",
+        "pageNumber": "35",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system shall display a list of clients with basic data.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The system shall allow the user to filter and sort the client list.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of locations for a selected client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_05",
+        "type": "criterion",
+        "description": "The system shall display a list of locations with their respective players.",
+        "pageNumber": "36",
+        "relatedTo": "R_04"
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "The system shall allow the partner to create a new location for a client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "The system shall use the Google Maps API to facilitate address searching when creating a new location.",
+        "pageNumber": "36",
+        "relatedTo": "R_06"
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "The system shall allow the partner to initiate the registration process of a player by scanning a QR code.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "If the QR code is valid, the system shall navigate to the screens for selecting the client and location.",
+        "pageNumber": "37",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the current status of their clients' players.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "The system shall allow the partner to perform real-time actions on a player.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "The system shall provide buttons to restart, shut down, force synchronization, and restart playback for a player.",
+        "pageNumber": "37",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_13",
+        "type": "FR",
+        "description": "The system shall allow the partner to receive push notifications.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_14",
+        "type": "FR",
+        "description": "The system shall allow the partner to customize push notifications.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "The user shall be able to set notification types at three levels: general, per client, and per player.",
+        "pageNumber": "40",
+        "relatedTo": "R_14"
+    },
+    {
+        "id": "R_16",
+        "type": "FR",
+        "description": "The system shall allow the partner to change their password.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "The password must have a minimum of 8 characters, at least one uppercase letter, one number, and one special character.",
+        "pageNumber": "41",
+        "relatedTo": "R_16"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "The application must be simple to use for any user.",
+        "pageNumber": "42",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "QR",
+        "description": "The application must always be available to the user.",
+        "pageNumber": "42",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The application must ensure that user data is confidential and protected from unauthorized access.",
+        "pageNumber": "43",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "QR",
+        "description": "The application must be available for mobile devices with iOS and Android systems.",
+        "pageNumber": "43",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The application must be compatible with different languages: English, French, German, Catalan, Spanish, Portuguese, and Italian.",
+        "pageNumber": "43",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "QR",
+        "description": "The application must follow the company's corporate image.",
+        "pageNumber": "44",
+        "concept": "C_06",
+        "fixedType": ""
+    }
+]

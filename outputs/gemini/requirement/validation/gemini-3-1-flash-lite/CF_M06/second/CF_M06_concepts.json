@@ -1,0 +1,26 @@
+[
+    {
+        "id": "C_01",
+        "name": "Accessibility and usability"
+    },
+    {
+        "id": "C_02",
+        "name": "Reliability and availability"
+    },
+    {
+        "id": "C_03",
+        "name": "Security and privacy"
+    },
+    {
+        "id": "C_04",
+        "name": "Multiplatform"
+    },
+    {
+        "id": "C_05",
+        "name": "Internationalization"
+    },
+    {
+        "id": "C_06",
+        "name": "Corporate image"
+    }
+]

@@ -1,0 +1,144 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow the SAT user to create new spots in a location.",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system shall allow assigning a name to each spot.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The system shall automatically assign the floor or allow creating new ones.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The system shall display the created spot automatically.",
+        "pageNumber": "46",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow the SAT user to delete spots from a location.",
+        "pageNumber": "46",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "The system shall prevent the deletion of a spot if it has assigned assets.",
+        "pageNumber": "46",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_07",
+        "type": "criterion",
+        "description": "The system shall automatically remove the spot from the list upon deletion.",
+        "pageNumber": "46",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "The system shall allow the SAT user to create assets assigned to a spot.",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "The system shall allow adding all asset and asset-type attributes to the asset.",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The system shall automatically assign the spot, while allowing the user to decide which spot to assign.",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "The system shall allow leaving the serial number blank, to be assigned during installation.",
+        "pageNumber": "47",
+        "relatedTo": "R_08"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "The system shall allow the SAT user to delete assets from a spot.",
+        "pageNumber": "47",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "The system shall automatically remove the asset from the list.",
+        "pageNumber": "47",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The system shall only allow deleting an asset if it is not assigned to an intervention.",
+        "pageNumber": "47",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_15",
+        "type": "QR",
+        "description": "The interface must follow the style and colors of the Waapiti platform.",
+        "pageNumber": "51",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "All colors used in the interface must correspond to those defined in the Waapiti color palette included in the platform code.",
+        "pageNumber": "51",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "QR",
+        "description": "The system must respond to any user action in less than five seconds.",
+        "pageNumber": "52",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "The system responds to any user action in less than five seconds.",
+        "pageNumber": "52",
+        "relatedTo": "R_17"
+    },
+    {
+        "id": "R_19",
+        "type": "Constraint",
+        "description": "The system shall be developed using React for the frontend and NestJS for the backend.",
+        "pageNumber": "8",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "Constraint",
+        "description": "The system shall use AWS cloud services for infrastructure.",
+        "pageNumber": "8",
+        "fixedType": ""
+    }
+]

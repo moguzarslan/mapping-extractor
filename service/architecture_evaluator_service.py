@@ -22,9 +22,9 @@ What it does
 1. Matches each LLM element to at most one ground-truth (GT) element using two
    passes:
        - Named elements (every type except Connector) are matched on `name`,
-         greedy one-to-one at `threshold`, gated so a Pattern only matches a
-         Pattern and a (named) Unit only matches a Unit. Within Units a Service
-         may still match a Component, so a wrong `type` is measured, not hidden.
+         greedy one-to-one at `threshold`, with no class or type gate: the name
+         alone decides. A Unit may therefore match a Pattern and a Service may
+         match a Component, so a wrong `type` is measured, not hidden.
        - Connectors are matched on their `isPartOf` endpoints: each connector is
          reduced to the SET of names of the architectural units it links (its
          endpoint ids resolved to unit names on its own side). A GT and an LLM
@@ -99,7 +99,7 @@ from service.evaluator_service import (
     fixes_to_text,
     compute_similarity,
     text_similarity,
-    optimal_match,
+    greedy_match,
     build_type_breakdown,
     _fmt,
     _pick,
@@ -162,8 +162,10 @@ def is_connector(rec: dict) -> bool:
 
 
 def match_class(rec: dict) -> str:
-    """Compatibility class that gates matching: connectors match connectors,
-    patterns match patterns, and named units match named units."""
+    """The element class (`connector`, `pattern`, `unit`). It no longer gates
+    matching — named elements are matched on `name` alone — and is used only to
+    split connectors from named elements, to pick the validation field, and to
+    report the per-class breakdown."""
     if is_connector(rec):
         return "connector"
     return rec.get("group") or "unit"
@@ -606,13 +608,17 @@ def build_report(gt, llm, sim, pairs, threshold):
     # Per-class Precision/Recall. Units and Patterns are scored at the element
     # level; Connectors are scored at the unit-pair level (see connector_pair_stats),
     # so the counts in the connector row are pairs, not elements.
+    # Matching is no longer class-gated, so a pair can straddle two classes; as in
+    # `build_type_breakdown`, a pair counts as a TP for a class only when BOTH
+    # sides are of that class (a cross-class pair is an FN for the GT's class and
+    # an FP for the LLM's class).
     class_rows = []
     gt_class = [match_class(r) for r in gt]
     llm_class = [match_class(r) for r in llm]
     for c in ("unit", "pattern"):
         gt_c = sum(1 for x in gt_class if x == c)
         llm_c = sum(1 for x in llm_class if x == c)
-        tp_c = sum(1 for i, j, _ in pairs if gt_class[j] == c)
+        tp_c = sum(1 for i, j, _ in pairs if gt_class[j] == c and llm_class[i] == c)
         precision = (tp_c / llm_c) if llm_c else None
         recall = (tp_c / gt_c) if gt_c else None
         class_rows.append({
@@ -778,22 +784,19 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
             r["_endpoint_names"] = endpoint_names(r, gt, gt_id_index)
             r["_endpoint_idx"] = endpoint_indices(r, gt_id_index)
 
-    # Pass 1 — named elements (everything except connectors) matched on name,
-    # gated so patterns only match patterns and units only match units (override
-    # disabled with >1.0 so the class gate is always enforced). Optimal (Hungarian)
-    # assignment is used so a valid >= threshold match is never lost to greedy
-    # contention (a higher-similarity pair stealing a node another match needed).
+    # Pass 1 — named elements (everything except connectors) matched on name
+    # alone: greedy one-to-one over the similarity-sorted pairs at `threshold`,
+    # with no class or type gate. Element names are distinctive enough that the
+    # greedy walk and the exact assignment agree in practice, and dropping the
+    # gate lets a unit match a pattern (or a Service match a Component) so a
+    # misclassified element is measured on `type` instead of hidden as an
+    # unmatched FP/FN pair.
     nonconn_llm = [i for i in range(len(llm)) if not is_connector(llm[i])]
     nonconn_gt = [j for j in range(len(gt)) if not is_connector(gt[j])]
     pairs = []
     if nonconn_llm and nonconn_gt:
         subsim = sim[np.ix_(nonconn_llm, nonconn_gt)]
-        sub_pairs = optimal_match(
-            subsim, threshold,
-            llm_types=[match_class(llm[i]) for i in nonconn_llm],
-            gt_types=[match_class(gt[j]) for j in nonconn_gt],
-            type_override_sim=2.0,
-        )
+        sub_pairs = greedy_match(subsim, threshold)
         pairs.extend((nonconn_llm[a], nonconn_gt[b], s) for a, b, s in sub_pairs)
 
     # Pass 2 — connectors matched on the units they link. A connector matches when

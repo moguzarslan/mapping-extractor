@@ -1,0 +1,273 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow a delegated user to log in via their email address or phone number, so that they can access the application without a primary account.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system must allow entering an email address or a phone number.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The system must send an OTP code to the indicated address or number.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The user must be able to enter the received OTP code.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "criterion",
+        "description": "If the code is correct, the user must log in successfully.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "The system must handle authentication errors and incorrect codes.",
+        "pageNumber": "39",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "The system shall allow an authenticated user to view a Home screen with relevant information about their business, in order to quickly check the status of their activity.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "The Home screen must display several independent informative widgets.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_09",
+        "type": "criterion",
+        "description": "Each widget must load its data autonomously.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "The system must display loading and error states when necessary.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_11",
+        "type": "criterion",
+        "description": "The visual layout must be consistent with the established design.",
+        "pageNumber": "40",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "The system shall allow a Localboss user to receive intelligent response suggestions to reviews, in order to answer them more quickly, precisely, and professionally.",
+        "pageNumber": "40",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "criterion",
+        "description": "The system must detect whether the user has the Cintia functionality activated.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "If Cintia is active, the system must show a response suggestion.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_15",
+        "type": "criterion",
+        "description": "The suggestion must be generated automatically upon opening the response modal.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "The system must display the response progressively (typing effect).",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "The user must be able to edit or replace the suggested response.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "If the user does not have Cintia credits, they will be notified and will have a button to purchase them.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "If the user does not see a response despite having credits, a button will appear to request the response.",
+        "pageNumber": "40",
+        "relatedTo": "R_12"
+    },
+    {
+        "id": "R_20",
+        "type": "FR",
+        "description": "The system shall allow a user to view images and videos associated with a review, in order to have more context about the customer's opinion.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "The system must display the images and videos associated with a review.",
+        "pageNumber": "41",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "criterion",
+        "description": "The multimedia content must be displayed below the review text.",
+        "pageNumber": "41",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "Images must be navigable via horizontal scroll.",
+        "pageNumber": "41",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_24",
+        "type": "criterion",
+        "description": "Upon clicking an image or video, it must be displayed in full screen.",
+        "pageNumber": "41",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_25",
+        "type": "FR",
+        "description": "The system shall allow a user to access the application menu from different screens, to facilitate navigation and access to main functionalities.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_26",
+        "type": "criterion",
+        "description": "The menu must be accessible from more than one screen.",
+        "pageNumber": "41",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "Access to the menu must be done via the user's profile picture.",
+        "pageNumber": "41",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_28",
+        "type": "criterion",
+        "description": "The behavior of the menu must be consistent with the rest of the application.",
+        "pageNumber": "41",
+        "relatedTo": "R_25"
+    },
+    {
+        "id": "R_29",
+        "type": "QR",
+        "description": "The application must provide an intuitive and coherent interface that allows users to complete main tasks (login, review consultation and response, use of Cintia) without prior training.",
+        "pageNumber": "44",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_30",
+        "type": "criterion",
+        "description": "Main functionalities can be used without errors after a first use; no external instructions are required to complete basic actions.",
+        "pageNumber": "44",
+        "relatedTo": "R_29"
+    },
+    {
+        "id": "R_31",
+        "type": "QR",
+        "description": "The application must function correctly on Android and iOS devices with different screen sizes and supported operating system versions.",
+        "pageNumber": "45",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_32",
+        "type": "criterion",
+        "description": "The application is displayed and functions correctly on Android and iOS emulators and physical devices.",
+        "pageNumber": "45",
+        "relatedTo": "R_31"
+    },
+    {
+        "id": "R_33",
+        "type": "QR",
+        "description": "System responses must have an acceptable response time, avoiding blocking or freezing of the user interface.",
+        "pageNumber": "47",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_34",
+        "type": "criterion",
+        "description": "Main calls to the backend return a response in a time perceived as acceptable by the user.",
+        "pageNumber": "47",
+        "relatedTo": "R_33"
+    },
+    {
+        "id": "R_35",
+        "type": "QR",
+        "description": "User data must be transmitted and managed securely, ensuring that only authorized users can access the information.",
+        "pageNumber": "49",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_36",
+        "type": "criterion",
+        "description": "Access to functionalities requires valid authentication and unauthorized access is not allowed.",
+        "pageNumber": "49",
+        "relatedTo": "R_35"
+    },
+    {
+        "id": "R_37",
+        "type": "QR",
+        "description": "Code must be structured following best practices and architectural patterns that facilitate system maintenance and evolution.",
+        "pageNumber": "51",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_38",
+        "type": "criterion",
+        "description": "The code follows a clear architecture and is reviewable via PRs without difficulty.",
+        "pageNumber": "51",
+        "relatedTo": "R_37"
+    }
+]

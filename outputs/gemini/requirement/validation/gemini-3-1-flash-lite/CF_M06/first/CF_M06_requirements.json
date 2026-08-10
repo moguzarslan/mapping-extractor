@@ -1,0 +1,167 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of their clients.",
+        "pageNumber": "35",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "criterion",
+        "description": "The system shall display a list of clients with basic data.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_03",
+        "type": "criterion",
+        "description": "The user shall be able to filter and sort the client list.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_04",
+        "type": "criterion",
+        "description": "The user shall be able to select a client to view their locations.",
+        "pageNumber": "35",
+        "relatedTo": "R_01"
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the list of locations for a selected client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "criterion",
+        "description": "The system shall display a list of locations with their respective players.",
+        "pageNumber": "36",
+        "relatedTo": "R_05"
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "The system shall allow the partner to create a new location for a client.",
+        "pageNumber": "36",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "criterion",
+        "description": "The system shall provide a form for creating a new location and use the Google Maps API to facilitate address searching.",
+        "pageNumber": "36",
+        "relatedTo": "R_07"
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "The system shall allow the partner to initiate the registration process of a player by scanning a QR code.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "criterion",
+        "description": "If the QR code is valid, the system shall navigate to screens for selecting the client and location.",
+        "pageNumber": "37",
+        "relatedTo": "R_09"
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "The system shall allow the partner to consult the status of a player.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_12",
+        "type": "criterion",
+        "description": "The system shall display the current status and last connection time for each player in the location list.",
+        "pageNumber": "37",
+        "relatedTo": "R_11"
+    },
+    {
+        "id": "R_13",
+        "type": "FR",
+        "description": "The system shall allow the partner to perform real-time actions on a player.",
+        "pageNumber": "37",
+        "fixedType": ""
+    },
+    {
+        "id": "R_14",
+        "type": "criterion",
+        "description": "The system shall provide buttons to restart, shut down, force synchronization, and restart playback.",
+        "pageNumber": "37",
+        "relatedTo": "R_13"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "The system shall allow the partner to receive push notifications.",
+        "pageNumber": "39",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "criterion",
+        "description": "If the user has notification permissions enabled, they shall receive push notifications in case of incidents.",
+        "pageNumber": "39",
+        "relatedTo": "R_15"
+    },
+    {
+        "id": "R_17",
+        "type": "FR",
+        "description": "The system shall allow the partner to change their password.",
+        "pageNumber": "41",
+        "fixedType": ""
+    },
+    {
+        "id": "R_18",
+        "type": "criterion",
+        "description": "The password must have a minimum of 8 characters, one uppercase letter, one number, and one special character.",
+        "pageNumber": "41",
+        "relatedTo": "R_17"
+    },
+    {
+        "id": "R_19",
+        "type": "QR",
+        "description": "The application must be simple to use for any user.",
+        "pageNumber": "42",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "The application must always be available to the user.",
+        "pageNumber": "42",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "QR",
+        "description": "The application must ensure that user data is confidential and protected from unauthorized access.",
+        "pageNumber": "43",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "The application must be available for mobile devices with iOS and Android systems.",
+        "pageNumber": "43",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "Constraint",
+        "description": "The application must be compatible with English, French, German, Catalan, Spanish, Portuguese, and Italian.",
+        "pageNumber": "43",
+        "fixedType": "QR"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "id": "C_01",
+        "name": "Requisit no funcional – Usabilitat"
+    },
+    {
+        "id": "C_02",
+        "name": "Requisit no funcional – Compatibilitat"
+    },
+    {
+        "id": "C_03",
+        "name": "Requisit no funcional – Rendiment"
+    },
+    {
+        "id": "C_04",
+        "name": "Requisit no funcional – Seguretat"
+    },
+    {
+        "id": "C_05",
+        "name": "Requisit no funcional – Mantenibilitat"
+    }
+]

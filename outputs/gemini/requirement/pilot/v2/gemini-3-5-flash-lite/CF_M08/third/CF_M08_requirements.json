@@ -1,0 +1,227 @@
+[
+    {
+        "id": "R_01",
+        "type": "FR",
+        "description": "Un usuario puede ser tanto un donante como una empresa.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_02",
+        "type": "FR",
+        "description": "El sistema ha de estar disponible tanto en castellano como en inglés.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_03",
+        "type": "FR",
+        "description": "El sistema ha de permitir registrar usuarios nuevos al sistema.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_04",
+        "type": "FR",
+        "description": "El sistema ha de poder autenticar a usuarios existentes a través del email.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_05",
+        "type": "FR",
+        "description": "El sistema ha de permitir cerrar sesión a los usuarios.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_06",
+        "type": "FR",
+        "description": "El sistema ha de permitir a usuarios logueados o no ver los perfiles de las distintas empresas así como sus productos.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_07",
+        "type": "FR",
+        "description": "El sistema ha de poder guardar todas las imágenes de todos los productos/usuarios del sistema.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_08",
+        "type": "FR",
+        "description": "Una empresa ha de poder modificar su perfil/página pública en todo momento, al igual que previsualizarlo mientras está editando.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_09",
+        "type": "FR",
+        "description": "Una empresa ha de tener acceso al dashboard del sistema para poder utilizar las distintas funcionalidades internas e información adicional (estadísticas, valores, etc.).",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_10",
+        "type": "FR",
+        "description": "Una empresa ha de poder dar de alta un producto y que éste sea visible en su perfil/página pública.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_11",
+        "type": "FR",
+        "description": "Una empresa ha de poder dar de alta una ruta para vincularla a sus productos.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_12",
+        "type": "FR",
+        "description": "Un usuario ha de poder devolver un producto dado de alta en una empresa mediante el uso de sus rutas.",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_13",
+        "type": "Constraint",
+        "description": "Todo producto ha de tener una ruta predeterminada en la que el usuario lo devuelve por su cuenta y con sus propios medios.",
+        "pageNumber": "30",
+        "fixedType": "FR"
+    },
+    {
+        "id": "R_14",
+        "type": "Constraint",
+        "description": "Toda ruta ha de tener un presupuesto asociado (puede ser 0) el cual el usuario ha de poder pagar mediante el uso del sistema a la hora de retornar el producto.",
+        "pageNumber": "30",
+        "fixedType": "FR"
+    },
+    {
+        "id": "R_15",
+        "type": "FR",
+        "description": "El sistema ha de contar con un sistema de afiliación/planes para empresas que quieran tener ciertas ventajas (cuenta con tres planes: gratuito, básico y premium).",
+        "pageNumber": "30",
+        "fixedType": ""
+    },
+    {
+        "id": "R_16",
+        "type": "QR",
+        "description": "El sistema ha de estar disponible en distintos idiomas",
+        "pageNumber": "31",
+        "concept": "C_01",
+        "fixedType": ""
+    },
+    {
+        "id": "R_17",
+        "type": "criterion",
+        "description": "El sistema estará tanto en español como en inglés (verificados por un traductor).",
+        "pageNumber": "31",
+        "relatedTo": "R_16"
+    },
+    {
+        "id": "R_18",
+        "type": "QR",
+        "description": "La interfaz de usuario debe ser intuitiva y fácil de usar para usuarios no técnicos.",
+        "pageNumber": "31",
+        "concept": "C_02",
+        "fixedType": ""
+    },
+    {
+        "id": "R_19",
+        "type": "criterion",
+        "description": "Realización de pruebas de usabilidad con al menos 10 usuarios representativos, logrando una puntuación de satisfacción mínima de 8/10.",
+        "pageNumber": "31",
+        "relatedTo": "R_18"
+    },
+    {
+        "id": "R_20",
+        "type": "QR",
+        "description": "El sistema debe proteger la información de los usuarios mediante la autenticación segura.",
+        "pageNumber": "32",
+        "concept": "C_03",
+        "fixedType": ""
+    },
+    {
+        "id": "R_21",
+        "type": "criterion",
+        "description": "El sistema debe pasar auditorías de seguridad sin vulnerabilidades críticas.",
+        "pageNumber": "32",
+        "relatedTo": "R_20"
+    },
+    {
+        "id": "R_22",
+        "type": "QR",
+        "description": "El sistema debe tener un tiempo de actividad del 99.9% y ser capaz de recuperarse de fallos en menos de 1 hora.",
+        "pageNumber": "32",
+        "concept": "C_04",
+        "fixedType": ""
+    },
+    {
+        "id": "R_23",
+        "type": "criterion",
+        "description": "Monitoreo de tiempo de actividad que demuestre un uptime del 99.9% y pruebas de recuperación de desastres que cumplan con el tiempo de recuperación especificado.",
+        "pageNumber": "32",
+        "relatedTo": "R_22"
+    },
+    {
+        "id": "R_24",
+        "type": "QR",
+        "description": "El sistema debe ser fácil de mantener y actualizar con una documentación clara y completa.",
+        "pageNumber": "32",
+        "concept": "C_05",
+        "fixedType": ""
+    },
+    {
+        "id": "R_25",
+        "type": "criterion",
+        "description": "Documentación completa y actualizada, y tiempo promedio de implementación de actualizaciones y resolución de problemas no superior a 2 horas.",
+        "pageNumber": "32",
+        "relatedTo": "R_24"
+    },
+    {
+        "id": "R_26",
+        "type": "QR",
+        "description": "El sistema debe ser compatible con los navegadores web más comunes (Chrome, Firefox, Safari, Edge) y dispositivos móviles.",
+        "pageNumber": "33",
+        "concept": "C_06",
+        "fixedType": ""
+    },
+    {
+        "id": "R_27",
+        "type": "criterion",
+        "description": "Pruebas de compatibilidad que demuestren funcionalidad en los principales navegadores y dispositivos móviles.",
+        "pageNumber": "33",
+        "relatedTo": "R_26"
+    },
+    {
+        "id": "R_28",
+        "type": "QR",
+        "description": "El sistema debe ser escalable para manejar un aumento en el número de usuarios y volumen de datos.",
+        "pageNumber": "33",
+        "concept": "C_07",
+        "fixedType": ""
+    },
+    {
+        "id": "R_29",
+        "type": "criterion",
+        "description": "Capacidad para aumentar los recursos del servidor y mantener el rendimiento con un incremento del 50% en la carga de trabajo.",
+        "pageNumber": "33",
+        "relatedTo": "R_28"
+    },
+    {
+        "id": "R_30",
+        "type": "QR",
+        "description": "Los productos/rutas/perfil de una empresa solo pueden ser editables y accesibles por esa empresa.",
+        "pageNumber": "33",
+        "concept": "C_08",
+        "fixedType": ""
+    },
+    {
+        "id": "R_31",
+        "type": "criterion",
+        "description": "Comprobar que solo los usuario empresa puede acceder a sus productos/rutas/perfil.",
+        "pageNumber": "33",
+        "relatedTo": "R_30"
+    }
+]
