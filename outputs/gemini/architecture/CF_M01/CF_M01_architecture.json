@@ -46,7 +46,7 @@
             "id": "AU_05",
             "type": "Component",
             "name": "Web Platform Interface",
-            "description": "In the case of this layer, it can be observed that it is formed by the web platform interface and the mobile platform of Waapiti.",
+            "description": "In the case of this layer, it is formed by the web platform interface and the mobile platform of Waapiti.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_02"
@@ -57,7 +57,7 @@
             "id": "AU_06",
             "type": "Component",
             "name": "Mobile Platform Interface",
-            "description": "In the case of this layer, it can be observed that it is formed by the web platform interface and the mobile platform of Waapiti.",
+            "description": "In the case of this layer, it is formed by the web platform interface and the mobile platform of Waapiti.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_02"
@@ -67,7 +67,7 @@
         {
             "id": "AU_07",
             "type": "Service",
-            "name": "API Gateway",
+            "name": "API Gateway Service",
             "description": "This service is responsible for the management, authentication and authorization of platform users.",
             "pageNumber": "44",
             "isPartOf": [
@@ -79,11 +79,12 @@
         {
             "id": "AU_08",
             "type": "Service",
-            "name": "Core",
+            "name": "Core Service",
             "description": "This service is responsible for performing the business logic of the platform, it would be the main core of the platform.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
@@ -91,74 +92,44 @@
             "id": "AU_09",
             "type": "Service",
             "name": "Analytical Module",
-            "description": "The analytical module has as its main function to obtain and process the data of the playlogs, the connections and the actions in the platform.",
+            "description": "The analytical module has as its main function to obtain and process the data of the playlogs, the connections and the actions in platform.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
         {
             "id": "AU_10",
             "type": "Service",
-            "name": "API Player",
+            "name": "Player API Service",
             "description": "This service is responsible for communicating with the players receiving all the information corresponding to it.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
         {
             "id": "AU_11",
             "type": "Service",
-            "name": "Web Socket",
-            "description": "This service is responsible for carrying out the communication between the platform and the players, and in this way allows the exchange of information between them.",
+            "name": "Web Socket Service",
+            "description": "This service is responsible for carrying out the communication between the platform and the players.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "P_04"
             ],
             "fixes": []
         },
         {
             "id": "AU_12",
-            "type": "Service",
-            "name": "Relational Database",
+            "type": "Component",
+            "name": "Database",
             "description": "The database used is a MySQL database that is responsible for storing all the data necessary for the operation of the system.",
             "pageNumber": "44",
-            "isPartOf": [
-                "AU_04"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_13",
-            "type": "Technology",
-            "name": "MySQL",
-            "description": "The database used is a MySQL database.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_14",
-            "type": "Technology",
-            "name": "AWS RDS",
-            "description": "This database is implemented in the RDS service, which is a distributed relational database service from AWS.",
-            "pageNumber": "45",
-            "isPartOf": [
-                "AU_12"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_15",
-            "type": "Service",
-            "name": "Data Lake",
-            "description": "The objective of these services is to form a data lake where all the history is stored to be able to process them in the analytical module.",
-            "pageNumber": "45",
             "isPartOf": [
                 "AU_04",
                 "P_04"
@@ -166,51 +137,18 @@
             "fixes": []
         },
         {
-            "id": "AU_16",
-            "type": "Technology",
-            "name": "Amazon S3",
-            "description": "This is the object storage service of AWS.",
+            "id": "AU_13",
+            "type": "Service",
+            "name": "AWS Cloud Services",
+            "description": "The objective of these services is to form a data lake where all the history is stored to be able to process them in the analytical module.",
             "pageNumber": "45",
             "isPartOf": [
-                "AU_15"
+                "AU_04"
             ],
             "fixes": []
         },
         {
-            "id": "AU_17",
-            "type": "Technology",
-            "name": "DynamoDB",
-            "description": "This service is a non-relational database from AWS.",
-            "pageNumber": "45",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_18",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "The communication between the two components is carried out through the internet using the HTTP protocol.",
-            "pageNumber": "41",
-            "isPartOf": [
-                "AU_07"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_19",
-            "type": "Technology",
-            "name": "TCP",
-            "description": "The communication between the API Gateway service is through the TCP communication protocol.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_07"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_20",
+            "id": "AU_14",
             "type": "Technology",
             "name": "NestJS",
             "description": "As a framework, NestJS will be used.",
@@ -221,18 +159,18 @@
             "fixes": []
         },
         {
-            "id": "AU_21",
+            "id": "AU_15",
             "type": "Technology",
             "name": "TypeScript",
             "description": "With the language Typescript.",
             "pageNumber": "8",
             "isPartOf": [
-                "AU_20"
+                "AU_03"
             ],
             "fixes": []
         },
         {
-            "id": "AU_22",
+            "id": "AU_16",
             "type": "Technology",
             "name": "AWS",
             "description": "For the infrastructure, the cloud services of AWS will be used.",
@@ -243,172 +181,196 @@
             "fixes": []
         },
         {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The communication between the two components is carried out through the internet using the HTTP protocol.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_03",
+                "AU_30"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "REST API",
+            "description": "The communication between the two components is carried out through the internet using the REST API model.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_03",
+                "AU_30"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "The communication between the API Gateway service is through the TCP communication protocol.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03",
+                "AU_31"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "The database used is a MySQL database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_12"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "Amazon RDS",
+            "description": "This database is implemented in the RDS service.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_12"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "This is the object storage service of AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_13"
+            ],
+            "fixes": []
+        },
+        {
             "id": "AU_23",
             "type": "Technology",
-            "name": "Amazon Athena",
-            "description": "The Amazon Athena service is a service that allows SQL queries to be performed on data stored in Amazon S3.",
-            "pageNumber": "49",
+            "name": "DynamoDB",
+            "description": "This service is a non-relational database of AWS.",
+            "pageNumber": "45",
             "isPartOf": [
-                "AU_09"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_24",
             "type": "Technology",
-            "name": "AWS Glue",
-            "description": "The AWS Glue service is a serverless data integration service.",
+            "name": "Amazon Athena",
+            "description": "The Amazon Athena service is a service that allows SQL queries to be performed on data stored in Amazon S3.",
             "pageNumber": "49",
             "isPartOf": [
-                "AU_09"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_25",
             "type": "Technology",
-            "name": "Kinesis Data Streams",
-            "description": "Kinesis Data Streams is a data processing and ingestion service specifically aimed at data streaming.",
-            "pageNumber": "50",
+            "name": "AWS Glue",
+            "description": "The AWS Glue service is a serverless data integration service.",
+            "pageNumber": "49",
             "isPartOf": [
-                "AU_08"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_26",
             "type": "Technology",
-            "name": "Kinesis Data Firehose",
-            "description": "The Kinesis Data Firehose service has as its main function the loading of large amounts of data into data warehouses.",
-            "pageNumber": "51",
+            "name": "Kinesis Data Streams",
+            "description": "Kinesis Data Streams is a data processing and ingestion service aimed especially at data streaming.",
+            "pageNumber": "50",
             "isPartOf": [
-                "AU_08"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_27",
-            "type": "Device",
-            "name": "Player",
-            "description": "A player consists of a device that can be internal or external, which allows the screens to play content.",
-            "pageNumber": "8",
-            "isPartOf": [],
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "The Kinesis Data Firehose service has as its main function the loading of large amounts of data into data warehouses.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_13"
+            ],
             "fixes": []
         },
         {
             "id": "AU_28",
-            "type": "Connector",
-            "description": "The presentation layer communicates with the business layer, more specifically with the Api Gateway, through the HTTP protocol.",
-            "pageNumber": "42",
+            "type": "Technology",
+            "name": "AWS CDK",
+            "description": "The AWS CDK is the AWS framework that allows the construction of applications in the cloud.",
+            "pageNumber": "51",
             "isPartOf": [
-                "AU_02",
-                "AU_07"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_29",
-            "type": "Connector",
-            "description": "The Api Gateway service processes requests to be able to send them to the Core service and the analytical module.",
-            "pageNumber": "43",
+            "type": "Technology",
+            "name": "AWS CloudFormation",
+            "description": "AWS CloudFormation is an Amazon service that helps configure AWS resources.",
+            "pageNumber": "52",
             "isPartOf": [
-                "AU_07",
-                "AU_08",
-                "AU_09"
+                "AU_13"
             ],
             "fixes": []
         },
         {
             "id": "AU_30",
             "type": "Connector",
-            "description": "The Core service interacts with the database, although it also interacts to a lesser extent with cloud services.",
-            "pageNumber": "43",
+            "description": "La capa de presentació es comunica amb la capa de negoci, més concretament amb l’Api Gateway, mitjançant el protocol HTTP.",
+            "pageNumber": "42",
             "isPartOf": [
-                "AU_08",
-                "AU_12"
+                "AU_02",
+                "AU_07"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_31",
             "type": "Connector",
-            "description": "The analytical module interacts with cloud services, although it also interacts to a lesser extent with the database.",
-            "pageNumber": "43",
+            "description": "La comunicació entre el servei de l’Api Gateway és mitjançant el protocol de comunicació TCP.",
+            "pageNumber": "44",
             "isPartOf": [
-                "AU_09",
-                "AU_15"
+                "AU_07",
+                "AU_08",
+                "AU_09"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_32",
             "type": "Connector",
-            "description": "The Web Socket service processes data from players and stores it in the database and cloud services.",
+            "description": "Aquest servei [Web Socket] s’encarrega de realitzar la comunicació entre la plataforma i els players, i d’aquesta manera permet l’intercanvi d’informació entre ells.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_11",
-                "AU_12",
-                "AU_15"
+                "AU_10"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_33",
             "type": "Connector",
-            "description": "The Web Socket service carries out the communication between the platform and the players.",
+            "description": "Processa les dades provinents dels players i les emmagatzema en la base de dades i en els serveis cloud.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_11",
-                "AU_27"
+                "AU_12",
+                "AU_13"
             ],
-            "fixes": []
-        },
-        {
-            "id": "AU_34",
-            "type": "Connector",
-            "description": "The Api Player service communicates with the players receiving all the information corresponding to it.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_10",
-                "AU_27"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_35",
-            "type": "Connector",
-            "description": "The analytical module uses Amazon Athena to perform queries on data stored in Amazon S3.",
-            "pageNumber": "49",
-            "isPartOf": [
-                "AU_09",
-                "AU_23",
-                "AU_16"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_36",
-            "type": "Connector",
-            "description": "The microservices (Core and Web Socket) send data to the Kinesis Data Stream.",
-            "pageNumber": "50",
-            "isPartOf": [
-                "AU_08",
-                "AU_11",
-                "AU_25"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_37",
-            "type": "Connector",
-            "description": "Kinesis Data Firehose reads from the Kinesis Data Stream and saves the data in Amazon S3.",
-            "pageNumber": "50",
-            "isPartOf": [
-                "AU_26",
-                "AU_25",
-                "AU_16"
-            ],
-            "fixes": []
+            "fixedType": []
         }
     ],
     "patterns": [
@@ -419,7 +381,7 @@
             "description": "En el nostre projecte la plataforma de Waapiti és un servei web que segueix l’arquitectura client-servidor.",
             "pageNumber": "41",
             "isPartOf": [],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "P_02",
@@ -430,7 +392,7 @@
             "isPartOf": [
                 "P_01"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "P_03",
@@ -438,23 +400,21 @@
             "name": "API Gateway",
             "description": "Això és degut de què es segueix el patró de disseny de microserveis Api Gateway.",
             "pageNumber": "43",
-            "isPartOf": [
-                "AU_07"
-            ],
-            "fixes": [
-                "The document labels it as a 'patró de disseny de microserveis' (microservices design pattern), but API Gateway is a well-known design pattern. I have classified it as a Design Pattern."
+            "isPartOf": [],
+            "fixedType": [
+                "The document labels it as a 'patró de disseny de microserveis', but it is a well-known design pattern used to manage service interaction."
             ]
         },
         {
             "id": "P_04",
             "type": "Design Pattern",
-            "name": "Data lake",
-            "description": "Un data lake consisteix en un dipòsit de dades que poden ser emmagatzemades en el seu format natural.",
-            "pageNumber": "47",
-            "isPartOf": [
-                "AU_15"
-            ],
-            "fixes": []
+            "name": "Microservices",
+            "description": "En el cas de la plataforma de Waapiti, l’arquitectura física no es correspon exactament a l’arquitectura lògica, ja que tant la capa de negoci com la capa de dades es divideixen en diversos serveis diferents.",
+            "pageNumber": "42",
+            "isPartOf": [],
+            "fixedType": [
+                "The document describes the system as being composed of several different services, which constitutes a microservices architectural style."
+            ]
         }
     ]
 }

@@ -1,0 +1,351 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "The client is the user of the platform.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "It is the layer that is responsible for displaying information to the user.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Business Layer",
+            "description": "This layer is the core of the application and is responsible for processing all the information.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "It is the layer that is responsible for storing all the data.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "API Gateway",
+            "description": "This service is responsible for the management, authentication and authorization of platform users.",
+            "pageNumber": "43, 44",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Core",
+            "description": "This service is responsible for performing the business logic of the platform, it would be the main core of the platform.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Component",
+            "name": "Analytical Module",
+            "description": "This service has the main function of obtaining and processing data from playlogs, connections and platform actions.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Component",
+            "name": "API Player",
+            "description": "This service is responsible for communicating with the players by receiving all the information corresponding to it.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Component",
+            "name": "Web Socket",
+            "description": "This service is responsible for carrying out the communication between the platform and the players, and in this way allows the exchange of information between them.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "The database used is a MySQL database that is responsible for storing all the data necessary for the operation of the system.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "This is the AWS object storage service. In this project it is responsible for storing JSON documents that contain the playlogs, connections and audit trail.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "DynamoDB",
+            "description": "This service is a non-relational database from AWS. In our case it is responsible for storing playlogs in real time.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "Backend framework used to develop the different services that interact with each other.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Programming language used for the development of the backend.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_13"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "Amazon Athena",
+            "description": "The Amazon Athena service is a service that allows SQL queries to be performed on data stored in Amazon S3.",
+            "pageNumber": "49",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "AWS Glue",
+            "description": "AWS Glue is a serverless data integration service that allows us to detect, prepare, migrate and integrate data from different sources.",
+            "pageNumber": "49",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Kinesis Data Streams",
+            "description": "Kinesis Data Streams is a data processing and ingestion service specifically aimed at data streaming.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "The Kinesis Data Firehose service has as its main function the loading of large amounts of data into data warehouses.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Device",
+            "name": "Player",
+            "description": "A player consists of a device that can be internal or external, which allows screens to play content.",
+            "pageNumber": "8",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "The presentation layer communicates with the capa de negoci, more specifically with the Api Gateway, using the HTTP protocol.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02",
+                "AU_05"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "The Api Gateway processes requests to send them to the Core service and the Analytical Module.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "The Core service interacts with the database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_06",
+                "AU_10"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "description": "The Analytical Module interacts with the cloud services and the database.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_07",
+                "AU_11",
+                "AU_12",
+                "AU_10"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "The Web Socket service carries out the communication between the platform and the players, allowing the exchange of information between them.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_09",
+                "AU_19"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "description": "The Web Socket service processes data from players and stores it in the database and cloud services.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Connector",
+            "description": "The microservices (Core and Web Socket) send data to the Kinesis Data Stream.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_06",
+                "AU_09",
+                "AU_17"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Connector",
+            "description": "Kinesis Data Firehose reads from the Kinesis Data Stream and stores data in Amazon S3.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_17",
+                "AU_18",
+                "AU_11"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The communication between the two components is carried out through the internet using the HTTP protocol.",
+            "pageNumber": "41, 42",
+            "isPartOf": [
+                "AU_20"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "The communication between the Api Gateway service is through the TCP communication protocol.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_21"
+            ],
+            "fixedType": []
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "In our project the Waapiti platform is a web service that follows the client-server architecture.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Layered Architecture",
+            "description": "For the client-server model, the 3-layer architecture is used, where the system is divided into 3 layers, the presentation layer, the business layer and the data layer.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "API Gateway",
+            "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

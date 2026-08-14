@@ -1,0 +1,165 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "The user is the actor that interacts with the portal and the data management application.",
+            "pageNumber": "47",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Administrator",
+            "description": "An administrator is a user with additional permissions to assign or revoke access to applications.",
+            "pageNumber": "47",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Leader",
+            "description": "This microservice has the main function of routing all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Portal",
+            "description": "The portal microservice has the main function of offering a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "57",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "The Communication Log microservice has the main purpose of recording all communications that occur within the system.",
+            "pageNumber": "58",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "This microservice has the main function of planning and scheduling processes within the system.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Framework used for the frontEnd of the application.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Framework used for the backEnd of the application.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "Cloud provider used for the system infrastructure.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Connector",
+            "name": "",
+            "description": "Communication between the client and the server using HTTP protocol.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_04",
+                "AU_05"
+            ],
+            "fixedType": []
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "The application is designed, deployed, and executed using cloud services instead of local or physical servers.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The application follows the client-server pattern which organizes the code into two differentiated components: the client and the server.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organizes the code following the layered pattern, separating responsibilities into presentation, business logic, data access, and domain layers.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixedType": []
+        }
+    ]
+}

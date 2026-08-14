@@ -24,7 +24,7 @@
             "id": "AU_03",
             "type": "Technology",
             "name": "Traefik",
-            "description": "Traefik es un proxy inverso y balanceador de carga moderno diseñado para gestionar la entrada y salida de tráfico HTTP y HTTPS en aplicaciones basadas en contenedores.",
+            "description": "El Security Service está compuesto exclusivamente por ciertas funcionalidades de la herramienta Traefik.",
             "pageNumber": "43",
             "isPartOf": [
                 "AU_02"
@@ -36,7 +36,7 @@
             "type": "Service",
             "name": "System Service",
             "description": "Como se puede observar en la figura 6, los tres servicios principales de la aplicación son: System Service (Next.js).",
-            "pageNumber": "41",
+            "pageNumber": "41, 42",
             "isPartOf": [
                 "P_01"
             ],
@@ -46,7 +46,7 @@
             "id": "AU_05",
             "type": "Technology",
             "name": "Next.js",
-            "description": "Next.js es un framework para la creación de aplicaciones web que ofrece una estructura adicional, características y optimizaciones que permiten construir aplicaciones más rápido.",
+            "description": "El System Service está principalmente desarrollado en Next.js.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_04"
@@ -58,7 +58,7 @@
             "type": "Service",
             "name": "Data Service",
             "description": "Como se puede observar en la figura 6, los tres servicios principales de la aplicación son: Data Service (PostgreSQL).",
-            "pageNumber": "41",
+            "pageNumber": "41, 42",
             "isPartOf": [
                 "P_01"
             ],
@@ -77,6 +77,32 @@
         },
         {
             "id": "AU_08",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Cabe destacar que cada uno de estos servicios esta contenido en un contenedor de Docker.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02",
+                "AU_04",
+                "AU_06"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "P_05",
+                "AU_27"
+            ],
+            "fixes": []
+        },
+        {
+            "id": "AU_10",
             "type": "Service",
             "name": "Authentication Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Autenticación: Utiliza Google para la autenticación de usuarios.",
@@ -87,18 +113,18 @@
             "fixes": []
         },
         {
-            "id": "AU_09",
+            "id": "AU_11",
             "type": "Technology",
             "name": "Google",
             "description": "Utiliza Google para la autenticación de usuarios.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_08"
+                "AU_10"
             ],
             "fixes": []
         },
         {
-            "id": "AU_10",
+            "id": "AU_12",
             "type": "Service",
             "name": "Cloud Storage Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
@@ -109,18 +135,18 @@
             "fixes": []
         },
         {
-            "id": "AU_11",
+            "id": "AU_13",
             "type": "Technology",
             "name": "Amazon S3",
             "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_10"
+                "AU_12"
             ],
             "fixes": []
         },
         {
-            "id": "AU_12",
+            "id": "AU_14",
             "type": "Service",
             "name": "Payment Processing Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
@@ -131,18 +157,18 @@
             "fixes": []
         },
         {
-            "id": "AU_13",
+            "id": "AU_15",
             "type": "Technology",
             "name": "Stripe",
             "description": "Integra con Stripe para manejar pagos y suscripciones.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_12"
+                "AU_14"
             ],
             "fixes": []
         },
         {
-            "id": "AU_14",
+            "id": "AU_16",
             "type": "Service",
             "name": "Analytics Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
@@ -153,18 +179,18 @@
             "fixes": []
         },
         {
-            "id": "AU_15",
+            "id": "AU_17",
             "type": "Technology",
             "name": "Google Analytics",
             "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_14"
+                "AU_16"
             ],
             "fixes": []
         },
         {
-            "id": "AU_16",
+            "id": "AU_18",
             "type": "Service",
             "name": "Error Monitoring Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
@@ -175,18 +201,18 @@
             "fixes": []
         },
         {
-            "id": "AU_17",
+            "id": "AU_19",
             "type": "Technology",
             "name": "Sentry",
             "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_16"
+                "AU_18"
             ],
             "fixes": []
         },
         {
-            "id": "AU_18",
+            "id": "AU_20",
             "type": "Service",
             "name": "Email Service",
             "description": "Interactúa con varios servicios externos para funcionalidades específicas: Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
@@ -197,83 +223,60 @@
             "fixes": []
         },
         {
-            "id": "AU_19",
+            "id": "AU_21",
             "type": "Technology",
             "name": "Brevo",
             "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_18"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_20",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "Traefik abre el puerto 80 para manejar tráfico HTTP no seguro.",
-            "pageNumber": "43",
-            "isPartOf": [
-                "AU_03"
-            ],
-            "fixes": []
-        },
-        {
-            "id": "AU_21",
-            "type": "Technology",
-            "name": "HTTPS",
-            "description": "Traefik abre el puerto 443 para manejar tráfico HTTPS, que es el estándar para comunicaciones seguras en la web.",
-            "pageNumber": "43",
-            "isPartOf": [
-                "AU_03"
+                "AU_20"
             ],
             "fixes": []
         },
         {
             "id": "AU_22",
             "type": "Technology",
-            "name": "Docker",
-            "description": "Dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
-            "pageNumber": "41",
+            "name": "HTTP",
+            "description": "Traefik abre el puerto 80 para manejar tráfico HTTP.",
+            "pageNumber": "43",
             "isPartOf": [
                 "AU_02",
-                "AU_04",
-                "AU_06"
+                "AU_26"
             ],
             "fixes": []
         },
         {
             "id": "AU_23",
             "type": "Technology",
-            "name": "Prisma",
-            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
-            "pageNumber": "42",
+            "name": "HTTPS",
+            "description": "Traefik abre el puerto 443 para manejar tráfico HTTPS.",
+            "pageNumber": "43",
             "isPartOf": [
-                "AU_04",
-                "P_04"
+                "AU_02",
+                "AU_26"
             ],
             "fixes": []
         },
         {
             "id": "AU_24",
             "type": "Technology",
-            "name": "React",
-            "description": "React es una biblioteca de JavaScript de código abierto diseñada para construir interfaces de usuario (UI) de manera eficiente y flexible.",
-            "pageNumber": "47",
+            "name": "TypeScript",
+            "description": "Cabe destacar que para desarrollar el sistema se ha empleado el lenguaje TypeScript.",
+            "pageNumber": "73",
             "isPartOf": [
-                "AU_04",
-                "P_02"
+                "AU_04"
             ],
             "fixes": []
         },
         {
             "id": "AU_25",
             "type": "Technology",
-            "name": "TypeScript",
-            "description": "Cabe destacar que para desarrollar el sistema se ha empleado el lenguaje TypeScript.",
-            "pageNumber": "73",
+            "name": "React",
+            "description": "React es una biblioteca de JavaScript de código abierto diseñada para construir interfaces de usuario.",
+            "pageNumber": "47",
             "isPartOf": [
-                "AU_04"
+                "AU_04",
+                "P_02"
             ],
             "fixes": []
         },
@@ -286,7 +289,7 @@
                 "AU_02",
                 "AU_04"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_27",
@@ -297,46 +300,73 @@
                 "AU_04",
                 "AU_06"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_28",
             "type": "Connector",
-            "description": "System Service (Next.js) interactúa con varios servicios externos para funcionalidades específicas: Autenticación: Utiliza Google para la autenticación de usuarios. [...] Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos. [...] Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones. [...] Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio. [...] Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación. [...] Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "description": "System Service (Next.js) utiliza Google para la autenticación de usuarios.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_04",
-                "AU_08",
-                "AU_10",
-                "AU_12",
-                "AU_14",
-                "AU_16",
-                "AU_18"
+                "AU_10"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_29",
             "type": "Connector",
-            "description": "Data Service (PostgreSQL) se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "description": "System Service (Next.js) utiliza Amazon S3 para almacenar y recuperar archivos.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_06",
-                "AU_23"
+                "AU_04",
+                "AU_12"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "AU_30",
             "type": "Connector",
-            "description": "Traefik abre el puerto 80 para manejar tráfico HTTP no seguro [...] Traefik abre el puerto 443 para manejar tráfico HTTPS.",
-            "pageNumber": "43",
+            "description": "System Service (Next.js) integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
             "isPartOf": [
-                "AU_02",
-                "AU_20",
-                "AU_21"
+                "AU_04",
+                "AU_14"
             ],
-            "fixes": []
+            "fixedType": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Connector",
+            "description": "System Service (Next.js) implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_16"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Connector",
+            "description": "System Service (Next.js) utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_18"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_33",
+            "type": "Connector",
+            "description": "System Service (Next.js) se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_20"
+            ],
+            "fixedType": []
         }
     ],
     "patterns": [
@@ -344,46 +374,55 @@
             "id": "P_01",
             "type": "Architectural Pattern",
             "name": "Microservices",
-            "description": "The architecture of software based on microservices is a design and software development approach where an application is built as a collection of small and independent services that communicate with each other.",
+            "description": "La arquitectura de software basada en microservicios es un enfoque de diseño y desarrollo de software donde una aplicación se construye como una colección de servicios pequeños e independientes que se comunican entre sí.",
             "pageNumber": "41",
             "isPartOf": [],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "P_02",
             "type": "Design Pattern",
             "name": "Component-Based",
-            "description": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components.",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
             "pageNumber": "66",
             "isPartOf": [
-                "P_01",
-                "AU_05"
+                "P_01"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "P_03",
             "type": "Design Pattern",
             "name": "Observer Pattern",
-            "description": "The Observer pattern establishes a one-to-many relationship between objects, where an object known as the subject maintains a list of other objects called observers.",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
             "pageNumber": "66",
             "isPartOf": [
-                "P_01",
-                "AU_05"
+                "P_01"
             ],
-            "fixes": []
+            "fixedType": []
         },
         {
             "id": "P_04",
             "type": "Design Pattern",
             "name": "Singleton Pattern",
-            "description": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance.",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
             "pageNumber": "67",
             "isPartOf": [
-                "P_01",
-                "AU_07"
+                "P_01"
             ],
-            "fixes": []
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "ORM",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM (Object-Relational Mapping).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "P_01",
+                "AU_09"
+            ],
+            "fixedType": []
         }
     ]
 }

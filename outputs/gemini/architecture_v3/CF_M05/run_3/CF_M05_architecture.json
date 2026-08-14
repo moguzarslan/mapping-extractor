@@ -1,0 +1,244 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Leader",
+            "description": "This microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Portal",
+            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "57",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "The Communication Log microservice has as its main purpose to record all communications that occur within the system, both between microservices and with external services.",
+            "pageNumber": "58",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "This microservice has as its main function the planning and scheduling of processes within the system.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Ordering",
+            "description": "Microservice in charge of calls to external services related to the sale of automobiles.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "GSB",
+            "description": "Microservice in charge of calls to external services related to the sale of automobiles.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Framework used for the frontEnd of the application.",
+            "pageNumber": "61, 76",
+            "isPartOf": [
+                "AU_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Framework used for the backEnd of the application.",
+            "pageNumber": "61, 76",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Protocol used for the exchange of messages between client and server.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_19"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "Data format used for the exchange of messages.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_19"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Amazon Web Services (AWS)",
+            "description": "Cloud provider for the project.",
+            "pageNumber": "60, 81",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Kubernetes",
+            "description": "Platform for container orchestration used for deployment.",
+            "pageNumber": "81",
+            "isPartOf": [
+                "AU_12"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Containerization technology used for microservices.",
+            "pageNumber": "81",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "Java OpenJDK 17",
+            "description": "Runtime and development environment for Java applications.",
+            "pageNumber": "77",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Connector",
+            "description": "The Leader microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture. [...] It acts as a central traffic management point, ensuring that any interaction, both with external services and between internal microservices, is carried out in an orderly and secure manner.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Connector",
+            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications. [...] The users access the application from web browsers. Depending on the domain accessed, the user can access the Portal of SEAT or VGED which act as entry points to the system.",
+            "pageNumber": "57, 60",
+            "isPartOf": [
+                "AU_02",
+                "AU_01",
+                "AU_03"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The client, which we also call frontEnd, is responsible for the presentation and user experience of the application, encapsulating the interface logic and the coordination of calls to the server's API.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_08",
+                "AU_09"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "The communication between the two components is done through an exchange of messages following standard network protocols and using interoperable data representation formats. [...] The message exchange protocol used in this case is HTTP and the data format used is JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_08",
+                "AU_09"
+            ],
+            "fixedType": []
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "The application is designed, deployed, and executed using cloud services instead of local or physical servers.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Client-Server",
+            "description": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "68",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

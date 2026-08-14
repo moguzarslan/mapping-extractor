@@ -161,36 +161,142 @@ def _architecture_group(data, key: str) -> list:
 
 _AU_ID = re.compile(r"AU[_-]?(\d+)", re.IGNORECASE)
 
+# The connector pass numbers its own output in a separate namespace (C_xx for the
+# connectors, T_xx for the technologies they use). Those ids are internal to that
+# one response: the merge rewrites every one of them to an AU id, so none may
+# survive into the final architecture file.
+_CONNECTOR_PASS_ID = re.compile(r"^[CT][_-]?\d+$", re.IGNORECASE)
+
+
+def _as_ispartof_list(parents) -> list:
+    """Normalise an isPartOf field (missing / single string / list) to a list of
+    trimmed id strings."""
+    if not parents:
+        return []
+    if isinstance(parents, str):
+        parents = [parents]
+    return [str(p).strip() for p in parents if str(p).strip()]
+
+
+def _union_ids(existing: list, extra: list) -> list:
+    """Union two id lists, existing first, preserving order and dropping duplicates."""
+    merged = list(existing)
+    for x in extra:
+        if x not in merged:
+            merged.append(x)
+    return merged
+
+
+def _resolve_ispartof(parents: list, id_map: dict) -> list:
+    """Rewrite a connector-pass isPartOf into the merged file's ids.
+
+    An id the pass assigned itself (C_xx / T_xx) becomes the AU id that record was
+    merged in as. One that is not in the map refers to nothing the pass produced,
+    so it is dropped — keeping it would leave an id in the final file that no
+    element carries. Everything else (the AU ids of the provided units) is kept.
+    """
+    resolved = []
+    for p in parents:
+        if p in id_map:
+            resolved.append(id_map[p])
+        elif _CONNECTOR_PASS_ID.match(p):
+            print(f"Warning: dropping unresolved connector-pass reference '{p}'.")
+        else:
+            resolved.append(p)
+    return resolved
+
+
+def _is_technology(record: dict) -> bool:
+    return str(record.get("type") or "").strip().casefold() == "technology"
+
+
+def _technology_key(record: dict) -> str:
+    """The name a Technology is deduplicated by: trimmed, whitespace-collapsed and
+    case-folded, so "gRPC" and "grpc " are the same technology."""
+    return " ".join(str(record.get("name") or "").split()).casefold()
+
 
 def merge_connectors(units: list, connectors: list) -> list:
-    """Append the connector records to the unit list.
+    """Append the connector-pass records to the unit list.
 
-    The connector pass already numbers connectors by continuing the units' AU
-    sequence; here each is re-numbered defensively to the next free AU id so the
-    final file is guaranteed collision-free even if the model miscounts or repeats
-    an id. A connector's isPartOf references existing unit ids (the two units it
-    links), which are left untouched.
+    The connector pass returns the Connectors and the Technologies (protocols)
+    those communications use, numbered in its own C_xx / T_xx namespace. Every
+    record is renumbered here to the next free AU id, so the merged file speaks a
+    single id namespace and is collision-free even if the model repeats an id.
+
+    A Technology the unit extraction already produced (matched by name) is NOT
+    appended a second time: its isPartOf — the connectors using it — is unioned
+    into the existing unit, and every other field is kept from the unit
+    extraction, which saw the whole document rather than just the communication.
+    Technologies the connector pass repeats among itself collapse the same way,
+    onto the first one appended.
+
+    isPartOf is rewritten through the resulting old id -> new id map: a Technology
+    references its connectors by C_xx, and the map turns those into the AU ids the
+    connectors ended up with. A Connector references the provided units by AU_xx,
+    which are never renumbered and so are never in the map. A C_xx / T_xx
+    reference the pass never defined cannot be resolved to anything and is dropped
+    rather than left dangling in the final file.
     """
-    units = list(units)
+    units = [dict(u) for u in units]
     max_idx = 0
     for u in units:
         m = _AU_ID.search(str(u.get("id") or ""))
         if m:
             max_idx = max(max_idx, int(m.group(1)))
 
-    appended = []
+    # The technologies already on the table, by name; the first one wins.
+    technology_by_name = {}
+    for u in units:
+        if _is_technology(u):
+            key = _technology_key(u)
+            if key and key not in technology_by_name:
+                technology_by_name[key] = u
+
+    id_map = {}          # connector-pass id -> id in the merged file
+    appended = []        # the records that are genuinely new
+    merged_parents = []  # (existing technology, isPartOf it contributes)
+
     for c in connectors:
         if not isinstance(c, dict):
             continue
-        max_idx += 1
         c = dict(c)
+        old_id = str(c.get("id") or "").strip()
+        parents = _as_ispartof_list(c.get("isPartOf"))
+
+        if _is_technology(c):
+            existing = technology_by_name.get(_technology_key(c))
+            if existing is not None:
+                # Duplicate technology: keep the existing record as it is and only
+                # collect the connectors it is used by.
+                if old_id:
+                    id_map[old_id] = str(existing.get("id") or "").strip()
+                merged_parents.append((existing, parents))
+                continue
+
+        max_idx += 1
         c["id"] = f"AU_{max_idx:02d}"
         c["type"] = c.get("type") or "Connector"
-        parents = c.get("isPartOf") or []
-        if isinstance(parents, str):
-            parents = [parents]
-        c["isPartOf"] = [str(p).strip() for p in parents]
+        c["isPartOf"] = parents
+        if old_id:
+            id_map[old_id] = c["id"]
         appended.append(c)
+
+        if _is_technology(c):
+            key = _technology_key(c)
+            if key and key not in technology_by_name:
+                technology_by_name[key] = c
+
+    # Re-point every reference at the merged file's ids. Done only after the whole
+    # batch is numbered, so a technology may reference any connector in it.
+    for c in appended:
+        c["isPartOf"] = _resolve_ispartof(c["isPartOf"], id_map)
+    for existing, parents in merged_parents:
+        existing["isPartOf"] = _union_ids(
+            _as_ispartof_list(existing.get("isPartOf")),
+            _resolve_ispartof(parents, id_map),
+        )
+
     return units + appended
 
 
@@ -203,12 +309,63 @@ def extract_architecture_group(file: str, prompt: str, group_key: str) -> list:
     return _architecture_group(extract_json_from_response(response), group_key)
 
 
+def _split_by_id_namespace(elements: list) -> tuple[list, list]:
+    """Split a flat element list into (units, patterns) by their id namespace —
+    P_xx is a pattern, everything else a unit. Only used as a fallback when the
+    compacted response does not carry the two named groups."""
+    units, patterns = [], []
+    for e in elements:
+        if not isinstance(e, dict):
+            continue
+        (patterns if str(e.get("id") or "").strip().upper().startswith("P_")
+         else units).append(e)
+    return units, patterns
+
+
+def _compacted_architecture(data) -> tuple[list, list]:
+    """Split the compacted response into (architectural_units, patterns).
+
+    The single prompt returns both groups in one object, so the expected shape is
+    taken as-is; a group the model omitted becomes an empty list. Only when
+    neither key is present does this fall back to splitting a flat list by id
+    namespace — `_architecture_group`'s "the only list is the group" fallback
+    cannot be used here, since it would hand the same list back for both groups.
+    """
+    if isinstance(data, dict):
+        units, patterns = data.get("architectural_units"), data.get("patterns")
+        if isinstance(units, list) or isinstance(patterns, list):
+            return (units if isinstance(units, list) else [],
+                    patterns if isinstance(patterns, list) else [])
+        lists = [v for v in data.values() if isinstance(v, list)]
+        data = lists[0] if len(lists) == 1 else []
+    return _split_by_id_namespace(data or [])
+
+
+def extract_architecture_compacted(file: str, prompt: str = None) -> tuple[list, list]:
+    """Run a single compacted architecture prompt over the document and return
+    (architectural_units, patterns). Nothing is written to disk.
+
+    Unlike the multi-pass pipeline, every isPartOf link (within- and cross-group)
+    already comes out of this one call, so the returned groups need no linking
+    step. Whether the units also contain the Connector records depends on the
+    prompt: the default (V2) extracts them, while V3 leaves connectors to the
+    separate connector pass.
+    """
+    print(f"Extracting architecture (single compacted prompt) from: {file}")
+    built = build_document_prompt(
+        file, prompt or Prompts.ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED_V2, image_folder=None)
+    response = ask_gemini(user_prompt=built)
+    return _compacted_architecture(extract_json_from_response(response))
+
+
 def extract_connectors(file: str, units: list) -> list:
     """Run the connector prompt with the document and the already-extracted units;
-    return the connector records. Nothing is written to disk.
+    return the records it produced. Nothing is written to disk.
 
     The units (id/type/name/description) are sent so the model can link each
-    connector's two endpoints by id.
+    connector's two endpoints by id. The prompt returns the Connectors and the
+    Technologies (protocols) those communications use in the same list, which
+    `merge_connectors` folds into the units.
     """
     print(f"Extracting connectors from: {file}")
     units_payload = json.dumps(
@@ -220,7 +377,7 @@ def extract_connectors(file: str, units: list) -> list:
     )
     built = build_document_json_prompt(
         file=file,
-        prompt=Prompts.CONNECTOR_EXTRACTION_PROMPT,
+        prompt=Prompts.CONNECTOR_EXTRACTION_PROMPT_V2,
         json_payload=units_payload,
     )
     response = ask_gemini(user_prompt=built)
@@ -320,8 +477,9 @@ def extract_ispartof_links(file: str, units: list, patterns: list) -> dict:
 def save_architecture(units: list, connectors: list, patterns: list,
                       output_file_name: str = "architecture",
                       output_dir: str = "outputs") -> str:
-    """Merge the connectors into the units, combine with the patterns, and write the
-    single canonical architecture file — the ONLY file the architecture pass saves.
+    """Merge the connector pass's records (connectors and the technologies they use)
+    into the units, combine with the patterns, and write the single canonical
+    architecture file — the ONLY file the architecture pass saves.
 
     Units use the AU_xx id namespace (connectors continue it) and patterns use P_xx.
     isPartOf may reference either namespace (the linking pass builds unit->pattern

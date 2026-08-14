@@ -15,16 +15,19 @@ The architecture is extracted into two groups that are evaluated together:
                           Technology, Other)  -> GT sheet "Architectural Units"
   - Patterns             (types: Architectural Pattern, Design Pattern)
                           -> GT sheet "Patterns"
-Each element has: id, type, name, description, isPartOf, pageNumber, fixes.
+Each element has: id, type, name, description, isPartOf, pageNumber, fixedType.
 
 What it does
 ------------
 1. Matches each LLM element to at most one ground-truth (GT) element using two
    passes:
-       - Named elements (every type except Connector) are matched on `name`,
-         greedy one-to-one at `threshold`, with no class or type gate: the name
-         alone decides. A Unit may therefore match a Pattern and a Service may
-         match a Component, so a wrong `type` is measured, not hidden.
+       - Named elements (every type except Connector) are matched on `name`, in
+         three tiers (see "Name matching"): identical normalised names, then
+         names identical once the generic kind noun is dropped, then an optimal
+         assignment on embedding similarity >= `threshold` restricted to pairs
+         sharing a content token. There is no class or type gate: a Unit may
+         match a Pattern and a Service may match a Component, so a wrong `type`
+         is measured, not hidden.
        - Connectors are matched on their `isPartOf` endpoints: each connector is
          reduced to the SET of names of the architectural units it links (its
          endpoint ids resolved to unit names on its own side). A GT and an LLM
@@ -38,11 +41,11 @@ What it does
        Precision_name = correct_name / (LLM items that have a name)
        Recall_name    = correct_name / (GT  items that have a name)
 
-3. Every OTHER field (type, description, pageNumber, isPartOf, fixes) is scored
+3. Every OTHER field (type, description, pageNumber, isPartOf, fixedType) is scored
    as Accuracy over the matched (TP) pairs — the fraction of matched pairs where
    the LLM populated the field and its value agrees with the GT:
        Accuracy_F = correct_F / (matched pairs where LLM populated F)
-   Mean Semantic Meaning is additionally reported for `description` and `fixes`.
+   Mean Semantic Meaning is additionally reported for `description` and `fixedType`.
 
 4. Connectors are additionally scored at the UNIT-PAIR level for the headline and
    the per-class breakdown. Each connector (GT and LLM) is star-decomposed into the
@@ -60,7 +63,9 @@ What it does
 
 Per-field agreement
 -------------------
-    name, description   embedding cosine similarity >= threshold
+    name                the three-tier rule that matched the pair, so an element
+                        is never matched on its name and then scored wrong on it
+    description         embedding cosine similarity >= threshold
     type                case-insensitive exact match
     pageNumber          the page-number sets overlap (non-empty intersection)
     isPartOf            for connectors: the endpoint-name sets agree (same rule
@@ -69,7 +74,7 @@ Per-field agreement
                         matching (each LLM parent id -> its matched GT element),
                         so the differing LLM vs GT id namespaces are never
                         compared directly
-    fixes               cosine similarity >= threshold
+    fixedType           cosine similarity >= threshold
 
 Output: an xlsx with sheets — Field_Metrics, Class_Breakdown, Matching_Summary,
 Field_Counts, Matched_TP, False_Positives, False_Negatives. Three side-car files
@@ -77,10 +82,14 @@ are written next to it (matching the requirements evaluator): `<stem>_gt_report.
 (the unmatched GT elements / false negatives), `<stem>_llm_report.xlsx` (the
 unmatched LLM elements / false positives), each with all fields and the closest
 counterpart on the other side, and `<stem>_by_type.xlsx` with a Type_Breakdown
-sheet: per element `type` value (Layer, Component, Service, Device, Connector,
-Technology, Other, Architectural Pattern, Design Pattern), the successful
-extractions (TP), false positives, false negatives, precision, recall and F1 —
-ordered most successful (highest F1) to least.
+sheet: one row per element `type` in the fixed taxonomy (Layer, Component,
+Service, Device, Connector, Technology, Other, Architectural Pattern, Design
+Pattern) with the successful extractions (TP), false positives, false negatives,
+precision and recall. All nine rows are always present, in that order and
+zero-filled where a type does not occur, so the sheet lines up across documents.
+Eight rows count ELEMENTS; the connector row — labelled `connector (unit-pairs)`
+— counts UNIT-PAIRS, the same basis as Class_Breakdown and the headline
+Precision/Recall, so every connector figure in the report agrees.
 """
 import json
 import re
@@ -99,7 +108,7 @@ from service.evaluator_service import (
     fixes_to_text,
     compute_similarity,
     text_similarity,
-    greedy_match,
+    optimal_match,
     build_type_breakdown,
     _fmt,
     _pick,
@@ -113,7 +122,7 @@ from service.evaluator_service import (
 # Every other field is scored as Accuracy over matched pairs.
 FIELD_SPECS = [
     {"name": "name",        "json": ["name", "Name"],
-     "gt": ["Name"],                                   "kind": "semantic",    "semantic": True,  "anchor": True},
+     "gt": ["Name"],                                   "kind": "name",        "semantic": True,  "anchor": True},
     {"name": "type",        "json": ["type", "Type"],
      "gt": ["Type"],                                   "kind": "categorical", "semantic": False, "anchor": False},
     {"name": "description", "json": ["description", "Description"],
@@ -122,8 +131,8 @@ FIELD_SPECS = [
      "gt": ["Page Number", "PageNumber", "Page"],      "kind": "page",        "semantic": False, "anchor": False},
     {"name": "isPartOf",    "json": ["isPartOf", "is_part_of", "is-part-of", "partOf"],
      "gt": ["is-part-of", "isPartOf", "is part of"],   "kind": "parents",     "semantic": False, "anchor": False},
-    {"name": "fixes",       "json": ["fixes", "appliedFixes", "Applied Fixes"],
-     "gt": ["Applied Fixes", "Fixes", "AppliedFixes"], "kind": "list",        "semantic": True,  "anchor": False},
+    {"name": "fixedType",   "json": ["fixedType", "fixed_type", "FixedType"],
+     "gt": ["fixedType", "Fixed Type", "FixedType"],   "kind": "list",        "semantic": True,  "anchor": False},
 ]
 
 ANCHOR_FIELD = "name"
@@ -135,6 +144,20 @@ ANCHOR_FIELD = "name"
 # included in the metric — change a value here to validate a class on another field.
 VALIDATION_FIELD = {"unit": "name", "pattern": "name", "connector": "isPartOf"}
 SPEC_BY_NAME = {s["name"]: s for s in FIELD_SPECS}
+
+# The closed architecture element taxonomy, in report order. Passed to
+# `build_type_breakdown` so the Type_Breakdown sheet always has these nine rows —
+# with explicit zeros for a type that occurs in neither the GT nor the LLM output —
+# instead of a per-document subset that also shifts with what the model emitted.
+# Any value outside this list still gets its own row, appended after these.
+ARCHITECTURE_TYPES = [
+    "Layer", "Component", "Service", "Device", "Connector", "Technology", "Other",
+    "Architectural Pattern", "Design Pattern",
+]
+
+# Label of the Type_Breakdown connector row. It names the unit of counting,
+# because that row alone is scored in unit-pairs rather than in elements.
+CONNECTOR_TYPE_ROW = "connector (unit-pairs)"
 
 ID_JSON_CANDIDATES = ["id", "ID", "unit_id", "au_id", "ad_id"]
 ID_GT_CANDIDATES = ["AU ID", "AD ID", "P ID", "P_ID", "PID", "ID", "Id", "id", "AU_ID", "AD_ID"]
@@ -199,6 +222,134 @@ def norm_name(v):
         return None
     s = re.sub(r"\s+", " ", str(v).strip().lower())
     return s or None
+
+
+# ---------------------------------------------------------------------------
+# Name matching
+# ---------------------------------------------------------------------------
+# Two names denote the same element when they are identical once normalised,
+# when they are identical after dropping the generic noun that only states the
+# element's kind ("Portal Microservice" -> "portal"), or when they share a
+# content token AND their embedding similarity clears the threshold.
+#
+# Embedding similarity alone cannot carry this decision. Over the one- and
+# two-word names architecture elements carry it measures topical relatedness, so
+# it ranks unrelated siblings (Kubernetes / Docker at 0.77, Repository /
+# Database at 0.75) above genuine matches (Portal / Portal Microservice at 0.79)
+# — no threshold separates the two. The token rules decide those cases instead,
+# and similarity is consulted only for the remainder.
+
+# Nouns that state an element's kind rather than its identity.
+GENERIC_TOKENS = {
+    "service", "services", "microservice", "microservices", "module", "modules",
+    "component", "components", "layer", "layers", "pattern", "patterns",
+    "system", "systems", "api", "tier", "engine",
+}
+# Vendor names, shared by unrelated products (Amazon RDS / Amazon Web Services),
+# so they are never evidence on their own that two names denote the same element.
+VENDOR_TOKENS = {"aws", "amazon", "google", "microsoft", "azure", "apache"}
+
+_PARENTHETICAL = re.compile(r"\([^)]*\)")
+_NON_WORD = re.compile(r"[^\w\s]")
+
+
+def name_key(v) -> str | None:
+    """Comparison key for a name: lower-cased, parentheticals and punctuation
+    dropped, whitespace collapsed. "Contract Layer (DTO/Mappers)" -> "contract layer"."""
+    if _is_blank(v):
+        return None
+    s = _PARENTHETICAL.sub(" ", str(v).lower())
+    return re.sub(r"\s+", " ", _NON_WORD.sub(" ", s)).strip() or None
+
+
+def stripped_key(v) -> str | None:
+    """`name_key` with the generic nouns removed, so a name and that same name
+    qualified by its kind collapse together: "Portal Microservice" and "Portal"
+    both give "portal". None when nothing but generic nouns is left."""
+    key = name_key(v)
+    if not key:
+        return None
+    return " ".join(t for t in key.split() if t not in GENERIC_TOKENS) or None
+
+
+def name_tokens(v) -> set[str]:
+    """The content tokens of a name — its key's tokens minus the generic and
+    vendor words, neither of which evidences identity."""
+    key = name_key(v)
+    return set(key.split()) - GENERIC_TOKENS - VENDOR_TOKENS if key else set()
+
+
+def names_agree(a, b, threshold: float, similarity: float | None = None) -> bool:
+    """Whether two names denote the same element, by the three rules above.
+    `similarity` is the already-computed embedding cosine, when the caller has it."""
+    ka, kb = name_key(a), name_key(b)
+    if not ka or not kb:
+        return False
+    if ka == kb:
+        return True
+    sa = stripped_key(a)
+    if sa is not None and sa == stripped_key(b):
+        return True
+    if not (name_tokens(a) & name_tokens(b)):
+        return False
+    sim = text_similarity(ka, kb) if similarity is None else similarity
+    return sim >= threshold
+
+
+def _unique_by_key(records: list[dict], idxs: list[int], key_of) -> dict:
+    """{key: index} over `idxs`, keeping only the keys exactly one record carries.
+    A key two records share is dropped: which of them is the intended match is
+    precisely what the similarity assignment exists to decide."""
+    seen: dict = {}
+    for i in idxs:
+        key = key_of(records[i].get("name"))
+        if key is not None:
+            seen[key] = i if key not in seen else None
+    return {k: i for k, i in seen.items() if i is not None}
+
+
+def match_named_elements(llm: list[dict], gt: list[dict], sim: np.ndarray,
+                         threshold: float, llm_idxs: list[int],
+                         gt_idxs: list[int]) -> list[tuple[int, int, float]]:
+    """One-to-one match the named elements (everything except connectors) on `name`.
+
+    The deterministic key matches are taken first — exact, then generic-noun
+    stripped — and only where the key is unambiguous on both sides. Elements whose
+    names simply agree are therefore paired before any similarity is consulted, and
+    cannot be stolen by a higher-scoring near-miss: the real "Client-Server" pattern
+    claims its counterpart before the "Client" unit can. Whatever is left is
+    assigned optimally on embedding similarity, restricted to pairs that share a
+    content token.
+    """
+    pairs: list[tuple[int, int, float]] = []
+    used_llm: set[int] = set()
+    used_gt: set[int] = set()
+
+    for key_of in (name_key, stripped_key):
+        gt_by_key = _unique_by_key(gt, [j for j in gt_idxs if j not in used_gt], key_of)
+        llm_by_key = _unique_by_key(llm, [i for i in llm_idxs if i not in used_llm], key_of)
+        for key, i in llm_by_key.items():
+            j = gt_by_key.get(key)
+            if j is not None:
+                pairs.append((i, j, float(sim[i, j])))
+                used_llm.add(i)
+                used_gt.add(j)
+
+    rest_llm = [i for i in llm_idxs if i not in used_llm]
+    rest_gt = [j for j in gt_idxs if j not in used_gt]
+    if not rest_llm or not rest_gt:
+        return pairs
+
+    # Similarity tier: zero out every pair with no shared content token, so the
+    # assignment can only choose among pairs the names themselves support.
+    sub = sim[np.ix_(rest_llm, rest_gt)].copy()
+    for a, i in enumerate(rest_llm):
+        for b, j in enumerate(rest_gt):
+            if not (name_tokens(llm[i].get("name")) & name_tokens(gt[j].get("name"))):
+                sub[a, b] = 0.0
+    pairs.extend((rest_llm[a], rest_gt[b], s)
+                 for a, b, s in optimal_match(sub, threshold))
+    return pairs
 
 
 def endpoint_names(rec: dict, records: list[dict], id_index: dict) -> list[str]:
@@ -342,6 +493,47 @@ def connector_pair_stats(gt: list, llm: list, llm_to_gt: dict,
     }
 
 
+def apply_connector_pair_row(breakdown: pd.DataFrame, conn_stats: dict) -> pd.DataFrame:
+    """Rewrite a Type_Breakdown's `connector` row at the UNIT-PAIR level.
+
+    `build_type_breakdown` counts every type in elements. For connectors that is
+    the wrong basis and it disagrees with both `Class_Breakdown` and the headline
+    Precision/Recall, which score connectors by the unit-to-unit communications
+    they assert. Counting connector elements here would also reintroduce the two
+    biases the star decomposition exists to remove: the group-vs-split penalty (a
+    one-to-many connector versus the equivalent pairwise connectors) and the
+    all-or-nothing cliff (a connector with one wrong endpoint scored as a whole
+    false positive plus a whole false negative).
+
+    The row stays internally consistent — precision == TP/(TP+FP) and
+    recall == TP/(TP+FN) — because `connector_pair_stats`' two true-positive
+    counts are necessarily equal: the unit matching is one-to-one, so distinct
+    LLM pairs cannot collapse onto the same GT pair.
+    """
+    tp = conn_stats["recall_tp"]
+    gt_pairs, llm_pairs = conn_stats["gt_pairs"], conn_stats["llm_pairs"]
+    row = {
+        "type": CONNECTOR_TYPE_ROW,
+        "gt_count": gt_pairs,
+        "llm_count": llm_pairs,
+        "successful_extractions": tp,
+        "false_positives": llm_pairs - tp,
+        "false_negatives": gt_pairs - tp,
+        "precision": _fmt(conn_stats["precision"]),
+        "recall": _fmt(conn_stats["recall"]),
+    }
+    # Rebuild from records rather than assigning in place: the ratio columns hold
+    # floats or the "-" placeholder, so in-place assignment would fight dtypes.
+    rows = breakdown.to_dict("records")
+    for k, r in enumerate(rows):
+        if norm_categorical(r["type"]) == "connector":
+            rows[k] = row
+            break
+    else:
+        rows.append(row)
+    return pd.DataFrame(rows, columns=list(breakdown.columns))
+
+
 def page_set(v) -> set[int]:
     """Parse a page reference ('44', '44, 45', '68-69', '58.59') to a set of ints."""
     if _is_blank(v):
@@ -468,11 +660,17 @@ def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict, threshold: float,
     if kind == "page":
         pa, pb = page_set(a), page_set(b)
         return (bool(pa) and bool(pb) and bool(pa & pb)), None
-    if kind == "semantic":  # name / description
+    if kind == "name":
+        # The same rule that matched the pair, so an element can never be matched
+        # on its name and then scored wrong on that name.
+        ta, tb = norm_text(a), norm_text(b)
+        sim = text_similarity(ta, tb) if (ta and tb) else 0.0
+        return names_agree(a, b, threshold, sim), sim
+    if kind == "semantic":  # description
         ta, tb = norm_text(a), norm_text(b)
         sim = text_similarity(ta, tb) if (ta and tb) else 0.0
         return (sim >= threshold), sim
-    if kind == "list":  # fixes
+    if kind == "list":  # fixedType
         ta, tb = fixes_to_text(a), fixes_to_text(b)
         sim = text_similarity(ta, tb) if (ta and tb) else 0.0
         return (sim >= threshold), sim
@@ -655,7 +853,7 @@ def build_report(gt, llm, sim, pairs, threshold):
 
     def blob(rec, prefix):
         out = {f"{prefix}_{s['name']}": (fixes_to_text(rec.get(s["name"]))
-                                         if s["name"] == "fixes" else rec.get(s["name"]))
+                                         if s["name"] == "fixedType" else rec.get(s["name"]))
                for s in FIELD_SPECS}
         out[f"{prefix}_id"] = rec.get("id")
         eps = rec.get("_endpoint_names")
@@ -711,7 +909,7 @@ def build_report(gt, llm, sim, pairs, threshold):
             "GT_pageNumber": gt[j].get("pageNumber"),
             "GT_isPartOf": parents_str(gt[j]),
             "GT_endpoints": eps_str(gt[j]),
-            "GT_fixes": fixes_to_text(gt[j].get("fixes")),
+            "GT_fixedType": fixes_to_text(gt[j].get("fixedType")),
             "closest_LLM_ID": llm[int(sim[:, j].argmax())]["id"] if len(llm) else None,
             "closest_LLM_name": llm[int(sim[:, j].argmax())].get("name") if len(llm) else None,
             "closest_LLM_description": llm[int(sim[:, j].argmax())].get("description") if len(llm) else None,
@@ -729,7 +927,7 @@ def build_report(gt, llm, sim, pairs, threshold):
             "LLM_pageNumber": llm[i].get("pageNumber"),
             "LLM_isPartOf": parents_str(llm[i]),
             "LLM_endpoints": eps_str(llm[i]),
-            "LLM_fixes": fixes_to_text(llm[i].get("fixes")),
+            "LLM_fixedType": fixes_to_text(llm[i].get("fixedType")),
             "closest_GT_ID": gt[int(sim[i].argmax())]["id"] if len(gt) else None,
             "closest_GT_name": gt[int(sim[i].argmax())].get("name") if len(gt) else None,
             "closest_GT_description": gt[int(sim[i].argmax())].get("description") if len(gt) else None,
@@ -738,10 +936,13 @@ def build_report(gt, llm, sim, pairs, threshold):
         for i in range(len(llm)) if i not in matched_llm
     ])
 
-    # Per-type breakdown (Layer/Component/Service/Device/Connector/Technology/
-    # Other/Architectural Pattern/Design Pattern), ranked most successful (F1)
-    # to least — reuses the same convention as the requirements evaluator.
-    type_breakdown = build_type_breakdown(gt, llm, pairs)
+    # Per-type breakdown over the closed ARCHITECTURE_TYPES taxonomy: always the
+    # same nine rows in the same order, zero-filled where a type does not occur,
+    # so the sheet is comparable across documents and runs. The connector row is
+    # then restated in unit-pairs so it sits on the same basis as Class_Breakdown
+    # and the headline metric (see `apply_connector_pair_row`).
+    type_breakdown = build_type_breakdown(gt, llm, pairs, taxonomy=ARCHITECTURE_TYPES)
+    type_breakdown = apply_connector_pair_row(type_breakdown, conn_stats)
 
     return {
         "Field_Metrics_Name": field_metrics_name,
@@ -759,6 +960,95 @@ def build_report(gt, llm, sim, pairs, threshold):
                   "name_metrics": name_rows, "other_metrics": other_rows,
                   "class_breakdown": class_rows},
     }
+
+
+# ---------------------------------------------------------------------------
+# Averaging across repeated runs
+# ---------------------------------------------------------------------------
+def _is_number(v) -> bool:
+    """Whether a report cell holds a number. The numpy scalar types matter: a
+    whole-number column (the counts) comes back as np.int64, which is not an
+    `int`, and treating one as non-numeric would average a count column to "-"."""
+    return isinstance(v, (int, float, np.integer, np.floating)) and not isinstance(v, bool)
+
+
+def _avg(values) -> float | str:
+    """Mean of the numeric values, rounded. "-" cells (a metric undefined in that
+    run) are skipped rather than counted as 0, so a metric is averaged only over
+    the runs that scored it; "-" when no run did."""
+    nums = [float(v) for v in values if _is_number(v)]
+    return round(sum(nums) / len(nums), 4) if nums else "-"
+
+
+def _average_table(tables: list[pd.DataFrame], key: str) -> pd.DataFrame:
+    """Average every non-key column of the same table across runs, rows matched
+    on `key`. Row order and columns are taken from the first run."""
+    columns = list(tables[0].columns)
+    rows = []
+    for k in tables[0][key]:
+        row = {key: k}
+        for col in columns[1:]:
+            row[col] = _avg([t.loc[t[key] == k, col].iloc[0]
+                             for t in tables if (t[key] == k).any()])
+        rows.append(row)
+    return pd.DataFrame(rows, columns=columns)
+
+
+def _average_summary(tables: list[pd.DataFrame]) -> pd.DataFrame:
+    """Average the Matching_Summary values across runs. Numbers average normally;
+    the "GT / LLM" pair cells average side by side; anything else is constant
+    across runs and taken from the first."""
+    def avg_value(values):
+        if all(_is_number(v) for v in values):
+            return _avg(values)
+        parts = [str(v).split("/") for v in values]
+        if all(len(p) == 2 for p in parts):
+            try:
+                return f"{_avg([float(p[0]) for p in parts])} / {_avg([float(p[1]) for p in parts])}"
+            except ValueError:
+                pass
+        return values[0]
+
+    rows = [{"Metric": metric,
+             "Value": avg_value([t.loc[t["Metric"] == metric, "Value"].iloc[0] for t in tables])}
+            for metric in tables[0]["Metric"]]
+    return pd.DataFrame(rows, columns=["Metric", "Value"])
+
+
+def average_architecture_reports(reports: list[dict]) -> dict:
+    """Average the metric tables across N `evaluate_architecture` reports — the
+    repeated extraction runs over one document — into tables of the same shape.
+
+    Only the metric tables are averaged. The per-element sheets (Matched_TP, the
+    false positive / negative lists) belong to one run each and stay in that run's
+    own workbook. Type_Breakdown is averaged by
+    `evaluator_service.average_type_breakdowns`, which this report shape already
+    fits.
+    """
+    if not reports:
+        raise ValueError("average_architecture_reports requires at least one report")
+    return {
+        "Field_Metrics_Name": _average_table([r["Field_Metrics_Name"] for r in reports], "field"),
+        "Field_Metrics_Other": _average_table([r["Field_Metrics_Other"] for r in reports], "field"),
+        "Class_Breakdown": _average_table([r["Class_Breakdown"] for r in reports], "class"),
+        "Matching_Summary": _average_summary([r["Matching_Summary"] for r in reports]),
+    }
+
+
+def write_average_architecture_report(reports: list[dict], output_path) -> None:
+    """Write the across-runs average to a standalone workbook, laid out like a
+    single run's: a Field_Metrics sheet (the name rows, then the other fields'
+    accuracy rows) plus Class_Breakdown and Matching_Summary."""
+    avg = average_architecture_reports(reports)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with pd.ExcelWriter(output_path, engine="openpyxl") as w:
+        name_df = avg["Field_Metrics_Name"]
+        name_df.to_excel(w, sheet_name="Field_Metrics", index=False, startrow=0)
+        avg["Field_Metrics_Other"].to_excel(
+            w, sheet_name="Field_Metrics", index=False, startrow=len(name_df) + 3)
+        avg["Class_Breakdown"].to_excel(w, sheet_name="Class_Breakdown", index=False)
+        avg["Matching_Summary"].to_excel(w, sheet_name="Matching_Summary", index=False)
 
 
 def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
@@ -785,19 +1075,13 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
             r["_endpoint_idx"] = endpoint_indices(r, gt_id_index)
 
     # Pass 1 — named elements (everything except connectors) matched on name
-    # alone: greedy one-to-one over the similarity-sorted pairs at `threshold`,
-    # with no class or type gate. Element names are distinctive enough that the
-    # greedy walk and the exact assignment agree in practice, and dropping the
+    # alone, by `match_named_elements`, with no class or type gate. Dropping the
     # gate lets a unit match a pattern (or a Service match a Component) so a
     # misclassified element is measured on `type` instead of hidden as an
     # unmatched FP/FN pair.
     nonconn_llm = [i for i in range(len(llm)) if not is_connector(llm[i])]
     nonconn_gt = [j for j in range(len(gt)) if not is_connector(gt[j])]
-    pairs = []
-    if nonconn_llm and nonconn_gt:
-        subsim = sim[np.ix_(nonconn_llm, nonconn_gt)]
-        sub_pairs = greedy_match(subsim, threshold)
-        pairs.extend((nonconn_llm[a], nonconn_gt[b], s) for a, b, s in sub_pairs)
+    pairs = match_named_elements(llm, gt, sim, threshold, nonconn_llm, nonconn_gt)
 
     # Pass 2 — connectors matched on the units they link. A connector matches when
     # its endpoint units already matched as units (resolved THROUGH the Pass-1 unit
@@ -844,17 +1128,3 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
     with pd.ExcelWriter(type_breakdown_path, engine="openpyxl") as w:
         report["Type_Breakdown"].to_excel(w, sheet_name="Type_Breakdown", index=False)
     return report
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: python -m service.architecture_evaluator_service "
-              "<ground_truth_architecture.xlsx> <llm_architecture.json> "
-              "<output_report.xlsx> [threshold]")
-        raise SystemExit(1)
-    gt_p, llm_p, out_p = sys.argv[1], sys.argv[2], sys.argv[3]
-    thr = float(sys.argv[4]) if len(sys.argv) > 4 else 0.35
-    rep = evaluate_architecture(gt_p, llm_p, out_p, thr)
-    s = rep["stats"]
-    print(f"TP={s['tp']} FP={s['fp']} FN={s['fn']}")
-    print("Saved:", out_p)

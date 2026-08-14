@@ -94,8 +94,8 @@ table, stacked on every other field's accuracy table), Matched,
 False_Positives, False_Negatives. A side-car `<stem>_by_type.xlsx` is also written with a
 Type_Breakdown sheet: per requirement-`type` value (e.g. Functional,
 Non-Functional), the successful extractions (TP), false positives, false
-negatives, precision, recall and F1 — ordered most successful (highest F1)
-to least, so the weakest-performing requirement types stand out.
+negatives, precision and recall — ordered most successful (most TPs) to least,
+so the weakest-performing requirement types stand out.
 """
 import json
 import os
@@ -604,8 +604,9 @@ def _fmt(x):
 
 def build_type_breakdown(gt: list[dict], llm: list[dict],
                          pairs: list[tuple[int, int, float]],
-                         type_field: str = "type") -> pd.DataFrame:
-    """Per-type Precision/Recall/F1, ranked most successful (highest F1) first.
+                         type_field: str = "type",
+                         taxonomy: list[str] | None = None) -> pd.DataFrame:
+    """Per-type Precision/Recall, ranked most successful first.
 
     Follows the multi-class `classification_report` convention: a matched pair
     counts as a successful extraction (TP) for a type only when BOTH sides
@@ -613,6 +614,15 @@ def build_type_breakdown(gt: list[dict], llm: list[dict],
     as a false negative for the GT's type and a false positive for the LLM's
     type, and an unmatched item falls back to its own recorded type. Items
     with no value in `type_field` are grouped under "(unspecified)".
+
+    `taxonomy` fixes the row set. When it is given (a closed vocabulary, e.g.
+    the architecture element types), every one of its values gets a row — with
+    explicit zeros when the type occurs on neither side — and the rows come out
+    in taxonomy order, so the table has the same shape for every document and
+    every run. Any type found in the data but absent from the taxonomy is still
+    reported, appended after the taxonomy rows, so nothing is silently dropped.
+    When `taxonomy` is None (the open-vocabulary case, e.g. requirement types)
+    the rows are whatever occurs in the data, ranked most successful first.
     """
     llm_to_gt = {i: j for i, j, _ in pairs}
     gt_to_llm = {j: i for i, j, _ in pairs}
@@ -624,6 +634,12 @@ def build_type_breakdown(gt: list[dict], llm: list[dict],
 
     def bump(t, key):
         counts.setdefault(t, {"tp": 0, "fp": 0, "fn": 0, "gt_count": 0, "llm_count": 0})[key] += 1
+
+    # Seed the closed vocabulary so a type absent from both sides still gets a
+    # row of zeros instead of vanishing from the report.
+    taxonomy_keys = [norm_categorical(t) for t in (taxonomy or [])]
+    for t in taxonomy_keys:
+        counts.setdefault(t, {"tp": 0, "fp": 0, "fn": 0, "gt_count": 0, "llm_count": 0})
 
     for j, rec in enumerate(gt):
         t = type_of(rec)
@@ -646,7 +662,6 @@ def build_type_breakdown(gt: list[dict], llm: list[dict],
         tp, fp, fn = c["tp"], c["fp"], c["fn"]
         precision = (tp / (tp + fp)) if (tp + fp) else None
         recall = (tp / (tp + fn)) if (tp + fn) else None
-        f1 = (2 * precision * recall / (precision + recall)) if (precision and recall) else None
         rows.append({
             "type": t,
             "gt_count": c["gt_count"],
@@ -656,14 +671,19 @@ def build_type_breakdown(gt: list[dict], llm: list[dict],
             "false_negatives": fn,
             "precision": _fmt(precision),
             "recall": _fmt(recall),
-            "f1": _fmt(f1),
         })
 
-    rows.sort(key=lambda r: (r["f1"] if isinstance(r["f1"], (int, float)) else -1,
-                             r["successful_extractions"]), reverse=True)
+    if taxonomy_keys:
+        # Fixed row order, so the table lines up across documents and runs. Any
+        # type outside the taxonomy (a typo, "(unspecified)") lands after it.
+        order = {t: k for k, t in enumerate(taxonomy_keys)}
+        rows.sort(key=lambda r: (order.get(r["type"], len(order)),
+                                 -r["successful_extractions"], r["type"]))
+    else:
+        rows.sort(key=lambda r: (r["successful_extractions"], r["gt_count"]), reverse=True)
     return pd.DataFrame(rows, columns=["type", "gt_count", "llm_count", "successful_extractions",
                                        "false_positives", "false_negatives",
-                                       "precision", "recall", "f1"])
+                                       "precision", "recall"])
 
 
 def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
@@ -960,9 +980,13 @@ def average_type_breakdowns(reports: list[dict]) -> pd.DataFrame:
     type field). For the count columns (gt_count, llm_count,
     successful_extractions, false_positives, false_negatives) a run missing a
     type genuinely had zero occurrences of it, so it is averaged in as 0 over
-    all N runs. For precision/recall/f1 — which are "-" (undefined) rather
-    than 0 when a type doesn't occur — only the runs where the type is
-    present contribute to the average, same convention as `average_reports`.
+    all N runs. For precision/recall — which are "-" (undefined) rather than 0
+    when a type doesn't occur — only the runs where the type is present
+    contribute to the average, same convention as `average_reports`.
+
+    Row order is inherited from the input tables (first-seen across the runs),
+    so it keeps whatever convention `build_type_breakdown` used: taxonomy order
+    for a closed vocabulary, most-successful-first for an open one.
     """
     if not reports:
         raise ValueError("average_type_breakdowns requires at least one report")
@@ -979,7 +1003,7 @@ def average_type_breakdowns(reports: list[dict]) -> pd.DataFrame:
 
     count_cols = ["gt_count", "llm_count", "successful_extractions",
                   "false_positives", "false_negatives"]
-    ratio_cols = ["precision", "recall", "f1"]
+    ratio_cols = ["precision", "recall"]
 
     def avg_ratio(values):
         nums = [v for v in values if isinstance(v, (int, float))]
@@ -999,9 +1023,7 @@ def average_type_breakdowns(reports: list[dict]) -> pd.DataFrame:
             row[col] = avg_ratio(values)
         rows.append(row)
 
-    # Same ranking convention as `build_type_breakdown`: highest F1 first.
-    rows.sort(key=lambda r: (r["f1"] if isinstance(r["f1"], (int, float)) else -1,
-                             r["successful_extractions"]), reverse=True)
+    # No re-sort: `all_types` already carries the input tables' row order.
     return pd.DataFrame(rows, columns=["type"] + count_cols + ratio_cols)
 
 

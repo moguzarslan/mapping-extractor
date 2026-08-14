@@ -107,142 +107,6 @@ class Prompts:
         ... 
     """
 
-    REQUIREMENT_SPLITTING_PROMPT = """
-    # Objective:
-    You are an expert software requirements analyst. You are given a JSON of already extracted requirements. Your task is to review each requirement/criterion and split it into multiple atomic requirements/criteria ONLY when it clearly expresses more than one independent need.
-
-    # Instructions:
-    1. Process each requirement/criterion in the input JSON one by one.
-    2. Decide whether the requirement expresses a single need (atomic) or multiple needs (compound). Obligate the rules defined by the Rules section.
-       - If atomic, keep it unchanged (same id and same field values).
-       - If compound, split it into the minimum number of atomic requirements, one per distinct need:
-         - Preserve the original sentence structure for each split part so each resulting requirement reads as a complete, standalone statement (repeat the shared subject/predicate as needed).
-         - Keep the original id as the base and append sequential lowercase letters (R_01 -> R_01a, R_01b, R_01c ...).
-    3. Handle the "relatedTo" field (a criterion's link to the requirement it verifies, given as that requirement's id):
-       - Always carry "relatedTo" through to the output.
-       - Splitting a requirement changes its id (R_01 -> R_01a, R_01b, ...). When a target is split, re-point every "relatedTo" that referenced the original id to the split part whose description best matches it.
-       - Never leave a "relatedTo" referencing an id that no longer exists.
-
-    # Example Split:
-    - {
-        "id": "R_01",
-        "description": "The system should support English and Turkish."
-      }
-      ->
-      {
-        "id": "R_01a",
-        "description": "The system should support English."
-      },
-      {
-        "id": "R_01b",
-        "description": "The system should support Turkish."
-      }
-
-    # Example relatedTo realignment (a referenced requirement is split):
-    - {
-        "id": "R_05",
-        "description": "The system shall authenticate users and register new accounts."
-      },
-      {
-        "id": "R_06",
-        "description": "Authentication must lock the account after three failed attempts.",
-        "relatedTo": "R_05"
-      }
-      ->
-      {
-        "id": "R_05a",
-        "description": "The system shall authenticate users."
-      },
-      {
-        "id": "R_05b",
-        "description": "The system shall register new accounts."
-      },
-      {
-        "id": "R_06",
-        "description": "Authentication must lock the account after three failed attempts.",
-        "relatedTo": "R_05a"
-      }
-
-    # Rules:
-    - Preserve the original order of requirements.
-    - Avoid splitting when the conjunction joins parts of a single indivisible need (e.g. "username and password" forming one credential, "save and exit" as one action if treated atomically in the source).
-    - Avoid splitting closely related, paired, or opposite actions on the same target (e.g. "create/update/delete", "add or remove", "enable or disable", "assign or revoke", "grant or deny").
-    - Avoid splitting an enumeration that defines the allowed values, permitted states, options, or range of a single attribute (e.g. "The order status can only be open or closed."); the "and"/"or" lists a value domain, not separate needs. 
-    - Avoid splitting an illustrative or parenthetical list of examples (e.g. "working with multiple technologies (android, ios)" is one compatibility requirement).
-    - Avoid splitting a list of attributes, properties, fields, or aspects of a SINGLE subject that share one common predicate or quality (e.g. "An entity should have a date, name, id and address.", "The layout, spacing, and typography must match the style guide."). Split a list ONLY when each listed item is a distinct resource governed by its own rule, permission, or behaviour (e.g. the orders/invoices/shipments example above). Do NOT split when a single read-only operation (view, list, display, show) presents several objects together (e.g. "The user can view their profile and products." is one viewing capability).
-    - Avoid splitting coordinated adjectives or qualifiers that describe a single property or need (e.g. "continuous and uninterrupted service").
-    - Avoid splitting conditions, parameters, thresholds, or metrics that together qualify one single test, measurement, or activity (e.g. "Load testing with at least 100 concurrent users achieving a response time under 2 seconds.").
-    - Avoid changing the meaning of any requirement.
-    - Avoid adding any explanation or commentary.
-
-    # Input Format (JSON):
-    {
-      "requirements": {requirements_json}
-    }
-
-    # Example Output (JSON):
-    {
-      "requirements": [
-        {
-          "id": "R_01a",
-          "description": "The system shall send notifications by email."
-        },
-        {
-          "id": "R_01b",
-          "description": "The system shall send notifications by SMS."
-        },
-        {
-          "id": "R_02",
-          "description": "...",
-          "relatedTo": "R_01a"
-        }
-      ]
-    }
-    ...
-    """
-
-    CRITERION_CLEANUP_PROMPT = """
-    # Objective:
-    You are an expert software requirements analyst. You are given a JSON of already extracted acceptance criteria. Each criterion has an id, a description, and "relatedRequirement" — the description of the requirement it belongs to, given as read-only context for comparison. Your task is to review each acceptance criterion and remove the ones that do not add value.
-
-    # Instructions:
-    1. Process each acceptance criterion in the input JSON one by one. Obligate the rules defined by the Rules section.
-       - If the criterion must be removed, omit it from the output entirely.
-       - Otherwise, keep it unchanged (same id and same description).
-
-
-    # Rules:
-    - Default to KEEPING every criterion. Removal is the exception, not the norm; when unsure, keep it.
-    - Decide with this test: a criterion is redundant ONLY if successfully verifying its related requirement would, on its own, already verify the criterion — i.e. they amount to the same single check with nothing extra to confirm. If verifying the requirement would NOT automatically confirm the criterion, the criterion adds value and must be kept.
-    - Under that test, keep the criterion whenever it pins down anything the requirement leaves open, even with similar wording — for instance a measurable threshold or metric, a required verification/monitoring/testing method or acceptance evidence, a narrower scope, or an extra qualifying condition.
-    - Separately, remove a criterion that states only a post condition or a procedure / sequence of steps rather than an acceptance condition (e.g. "After entering the credentials, the user must access the main view.").
-    - Reworded phrasing alone is never a reason to remove a criterion.
-    - Use "relatedRequirement" only as context to judge the criterion; never output it and never treat it as a criterion of its own.
-    - Preserve the original order of the remaining criteria.
-    - Avoid changing the meaning, wording, or id of the criteria that are kept.
-    - Avoid adding any explanation or commentary.
-
-    # Input Format (JSON):
-    {
-      "requirements": {requirements_json}
-    }
-
-    # Example Output (JSON):
-    {
-      "requirements": [
-        {
-          "id": "R_02",
-          "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute."
-        },
-        {
-          "id": "R_04",
-          "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds."
-        }
-      ]
-    }
-    ...
-    """
-
     ARCHITECTURAL_UNIT_EXTRACTION_PROMPT = """
 # Objective
     You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document.
@@ -397,6 +261,991 @@ Below are the definitions for each type and their concrete examples.
     ...
     """
 
+    ARCHITECTURAL_UNIT_EXTRACTION_PROMPT = """
+    # Objective
+        You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document.
+
+    # Instructions
+        1. Carefully read the entire document.
+        2. Identify all Architectural Units across the entire document following the definitions and rules below.
+
+    # Type Definitions
+    Below are the definitions for each type and their concrete examples.
+
+    ## Layer
+        - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+        - Examples: presentation layer, business / business logic layer, domain layer, data-access layer, contract layer, service layer, persistence / data layer, infrastructure layer.
+
+    ## Component
+        - Definition: a concrete structural module of THIS system that is not exposed as an independently running service.
+        - Examples: frontend, backend, database, View, ViewModel, Model, controller, repository, cache, message broker.
+        - NOT a Component: a specific named third-party product (that is a Technology); a module that runs independently or is an external integration (that is a Service).
+
+    ## Service
+        - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+        - Examples: an API gateway, a microservice, an authentication / authorization / payment / email / analytics / logging / monitoring service.
+        - NOT a Service: the specific named product or vendor that implements the capability (that is a Technology); a horizontal tier (Layer).
+
+    ## Device
+        - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+        - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+        - NOT a Device: a network or medium such as the Internet; a software process (Service / Other).
+
+    ## Technology
+        - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+        - Examples: 
+            - a communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC etc.)
+            - a programming language or framework (Java, Python, Next.js etc.)
+            - a database engine (PostgreSQL, MySQL, Oracle etc.)
+            - a cloud service (AWS, Azure, etc.) 
+            - a monitoring / analysis / testing tool (Grafana, Dynatrace, Sonarqube etc.) 
+        - NOT a Technology: the generic capability the product provides for this system (that is a Service).
+
+    ## Other
+        - Definition: an external actor that directly interacts with the running system as part of its architecture, and does not fit any technical type above.
+        - Examples: an end user, client.
+        - NOT Other: a physical hardware device (Device); a software service of the system (Service).
+
+    # Extraction Process
+        - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+        - For each unit, specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology" or "Other".
+        - For each unit "description" must be the sentence or sentences from the document that states the unit — the evidence proving the unit.
+        - For each unit, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each unit, "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
+            - A Technology isPartOf the Service / Component that uses it.
+            - A Service / Component isPartOf its Layer; if it has no Layer, isPartOf its parent Service / Component.
+            - Leave "isPartOf" as an empty list when no containing unit applies.
+        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
+        - Architectural Unit should have the following JSON Schema:
+            {
+            "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+            "type": "<Layer | Component | Service | Device | Technology | Other>",
+            "name": "<Name of the unit in English >",
+            "description": "<The exact document sentence(s) stating the unit, translated to English>",
+            "pageNumber": "<Page number(s) where the unit is described>",
+            "isPartOf": ["<id of the unit this unit is part of>"],
+            "fixes": ["<Brief explanation if any mistake was corrected from the source document>"]
+            }
+
+    # Rules:
+        - Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+        - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
+        - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+        - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+        - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+        - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+            - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+                - a Service named by the capability it provides
+                - a Technology named by the product, whose isPartOf is that Service.
+        - Extract every named technology, including ones mentioned only in the prose.
+        - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
+        - Output should be given in JSON format as in the Example Output section.
+        - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+            - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+        - Avoid adding any extra explanation, just provide the required data.
+
+    # Example Output (JSON)
+    {
+      "architectural_units": [
+        {
+          "id": "AU_01",
+          "type": "Other",
+          "name": "Customer",
+          "description": "The client is the user of the platform.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixes": []
+        },
+        {
+          "id": "AU_02",
+          "type": "Other",
+          "name": "Server",
+          "description": "The server is the software that is responsible for processing user requests.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixes": []
+        },
+        {
+          "id": "AU_03",
+          "type": "Layer",
+          "name": "Presentation Layer",
+          "description": "It is the layer that is responsible for displaying information to the user.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixes": []
+        },
+        {
+          "id": "AU_04",
+          "type": "Layer",
+          "name": "Business Layer",
+          "description": "This layer is the core of the application and is responsible for processing all the information.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixes": []
+        },
+        {
+          "id": "AU_05",
+          "type": "Layer",
+          "name": "Data Layer",
+          "description": "It is the layer that is responsible for storing all the data.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixes": []
+        },
+        {
+          "id": "AU_06",
+          "type": "Service",
+          "name": "API Gateway Service",
+          "description": "This service is responsible for the management, authentication and authorization of platform users.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_04"],
+          "fixes": []
+        },
+        {
+          "id": "AU_07",
+          "type": "Technology",
+          "name": "Spring Boot",
+          "description": "Backend framework used to implement the API Gateway Service.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_06"],
+          "fixes": []
+        }
+      ]
+    }
+        ...
+        """
+
+    ARCHITECTURE_EXTRACTION_PROMPT = """
+    # Objective
+        You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) from the provided software document.
+
+    # Instructions
+        1. Carefully read the entire document.
+        2. Identify architectural units using the type definitions below.
+        3. Extract the identified architectural units following the extraction process defined below.
+
+    # Type Definitions
+    Below are the definitions for each type and their concrete examples.
+
+    ## Layer
+        - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+        - Examples: presentation layer, business / business logic layer, domain layer, data-access layer, contract layer, service layer, persistence / data layer, infrastructure layer.
+
+    ## Component
+        - Definition: a concrete structural module of the system that is not exposed as an independently running service.
+        - Examples: Database, View, ViewModel, Model, controller, repository, cache, message broker.
+        - NOT a Component: a specific named third-party product (Technology); a module that runs independently or is an external integration (Service).
+
+    ## Service
+        - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+        - Examples: an API gateway, a microservice, an authentication / authorization / payment / email / analytics / logging / monitoring service.
+        - NOT a Service: the specific named product or vendor that implements the capability (Technology); a horizontal tier (Layer).
+
+    ## Device
+        - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+        - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+
+    ## Technology
+        - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+        - Examples:  
+        - NOT a Technology: the generic capability the product provides for this system (Service).
+
+    ## Other
+        - Definition: a participant in the system's architecture that does not fit any technical type above — an external actor, or a part of the system the document names but never decomposes.
+        - Examples: an end user, a client, "the backend", "the frontend".
+        - NOT Other: a physical hardware device (Device); a named software service (Service); a tier the document calls a layer (Layer).
+
+    # Extraction Process
+    
+        - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+        - Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology" or "Other".
+        - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
+        - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each unit, "isPartOf" is the list of OTHER Architectural Unit ids (AU_xx) this unit is contained by or belongs to. Build the containment hierarchy among units explicitly:
+            - A Technology isPartOf the Service / Component that uses it.
+            - A Service / Component isPartOf its Layer; if it has no Layer, isPartOf its parent Service / Component.
+            - Leave "isPartOf" as an empty list when no containing unit applies.
+        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
+        - Architectural Unit should have the following JSON Schema:
+            {
+            "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+            "type": "<Layer | Component | Service | Device | Technology | Other>",
+            "name": "<Name of the unit in English >",
+            "description": "<The exact document sentence(s) stating the unit, translated to English>",
+            "pageNumber": "<Page number(s) where the unit is described>",
+            "isPartOf": ["<id of the unit this unit is part of>"],
+            "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
+            }
+
+    # Rules:
+        - Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+        - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
+        - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+        - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+        - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+        - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+            - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+                - a Service named by the capability it provides
+                - a Technology named by the product, whose isPartOf is that Service.
+        - Extract every named technology, including ones mentioned only in the prose.
+        - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
+        - Output should be given in JSON format as in the Example Output section.
+        - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+            - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+        - Avoid adding any extra explanation, just provide the required data.
+
+    # Example Output (JSON)
+    {
+      "architectural_units": [
+        {
+          "id": "AU_01",
+          "type": "Other",
+          "name": "Customer",
+          "description": "The client is the user of the platform.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_02",
+          "type": "Other",
+          "name": "Server",
+          "description": "The server is the software that is responsible for processing user requests.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_03",
+          "type": "Layer",
+          "name": "Presentation Layer",
+          "description": "It is the layer that is responsible for displaying information to the user.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_04",
+          "type": "Layer",
+          "name": "Business Layer",
+          "description": "This layer is the core of the application and is responsible for processing all the information.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_05",
+          "type": "Layer",
+          "name": "Data Layer",
+          "description": "It is the layer that is responsible for storing all the data.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_06",
+          "type": "Service",
+          "name": "API Gateway Service",
+          "description": "This service is responsible for the management, authentication and authorization of platform users.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_04"],
+          "fixedType": []
+        },
+        {
+          "id": "AU_07",
+          "type": "Technology",
+          "name": "Spring Boot",
+          "description": "Backend framework used to implement the API Gateway Service.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_06"],
+          "fixedType": []
+        }
+      ]
+    }
+        ...
+        """
+
+    ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED = """
+    # Objective
+    You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) and patterns from the provided software document.
+
+    # Instructions
+        1. Carefully read the entire document.
+        2. Identify architectural units and patterns using the type definitions below.
+        3. Extract the identified architectural units and patterns following the extraction process defined below.
+
+    # Type Definitions
+    Below are the definitions for each type of architectural unit and pattern with their concrete examples.
+    
+    ## Patterns
+    
+    ## Architectural Pattern
+    - Definition: A high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
+    - Examples: Layered Architecture, Hexagonal Architecture, API Gateway.
+    
+    ## Design Pattern 
+    - Definition: A lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
+    - Examples: Observer, Strategy, Factory.
+    
+    ## Architectural Units
+    
+    ### Layer
+        - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+        - Examples: presentation layer, business layer, data layer.
+
+    ### Component
+    - Definition: a concrete structural module of the system that either:
+        1. represents an internal functional or structural part of the system that is not exposed as an independently running service; OR
+        2. represents a technology-independent architectural role fulfilled by an infrastructure or data-management element.
+    - Examples: View, ViewModel, Model, Controller, Repository, Cache, Message Broker, Database.
+
+    ### Service
+    - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+    - Examples: API gateway, Microservice, Authentication Service, Payment Service.
+
+    ### Device
+    - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+    - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+
+    ### Technology
+    - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+    - Examples: PostgreSQL, React, AWS S3, Python, Spring Boot.  
+    
+    ### Connector
+    - Definition: a communication or interaction relationship among two or more Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
+    - One-to-one: a communication stated between two units.
+    - One-to-many: a single stated communication in which one unit communicates with several other units (e.g. a unit that routes, distributes, logs, or mediates communication among many units).
+   
+    ### Other
+    - Definition: a participant in the system's architecture that does not fit any technical type above; might be:
+        1. an external actor that interacts with the system; OR
+        2. a high-level logical or structural part of the system that groups lower-level architectural elements but is not itself treated as a Layer, Component or Service.
+    - Examples: an end user, a client, "the backend", "the frontend".
+
+    # Extraction Process
+    
+    ## Patterns
+    
+    - Assign each Pattern a strict sequential id: P_01, P_02, P_03...
+    - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+    - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
+    - For each pattern, specify its type using exactly one of:
+    - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
+    - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+    - Pattern should have the following JSON Schema:
+
+        {
+        "id": "<Sequential Pattern id (P_01, P_02)>",
+        "type": "<Architectural Pattern | Design Pattern>",
+        "name": "<Name of the pattern in English>",
+        "description": "<The exact document sentence(s) stating the pattern, translated to English>",
+        "pageNumber": "<Page number(s) where the pattern is described>",
+        "isPartOf": ["<id of the pattern this pattern is part of>"],
+        "fixedType": "<>"
+        }
+    
+    ## Architectural Units
+    
+    - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+    - Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology", "Connector" or "Other".
+    - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
+    - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+    - For each unit except connector, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
+    - For connector, "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
+    - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
+    - Architectural Unit should have the following JSON Schema:
+        {
+        "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+        "type": "<Layer | Component | Service | Device | Technology | Connector | Other>",
+        "name": "<Name of the unit (If connector then empty) >",
+        "description": "<The exact document sentence(s) stating the unit, translated to English>",
+        "pageNumber": "<Page number(s) where the unit is described>",
+        "isPartOf": ["<id of the unit this unit is part of>"],
+        "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
+        }
+
+    # Rules:
+    - Output should be given in JSON format as in the Example Output section.
+    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+    - Avoid adding any extra explanation, just provide the required data.
+
+    # Example Output (JSON)
+    {
+      "architectural_units": [
+        {
+          "id": "AU_01",
+          "type": "Other",
+          "name": "Client",
+          "description": "The client is the user of the platform.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_02",
+          "type": "Other",
+          "name": "Backend",
+          "description": "The Backend is the software that is responsible for processing user requests.",
+          "pageNumber": "41",
+          "isPartOf": [P_01],
+          "fixedType": []
+        },
+        {
+          "id": "AU_03",
+          "type": "Layer",
+          "name": "Presentation Layer",
+          "description": "It is the layer that is responsible for displaying information to the user.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_04",
+          "type": "Layer",
+          "name": "Business Layer",
+          "description": "This layer is the core of the application and is responsible for processing all the information.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_05",
+          "type": "Layer",
+          "name": "Data Layer",
+          "description": "It is the layer that is responsible for storing all the data.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "AU_06",
+          "type": "Service",
+          "name": "API Gateway Service",
+          "description": "This service is responsible for the management, authentication and authorization of platform users.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_04"],
+          "fixedType": []
+        },
+        {
+          "id": "AU_07",
+          "type": "Technology",
+          "name": "Spring Boot",
+          "description": "Backend framework used to implement the API Gateway Service.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_06"],
+          "fixedType": []
+        },
+        
+        {
+          "id": "AU_08",
+          "type": "Connector",
+          "name": "",
+          "description": "Presentation layer communicates with business layer",
+          "pageNumber": "60",
+          "isPartOf": ["AU_03", "AU_04"],
+          "fixedType": []
+        }
+      ],
+      
+    "patterns": [
+        {
+          "id": "P_01",
+          "type": "Architectural Pattern",
+          "name": "Client-Server",
+          "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+          "pageNumber": "41",
+          "isPartOf": [],
+          "fixedType": []
+        },
+        {
+          "id": "P_02",
+          "type": "Architectural Pattern",
+          "name": "Three Layers",
+          "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+          "pageNumber": "41",
+          "isPartOf": ["P_01"],
+          "fixedType": []
+        },
+        {
+          "id": "P_03",
+          "type": "Architectural Pattern",
+          "name": "Service-oriented",
+          "description": "Both the business layer and the data layer are divided into several different services.",
+          "pageNumber": "42",
+          "isPartOf": ["AU_04", "AU_05"],
+          "fixedType": []
+        },
+        {
+          "id": "P_04",
+          "type": "Design Pattern",
+          "name": "API Gateway",
+          "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+          "pageNumber": "43",
+          "isPartOf": ["AU_02"],
+          "fixedType": []
+        }
+  ]
+    }
+        ...
+        """
+
+    ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED_V2 = """
+        # Objective
+        You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) and patterns from the provided software document.
+
+        # Instructions
+            1. Carefully read the entire document.
+            2. Identify architectural units and patterns using the type definitions below.
+            3. Extract the identified architectural units and patterns following the extraction process defined below.
+
+        # Type Definitions
+        Below are the definitions for each type of architectural unit and pattern with their concrete examples.
+
+        ## Patterns
+
+        ## Architectural Pattern
+        - Definition: A high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
+        - Examples: Layered Architecture, Hexagonal Architecture, API Gateway.
+
+        ## Design Pattern 
+        - Definition: A lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
+        - Examples: Observer, Strategy, Factory.
+
+        ## Architectural Units
+
+        ### Layer
+            - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+            - Examples: presentation layer, business layer, data layer.
+
+        ### Component
+        - Definition: a concrete structural module of the system that either:
+            1. represents an internal functional or structural part of the system that is not exposed as an independently running service; OR
+            2. represents a technology-independent architectural role fulfilled by an infrastructure or data-management element.
+        - Examples: View, ViewModel, Model, Controller, Repository, Cache, Message Broker, Database.
+
+        ### Service
+        - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+        - Examples: API gateway, Microservice, Authentication Service, Payment Service.
+
+        ### Device
+        - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+        - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+
+        ### Technology
+        - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+        - Examples: PostgreSQL, React, AWS S3, Python, Spring Boot.  
+
+        ### Connector
+        - Definition: a communication or interaction relationship among two or more Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...). A Connector has no name.
+        - One-to-one: a communication stated between two units.
+        - One-to-many: a single stated communication in which one unit communicates with several other units (e.g. a unit that routes, distributes, logs, or mediates communication among many units).
+
+        ### Other
+        - Definition: a participant in the system's architecture that does not fit any technical type above; might be:
+            1. an external actor that interacts with the system; OR
+            2. a high-level logical or structural part of the system that groups lower-level architectural elements but is not itself treated as a Layer, Component or Service.
+        - Examples: an end user, a client, "the backend", "the frontend".
+
+        # Extraction Process
+
+        ## Patterns
+
+        - Assign each Pattern a strict sequential id: P_01, P_02, P_03...
+        - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
+        - For each pattern, specify its type using exactly one of:
+        - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
+        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+        - Pattern should have the following JSON Schema:
+
+            {
+            "id": "<Sequential Pattern id (P_01, P_02)>",
+            "type": "<Architectural Pattern | Design Pattern>",
+            "name": "<Name of the pattern in English>",
+            "description": "<The exact document sentence(s) stating the pattern, translated to English>",
+            "pageNumber": "<Page number(s) where the pattern is described>",
+            "isPartOf": ["<id of the pattern this pattern is part of>"],
+            "fixedType": "<>"
+            }
+
+        ## Architectural Units
+
+        - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+        - Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology", "Connector" or "Other".
+        - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
+        - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each unit except connector, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
+        - For connector, "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
+        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
+        - Architectural Unit should have the following JSON Schema:
+            {
+            "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+            "type": "<Layer | Component | Service | Device | Technology | Connector | Other>",
+            "name": "<Name of the unit (If connector then empty) >",
+            "description": "<The exact document sentence(s) stating the unit, translated to English>",
+            "pageNumber": "<Page number(s) where the unit is described>",
+            "isPartOf": ["<id of the unit this unit is part of>"],
+            "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
+            }
+
+        # Rules:
+        - Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+        - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
+        - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+        - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+        - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+        - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+            - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+                - a Service named by the capability it provides
+                - a Technology named by the product, whose isPartOf is that Service.
+        - Extract every named technology, including ones mentioned only in the prose.
+        - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
+        - Output should be given in JSON format as in the Example Output section.
+        - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+            - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+        - Avoid adding any extra explanation, just provide the required data.
+
+        # Example Output (JSON)
+        {
+          "architectural_units": [
+            {
+              "id": "AU_01",
+              "type": "Other",
+              "name": "Client",
+              "description": "The client is the user of the platform.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_02",
+              "type": "Other",
+              "name": "Backend",
+              "description": "The Backend is the software that is responsible for processing user requests.",
+              "pageNumber": "41",
+              "isPartOf": [P_01],
+              "fixedType": []
+            },
+            {
+              "id": "AU_03",
+              "type": "Layer",
+              "name": "Presentation Layer",
+              "description": "It is the layer that is responsible for displaying information to the user.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_04",
+              "type": "Layer",
+              "name": "Business Layer",
+              "description": "This layer is the core of the application and is responsible for processing all the information.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_05",
+              "type": "Layer",
+              "name": "Data Layer",
+              "description": "It is the layer that is responsible for storing all the data.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_06",
+              "type": "Service",
+              "name": "API Gateway Service",
+              "description": "This service is responsible for the management, authentication and authorization of platform users.",
+              "pageNumber": "44",
+              "isPartOf": ["AU_04"],
+              "fixedType": []
+            },
+            {
+              "id": "AU_07",
+              "type": "Technology",
+              "name": "Spring Boot",
+              "description": "Backend framework used to implement the API Gateway Service.",
+              "pageNumber": "44",
+              "isPartOf": ["AU_06"],
+              "fixedType": []
+            },
+
+            {
+              "id": "AU_08",
+              "type": "Connector",
+              "name": "",
+              "description": "Presentation layer communicates with business layer",
+              "pageNumber": "60",
+              "isPartOf": ["AU_03", "AU_04"],
+              "fixedType": []
+            }
+          ],
+
+        "patterns": [
+            {
+              "id": "P_01",
+              "type": "Architectural Pattern",
+              "name": "Client-Server",
+              "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "P_02",
+              "type": "Architectural Pattern",
+              "name": "Three Layers",
+              "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+              "pageNumber": "41",
+              "isPartOf": ["P_01"],
+              "fixedType": []
+            },
+            {
+              "id": "P_03",
+              "type": "Architectural Pattern",
+              "name": "Service-oriented",
+              "description": "Both the business layer and the data layer are divided into several different services.",
+              "pageNumber": "42",
+              "isPartOf": ["AU_04", "AU_05"],
+              "fixedType": []
+            },
+            {
+              "id": "P_04",
+              "type": "Design Pattern",
+              "name": "API Gateway",
+              "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+              "pageNumber": "43",
+              "isPartOf": ["AU_02"],
+              "fixedType": []
+            }
+      ]
+        }
+            ...
+            """
+
+    ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED_V3 = """
+        # Objective
+        You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) and patterns from the provided software document.
+
+        # Instructions
+            1. Carefully read the entire document.
+            2. Identify architectural units and patterns using the type definitions below.
+            3. Extract the identified architectural units and patterns following the extraction process defined below.
+
+        # Type Definitions
+        Below are the definitions for each type of architectural unit and pattern with their concrete examples.
+
+        ## Patterns
+
+        ## Architectural Pattern
+        - Definition: A high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
+        - Examples: Layered Architecture, Hexagonal Architecture, API Gateway.
+
+        ## Design Pattern 
+        - Definition: A lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
+        - Examples: Observer, Strategy, Factory.
+
+        ## Architectural Units
+
+        ### Layer
+            - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+            - Examples: presentation layer, business layer, data layer.
+
+        ### Component
+        - Definition: a concrete structural module of the system that either:
+            1. represents an internal functional or structural part of the system that is not exposed as an independently running service; OR
+            2. represents a technology-independent architectural role fulfilled by an infrastructure or data-management element.
+        - Examples: View, ViewModel, Model, Controller, Repository, Cache, Message Broker, Database.
+
+        ### Service
+        - Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+        - Examples: API gateway, Microservice, Authentication Service, Payment Service.
+
+        ### Device
+        - Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+        - Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+
+        ### Technology
+        - Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+        - Examples: PostgreSQL, React, AWS S3, Python, Spring Boot.  
+
+        ### Other
+        - Definition: a participant in the system's architecture that does not fit any technical type above; might be:
+            1. an external actor that interacts with the system; OR
+            2. a high-level logical or structural part of the system that groups lower-level architectural elements but is not itself treated as a Layer, Component or Service.
+        - Examples: an end user, a client, "the backend", "the frontend".
+
+        # Extraction Process
+
+        ## Patterns
+
+        - Assign each Pattern a strict sequential id: P_01, P_02, P_03...
+        - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
+        - For each pattern, specify its type using exactly one of:
+        - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
+        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+        - Pattern should have the following JSON Schema:
+
+            {
+            "id": "<Sequential Pattern id (P_01, P_02)>",
+            "type": "<Architectural Pattern | Design Pattern>",
+            "name": "<Name of the pattern in English>",
+            "description": "<The exact document sentence(s) stating the pattern, translated to English>",
+            "pageNumber": "<Page number(s) where the pattern is described>",
+            "isPartOf": ["<id of the pattern this pattern is part of>"],
+            "fixedType": "<>"
+            }
+
+        ## Architectural Units
+
+        - Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+        - Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology", or "Other".
+        - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
+        - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+        - For each unit, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
+        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
+        - Architectural Unit should have the following JSON Schema:
+            {
+            "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+            "type": "<Layer | Component | Service | Device | Technology | Other>",
+            "name": "<Name of the unit>",
+            "description": "<The exact document sentence(s) stating the unit, translated to English>",
+            "pageNumber": "<Page number(s) where the unit is described>",
+            "isPartOf": ["<id of the unit this unit is part of>"],
+            "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
+            }
+
+        # Rules:
+        - Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+        - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
+        - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+        - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+        - When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+        - Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+            - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+                - a Service named by the capability it provides
+                - a Technology named by the product, whose isPartOf is that Service.
+        - Extract every named technology, including ones mentioned only in the prose.
+        - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
+        - Output should be given in JSON format as in the Example Output section.
+        - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+            - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+        - Avoid adding any extra explanation, just provide the required data.
+
+        # Example Output (JSON)
+        {
+          "architectural_units": [
+            {
+              "id": "AU_01",
+              "type": "Other",
+              "name": "Client",
+              "description": "The client is the user of the platform.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_02",
+              "type": "Other",
+              "name": "Backend",
+              "description": "The Backend is the software that is responsible for processing user requests.",
+              "pageNumber": "41",
+              "isPartOf": [P_01],
+              "fixedType": []
+            },
+            {
+              "id": "AU_03",
+              "type": "Layer",
+              "name": "Presentation Layer",
+              "description": "It is the layer that is responsible for displaying information to the user.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_04",
+              "type": "Layer",
+              "name": "Business Layer",
+              "description": "This layer is the core of the application and is responsible for processing all the information.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_05",
+              "type": "Layer",
+              "name": "Data Layer",
+              "description": "It is the layer that is responsible for storing all the data.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "AU_06",
+              "type": "Service",
+              "name": "API Gateway Service",
+              "description": "This service is responsible for the management, authentication and authorization of platform users.",
+              "pageNumber": "44",
+              "isPartOf": ["AU_04"],
+              "fixedType": []
+            },
+            {
+              "id": "AU_07",
+              "type": "Technology",
+              "name": "Spring Boot",
+              "description": "Backend framework used to implement the API Gateway Service.",
+              "pageNumber": "44",
+              "isPartOf": ["AU_06"],
+              "fixedType": []
+            }
+          ],
+
+        "patterns": [
+            {
+              "id": "P_01",
+              "type": "Architectural Pattern",
+              "name": "Client-Server",
+              "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+              "pageNumber": "41",
+              "isPartOf": [],
+              "fixedType": []
+            },
+            {
+              "id": "P_02",
+              "type": "Architectural Pattern",
+              "name": "Three Layers",
+              "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+              "pageNumber": "41",
+              "isPartOf": ["P_01"],
+              "fixedType": []
+            },
+            {
+              "id": "P_03",
+              "type": "Architectural Pattern",
+              "name": "Service-oriented",
+              "description": "Both the business layer and the data layer are divided into several different services.",
+              "pageNumber": "42",
+              "isPartOf": ["AU_04", "AU_05"],
+              "fixedType": []
+            },
+            {
+              "id": "P_04",
+              "type": "Design Pattern",
+              "name": "API Gateway",
+              "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+              "pageNumber": "43",
+              "isPartOf": ["AU_02"],
+              "fixedType": []
+            }
+      ]
+        }
+            ...
+            """
+
     PATTERN_EXTRACTION_PROMPT = """
 # Objective
     You are an expert software architect and system design analyst. Extract the Patterns (the reusable design solutions the system is built upon) from the provided software document. Do NOT extract Architectural Units (layers, components, services, technologies, devices, connectors) — those are produced by a separate prompt.
@@ -419,7 +1268,7 @@ Below are the definitions for each type and their concrete examples.
     - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
     - For each pattern, specify its type using exactly one of:
     - "isPartOf" is the list of OTHER Pattern ids (P_xx) this pattern belongs to (e.g. "Three Layers" isPartOf "Client-Server"; a Design Pattern isPartOf the Architectural Pattern that introduces it). Leave it as an empty list when no parent pattern applies. 
-    - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixes" field. Otherwise, leave "fixes" empty.
+    - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
     - Pattern should have the following JSON Schema:
 
         {
@@ -429,7 +1278,7 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the pattern, translated to English>",
         "pageNumber": "<Page number(s) where the pattern is described>",
         "isPartOf": ["<id of the pattern this pattern is part of>"],
-        "fixes": ["<Brief explanation if any mistake was corrected from the source document>"]
+        "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
         }
 
 # Rules:
@@ -448,7 +1297,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
       "pageNumber": "41",
       "isPartOf": [],
-      "fixes": []
+      "fixedType": []
     },
     {
       "id": "P_02",
@@ -457,7 +1306,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
       "pageNumber": "41",
       "isPartOf": ["P_01"],
-      "fixes": []
+      "fixedType": []
     },
     {
       "id": "P_03",
@@ -466,7 +1315,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "Both the business layer and the data layer are divided into several different services.",
       "pageNumber": "42",
       "isPartOf": ["P_01"],
-      "fixes": []
+      "fixedType": []
     },
     {
       "id": "P_04",
@@ -475,7 +1324,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
       "pageNumber": "43",
       "isPartOf": ["P_03"],
-      "fixes": []
+      "fixedType": []
     }
   ]
 }
@@ -512,7 +1361,7 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the communication, translated to English>",
         "pageNumber": "<Page number(s) where the communication is described>",
         "isPartOf": ["<id of a linked unit>", "<id of another linked unit>", "..."],
-        "fixes": []
+        "fixedType": []
         }
 
 # Rules:
@@ -539,7 +1388,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "The presentation layer communicates with the business layer. [...] presentation layer communicates with business layer for calling the necessary functions.",
       "pageNumber": "42,61",
       "isPartOf": ["AU_03", "AU_04"],
-      "fixes": []
+      "fixedType": []
     },
     {
       "id": "AU_08",
@@ -548,13 +1397,116 @@ Below are the definitions for each type and their concrete examples.
       "description": "The gateway service routes every incoming request to the corresponding microservice.",
       "pageNumber": "44",
       "isPartOf": ["AU_06", "AU_09", "AU_10", "AU_11"],
-      "fixes": []
+      "fixedType": []
     }
   ]
 }
     ...
     """
 
+    CONNECTOR_EXTRACTION_PROMPT_V2 = """
+    # Objective
+        You are an expert software architect and system design analyst. Given the already-extracted Architectural Units (provided below as JSON) and the software document, extract the Connectors of the system — the communications between its Architectural Units.
+
+    # Instructions
+        1. Carefully read the entire document.
+        2. Extract connectors and technologies used from document using the type definition and extracting process below.
+        3. Check if technology or protocol specified for the connector, if yes, extract it separately as a technology following the definition and extraction process.
+
+    ## What is connector
+        - Definition: a communication or interaction relationship among two or more Architectural Units. It can link any unit type to any unit type (e.g. layer–layer, service–service, service–database, device–service, component–service ...).
+        - One-to-one: a communication stated between two units.
+        - One-to-many: a single stated communication in which one unit communicates with several other units (e.g. a unit that routes, distributes, logs, or mediates communication among many units).
+    
+    ## What is technology
+        - Definition: Protocols or technologies used by the connector (in the communication)
+        - Examples: HTTP, REST, gRPC etc.
+    
+    # Extraction Process
+    
+    ## Connector
+    -  Assign each connector a strict sequential id: C_01, C_02, C_03....
+    - "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. 
+        - Include exactly the units the stated communication involves. 
+        - For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
+    - "description" must be the sentence or sentences from the document that states the communication — the evidence proving the connection.
+        - Some keywords to look for, communicate, connect, send, receive etc.
+        - In case of multiple sentences from different pages, sentences should be separated with "[...]"
+    - Specify the page number from the document text (not the PDF page number) where the communication is described. If it spans several pages, list them all.
+    - Connector should have the following JSON Schema:
+        {
+        "id": "<Sequential connector id (C_01, C_02)>",
+        "type": "Connector",
+        "description": "<The exact document sentence(s) stating the communication, translated to English>",
+        "pageNumber": "<Page number(s) where the communication is described>",
+        "isPartOf": ["<id of a linked unit>", "<id of another linked unit>", "..."],
+        "fixedType": []
+        }
+        
+    ## Technology
+    -  Assign each Technology a strict sequential id: T_01, T_02, T_03....
+    - "name" is the name of the protocol/technology exactly as stated (or its standard name if the document uses an abbreviation/variant), e.g. "HTTP", "REST", "gRPC".
+    - "isPartOf" is the list of Connector ids (C_xx, from the extracted Connectors) that use this technology.
+    - "description" must be the exact sentence(s) from the document stating that this technology/protocol is used for the communication — the evidence proving the technology usage.
+    - Specify the page number(s) from the document text (not the PDF page number) where the technology is mentioned.
+    - Technology should have the following JSON Schema:
+        {
+        "id": "<Sequential technology id (T_01, T_02)>",
+        "type": "Technology",
+        "name": "<Name of the technology as stated in the document>",
+        "description": "<The exact document sentence(s) stating the technology is used, translated to English>",
+        "pageNumber": "<Page number(s) where the technology is described>",
+        "isPartOf": ["<id of a connector using this technology>"],
+        "fixedType": []
+        }
+
+    # Rules:
+    - A Connector links two or more units; put every unit the stated communication involves in "isPartOf".
+    - When a single statement describes one unit communicating with a set of units in the same way (one-to-many — e.g. a unit that routes, distributes, logs, or mediates among many units), output ONE Connector with that central unit listed FIRST, followed by every unit in the set; do not split it into separate pairs.
+    - Output a separate Connector for each independently stated communication; do not merge communications the document states separately into one Connector.
+    - Do not extract the individual steps of a use-case, scenario, or action sequence as connectors; capture only the structural communications between the architectural units involved.
+    - A Connector may link any unit type to any unit type.
+    - When one statement describes a communication at several levels (e.g. a layer communicating with another layer, and more specifically with a service inside it), output a separate Connector for EACH stated level; do not collapse them into one.
+    - Reference only ids from the provided Architectural Units; if an endpoint you see is not in the list, avoid extracting.
+    - Only extract technologies related to the connector and it is explicitly stated by the document.
+    - Ensure every connector is strictly supported by the document; do not invent communications. Do not infer a connector merely because two units could plausibly interact (for example, do not connect every service to a shared database or infrastructure unit) — extract only the communications the document explicitly states.
+    - Output should be given in JSON format as in the Example Output section.
+    - The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+
+    # Example Output (JSON)
+    {
+      "connectors": [
+        {
+          "id": "C_01",
+          "type": "Connector",
+          "description": "The presentation layer communicates with the business layer. [...] presentation layer communicates with business layer for calling the necessary functions.",
+          "pageNumber": "42,61",
+          "isPartOf": ["AU_03", "AU_04"],
+          "fixedType": []
+        },
+        {
+          "id": "C_02",
+          "type": "Connector",
+          "name": "",
+          "description": "The gateway service routes every incoming request to the microservice A, B, C using gRPC.",
+          "pageNumber": "44",
+          "isPartOf": ["AU_06", "AU_09", "AU_10", "AU_11"],
+          "fixedType": []
+        },
+        {
+          "id": "T_01",
+          "type": "Technology",
+          "name": "gRPC",
+          "description": "The gateway service routes every incoming request to the microservice A, B, C using gRPC.",
+          "pageNumber": "44",
+          "isPartOf": ["C_02"],
+          "fixedType": []
+        }   
+      ]
+    }
+        ...
+        """
     ISPARTOF_LINKING_PROMPT = """
 # Objective
     You are an expert software architect and system design analyst. You are given the already-extracted Architectural Units and Patterns of a system (as JSON, with id/type/name/description) and the software document. Determine ONLY the "isPartOf" relations BETWEEN a unit and a pattern, referring to elements by their given ids (AU_xx for units, P_xx for patterns).
