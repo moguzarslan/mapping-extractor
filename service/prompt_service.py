@@ -210,9 +210,10 @@ def _is_technology(record: dict) -> bool:
     return str(record.get("type") or "").strip().casefold() == "technology"
 
 
-def _technology_key(record: dict) -> str:
-    """The name a Technology is deduplicated by: trimmed, whitespace-collapsed and
-    case-folded, so "gRPC" and "grpc " are the same technology."""
+def _name_key(record: dict) -> str:
+    """The name a record is deduplicated by: trimmed, whitespace-collapsed and
+    case-folded, so "gRPC" and "grpc " are the same thing. Empty for the unnamed
+    records (the connectors), which are therefore never deduplicated."""
     return " ".join(str(record.get("name") or "").split()).casefold()
 
 
@@ -224,12 +225,14 @@ def merge_connectors(units: list, connectors: list) -> list:
     record is renumbered here to the next free AU id, so the merged file speaks a
     single id namespace and is collision-free even if the model repeats an id.
 
-    A Technology the unit extraction already produced (matched by name) is NOT
-    appended a second time: its isPartOf — the connectors using it — is unioned
-    into the existing unit, and every other field is kept from the unit
-    extraction, which saw the whole document rather than just the communication.
-    Technologies the connector pass repeats among itself collapse the same way,
-    onto the first one appended.
+    A Technology the unit extraction already produced is NOT appended a second
+    time: its isPartOf — the connectors using it — is unioned into the existing
+    unit, and every other field is kept from the unit extraction, which saw the
+    whole document rather than just the communication. The duplicate is found by
+    NAME alone, against every named unit whatever type it was given, because the
+    two passes routinely disagree on the type of the same thing. Technologies the
+    connector pass repeats among itself collapse the same way, onto the first one
+    appended.
 
     isPartOf is rewritten through the resulting old id -> new id map: a Technology
     references its connectors by C_xx, and the map turns those into the AU ids the
@@ -245,13 +248,17 @@ def merge_connectors(units: list, connectors: list) -> list:
         if m:
             max_idx = max(max_idx, int(m.group(1)))
 
-    # The technologies already on the table, by name; the first one wins.
-    technology_by_name = {}
+    # The units already on the table, by name; the first one wins. EVERY named unit
+    # is indexed, not only the Technology-typed ones: the name is what identifies
+    # the thing, and the type is exactly what the unit extraction can disagree with
+    # the connector pass about (it typed Prisma a Component while the connector
+    # pass called it a Technology). Matching on the type as well would let through
+    # precisely the duplicates this exists to catch.
+    unit_by_name = {}
     for u in units:
-        if _is_technology(u):
-            key = _technology_key(u)
-            if key and key not in technology_by_name:
-                technology_by_name[key] = u
+        key = _name_key(u)
+        if key and key not in unit_by_name:
+            unit_by_name[key] = u
 
     id_map = {}          # connector-pass id -> id in the merged file
     appended = []        # the records that are genuinely new
@@ -265,7 +272,7 @@ def merge_connectors(units: list, connectors: list) -> list:
         parents = _as_ispartof_list(c.get("isPartOf"))
 
         if _is_technology(c):
-            existing = technology_by_name.get(_technology_key(c))
+            existing = unit_by_name.get(_name_key(c))
             if existing is not None:
                 # Duplicate technology: keep the existing record as it is and only
                 # collect the connectors it is used by.
@@ -283,9 +290,9 @@ def merge_connectors(units: list, connectors: list) -> list:
         appended.append(c)
 
         if _is_technology(c):
-            key = _technology_key(c)
-            if key and key not in technology_by_name:
-                technology_by_name[key] = c
+            key = _name_key(c)
+            if key and key not in unit_by_name:
+                unit_by_name[key] = c
 
     # Re-point every reference at the merged file's ids. Done only after the whole
     # batch is numbered, so a technology may reference any connector in it.
@@ -341,24 +348,23 @@ def _compacted_architecture(data) -> tuple[list, list]:
     return _split_by_id_namespace(data or [])
 
 
-def extract_architecture_compacted(file: str, prompt: str = None) -> tuple[list, list]:
+def extract_architecture_compacted(file: str, prompt: str) -> tuple[list, list]:
     """Run a single compacted architecture prompt over the document and return
     (architectural_units, patterns). Nothing is written to disk.
 
     Unlike the multi-pass pipeline, every isPartOf link (within- and cross-group)
     already comes out of this one call, so the returned groups need no linking
     step. Whether the units also contain the Connector records depends on the
-    prompt: the default (V2) extracts them, while V3 leaves connectors to the
+    prompt the caller passes: V2 extracts them, while V3 leaves connectors to the
     separate connector pass.
     """
     print(f"Extracting architecture (single compacted prompt) from: {file}")
-    built = build_document_prompt(
-        file, prompt or Prompts.ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED_V2, image_folder=None)
+    built = build_document_prompt(file, prompt, image_folder=None)
     response = ask_gemini(user_prompt=built)
     return _compacted_architecture(extract_json_from_response(response))
 
 
-def extract_connectors(file: str, units: list) -> list:
+def extract_connectors(file: str, units: list, prompt: str) -> list:
     """Run the connector prompt with the document and the already-extracted units;
     return the records it produced. Nothing is written to disk.
 
@@ -377,7 +383,7 @@ def extract_connectors(file: str, units: list) -> list:
     )
     built = build_document_json_prompt(
         file=file,
-        prompt=Prompts.CONNECTOR_EXTRACTION_PROMPT_V2,
+        prompt=prompt,
         json_payload=units_payload,
     )
     response = ask_gemini(user_prompt=built)
@@ -450,7 +456,7 @@ def apply_ispartof(elements: list, links: dict) -> list:
     return out
 
 
-def extract_ispartof_links(file: str, units: list, patterns: list) -> dict:
+def extract_ispartof_links(file: str, units: list, patterns: list, prompt: str) -> dict:
     """Run the dedicated containment pass over the already-extracted units and
     patterns and return {id: [isPartOf ids]}.
 
@@ -467,7 +473,7 @@ def extract_ispartof_links(file: str, units: list, patterns: list) -> dict:
     )
     built = build_document_json_prompt(
         file=file,
-        prompt=Prompts.ISPARTOF_LINKING_PROMPT,
+        prompt=prompt,
         json_payload=payload,
     )
     response = ask_gemini(user_prompt=built)

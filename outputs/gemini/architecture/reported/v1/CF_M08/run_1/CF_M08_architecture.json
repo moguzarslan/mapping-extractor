@@ -1,0 +1,115 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Security Service (Traefik)",
+            "description": "Funciona como un proxy inverso y balanceador de carga. Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "System Service (Next.js)",
+            "description": "Sirve la aplicación web mediante React. Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Data Service (PostgreSQL)",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Administra la ejecución de los contenedores.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "ORM (Object-Relational Mapping) para bases de datos, utilizado para simplificar el acceso y manejo de bases de datos.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Technology",
+            "name": "React",
+            "description": "Biblioteca de JavaScript de código abierto diseñada para construir interfaces de usuario (UI) de manera eficiente y flexible.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Connector",
+            "description": "Security Service (Traefik) redirige el tráfico a los servicios internos (System Service y Data Service).",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Connector",
+            "description": "System Service se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

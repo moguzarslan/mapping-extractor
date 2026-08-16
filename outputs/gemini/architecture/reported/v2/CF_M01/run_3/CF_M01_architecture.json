@@ -1,0 +1,246 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "The client is the user of the platform.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "It is the layer that is responsible for displaying information to the user.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Business Layer",
+            "description": "This layer is the core of the application and is responsible for processing all the information.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "It is the layer that is responsible for storing all the data.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "API Gateway",
+            "description": "This service is responsible for the management, authentication and authorization of platform users.",
+            "pageNumber": "43, 44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Core",
+            "description": "This service is responsible for performing the business logic of the platform, it would be the main core of the platform.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Analytical Module",
+            "description": "This service has as its main function to obtain and process the data of the playlogs, the connections and the actions in platform.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "API Player",
+            "description": "This service is responsible for communicating with the players receiving all the information corresponding to this.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Web Socket",
+            "description": "This service is responsible for carrying out the communication between the platform and the players.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "Backend framework used to develop the different services.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Programming language used for NestJS.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Relational database used to store all the data necessary for the operation of the system.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Object storage service used to store JSON documents containing playlogs, connections and audit trail.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "DynamoDB",
+            "description": "NoSQL database service used to store playlogs in real time.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "Amazon Athena",
+            "description": "Service that allows performing SQL queries on data stored in Amazon S3.",
+            "pageNumber": "49",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "AWS Glue",
+            "description": "Serverless data integration service used for metadata storage.",
+            "pageNumber": "49",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Kinesis Data Streams",
+            "description": "Data ingestion and processing service for streaming data.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "Service for loading large amounts of data into data stores.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Communication protocol between presentation and business layers.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "Communication protocol between services in the business layer.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "Presentation layer communicates with API Gateway",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "API Gateway communicates with Core and Analytical Module",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The platform is a web service that follows the client-server architecture.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three Layers",
+            "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "API Gateway",
+            "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": []
+        }
+    ]
+}

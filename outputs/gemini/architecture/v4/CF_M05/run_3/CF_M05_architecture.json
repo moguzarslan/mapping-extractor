@@ -1,0 +1,313 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Frontend",
+            "description": "The client, the what we also call frontEnd, is responsible for the presentation and user experience of the application, encapsulating the interface logic and the coordination of calls to the server API.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Backend",
+            "description": "For the server, the backEnd, Spring Boot organizes the code following the layered pattern.",
+            "pageNumber": "67",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Component",
+            "name": "View",
+            "description": "The component we call View is formed by the HTML and SCSS files of each component that make up the application.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Component",
+            "name": "ViewModel",
+            "description": "The ViewModel component groups the TS files of the components and the services they have associated.",
+            "pageNumber": "63",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Component",
+            "name": "Model",
+            "description": "Models are the TypeScript classes that define the data contract consumed by the view and the ViewModel.",
+            "pageNumber": "65",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Layer",
+            "name": "Presentation Layer (Controllers)",
+            "description": "The presentation layer receives requests and builds responses.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Layer",
+            "name": "Business Logic Layer (Services)",
+            "description": "The business logic layer applies the domain rules.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Layer",
+            "name": "Domain Layer (Models)",
+            "description": "The domain layer defines the data model.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Layer",
+            "name": "Contract Layer (DTO/Mappers)",
+            "description": "A cross-cutting contract layer that separates the internal model from the external representation of the API.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Layer",
+            "name": "Data Access Layer (Repositories)",
+            "description": "The data access layer interacts with the database.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Service",
+            "name": "Leader",
+            "description": "This microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Service",
+            "name": "Portal",
+            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "The Communication Log microservice has as its main purpose to register all communications that occur within the system.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "This microservice has as its main function the planning and programming of processes within the system.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Angular is a web development framework created by Google, based on the programming language superset of JavaScript called TypeScript.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Spring Boot is a framework that simplifies the creation of Java applications based on Spring.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "The provider for this project is Amazon Web Services which has a wide catalog of cloud services and resources.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "The Leader microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "AU_11",
+                "AU_12",
+                "AU_13",
+                "AU_14",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "The client, the what we also call frontEnd, is responsible for the presentation and user experience of the application, encapsulating the interface logic and the coordination of calls to the server API.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "The ViewModel acts as an intermediary between the View and the Model, providing the data that the view needs and managing the user's actions.",
+            "pageNumber": "64",
+            "isPartOf": [
+                "AU_04",
+                "AU_03",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "The presentation layer receives requests and builds responses. [...] The presentation layer communicates with the business logic layer.",
+            "pageNumber": "67,68",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "description": "The business logic layer applies the domain rules. [...] The business logic layer communicates with the data access layer.",
+            "pageNumber": "67,69",
+            "isPartOf": [
+                "AU_07",
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "The data access layer interacts with the database.",
+            "pageNumber": "67,73",
+            "isPartOf": [
+                "AU_10",
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The protocol for exchanging messages used in this case is HTTP.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "REST",
+            "description": "Spring Boot, which provides a platform for exposing a REST API.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_22"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "The data format used is JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_20"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The application has an architecture based on microservices.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "The application also applies a cloud architecture.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, since its architecture is based on components and services.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ],
+            "fixedType": null
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Leader",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Portal",
+            "description": "El microservei del portal té com a funció principal oferir una interfície centralitzada per a l’accés a les diferents aplicacions de VWGS.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "El microservei Access Control té com a objectiu principal la gestió d’autenticació d’usuaris i els seus permisos dins de l’aplicació.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "Té com a funció principal la planificació i programació de processos dins del sistema.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Angular és un framework de desenvolupament web creat per Google... s’utilitza pel frontEnd de l’aplicació d’aquest projecte.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Spring Boot és un framework que simplifica la creació d’aplicacions Java basades en Spring... es fa servir per accelerar el desenvolupament de microserveis.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_01",
+                "AU_03",
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Amazon EKS",
+            "description": "Pel desplegament de l’aplicació s’ha fet ús d’Amazon EKS, un servei que ofereix AWS el qual permet utilitzar Kubernetes.",
+            "pageNumber": "80",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Connector",
+            "description": "Communication between client and server via HTTP protocol.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "Consisteix a dividir el sistema en un conjunt de serveis petits, independents i autònoms on cada microservei s’encarrega d’una funcionalitat específica.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_06"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_07"
+            ],
+            "fixedType": []
+        }
+    ]
+}

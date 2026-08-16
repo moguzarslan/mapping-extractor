@@ -1,0 +1,134 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "Un usuario es todo individuo o entidad que interactúa con el sistema, puede ser tanto un donante como una empresa.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Security Service",
+            "description": "Funciona como un proxy inverso y balanceador de carga.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Traefik es un proxy inverso y balanceador de carga moderno diseñado para gestionar la entrada y salida de tráfico HTTP y HTTPS en aplicaciones basadas en contenedores.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "System Service",
+            "description": "Sirve la aplicación web mediante React.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "Next.js es un framework para la creación de aplicaciones web que ofrece una estructura adicional, características y optimizaciones.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Prisma es una herramienta ORM (Object-Relational Mapping) para bases de datos.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Connector",
+            "description": "Security Service (Traefik) gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_02",
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Connector",
+            "description": "System Service se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04",
+                "AU_06"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

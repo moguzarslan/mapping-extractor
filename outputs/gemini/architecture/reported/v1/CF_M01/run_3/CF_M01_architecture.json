@@ -1,0 +1,167 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "El client és l’usuari de la plataforma.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Server",
+            "description": "El servidor és el software que s’encarrega de processar les peticions de l’usuari.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Capa de presentació",
+            "description": "És la capa que s’encarrega de mostrar la informació a l’usuari.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Capa de negoci",
+            "description": "Aquesta capa és el nucli de l’aplicació, que s’encarrega de processar tota la informació.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Capa de dades",
+            "description": "És la capa que s’encarrega d'emmagatzemar totes les dades.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Api Gateway",
+            "description": "Aquest servei s’encarrega de la gestió, autenticació i autorització dels usuaris de la plataforma.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Core",
+            "description": "Aquest servei s’encarrega de realitzar la lògica de negoci de la plataforma, seria el nucli principal de la plataforma.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "Mòdul analític",
+            "description": "El mòdul analític té com a funció principal obtenir i processar les dades dels playlogs, les connexions i les accions en plataforma.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Api Player",
+            "description": "Aquest servei s’encarrega de comunicar-se amb els players rebent tota la informació corresponent a aquest.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Service",
+            "name": "Web Socket",
+            "description": "Aquest servei s’encarrega de realitzar la comunicació entre la plataforma i els players, i d’aquesta manera permet l’intercanvi d’informació entre ells.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "La base de dades utilitzada és una base de dades MySQL que s’encarrega d’emmagatzemar totes les dades necessàries per al funcionament del sistema.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Aquest és el servei d’emmagatzament d’objectes d’AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "DynamoDB",
+            "description": "Aquest servei és una base de dades no relacional d’AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Connector",
+            "description": "La capa de presentació es comunica amb la capa de negoci, més concretament amb l’Api Gateway, mitjançant el protocol HTTP.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_06"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "La plataforma de Waapiti és un servei web que segueix l’arquitectura client-servidor.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "3-layer architecture",
+            "description": "Pel model client-servidor s’utilitza l’arquitectura de 3 capes, on el sistema es devidiex en 3 capes, la capa de presentació, la capa de negoci i la capa de dades.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Api Gateway",
+            "description": "Aquest patró de disseny permet que solament un component sigui qui interactuï entre els usuaris i els serveis que proporciona la plataforma.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_04"
+            ],
+            "fixedType": []
+        }
+    ]
+}

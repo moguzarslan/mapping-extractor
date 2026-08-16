@@ -1,0 +1,141 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Leader",
+            "description": "This microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Portal",
+            "description": "The portal microservice has as its main function to offer a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "The Communication Log microservice has as its main purpose to record all communications that occur within the system, both between microservices and with external services.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "This microservice has as its main function the planning and scheduling of processes within the system.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Ordering",
+            "description": "Microservice in charge of calls to external services related to the sale of automobiles.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "GSB",
+            "description": "Microservice in charge of calls to external services related to the sale of automobiles.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Angular is a web development framework created by Google, based on the programming language TypeScript, which allows building modern single-page web applications (SPA).",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Spring Boot is a framework that simplifies the creation of Java applications based on Spring, offering automatic configuration and tools that allow deploying applications quickly.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "The provider for this project is Amazon Web Services which has a wide catalog of cloud services and resources.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Connector",
+            "description": "Communication between client and server components via HTTP protocol.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_08",
+                "AU_09"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "Software architecture model in which an application is divided into small independent services, each responsible for a specific functionality.",
+            "pageNumber": "9, 56",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "The application is designed, deployed, and executed using cloud services (cloud computing) instead of local or physical servers.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Client-Server",
+            "description": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, since its architecture is based on components and services.",
+            "pageNumber": "62",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: presentation layer, business logic layer, data access layer, and domain layer.",
+            "pageNumber": "68",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

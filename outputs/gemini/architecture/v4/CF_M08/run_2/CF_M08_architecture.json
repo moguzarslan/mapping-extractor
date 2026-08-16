@@ -1,0 +1,342 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Security Service",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic in container-based applications.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "System Service",
+            "description": "System Service (Next.js) serves the web application using React and interacts with the database and external services.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "Next.js is a framework for building web applications that supports both client-side and server-side rendering.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Data Service (PostgreSQL) provides the relational database for storing application data.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "PostgreSQL provides the relational database for storing application data.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Docker manages the execution of containers for the services.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Prisma is an ORM used to manage database queries and modifications.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_22"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "External service used for user authentication via Google.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Google",
+            "description": "Authentication provider used by the Authentication Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_09",
+                "AU_23"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Service",
+            "name": "Cloud Storage Service",
+            "description": "External service used for storing and retrieving files.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Cloud storage provider used by the Cloud Storage Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_11",
+                "AU_24"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Service",
+            "name": "Payment Processing Service",
+            "description": "External service used to handle payments and subscriptions.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Payment provider used by the Payment Processing Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_13",
+                "AU_25"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "Analytics Service",
+            "description": "External service used to track and analyze site traffic.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Analytics provider used by the Analytics Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_15",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Service",
+            "name": "Error Monitoring Service",
+            "description": "External service used to track and manage errors in the application.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Error monitoring provider used by the Error Monitoring Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_17",
+                "AU_27"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Service",
+            "name": "Email Service",
+            "description": "External service used to create, send, and schedule emails.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Email provider used by the Email Service.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_19",
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing. [...] Traefik gestiona el tráfico hacia los servicios internos (System Service y Data Service).",
+            "pageNumber": "41,43",
+            "isPartOf": [
+                "AU_01",
+                "AU_03",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: Autenticación: Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_21"
+            ]
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "HTTPS",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_21"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": "Design Pattern"
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": "Design Pattern"
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": "Design Pattern"
+        }
+    ]
+}

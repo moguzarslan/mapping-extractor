@@ -631,7 +631,7 @@ Below are the definitions for each type and their concrete examples.
     - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
     - For each pattern, specify its type using exactly one of:
     - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
-    - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+    - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and specify the changed type.
     - Pattern should have the following JSON Schema:
 
         {
@@ -641,7 +641,7 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the pattern, translated to English>",
         "pageNumber": "<Page number(s) where the pattern is described>",
         "isPartOf": ["<id of the pattern this pattern is part of>"],
-        "fixedType": "<>"
+        "fixedType": "<If fixed, indicate the type before the fix>"
         }
     
     ## Architectural Units
@@ -652,7 +652,6 @@ Below are the definitions for each type and their concrete examples.
     - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
     - For each unit except connector, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
     - For connector, "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
-    - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
     - Architectural Unit should have the following JSON Schema:
         {
         "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
@@ -661,7 +660,6 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the unit, translated to English>",
         "pageNumber": "<Page number(s) where the unit is described>",
         "isPartOf": ["<id of the unit this unit is part of>"],
-        "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
         }
 
     # Rules:
@@ -680,7 +678,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "The client is the user of the platform.",
           "pageNumber": "41",
           "isPartOf": [],
-          "fixedType": []
         },
         {
           "id": "AU_02",
@@ -689,7 +686,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "The Backend is the software that is responsible for processing user requests.",
           "pageNumber": "41",
           "isPartOf": [P_01],
-          "fixedType": []
         },
         {
           "id": "AU_03",
@@ -698,7 +694,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "It is the layer that is responsible for displaying information to the user.",
           "pageNumber": "41",
           "isPartOf": [],
-          "fixedType": []
         },
         {
           "id": "AU_04",
@@ -707,7 +702,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "This layer is the core of the application and is responsible for processing all the information.",
           "pageNumber": "41",
           "isPartOf": [],
-          "fixedType": []
         },
         {
           "id": "AU_05",
@@ -716,7 +710,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "It is the layer that is responsible for storing all the data.",
           "pageNumber": "41",
           "isPartOf": [],
-          "fixedType": []
         },
         {
           "id": "AU_06",
@@ -725,7 +718,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "This service is responsible for the management, authentication and authorization of platform users.",
           "pageNumber": "44",
           "isPartOf": ["AU_04"],
-          "fixedType": []
         },
         {
           "id": "AU_07",
@@ -734,17 +726,14 @@ Below are the definitions for each type and their concrete examples.
           "description": "Backend framework used to implement the API Gateway Service.",
           "pageNumber": "44",
           "isPartOf": ["AU_06"],
-          "fixedType": []
         },
         
         {
           "id": "AU_08",
           "type": "Connector",
-          "name": "",
           "description": "Presentation layer communicates with business layer",
           "pageNumber": "60",
           "isPartOf": ["AU_03", "AU_04"],
-          "fixedType": []
         }
       ],
       
@@ -774,7 +763,7 @@ Below are the definitions for each type and their concrete examples.
           "description": "Both the business layer and the data layer are divided into several different services.",
           "pageNumber": "42",
           "isPartOf": ["AU_04", "AU_05"],
-          "fixedType": []
+          "fixedType": [Design pattern]
         },
         {
           "id": "P_04",
@@ -856,7 +845,7 @@ Below are the definitions for each type and their concrete examples.
         - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
         - For each pattern, specify its type using exactly one of:
         - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
-        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and specify the changed type.
         - Pattern should have the following JSON Schema:
 
             {
@@ -866,7 +855,7 @@ Below are the definitions for each type and their concrete examples.
             "description": "<The exact document sentence(s) stating the pattern, translated to English>",
             "pageNumber": "<Page number(s) where the pattern is described>",
             "isPartOf": ["<id of the pattern this pattern is part of>"],
-            "fixedType": "<>"
+            "fixedType": "<If fixed, indicate the type before the fix>"
             }
 
         ## Architectural Units
@@ -877,7 +866,6 @@ Below are the definitions for each type and their concrete examples.
         - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
         - For each unit except connector, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
         - For connector, "isPartOf" is the list of the TWO OR MORE Architectural Unit ids (AU_xx, taken from the provided units) that the Connector links. Include exactly the units the stated communication involves. For a one-to-many communication, list the central (hub) unit FIRST, followed by every unit it communicates with.
-        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
         - Architectural Unit should have the following JSON Schema:
             {
             "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
@@ -886,7 +874,6 @@ Below are the definitions for each type and their concrete examples.
             "description": "<The exact document sentence(s) stating the unit, translated to English>",
             "pageNumber": "<Page number(s) where the unit is described>",
             "isPartOf": ["<id of the unit this unit is part of>"],
-            "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
             }
 
         # Rules:
@@ -916,7 +903,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "The client is the user of the platform.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_02",
@@ -925,7 +911,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "The Backend is the software that is responsible for processing user requests.",
               "pageNumber": "41",
               "isPartOf": [P_01],
-              "fixedType": []
             },
             {
               "id": "AU_03",
@@ -934,7 +919,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "It is the layer that is responsible for displaying information to the user.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_04",
@@ -943,7 +927,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "This layer is the core of the application and is responsible for processing all the information.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_05",
@@ -952,7 +935,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "It is the layer that is responsible for storing all the data.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_06",
@@ -961,7 +943,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "This service is responsible for the management, authentication and authorization of platform users.",
               "pageNumber": "44",
               "isPartOf": ["AU_04"],
-              "fixedType": []
             },
             {
               "id": "AU_07",
@@ -970,17 +951,14 @@ Below are the definitions for each type and their concrete examples.
               "description": "Backend framework used to implement the API Gateway Service.",
               "pageNumber": "44",
               "isPartOf": ["AU_06"],
-              "fixedType": []
             },
 
             {
               "id": "AU_08",
               "type": "Connector",
-              "name": "",
               "description": "Presentation layer communicates with business layer",
               "pageNumber": "60",
               "isPartOf": ["AU_03", "AU_04"],
-              "fixedType": []
             }
           ],
 
@@ -1087,7 +1065,7 @@ Below are the definitions for each type and their concrete examples.
         - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
         - For each pattern, specify its type using exactly one of:
         - "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
-        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and document your reasoning in the "fixedType" field. Otherwise, leave "fixedType" empty.
+        - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and specify the changed type.
         - Pattern should have the following JSON Schema:
 
             {
@@ -1097,7 +1075,7 @@ Below are the definitions for each type and their concrete examples.
             "description": "<The exact document sentence(s) stating the pattern, translated to English>",
             "pageNumber": "<Page number(s) where the pattern is described>",
             "isPartOf": ["<id of the pattern this pattern is part of>"],
-            "fixedType": "<>"
+            "fixedType": "<If fixed, indicate the type before the fix>"
             }
 
         ## Architectural Units
@@ -1107,7 +1085,6 @@ Below are the definitions for each type and their concrete examples.
         - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
         - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
         - For each unit, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
-        - If the source document misclassifies a unit (e.g. a Service labelled as a Component), correct the classification and document your reasoning in the fixedType field. Otherwise, leave "fixedType" empty.
         - Architectural Unit should have the following JSON Schema:
             {
             "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
@@ -1116,7 +1093,6 @@ Below are the definitions for each type and their concrete examples.
             "description": "<The exact document sentence(s) stating the unit, translated to English>",
             "pageNumber": "<Page number(s) where the unit is described>",
             "isPartOf": ["<id of the unit this unit is part of>"],
-            "fixedType": ["<Brief explanation if any mistake was corrected from the source document>"]
             }
 
         # Rules:
@@ -1146,7 +1122,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "The client is the user of the platform.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_02",
@@ -1155,7 +1130,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "The Backend is the software that is responsible for processing user requests.",
               "pageNumber": "41",
               "isPartOf": [P_01],
-              "fixedType": []
             },
             {
               "id": "AU_03",
@@ -1164,7 +1138,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "It is the layer that is responsible for displaying information to the user.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_04",
@@ -1173,7 +1146,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "This layer is the core of the application and is responsible for processing all the information.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_05",
@@ -1182,7 +1154,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "It is the layer that is responsible for storing all the data.",
               "pageNumber": "41",
               "isPartOf": [],
-              "fixedType": []
             },
             {
               "id": "AU_06",
@@ -1191,7 +1162,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "This service is responsible for the management, authentication and authorization of platform users.",
               "pageNumber": "44",
               "isPartOf": ["AU_04"],
-              "fixedType": []
             },
             {
               "id": "AU_07",
@@ -1200,7 +1170,6 @@ Below are the definitions for each type and their concrete examples.
               "description": "Backend framework used to implement the API Gateway Service.",
               "pageNumber": "44",
               "isPartOf": ["AU_06"],
-              "fixedType": []
             }
           ],
 
@@ -1230,7 +1199,7 @@ Below are the definitions for each type and their concrete examples.
               "description": "Both the business layer and the data layer are divided into several different services.",
               "pageNumber": "42",
               "isPartOf": ["AU_04", "AU_05"],
-              "fixedType": []
+              "fixedType": [Design Pattern]
             },
             {
               "id": "P_04",
@@ -1245,6 +1214,224 @@ Below are the definitions for each type and their concrete examples.
         }
             ...
             """
+
+    ARCHITECTURE_EXTRACTION_PROMPT_COMPACTED_V4 = """
+# Objective
+You are an expert software architect and system design analyst. Extract the Architectural Units (the concrete building blocks of the system) and patterns from the provided software document.
+
+# Instructions
+    1. Carefully read the entire document.
+    2. Identify architectural units and patterns using the type definitions below.
+    3. Extract the identified architectural units and patterns following the extraction process defined below.
+
+# Type Definitions
+Below are the definitions for each type of architectural unit and pattern with their concrete examples.
+
+## Patterns
+
+## Architectural Pattern
+- Definition: A high-level structural organization of the system (e.g. Client-Server, Layered Architecture, Microservices, MVVM, Service-oriented, Cloud Architecture).
+- Examples: Layered Architecture, Hexagonal Architecture, API Gateway.
+
+## Design Pattern 
+- Definition: A lower-level software design solution used within units (e.g. API Gateway, Repository, Observer, Singleton, Shared Database, ORM, Component-based).
+- Examples: Observer, Strategy, Factory.
+
+## Architectural Units
+
+### Layer
+    - Definition: a horizontal tier that groups units by a shared responsibility in a layered / n-tier architecture.
+    - Examples: presentation layer, business layer, data layer.
+
+### Component
+- Definition: a concrete structural module of the system that either:
+    1. represents an internal functional or structural part of the system that is not exposed as an independently running service; OR
+    2. represents a technology-independent architectural role fulfilled by an infrastructure or data-management element.
+- Examples: View, ViewModel, Model, Controller, Repository, Cache, Message Broker, Database.
+
+### Service
+- Definition: a logical capability or independently running module of the system, including each microservice and each external / third-party service the system depends on, integrates with, or calls.
+- Examples: API gateway, Microservice, Authentication Service, Payment Service.
+
+### Device
+- Definition: a physical hardware endpoint or piece of equipment that participates in the system.
+- Examples: a sensor, a screen / display, a kiosk or player device, a mobile or desktop device, an IoT device, a hardware appliance.
+
+### Technology
+- Definition: a specific, named product, framework, library, programming language, protocol, cloud service, or development / testing / monitoring tool used to build or run the system, including a named third-party product that provides an external service or integration.
+- Examples: PostgreSQL, React, AWS S3, Python, Spring Boot.  
+
+### Other
+- Definition: a participant in the system's architecture that does not fit any technical type above; might be:
+    1. an external actor that interacts with the system; OR
+    2. a high-level logical or structural part of the system that groups lower-level architectural elements but is not itself treated as a Layer, Component or Service.
+- Examples: an end user, a client, "the backend", "the frontend".
+
+# Extraction Process
+
+## Patterns
+
+- Assign each Pattern a strict sequential id: P_01, P_02, P_03...
+- For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+- For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
+- For each pattern, specify its type using exactly one of:
+- "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
+- If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and specify the changed type.
+- Pattern should have the following JSON Schema:
+
+    {
+    "id": "<Sequential Pattern id (P_01, P_02)>",
+    "type": "<Architectural Pattern | Design Pattern>",
+    "name": "<Name of the pattern in English>",
+    "description": "<The exact document sentence(s) stating the pattern, translated to English>",
+    "pageNumber": "<Page number(s) where the pattern is described>",
+    "isPartOf": ["<id of the pattern this pattern is part of>"],
+    "fixedType": "<If fixed, indicate the type before the fix>"
+    }
+
+## Architectural Units
+
+- Assign each Architectural Unit a strict sequential id: AU_01, AU_02, AU_03...
+- Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology", or "Other".
+- Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
+- Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
+- For each unit, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
+- Architectural Unit should have the following JSON Schema:
+    {
+    "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
+    "type": "<Layer | Component | Service | Device | Technology | Other>",
+    "name": "<Name of the unit>",
+    "description": "<The exact document sentence(s) stating the unit, translated to English>",
+    "pageNumber": "<Page number(s) where the unit is described>",
+    "isPartOf": ["<id of the unit this unit is part of>"],
+    }
+
+# Rules:
+- Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
+- Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
+- Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
+- Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
+- When a structural or presentation pattern (e.g. MVC / MVVM) names its constituent parts, extract each named part as its own Component (View, ViewModel, Controller, View, etc.).
+- Name each service by its capability or function (e.g. authentication, payment, storage), not by the product that implements it; when a named product provides the capability, additionally output that product as a separate Technology whose isPartOf is the Service.
+    - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
+        - a Service named by the capability it provides
+        - a Technology named by the product, whose isPartOf is that Service.
+- For each unit, "isPartOf" is the single most specific container that applies, in this order: 
+    - (1) the pattern it participates in 
+    - (2) its Layer
+    - (3) the Service or Component that uses it
+    - (4) the high-level unit it belongs to (e.g. Frontend, Backend, Server, Mobile Application)
+     -(5) empty if none applies. For a Technology, start at (3). 
+    - List several parents only when the document states them.
+- Extract every named technology, including ones mentioned only in the prose.
+- Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
+- Output should be given in JSON format as in the Example Output section.
+- The whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+- Avoid adding any extra explanation, just provide the required data.
+
+# Example Output (JSON)
+{
+  "architectural_units": [
+    {
+      "id": "AU_01",
+      "type": "Other",
+      "name": "Client",
+      "description": "The client is the user of the platform.",
+      "pageNumber": "41",
+      "isPartOf": [],
+    },
+    {
+      "id": "AU_02",
+      "type": "Other",
+      "name": "Backend",
+      "description": "The Backend is the software that is responsible for processing user requests.",
+      "pageNumber": "41",
+      "isPartOf": [P_01],
+    },
+    {
+      "id": "AU_03",
+      "type": "Layer",
+      "name": "Presentation Layer",
+      "description": "It is the layer that is responsible for displaying information to the user.",
+      "pageNumber": "41",
+      "isPartOf": [],
+    },
+    {
+      "id": "AU_04",
+      "type": "Layer",
+      "name": "Business Layer",
+      "description": "This layer is the core of the application and is responsible for processing all the information.",
+      "pageNumber": "41",
+      "isPartOf": [],
+    },
+    {
+      "id": "AU_05",
+      "type": "Layer",
+      "name": "Data Layer",
+      "description": "It is the layer that is responsible for storing all the data.",
+      "pageNumber": "41",
+      "isPartOf": [],
+    },
+    {
+      "id": "AU_06",
+      "type": "Service",
+      "name": "API Gateway Service",
+      "description": "This service is responsible for the management, authentication and authorization of platform users.",
+      "pageNumber": "44",
+      "isPartOf": ["AU_04"],
+    },
+    {
+      "id": "AU_07",
+      "type": "Technology",
+      "name": "Spring Boot",
+      "description": "Backend framework used to implement the API Gateway Service.",
+      "pageNumber": "44",
+      "isPartOf": ["AU_06"],
+    }
+  ],
+
+"patterns": [
+    {
+      "id": "P_01",
+      "type": "Architectural Pattern",
+      "name": "Client-Server",
+      "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+      "pageNumber": "41",
+      "isPartOf": [],
+      "fixedType": []
+    },
+    {
+      "id": "P_02",
+      "type": "Architectural Pattern",
+      "name": "Three Layers",
+      "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+      "pageNumber": "41",
+      "isPartOf": ["P_01"],
+      "fixedType": []
+    },
+    {
+      "id": "P_03",
+      "type": "Architectural Pattern",
+      "name": "Service-oriented",
+      "description": "Both the business layer and the data layer are divided into several different services.",
+      "pageNumber": "42",
+      "isPartOf": ["AU_04", "AU_05"],
+      "fixedType": [Design Pattern]
+    },
+    {
+      "id": "P_04",
+      "type": "Design Pattern",
+      "name": "API Gateway",
+      "description": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+      "pageNumber": "43",
+      "isPartOf": ["AU_02"],
+      "fixedType": []
+    }
+]
+}
+    ...
+    """
 
     PATTERN_EXTRACTION_PROMPT = """
 # Objective
@@ -1315,7 +1502,7 @@ Below are the definitions for each type and their concrete examples.
       "description": "Both the business layer and the data layer are divided into several different services.",
       "pageNumber": "42",
       "isPartOf": ["P_01"],
-      "fixedType": []
+      "fixedType": [Design Pattern]
     },
     {
       "id": "P_04",
@@ -1440,7 +1627,6 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the communication, translated to English>",
         "pageNumber": "<Page number(s) where the communication is described>",
         "isPartOf": ["<id of a linked unit>", "<id of another linked unit>", "..."],
-        "fixedType": []
         }
         
     ## Technology
@@ -1457,7 +1643,6 @@ Below are the definitions for each type and their concrete examples.
         "description": "<The exact document sentence(s) stating the technology is used, translated to English>",
         "pageNumber": "<Page number(s) where the technology is described>",
         "isPartOf": ["<id of a connector using this technology>"],
-        "fixedType": []
         }
 
     # Rules:
@@ -1483,16 +1668,13 @@ Below are the definitions for each type and their concrete examples.
           "description": "The presentation layer communicates with the business layer. [...] presentation layer communicates with business layer for calling the necessary functions.",
           "pageNumber": "42,61",
           "isPartOf": ["AU_03", "AU_04"],
-          "fixedType": []
         },
         {
           "id": "C_02",
           "type": "Connector",
-          "name": "",
           "description": "The gateway service routes every incoming request to the microservice A, B, C using gRPC.",
           "pageNumber": "44",
           "isPartOf": ["AU_06", "AU_09", "AU_10", "AU_11"],
-          "fixedType": []
         },
         {
           "id": "T_01",
@@ -1501,7 +1683,6 @@ Below are the definitions for each type and their concrete examples.
           "description": "The gateway service routes every incoming request to the microservice A, B, C using gRPC.",
           "pageNumber": "44",
           "isPartOf": ["C_02"],
-          "fixedType": []
         }   
       ]
     }

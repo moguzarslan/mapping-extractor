@@ -1,0 +1,274 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "A user is any individual or entity that interacts with the system, it can be both a donor and a company.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Security Service",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "System Service",
+            "description": "System Service (Next.js) serves the web application using React and interacts with the database and external services.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Data Service (PostgreSQL) provides the relational database for storing application data.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "Next.js is a framework for building web applications that supports both client-side and server-side rendering.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "PostgreSQL is the relational database management system used for the application.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Prisma is an ORM tool used to simplify database access and management.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_03",
+                "AU_04",
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Docker is a containerization platform used to manage the execution of the application services.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Amazon S3 is used for cloud storage to store and retrieve files.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Stripe is integrated to handle payments and subscriptions.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Google Analytics is implemented to track and analyze site traffic.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Sentry is used to track and manage errors in the application.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Brevo is used to create, send, and schedule emails.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "React",
+            "description": "React is an open-source JavaScript library designed to build user interfaces.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Connector",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing. [...] Traefik enruta las solicitudes hacia el System Service (Next.js) basado en reglas de enrutamiento configuradas en el archivo docker-compose.yml.",
+            "pageNumber": "41,43",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_14"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "HTTPS",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_16"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}
