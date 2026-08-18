@@ -1,0 +1,596 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "Un usuario es todo individuo o entidad que interactúa con el sistema, puede ser tanto un donante como una empresa.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Empresa",
+            "description": "Una empresa es un tipo de usuario que puede ofrecer productos con sus respectivas rutas para que los donantes los entreguen, comenzando así a crear una cadena.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Other",
+            "name": "Donante",
+            "description": "Un donante es un tipo de usuario que contribuye con productos a una empresa.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Component",
+            "name": "Security Service (Traefik)",
+            "description": "Funciona como un proxy inverso y balanceador de carga.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Component",
+            "name": "System Service (Next.js)",
+            "description": "Sirve la aplicación web mediante React.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Data Service (PostgreSQL)",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Traefik es un proxy inverso y balanceador de carga moderno diseñado para gestionar la entrada y salida de tráfico HTTP y HTTPS en aplicaciones basadas en contenedores",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "Next.js soporta tanto el renderizado de componentes en el lado del cliente (CSR) como el renderizado en el lado del servidor (SSR), utilizando las server actions para comunicar los componentes de cliente con el servidor.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "React",
+            "description": "Sirve la aplicación web mediante React.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Prisma es una herramienta ORM (Object-Relational Mapping) para bases de datos.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_05",
+                "AU_49",
+                "AU_56"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "En el caso de esta aplicación, dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Amazon EC2",
+            "description": "En el caso de esta aplicación, dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Tailwind CSS",
+            "description": "Next.js soporta varios métodos de estilización, incluyendo módulos CSS, Tailwind CSS y CSS-in-JS, ofreciendo flexibilidad en la gestión de estilos.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "Authentication",
+            "description": "Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Google",
+            "description": "Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_15",
+                "AU_50"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Service",
+            "name": "Cloud Storage",
+            "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_17",
+                "AU_51"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Service",
+            "name": "Payment Processing",
+            "description": "Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_19",
+                "AU_52"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Service",
+            "name": "Analytics",
+            "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_21",
+                "AU_53"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Service",
+            "name": "Error Monitoring",
+            "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_23",
+                "AU_54"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Service",
+            "name": "Email",
+            "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_25",
+                "AU_55"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Cabe destacar que para desarrollar el sistema se ha empleado el lenguaje TypeScript.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "Auth.js",
+            "description": "Se ha usado para facilitar la integración con Prisma, más específicamente para manejar la autenticación de usuarios en la aplicación",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "Format.js",
+            "description": "Es una librería que sirve para la internacionalización (i18n) de aplicaciones.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "Hook Form",
+            "description": "Este paquete resolvers es una extensión para React Hook Form, una librería para la gestión de formularios en React.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "Radix-ui",
+            "description": "Esta librería incluye una colección de componentes accesibles y estilizados para React",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "React email",
+            "description": "Es un conjunto de herramientas para crear y manejar correos electrónicos en aplicaciones React.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Technology",
+            "name": "Slugify",
+            "description": "Slugify sirve para convertir cadenas de texto en slugs amigables para la URL.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_34",
+            "type": "Technology",
+            "name": "Date-fns",
+            "description": "Sirve para manejar fechas en JavaScript.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Technology",
+            "name": "Eslint",
+            "description": "Es una librería que se emplea como una herramienta de ’linting’ para JavaScript y TypeScript.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Technology",
+            "name": "Negotiator",
+            "description": "Es una librería para la para la ’negociación’ de contenido en HTTP.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Technology",
+            "name": "Next-auth",
+            "description": "Es una solución de autenticación para aplicaciones.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Technology",
+            "name": "Next-intl",
+            "description": "Es una librería de internacionalización para Next.js.",
+            "pageNumber": "75",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Technology",
+            "name": "Nodemailer",
+            "description": "Es una herramienta que sirve para enviar correos electrónicos desde aplicaciones Node.js.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Technology",
+            "name": "Sharp",
+            "description": "Es una librería que sirve para el procesamiento de imágenes.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Technology",
+            "name": "Server Only",
+            "description": "Se ha usado para asegurar que cierto código solo se ejecute en el servidor, muy útil para Next.js.",
+            "pageNumber": "77",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_42",
+            "type": "Technology",
+            "name": "Vitest",
+            "description": "Se ha usado como un framework de testing para el proyecto.",
+            "pageNumber": "77",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_43",
+            "type": "Technology",
+            "name": "GitLab",
+            "description": "Para desarrollar esta aplicación se ha hecho uso de la herramienta GitLab, la cual facilita el control de versiones",
+            "pageNumber": "89",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_44",
+            "type": "Technology",
+            "name": "Terraform",
+            "description": "Terraform es una herramienta de infraestructura como código que permite definir y gestionar la infraestructura de manera declarativa",
+            "pageNumber": "89",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_45",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Expone los puertos 80 (HTTP) y 443 (HTTPS) al mundo exterior y redirige el tráfico a los servicios internos según las reglas definidas.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_47",
+                "AU_48"
+            ]
+        },
+        {
+            "id": "AU_46",
+            "type": "Technology",
+            "name": "HTTPS",
+            "description": "Expone los puertos 80 (HTTP) y 443 (HTTPS) al mundo exterior y redirige el tráfico a los servicios internos según las reglas definidas.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_47",
+                "AU_48"
+            ]
+        },
+        {
+            "id": "AU_47",
+            "type": "Connector",
+            "description": "Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_48",
+            "type": "Connector",
+            "description": "Depende de Traefik para recibir y gestionar el tráfico HTTP/HTTPS.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_49",
+            "type": "Connector",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM7 (Object-Relational Mapping).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_50",
+            "type": "Connector",
+            "description": "Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_51",
+            "type": "Connector",
+            "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_52",
+            "type": "Connector",
+            "description": "Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_53",
+            "type": "Connector",
+            "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_21"
+            ]
+        },
+        {
+            "id": "AU_54",
+            "type": "Connector",
+            "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_23"
+            ]
+        },
+        {
+            "id": "AU_55",
+            "type": "Connector",
+            "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_05",
+                "AU_25"
+            ]
+        },
+        {
+            "id": "AU_56",
+            "type": "Connector",
+            "description": "Se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_11"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_05"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_05"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_05"
+            ],
+            "fixedType": ""
+        }
+    ]
+}

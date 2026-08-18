@@ -1,0 +1,429 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Localboss",
+            "description": "Localboss, una start-up que desenvolupa una aplicació mòbil destinada a ajudar els propietaris de negocis a gestionar les seves ressenyes a Google Maps.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Component",
+            "name": "Backend",
+            "description": "Jordi Gil de Bernabé, cofundador de Localboss i responsable de fer tot el backend de l’aplicació.",
+            "pageNumber": "11",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Component",
+            "name": "Frontend",
+            "description": "Supervisa el projecte i proporciona els endpoints necessaris per a la integració amb el frontend.",
+            "pageNumber": "11",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Other",
+            "name": "Usuaris",
+            "description": "Usuaris: clients de l’aplicació que utilitzen les noves funcionalitats i proporcionen feedback.",
+            "pageNumber": "11",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Other",
+            "name": "Competidors",
+            "description": "Competidors: altres aplicacions que ofereixen serveis similars de gestió de ressenyes a Google Maps.",
+            "pageNumber": "11",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Domain Layer",
+            "description": "Capa de Domini (Domain Layer): conté la lògica de negoci més pura del sistema, així com els models de domini i les interfícies dels repositoris.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Component",
+            "name": "Application Layer",
+            "description": "Capa d’Aplicació (Application Layer): inclou els casos d’ús del sistema, que orquestren la lògica de negoci i defineixen el flux de les operacions.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Component",
+            "name": "Infrastructure Layer",
+            "description": "Capa d’Infraestructura (Infrastructure Layer): és la responsable de la interacció amb l’exterior.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Flutter",
+            "description": "L’aplicació de Localboss va ser desenvolupada amb Flutter.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Google Maps",
+            "description": "Una start-up que desenvolupa una aplicació mòbil destinada a ajudar els propietaris de negocis a gestionar les seves ressenyes a Google Maps.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Django",
+            "description": "El back-end està implementat utilitzant Django i segueix el patró d’Arquitectura Hexagonal (Ports and Adapters)",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "La persistència de les dades es realitza mitjançant una base de dades relacional MySQL, gestionada a través de l’ORM de Django.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Service",
+            "name": "AI Service",
+            "description": "Finalment, el sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Gemini",
+            "description": "Serveis d’intel·ligència artificial com Gemini i ChatGPT.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "ChatGPT",
+            "description": "Serveis d’intel·ligència artificial com Gemini i ChatGPT.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "Finalment, el sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Google OAuth 2.0",
+            "description": "Presenta les opcions d'autenticació disponibles, destacant el mètode principal mitjançant Google OAuth 2.0.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Firebase",
+            "description": "Firebase per a funcionalitats complementàries (notificacions, serveis associats).",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Jira",
+            "description": "Jira per a la gestió de requisits i tasques.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Git",
+            "description": "Git com a sistema de control de versions.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "Android Studio",
+            "description": "Android Studio i VS Code com a entorns de desenvolupament.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "VS Code",
+            "description": "Android Studio i VS Code com a entorns de desenvolupament.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Technology",
+            "name": "Dart",
+            "description": "Front-End: Flutter (Dart), utilitzat per al desenvolupament multiplataforma de l’aplicació mòbil per a Android i iOS.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "Python",
+            "description": "Back-End: Django (Python), utilitzat com a framework principal per a la construcció de l’API REST.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Technology",
+            "name": "Android",
+            "description": "Front-End: Flutter (Dart), utilitzat per al desenvolupament multiplataforma de l’aplicació mòbil per a Android i iOS.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "iOS",
+            "description": "Front-End: Flutter (Dart), utilitzat per al desenvolupament multiplataforma de l’aplicació mòbil per a Android i iOS.",
+            "pageNumber": "56",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "La comunicació es realitza mitjançant una API REST basada en HTTP.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_35",
+                "AU_41"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "Les dades s’intercanvien en format JSON, utilitzant mètodes HTTP estàndard com GET i POST.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_35",
+                "AU_41"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "syncfusion_flutter_charts",
+            "description": "syncfusion_flutter_charts: utilitzada per a la creació de gràfics avançats a la nova pantalla Home",
+            "pageNumber": "73",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "fl_chart",
+            "description": "fl_chart: emprada per a la implementació de gràfics lineals",
+            "pageNumber": "73",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "SliverAppBar",
+            "description": "SliverAppBar: utilitzada per implementar una App Bar avançada",
+            "pageNumber": "73",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "video_player",
+            "description": "video_player: incorporada per permetre la reproducció de vídeos associats a les reviews.",
+            "pageNumber": "73",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_33",
+            "type": "Technology",
+            "name": "Postman",
+            "description": "Postman per provar i validar els endpoints del backend abans de la seva integració al front-end.",
+            "pageNumber": "74",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_34",
+            "type": "Connector",
+            "description": "Supervisa el projecte i proporciona els endpoints necessaris per a la integració amb el frontend.",
+            "pageNumber": "11",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "description": "El front-end no conté lògica de negoci crítica, sinó que delega aquesta responsabilitat al servidor. La comunicació entre el front-end i el back-end es realitza mitjançant una API REST, utilitzant missatges en format JSON tant per a les peticions com per a les respostes.",
+            "pageNumber": "54, 55",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "description": "La persistència de les dades es realitza mitjançant una base de dades relacional MySQL, gestionada a través de l’ORM de Django.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Connector",
+            "description": "Finalment, el sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_13",
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Connector",
+            "description": "El front-end envia aquesta informació al back-end mitjançant una petició de sol·licitud d’OTP. El back-end, al seu torn, delega la generació del codi a un servei d’autenticació especialitzat, encarregat de crear i enviar l’OTP a l’usuari.",
+            "pageNumber": "67, 68",
+            "isPartOf": [
+                "AU_03",
+                "AU_02",
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Connector",
+            "description": "Quan l’usuari introdueix l’OTP, el front-end envia una nova petició al back-end per validar-lo. El back-end torna a comunicar-se amb el servei d’autenticació per comprovar la validesa del codi introduït.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_03",
+                "AU_02",
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Connector",
+            "description": "El front-end envia aquesta sol·licitud al back-end, indicant l’identificador de la review corresponent. El back-end recupera el context necessari de la review (text, valoració i informació rellevant) i envia aquesta informació al servei d’intel·ligència artificial, en aquest cas Gemini.",
+            "pageNumber": "69",
+            "isPartOf": [
+                "AU_03",
+                "AU_02",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Connector",
+            "description": "La comunicació entre el front-end i el back-end es realitza mitjançant una API REST, utilitzant el protocol HTTP i intercanviant dades en format JSON.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "Des del punt de vista de l’usuari, la interacció amb el sistema es realitza a través d’una aplicació mòbil desenvolupada amb Flutter, que actua com a capa de presentació (front-end)... realitzar les peticions necessàries al back-end per obtenir o modificar informació.",
+            "pageNumber": "54, 55",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Hexagonal Architecture",
+            "description": "El back-end està implementat utilitzant Django i segueix el patró d’Arquitectura Hexagonal (Ports and Adapters), que permet separar la lògica de negoci del framework i de les tecnologies d’infraestructura.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Dependency Injection",
+            "description": "Inversió de Dependència (DIP): El domini defineix interfícies que són implementades per la infraestructura.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Repository Pattern",
+            "description": "Repository Pattern: Aïlla l’accés a dades i simplifica l’ús de l’ORM als casos d’ús.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Factory Pattern",
+            "description": "Factory Pattern: Utilitzat per instanciar dinàmicament serveis d’intel·ligència artificial segons la configuració del sistema.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        }
+    ]
+}

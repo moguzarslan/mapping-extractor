@@ -1,0 +1,374 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Clients",
+            "description": "L’empresa té dues vies de negoci. D’una banda els clients finals, el qual actua com a consultoria per tal de satisfer les necessitats del client: tipus de contingut i tecnologia a implementar.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Partners",
+            "description": "D’altra banda, treballa với partners, que essencialment són empreses de tercers que disposen dels seus propis clients i els hi ofereixen solucions de senyalització digital mitjançant la tecnologia de Waapiti.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Device",
+            "name": "Players",
+            "description": "Players: són equips informàtics que fan la funció d’intermediari entre la plataforma de Waapiti i el suport audiovisual en si, permetent així la sincronització i reproducció dels continguts dels clients.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Component",
+            "name": "Software",
+            "description": "Per tal d’establir aquesta comunicació l’empresa instal·la un software propi en aquests players, que està preparat per donar suport a múltiples tipologies de players.",
+            "pageNumber": "8",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Other",
+            "name": "Waapiti",
+            "description": "Waapiti és una empresa tecnològica que es dedica en aquest àmbit.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Device",
+            "name": "Dispositiu mòbil",
+            "description": "L’arquitectura física de la solució està format per un dispositiu mòbil, ja sigui sistema iOS o Android, i el servidor de l’empresa.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Server",
+            "name": "Servidor Waapiti",
+            "description": "Servidor Waapiti: API de l’empresa que consumeix l’aplicació.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Layer",
+            "name": "Presentació",
+            "description": "Presentació: és la capa que es comunica amb l’usuari.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Layer",
+            "name": "Domini",
+            "description": "Domini: és la capa que conté la lògica de negoci.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Layer",
+            "name": "Dades",
+            "description": "Dades: és la capa que conté la informació.",
+            "pageNumber": "44",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Component",
+            "name": "Store",
+            "description": "Store: és el component que conté l’estat i la lògica de l’aplicació.",
+            "pageNumber": "45, 46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Component",
+            "name": "Action",
+            "description": "Action: és un objecte Javascript que indica una intenció de modificar l’estat de l’aplicació.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Component",
+            "name": "Dispatcher",
+            "description": "Dispatcher: és l’eix central que gestiona tot el flux de dades.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Component",
+            "name": "Reducers",
+            "description": "Els Reducers són funcions pures que reben l’estat actual de l’aplicació i l’acció a realitzar i retornen un nou estat, sense modificar directament l’estat actual.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "React Native",
+            "description": "React Native: és un marc de desenvolupament de codi obert creat per Meta Platforms, Inc . S’utilitza per desenvolupar aplicacions per Android, iOS, macOS, Web i Windows.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "React",
+            "description": "React: és una llibreria per construir interfícies d’usuari utilitzant Javascript.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Expo",
+            "description": "Expo: és un framework de codi obert per aplicacions natives d’Android, iOS i Web.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Jest",
+            "description": "Jest: és un framework de testeig per Javascript.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "NodeJS",
+            "description": "NodeJS: és un entorn d’execució de Javascript que permet executar-ho fora del navegador.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "TypeScript: és un llenguatge de programació desenvolupat i mantingut per Microsoft.",
+            "pageNumber": "50, 51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "NestJS: és un framework progressiu de NodeJS per crear aplicacions eficients, confiables i escalables de backend.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "Visual Studio Code",
+            "description": "Visual Studio Code: és un editor de font desenvolupar per Microsoft.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Technology",
+            "name": "GIT",
+            "description": "GIT: és un sistema de control de versions de codi font.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "React Navigation",
+            "description": "En primer lloc, per a la navegació s’utilitza la llibreria React Navigation, que ofereix la transició entre pantalles de forma senzilla i un historial de navegació.",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Technology",
+            "name": "react-native-async-storage",
+            "description": "Per a la gestió de la sessió s’utilitza la llibreria react-native-async-storage, que ens permet guardar parells de clau-valor de manera local en els dispositius.",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "AWS",
+            "description": "És el servidor que s’encarrega de comunicar-se amb la base de dades i altres serveis allotjats a AWS.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Aquesta interaccionarà amb l’API de Waapiti mitjançant peticions HTTP.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_34"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Service",
+            "name": "Push Notification Service",
+            "description": "Així mateix es necessita un servei de notificacions que es comuniqui amb aquestes.",
+            "pageNumber": "90",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "Firebase Cloud Messaging (FCM)",
+            "description": "Per poder implementar aquesta funcionalitat es necessari utilitzar un servei de missatgeria per cada plataforma: Firebase Cloud Messaging (FCM) per dispositius Android i Apple Push Notification Service (APNS) per dispositius iOS.",
+            "pageNumber": "90",
+            "isPartOf": [
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "Apple Push Notification Service (APNS)",
+            "description": "Per poder implementar aquesta funcionalitat es necessari utilitzar un servei de missatgeria per cada plataforma: Firebase Cloud Messaging (FCM) per dispositius Android i Apple Push Notification Service (APNS) per dispositius iOS.",
+            "pageNumber": "90",
+            "isPartOf": [
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "Expo Push API",
+            "description": "Expo Push API: Expo Push API és un servei que facilita la implementació de les notificacions push ja que es delega toda la configuració al servei.",
+            "pageNumber": "90, 91",
+            "isPartOf": [
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "AWS SNS",
+            "description": "Amazon Simple Notification Service (Amazon SNS) és un servei administrat el qual ofereix el lliurament de missatges dels publicadors als subscriptors",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Connector",
+            "description": "Per tal d’establir aquesta comunicació l’empresa instal·la un software propi en aquests players, que està preparat per donar suport a múltiples tipologies de players.",
+            "pageNumber": "9",
+            "isPartOf": [
+                "AU_03",
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_34",
+            "type": "Connector",
+            "description": "L’arquitectura física de la solució està format per un dispositiu mòbil, ja sigui sistema iOS o Android, i el servidor de l’empresa. [...] Aquesta interactuarà amb l’API de Waapiti mitjançant peticions HTTP.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "description": "Servidor Waapiti: API de l’empresa que consumeix l’aplicació. Es el servidor que s’encarrega de comunicar-se amb la base de dades i altres serveis allotjats a AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_07",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "description": "Així mateix es necessita un servei de notificacions que es comuniqui amb aquestes.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_28",
+                "AU_06"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "3 Layers",
+            "description": "Aquesta arquitectura segueix el model de 3 capes: Presentació, Domini, Dades.",
+            "pageNumber": "44",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "En aquest projecte s’ha decidit desenvolupar utilitzant l’arquitectura Flux, introduïda per Facebook.",
+            "pageNumber": "45",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Redux",
+            "description": "Redux és una llibreria que s’utilitza per a gestionar l’estat de l’aplicació. Està inspirada en l’arquitectura Flux, però amb una implementació més senzilla.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "El patró observador és un patró de disseny per observar l’estat d’un objecte en un programa.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Decorator",
+            "description": "El patró decorador és un patró de disseny que permet afegir un comportament a un objecte, tant estàticament com dinàmicament.",
+            "pageNumber": "48",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Lazy Loading",
+            "description": "El concepte de Lazy Loading consisteix en carregar els objectes/components només quan són necessaris.",
+            "pageNumber": "48",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

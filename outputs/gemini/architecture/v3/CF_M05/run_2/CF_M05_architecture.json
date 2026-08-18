@@ -1,0 +1,701 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Volkswagen Group Services",
+            "description": "Volkswagen Group Services forma part del Grup Volkswagen, un grup d’empreses multinacional alemany i un dels majors fabricants d'automòbils del món, i existeix per donar suport exclusivament a les diferents empreses del grup a escala mundial.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Integration Bus",
+            "description": "A aquesta solució se li posa el nom de NiX UK i es desenvolupa a Espanya com una capa de serveis basada en la tecnologia cloud que proveeix de solucions i aplicacions dirigides als importadors del grup segons les necessitats del negoci.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Technology",
+            "name": "Cloud technology",
+            "description": "A aquesta solució se li posa el nom de NiX UK i es desenvolupa a Espanya com una capa de serveis basada en la tecnologia cloud que proveeix de solucions i aplicacions dirigides als importadors del grup segons les necessitats del negoci.",
+            "pageNumber": "8",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Other",
+            "name": "SEAT",
+            "description": "Aquest projecte, tot i que té com a possible clients totes les marques que formen part del grup Volkswagen, es centrarà en dos clients: SEAT i VGED.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Other",
+            "name": "VGED",
+            "description": "Aquest projecte, tot i que té com a possible clients totes les marques que formen part del grup Volkswagen, es centrarà en dos clients: SEAT i VGED.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Other",
+            "name": "AUDI",
+            "description": "Aquest últim engloba les marques d’AUDI, SKODA i VOLKSWAGEN.",
+            "pageNumber": "10",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Other",
+            "name": "SKODA",
+            "description": "Aquest últim engloba les marques d’AUDI, SKODA i VOLKSWAGEN.",
+            "pageNumber": "10",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Other",
+            "name": "VOLKSWAGEN",
+            "description": "Aquest últim engloba les marques d’AUDI, SKODA i VOLKSWAGEN.",
+            "pageNumber": "10",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Leader",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Service",
+            "name": "Portal",
+            "description": "El microservei del portal té com a funció principal oferir una interfície centralitzada per a l’accés a les diferents aplicacions de VWGS.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "El microservei Access Control té com a objectiu principal la gestió d’autenticació d’usuaris i els seus permisos dins de l’aplicació.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "Té com a funció principal la planificació i programació de processos dins del sistema.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Service",
+            "name": "Ordering",
+            "description": "Addicionalment, existeixen els microserveis de Ordering i GSB. Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "GSB",
+            "description": "Addicionalment, existeixen els microserveis de Ordering i GSB. Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "El proveïdor per aquest projecte és Amazon Web Services el qual té un ampli catàleg de serveis i recursos cloud.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Component",
+            "name": "Client",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep, les processa i retorna respostes.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Component",
+            "name": "Server",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep, les processa i retorna respostes.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "En el present projecte, el client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA) que renderitza vistes dinàmiques i gestiona la navegació interna sense haver de recarregar la pàgina, millorant la fluïdesa d’ús.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Pel servidor s’ha utilitzat Spring Boot, que proporciona una plataforma per exposar una API REST.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP i el format de dades emprat és JSON.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_18",
+                "AU_58"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP i el format de dades emprat és JSON.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_18",
+                "AU_58"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Component",
+            "name": "View",
+            "description": "El component que anomenem View, Vista en català, està format pels fitxers HTML i SCSS de cada component que conformen l’aplicació.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Component",
+            "name": "ViewModel",
+            "description": "El component ViewModel agrupa els fitxers TS dels components i els serveis que tenen associats.",
+            "pageNumber": "64",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Component",
+            "name": "Model",
+            "description": "Per acabar, els Models són les classes TypeScript que defineixen el contracte de dades consumit per la vista i pel ViewModel.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "Pel servidor, el backEnd, Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes...",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Layer",
+            "name": "Business Logic Layer",
+            "description": "...la capa de lògica de negoci aplica les regles del domini...",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Layer",
+            "name": "Data Access Layer",
+            "description": "...la capa d’accés a dades interactua amb la base de dades...",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "...i la capa de domini defineix el model de dades.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_30",
+            "type": "Layer",
+            "name": "Cross-cutting Contract Layer",
+            "description": "S’hi afegeix una capa transversal de contracte que separa el model intern de la representació externa de l’API.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_31",
+            "type": "Component",
+            "name": "Controllers",
+            "description": "Dins de cada microservei hi ha una classe Controller per a cada model.",
+            "pageNumber": "69",
+            "isPartOf": [
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_32",
+            "type": "Component",
+            "name": "Services",
+            "description": "Els serveis ofereixen la interfície i la implementació de tota la lògica de negoci de l’aplicació.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_27"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Component",
+            "name": "Models",
+            "description": "Els models representen l’estructura interna i persistent de les entitats del sistema reflectint idènticament la informació emmagatzemada.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_29"
+            ]
+        },
+        {
+            "id": "AU_34",
+            "type": "Component",
+            "name": "DTOs",
+            "description": "Els Data Transfer Objects (DTOs) actuen com a contenidors d’informació que permeten estructurar les dades necessàries per a cada petició...",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_30"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Component",
+            "name": "Mappers",
+            "description": "Els Mappers són els responsables de la conversió entre els DTOs i els models.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_30"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Component",
+            "name": "Repositories",
+            "description": "Finalment, els Repositories s’encarreguen d’efectuar consultes sobre la base de dades.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Angular és un framework de desenvolupament web creat per Google, basat en el llenguatge de programació superconjunt de JavaScript anomenat TypeScript...",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Technology",
+            "name": "Spring Data",
+            "description": "Spring Data és un projecte de Spring que simplifica l’accés i gestió de dades en aplicacions Java...",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_20",
+                "AU_65"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Technology",
+            "name": "Java Persistence API",
+            "description": "...mentre que JPA (Java Persistence API) és una especificació que defineix com mapar objectes Java a bases de dades relacionals.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_20",
+                "AU_65"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Technology",
+            "name": "Java",
+            "description": "Aquesta tecnologia ens ajuda en la comunicació entre la capa de dades i la base de dades de l’aplicació del projecte. Tant aquesta tecnologia com les següents estan pensades per a ser utilitzades en desenvolupament d’aplicacions Java, el llenguatge que usarem al llarg del projecte.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Technology",
+            "name": "Java OpenJDK 17",
+            "description": "OpenJDK és una implementació lliure i oberta del Java Development Kit (JDK), la plataforma per desenvolupar i executar aplicacions Java.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_40"
+            ]
+        },
+        {
+            "id": "AU_42",
+            "type": "Technology",
+            "name": "IntelliJ IDEA",
+            "description": "IntelliJ IDEA és un entorn de desenvolupament integrat (IDE) creat per JetBrains, pensat principalment per al desenvolupament de programari en Java...",
+            "pageNumber": "79",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_43",
+            "type": "Technology",
+            "name": "Visual Studio Code",
+            "description": "Visual Studio Code és un editor de codi font lleuger, multiplataforma i gratuït desenvolupat per Microsoft...",
+            "pageNumber": "80",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_44",
+            "type": "Technology",
+            "name": "Amazon EKS",
+            "description": "Pel desplegament de l’aplicació s’ha fet ús d’Amazon EKS, un servei que ofereix AWS el qual permet utilitzar Kubernetes (K8s)...",
+            "pageNumber": "81",
+            "isPartOf": [
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_45",
+            "type": "Technology",
+            "name": "Kubernetes",
+            "description": "...sense necessitat d’instal·lar-la ni mantenir-la. Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors...",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_46",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "El procés de desplegament per la nostra aplicació comença per la creació d’una imatge Docker per a cada microservei el qual té el seu propi repositori amb un Dockerfile.",
+            "pageNumber": "81",
+            "isPartOf": [
+                "AU_66"
+            ]
+        },
+        {
+            "id": "AU_47",
+            "type": "Technology",
+            "name": "Amazon ECR",
+            "description": "Aquestes imatges es guarden a l’Amazon ECR (Elastic Container Registry).",
+            "pageNumber": "81",
+            "isPartOf": [
+                "AU_16",
+                "AU_66"
+            ]
+        },
+        {
+            "id": "AU_48",
+            "type": "Technology",
+            "name": "JUnit 5",
+            "description": "Per a les proves unitàries s’ha fet ús de les llibreries JUnit 5 i Mockito.",
+            "pageNumber": "83",
+            "isPartOf": [
+                "AU_40"
+            ]
+        },
+        {
+            "id": "AU_49",
+            "type": "Technology",
+            "name": "Mockito",
+            "description": "Per a les proves unitàries s’ha fet ús de les llibreries JUnit 5 i Mockito.",
+            "pageNumber": "83",
+            "isPartOf": [
+                "AU_40"
+            ]
+        },
+        {
+            "id": "AU_50",
+            "type": "Technology",
+            "name": "SonarQube",
+            "description": "SonarQube és una aplicació web que analitza estàticament el codi i ofereix recomanacions i estadístiques dels resultats.",
+            "pageNumber": "84",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_51",
+            "type": "Technology",
+            "name": "Postman",
+            "description": "Per a aquesta tasca s’ha fet ús de l’aplicació Postman per a poder provar les crides modifcades donat que no hi ha pantalles del microservei Ordering a l’aplicació.",
+            "pageNumber": "86",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_52",
+            "type": "Technology",
+            "name": "Grafana",
+            "description": "En aquestes proves s’ha obtingut gràfics amb l’ajut de Grafana.",
+            "pageNumber": "87",
+            "isPartOf": [
+                "AU_67"
+            ]
+        },
+        {
+            "id": "AU_53",
+            "type": "Technology",
+            "name": "Spring Boot Actuator",
+            "description": "Spring Boot té suport nadiu per exposar mètriques i informació de l’estat de l’aplicació a través del mòdul Spring Boot Actuator que després poden ser visualitzades a Grafana.",
+            "pageNumber": "87",
+            "isPartOf": [
+                "AU_20",
+                "AU_67"
+            ]
+        },
+        {
+            "id": "AU_54",
+            "type": "Connector",
+            "description": "Aquesta solució se li posa el nom de NiX UK i es desenvolupa a Espanya com una capa de serveis basada en la tecnologia cloud que proveeix de solucions i aplicacions dirigides als importadors del grup segons les necessitats del negoci.",
+            "pageNumber": "8",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_55",
+            "type": "Connector",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema. Actua com a punt central de gestió del trànsit, garantint que qualsevol interacció, tant amb serveis externs com entre microserveis interns, es realitzi de manera ordenada i segura.",
+            "pageNumber": "56, 57",
+            "isPartOf": [
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_56",
+            "type": "Connector",
+            "description": "Addicionalment, existeixen els microserveis de Ordering i GSB. Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_14",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_57",
+            "type": "Connector",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep, les processa i retorna respostes.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_17",
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_58",
+            "type": "Connector",
+            "description": "El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP i el format de dades emprat és JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_17",
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_59",
+            "type": "Connector",
+            "description": "El ViewModel actua com a intermediari entre la View i el Model, proporcionant les dades que la vista necessita i gestionant les accions de l’usuari. [...] Per a mostrar millor com funciona el data binding, es mostren exemples d’aplicació de cada un dels quatre tipus de data binding en Angular que es poden trobar en el codi d’aquesta aplicació. [...] Interpolació (Interpolation {{}}): Permet inserir valors de variables o resultats d'expressions JavaScript senzilles dins de l'HTML. [...] Enllaç de propietats (Property Binding []): Associa una propietat de l'element HTML a una expressió del component. [...] Enllaç d’events (Event Binding ()): Relaciona esdeveniments de la vista com clics del ratolí i del teclat o moviments del ratolí amb mètodes del component. [...] Enllaç bidireccional (Two-Way Binding [()]): Sincronitza el model amb la vista de manera que els canvis a la vista automàticament modifiquen el model i, qualsevol canvi al model es reflecteix a la vista.",
+            "pageNumber": "64, 66, 67, 68",
+            "isPartOf": [
+                "AU_23",
+                "AU_24",
+                "AU_25"
+            ]
+        },
+        {
+            "id": "AU_60",
+            "type": "Connector",
+            "description": "Pel servidor, el backEnd, Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades.",
+            "pageNumber": "67, 68",
+            "isPartOf": [
+                "AU_26",
+                "AU_27",
+                "AU_28",
+                "AU_29",
+                "AU_30"
+            ]
+        },
+        {
+            "id": "AU_61",
+            "type": "Connector",
+            "description": "Els controladors, per mitjà de funcions específiques, processen les peticions rebudes, gestionen la validació de la informació i canalitzen les sol·licituds cap als mòduls o serveis corresponents de la capa de dades [...] Un cop s’han obtingut els resultats d’aquestes operacions a la capa de dades, la capa d’aplicació s’encarrega de retornar-los de forma estructurada i segura cap a la capa de presentació.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_31",
+                "AU_32"
+            ]
+        },
+        {
+            "id": "AU_62",
+            "type": "Connector",
+            "description": "Una vegada es fa la petició REST en els controladors, aquestes criden a les funcions corresponents per a obtenir el resultat de la petició. A través d’aquestes funcions s’executen operacions complexes, combinant la validació, el processament i el flux de dades entre els diferents components.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_31",
+                "AU_32"
+            ]
+        },
+        {
+            "id": "AU_63",
+            "type": "Connector",
+            "description": "Els Mappers són els responsables de la conversió entre els DTOs i els models. La seva funció és garantir la transformació correcta i eficient de les dades, segons si es tracta de transferir informació cap a la capa de presentació o bé cap a la capa de persistència.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_34",
+                "AU_35",
+                "AU_33"
+            ]
+        },
+        {
+            "id": "AU_64",
+            "type": "Connector",
+            "description": "Finalment, els Repositories s’encarreguen d’efectuar consultes sobre la base de dades.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_36",
+                "AU_33"
+            ]
+        },
+        {
+            "id": "AU_65",
+            "type": "Connector",
+            "description": "Aquesta tecnologia ens ajuda en la comunicació entre la capa de dades i la base de dades de l’aplicació del projecte.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_38",
+                "AU_33"
+            ]
+        },
+        {
+            "id": "AU_66",
+            "type": "Connector",
+            "description": "El procés de desplegament per la nostra aplicació comença per la creació d’una imatge Docker per a cada microservei el qual té el seu propi repositori amb un Dockerfile. Aquestes imatges es guarden a l’Amazon ECR (Elastic Container Registry). A continuació, s’han de configurar els manifests que és on s’indica quina imatge Docker utilitzar, quants pods córrer, els ports a exposar i detalls de configuració entre altres. Finalment, s’executa un deploy indicant el microservei a desplegar i en quin namespace i entorn desplegar-lo.",
+            "pageNumber": "81, 82",
+            "isPartOf": [
+                "AU_46",
+                "AU_47"
+            ]
+        },
+        {
+            "id": "AU_67",
+            "type": "Connector",
+            "description": "Spring Boot té suport nadiu per exposar mètriques i informació de l’estat de l’aplicació a través del mòdul Spring Boot Actuator que després poden ser visualitzades a Grafana.",
+            "pageNumber": "87",
+            "isPartOf": [
+                "AU_53",
+                "AU_52"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "Consisteix a dividir el sistema en un conjunt de serveis petits, independents i autònoms on cada microservei s’encarrega d’una funcionalitat específica i es comunica amb la resta mitjançant diversos sistemes de missatgeria.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "És a dir, l’aplicació està dissenyada, desplegada i executada utilitzant serveis al núvol (cloud computing) en lloc de servidors locals o físics propis.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep, les processa i retorna respostes.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_19"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_05",
+            "type": "Architectural Pattern",
+            "name": "Layered Architecture",
+            "description": "Pel servidor, el backEnd, Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats...",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_20"
+            ],
+            "fixedType": ""
+        }
+    ]
+}

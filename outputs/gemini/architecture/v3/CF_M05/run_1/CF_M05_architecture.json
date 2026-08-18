@@ -1,0 +1,593 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Volkswagen Group Services",
+            "description": "Volkswagen Group Services forms part of Volkswagen Group, a German multinational automotive manufacturing group and one of the world's largest automobile manufacturers, and exists to exclusively support the different group companies on a worldwide scale.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Integration Bus",
+            "description": "A software infrastructure that allows communication and data exchange between different applications or services within the same computer environment.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Cloud Services Layer",
+            "description": "A cloud-based service layer that provides solutions and applications directed to the group's importers according to business needs.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "NADIN",
+            "description": "A program that manages a global change in the architecture of all applications within its market.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "NiX UK",
+            "description": "An integration bus solution developed in Spain as a cloud-based service layer.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "NiX MED",
+            "description": "A very similar solution for the Mediterranean market developed in parallel.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Other",
+            "name": "Business Area",
+            "description": "The main public of the application is the business area in charge of commercial activities related to product importation.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Other",
+            "name": "Business Support Area",
+            "description": "This area helps the previous one with daily tasks like configuring addresses or parameters.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Other",
+            "name": "After Sales Support (AMS)",
+            "description": "The new application will improve daily process monitoring and problem resolution, reducing the probability of manual errors.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Component",
+            "name": "View",
+            "description": "The component we call View, Vista in Catalan, is formed by the HTML and SCSS files of each component that make up the application.",
+            "pageNumber": "62",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Component",
+            "name": "ViewModel",
+            "description": "The ViewModel component groups the TS files of the components and the services they have associated.",
+            "pageNumber": "64",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Component",
+            "name": "Model",
+            "description": "Models are the TypeScript classes that define the data contract consumed by the view and by the ViewModel.",
+            "pageNumber": "66",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "The presentation layer receives requests and builds responses.",
+            "pageNumber": "67",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Layer",
+            "name": "Business Logic Layer",
+            "description": "The business logic layer applies domain rules.",
+            "pageNumber": "67",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Layer",
+            "name": "Data Access Layer",
+            "description": "The data access layer interacts with the database.",
+            "pageNumber": "67",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "The domain layer defines the data model.",
+            "pageNumber": "68",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Layer",
+            "name": "Cross-cutting Contract Layer",
+            "description": "A cross-cutting contract layer is added that separates the internal model from the external representation of the API.",
+            "pageNumber": "68",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Component",
+            "name": "Controller",
+            "description": "Inside each microservice there is a Controller class for each model.",
+            "pageNumber": "69",
+            "isPartOf": [
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Component",
+            "name": "Service",
+            "description": "Services offer the interface and implementation of all the business logic of the application.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_14"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Component",
+            "name": "DTO",
+            "description": "Data Transfer Objects (DTOs) act as information containers that allow structuring the data necessary for each request, providing a customized format depending on response requirements.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Component",
+            "name": "Mapper",
+            "description": "Mappers are responsible for conversion between DTOs and models.",
+            "pageNumber": "73",
+            "isPartOf": [
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Component",
+            "name": "Repository",
+            "description": "Repositories are in charge of executing queries on the database.",
+            "pageNumber": "74",
+            "isPartOf": [
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Service",
+            "name": "Leader",
+            "description": "This microservice has as its main function the routing of all communications towards the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Service",
+            "name": "Portal",
+            "description": "The portal microservice has as its main function offering a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "The Communication Log microservice has as its main purpose registering all communications that occur within the system, both between microservices and with external services.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "It has as its main function the planning and scheduling of processes within the system.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Service",
+            "name": "Ordering",
+            "description": "Microservice that handles calls towards external services related to automobile sales.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Service",
+            "name": "GSB",
+            "description": "Microservice that handles calls towards external services related to automobile sales.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "For the client, Angular has been developed with, implementing a Single-Page Application (SPA) that renders dynamic views and manages internal navigation without having to reload the page.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "For the server, Spring Boot has been used, which provides a platform to expose a REST API.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The message exchange protocol used in this case is HTTP.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_64"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "The data format employed is JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_64"
+            ]
+        },
+        {
+            "id": "AU_34",
+            "type": "Technology",
+            "name": "Angular CLI",
+            "description": "The construction and execution of all the frontEnd is carried out employing Angular CLI which generates an optimized and minimized version of the application.",
+            "pageNumber": "67",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_35",
+            "type": "Technology",
+            "name": "Angular 11+",
+            "description": "Angular is a web development framework created by Google, based on the JavaScript superset programming language called TypeScript, that allows building modern single-page web applications (SPA).",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_36",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "TypeScript superset programming language of JavaScript.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_37",
+            "type": "Technology",
+            "name": "Spring Data & JPA 2.2",
+            "description": "Spring Data is a Spring project that simplifies data access and management in Java applications, while JPA (Java Persistence API) is a specification that defines how to map Java objects to relational databases.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_38",
+            "type": "Technology",
+            "name": "Spring",
+            "description": "Spring framework for Java applications.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_39",
+            "type": "Technology",
+            "name": "JPA",
+            "description": "Java Persistence API.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_40",
+            "type": "Technology",
+            "name": "Java",
+            "description": "Java language that we will use throughout the project.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_41",
+            "type": "Technology",
+            "name": "Spring Boot 2.2.2",
+            "description": "Spring Boot is a framework that simplifies the creation of Spring-based Java applications, offering automatic configuration and tools that allow deploying applications quickly.",
+            "pageNumber": "76",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_42",
+            "type": "Technology",
+            "name": "Java OpenJDK 17",
+            "description": "OpenJDK is a free and open implementation of the Java Development Kit (JDK), the platform to develop and execute Java applications.",
+            "pageNumber": "77",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_43",
+            "type": "Technology",
+            "name": "Gitflow",
+            "description": "Gitflow methodology defines a clear set of branches with specific purposes and a workflow to manage development, tests, and release of the application.",
+            "pageNumber": "78",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_44",
+            "type": "Technology",
+            "name": "IntelliJ IDEA",
+            "description": "IntelliJ IDEA is an integrated development environment (IDE) created by JetBrains, designed primarily for software development in Java.",
+            "pageNumber": "79",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_45",
+            "type": "Technology",
+            "name": "Visual Studio Code",
+            "description": "Visual Studio Code is a lightweight, cross-platform, and free source code editor developed by Microsoft.",
+            "pageNumber": "80",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_46",
+            "type": "Technology",
+            "name": "Amazon EKS",
+            "description": "For the deployment of the application, Amazon EKS has been used, a service offered by AWS which allows using Kubernetes (K8s).",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_47",
+            "type": "Technology",
+            "name": "Kubernetes",
+            "description": "Kubernetes (K8s), a container orchestration platform created by Google.",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_48",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Docker image for each microservice which has its own repository with a Dockerfile.",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_49",
+            "type": "Technology",
+            "name": "Amazon ECR",
+            "description": "These images are stored in Amazon ECR (Elastic Container Registry).",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_50",
+            "type": "Technology",
+            "name": "AWS",
+            "description": "Amazon Web Services is a consolidated cloud platform with robust services and a reliable infrastructure.",
+            "pageNumber": "82",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_51",
+            "type": "Technology",
+            "name": "JUnit 5",
+            "description": "For unit tests, JUnit 5 and Mockito libraries have been used.",
+            "pageNumber": "83",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_52",
+            "type": "Technology",
+            "name": "Mockito",
+            "description": "Mockito is a mocks (simulations) library which allows testing a class without depending on other real components.",
+            "pageNumber": "83",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_53",
+            "type": "Technology",
+            "name": "SonarQube",
+            "description": "SonarQube is a web application that statically analyzes the code and offers recommendations and statistics of the results.",
+            "pageNumber": "84",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_54",
+            "type": "Technology",
+            "name": "Postman",
+            "description": "For this task, Postman application has been used to be able to test the modified calls given that there are no screens of the Ordering microservice in the application.",
+            "pageNumber": "86",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_55",
+            "type": "Technology",
+            "name": "Grafana",
+            "description": "In these tests, graphs have been obtained with the help of Grafana.",
+            "pageNumber": "87",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_56",
+            "type": "Technology",
+            "name": "Spring Boot Actuator",
+            "description": "Spring Boot has native support to expose metrics and information of the application state through the Spring Boot Actuator module.",
+            "pageNumber": "87",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_57",
+            "type": "Connector",
+            "description": "Aquesta solució se li posa el nom de NiX UK i es desenvolupa a Espanya com una capa de serveis basada en la tecnologia cloud que proveeix de solucions i aplicacions dirigides als importadors del grup segons les necessitats del negoci.",
+            "pageNumber": "8",
+            "isPartOf": [
+                "AU_03",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_58",
+            "type": "Connector",
+            "description": "En cada portal es realitzen els controls d'autenticació i autorització pertinents amb ajuda del Leader el qual decideix a quin domini funcional s'ha d'encaminar cada usuari.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_23",
+                "AU_24"
+            ]
+        },
+        {
+            "id": "AU_59",
+            "type": "Connector",
+            "description": "Una vegada superada la capa del Portal, s'accedeix als microserveis interns de l'aplicació.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_24",
+                "AU_25"
+            ]
+        },
+        {
+            "id": "AU_60",
+            "type": "Connector",
+            "description": "Finalment, els microserveis estan connectats a una base de dades compartida desacoblada per microservei i client.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_25",
+                "AU_22"
+            ]
+        },
+        {
+            "id": "AU_61",
+            "type": "Connector",
+            "description": "La comunicació entre els dos components es fa mitjançant un intercanvi de missatges seguint protocols de xarxa estàndards i fent ús de formats de representació de dades interoperables.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_30",
+                "AU_31"
+            ]
+        },
+        {
+            "id": "AU_62",
+            "type": "Connector",
+            "description": "En el present projecte, el client s'ha desenvolupat amb Angular, implementant una Single-Page Application (SPA) [19] que renderitza vistes dinàmiques i gestiona la navegació interna sense haver de recarregar la pàgina, millorant la fluïdesa d'ús.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_10",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_63",
+            "type": "Connector",
+            "description": "Pel servidor s'ha utilitzat Spring Boot, que proporciona una plataforma per exposar una API REST [20].",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_18",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_64",
+            "type": "Connector",
+            "description": "El protocol d'intercanvi de missatges que es fa servir en aquest cas és HTTP [21] i el format de dades emprat és JSON [22].",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_30",
+                "AU_31"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices Architecture",
+            "description": "Consists of dividing the system into a set of small, independent and autonomous services where each microservice takes care of a specific functionality and communicates with the rest by means of diverse messaging systems.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "The application is also applying a cloud or cloud architecture, meaning the application is designed, deployed and executed utilizing cloud services (cloud computing) instead of local or physical servers of its own.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives them, processes them and returns responses.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular applies the MVVM (Model-View-ViewModel) pattern, since its architecture is based on components and services.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": "Design Pattern"
+        },
+        {
+            "id": "P_05",
+            "type": "Architectural Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies domain rules, the data access layer interacts with the database and the domain layer defines the data model.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        }
+    ]
+}

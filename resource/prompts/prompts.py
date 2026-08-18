@@ -1275,7 +1275,7 @@ Below are the definitions for each type of architectural unit and pattern with t
 - For each pattern, specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
 - For each pattern "description" must be the sentence or sentences from the document that states the pattern — the evidence proving the pattern.
 - For each pattern, specify its type using exactly one of:
-- "isPartOf" is the list of OTHER pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern applies. 
+- "isPartOf" is the list of pattern or unit ids this pattern belongs to. Leave it as an empty list when no parent pattern or unit applies. 
 - If the source document misclassifies a pattern (e.g. a Design Pattern labelled as an Architectural Pattern), correct the classification and specify the changed type.
 - Pattern should have the following JSON Schema:
 
@@ -1285,7 +1285,7 @@ Below are the definitions for each type of architectural unit and pattern with t
     "name": "<Name of the pattern in English>",
     "description": "<The exact document sentence(s) stating the pattern, translated to English>",
     "pageNumber": "<Page number(s) where the pattern is described>",
-    "isPartOf": ["<id of the pattern this pattern is part of>"],
+    "isPartOf": ["<id of the pattern or unit this pattern is part of>"],
     "fixedType": "<If fixed, indicate the type before the fix>"
     }
 
@@ -1295,7 +1295,13 @@ Below are the definitions for each type of architectural unit and pattern with t
 - Specify its type using exactly one of: "Layer", "Component", "Service", "Device", "Technology", or "Other".
 - Specify description, sentence or sentences from the document that states the unit — the evidence proving the unit.
 - Specify the page number from the document text (not the PDF page number) where it is described. If it spans several pages, list them all.
-- For each unit, "isPartOf" is the architectural unit or a pattern (architectural or design) this unit is contained by or belongs to. If there is no unit or pattern applies, leave it empty. 
+- For each unit, "isPartOf" is the single most specific container that applies, in this order: 
+    - (1) the pattern it participates in 
+    - (2) its Layer
+    - (3) the Service or Component that uses it
+    - (4) the high-level unit it belongs to (e.g. Frontend, Backend, Server, Mobile Application)
+    -(5) empty if none applies. For a Technology, start at (3). 
+    - List several parents only when the document states them.
 - Architectural Unit should have the following JSON Schema:
     {
     "id": "<Sequential Architectural Unit id (AU_01, AU_02)>",
@@ -1303,11 +1309,10 @@ Below are the definitions for each type of architectural unit and pattern with t
     "name": "<Name of the unit>",
     "description": "<The exact document sentence(s) stating the unit, translated to English>",
     "pageNumber": "<Page number(s) where the unit is described>",
-    "isPartOf": ["<id of the unit this unit is part of>"],
+    "isPartOf": ["<id of the pattern or unit this unit is part of>"],
     }
 
 # Rules:
-- Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong.
 - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
 - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
 - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.
@@ -1316,13 +1321,6 @@ Below are the definitions for each type of architectural unit and pattern with t
     - Apply this especially to external / third-party integrations named by their product (e.g. a payment, email, storage, authentication, analytics, or monitoring provider). Output BOTH units, never the product alone:
         - a Service named by the capability it provides
         - a Technology named by the product, whose isPartOf is that Service.
-- For each unit, "isPartOf" is the single most specific container that applies, in this order: 
-    - (1) the pattern it participates in 
-    - (2) its Layer
-    - (3) the Service or Component that uses it
-    - (4) the high-level unit it belongs to (e.g. Frontend, Backend, Server, Mobile Application)
-     -(5) empty if none applies. For a Technology, start at (3). 
-    - List several parents only when the document states them.
 - Extract every named technology, including ones mentioned only in the prose.
 - Extract every named communication protocol (e.g. HTTP, HTTPS, REST, TCP, WebSocket, gRPC) as its own Technology, including protocols named only in passing or in the prose; never omit a protocol as a mere implementation detail.
 - Output should be given in JSON format as in the Example Output section.
@@ -1339,7 +1337,7 @@ Below are the definitions for each type of architectural unit and pattern with t
       "name": "Client",
       "description": "The client is the user of the platform.",
       "pageNumber": "41",
-      "isPartOf": [],
+      "isPartOf": [P_01],
     },
     {
       "id": "AU_02",
@@ -1355,7 +1353,7 @@ Below are the definitions for each type of architectural unit and pattern with t
       "name": "Presentation Layer",
       "description": "It is the layer that is responsible for displaying information to the user.",
       "pageNumber": "41",
-      "isPartOf": [],
+      "isPartOf": [P_02],
     },
     {
       "id": "AU_04",
@@ -1363,7 +1361,7 @@ Below are the definitions for each type of architectural unit and pattern with t
       "name": "Business Layer",
       "description": "This layer is the core of the application and is responsible for processing all the information.",
       "pageNumber": "41",
-      "isPartOf": [],
+      "isPartOf": [P_02],
     },
     {
       "id": "AU_05",
@@ -1371,7 +1369,7 @@ Below are the definitions for each type of architectural unit and pattern with t
       "name": "Data Layer",
       "description": "It is the layer that is responsible for storing all the data.",
       "pageNumber": "41",
-      "isPartOf": [],
+      "isPartOf": [P_02],
     },
     {
       "id": "AU_06",
@@ -1407,7 +1405,7 @@ Below are the definitions for each type of architectural unit and pattern with t
       "name": "Three Layers",
       "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
       "pageNumber": "41",
-      "isPartOf": ["P_01"],
+      "isPartOf": [],
       "fixedType": []
     },
     {

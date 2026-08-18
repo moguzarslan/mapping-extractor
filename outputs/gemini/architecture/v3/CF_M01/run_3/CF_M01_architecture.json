@@ -1,0 +1,425 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "En aquest model es pot observar que un client pot tenir diferents usuaris (Users) en la plataforma, i que aquests usuaris són qui realitzen les accions en la plataforma (Audit trail). Per altra banda, els clients poden tenir diferents players que reprodueixen continguts (Playlog) i que estan connectats per un cert temps (Connection).",
+            "pageNumber": "40",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Layer",
+            "name": "Capa de presentació",
+            "description": "Capa de presentació: És la capa que s’encarrega de mostrar la informació à l’usuari.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Capa de negoci",
+            "description": "Capa de negoci: Aquesta capa és el nucli de l’aplicació, que s’encarrega de processar tota la informació.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Capa de dades",
+            "description": "Capa de dades: És la capa que s’encarrega d'emmagatzemar totes les dades.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Component",
+            "name": "Interfície de la plataforma web i la plataforma mòbil de Waapiti",
+            "description": "En el cas d'aquesta capa, es pot observar de què està formada per la interfície de la plataforma web i la plataforma mòbil de Waapiti.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Api Gateway",
+            "description": "Aquest servei s’encarrega de la gestió, autenticació i autorització dels usuaris de la plataforma.",
+            "pageNumber": "43, 44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Core",
+            "description": "Aquest servei s’encarrega de realitzar la lògica de negoci de la plataforma, seria el nucli principal de la plataforma.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "Mòdul analític",
+            "description": "El mòdul analític té com a funció principal obtenir i processar les dades dels playlogs, les connexions i les accions en plataforma.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Api Player",
+            "description": "Aquest servei s’encarrega de comunicar-se amb els players rebent tota la informació corresponent a aquest.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Service",
+            "name": "Web Socket",
+            "description": "Aquest servei s’encarrega de realitzar la comunicació entre la plataforma i els players, i d’aquesta manera permet l’intercanvi d’informació entre ells.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Component",
+            "name": "Base de dades",
+            "description": "La base de dades utilitzada és una base de dades MySQL que s’encarrega d’emmagatzemar totes les dades necessàries per al funcionament del sistema.",
+            "pageNumber": "44, 45",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Component",
+            "name": "Conjunt de serveis cloud AWS",
+            "description": "L’objectiu d’aquests serveis és formar un data lake on s’emmagatzemi tots els històrics per poder processar-los en el mòdul analític.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "La base de dades utilitzada és una base de dades MySQL que s’encarrega d’emmagatzemar totes les dades necessàries per al funcionament del sistema.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "RDS",
+            "description": "Aquesta base de dades està implementada en el servei RDS, que és un servei de base de dades relacional distribuït d’AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Aquest és el servei d’emmagatzament d’objectes d’AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "DynamoDB",
+            "description": "Aquest servei és una base de dades no relacional d’AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "Aquest framework és un framework de NodeJS que té com a funció principal la creació d’aplicacions de backend.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Aquest llenguatge de programació que està construït a un nivell superior de JavaScript, és a dir, que estén la sintaxi de JavaScript.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Infraestructura AWS",
+            "description": "És el conjunt de serveis de computació en el núvol que permet la creació d’aplicacions escalables i altament disponibles.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Amazon Athena",
+            "description": "El servei d’Amazon Athena és un servei que permet realitzar consultes en SQL sobre dades emmagatzemades en Amazon S3.",
+            "pageNumber": "49",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "AWS Glue",
+            "description": "El servei d’AWS Glue és un servei d’integració de dades sense servidor que ens permet la detecció, preparació, migració i integració de les dades provinents de diferents orígens.",
+            "pageNumber": "49",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "Kinesis Data Streams",
+            "description": "Kinesis Data Streams és un servei de processament i ingesta de dades dirigit especialment al streaming de dades.",
+            "pageNumber": "50",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_23",
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "El servei de Kinesis Data Firehose té com a funció principal la càrrega de grans quantitats de dades en magatzems de dades.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "AWS Cloud Development",
+            "description": "Per poder desenvolupar tota la infraestructura necessària per al projecte s’ha fet ús de l’AWS Cloud Development, també anomenat AWS CDK.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_25",
+            "type": "Technology",
+            "name": "AWS CloudFormation",
+            "description": "AWS CloudFormation és un servei d’Amazon que ajuda a configurar els recursos d’AWS.",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "NodeJS",
+            "description": "Aquest framework és un framework de NodeJS que té com a funció principal la creació d’aplicacions de backend.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "JavaScript",
+            "description": "Aquest llenguatge de programació que està construït a un nivell superior de JavaScript, és a dir, que estén la sintaxi de JavaScript.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "Python",
+            "description": "Com es pot veure en la figura 11.5 permet fer ús dels llenguatges de programació TypeScript, JavaScript, Python, Java i C#/.NET",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "Java",
+            "description": "Com es pot veure en la figura 11.5 permet fer ús dels llenguatges de programació TypeScript, JavaScript, Python, Java i C#/.NET",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "C#/.NET",
+            "description": "Com es pot veure en la figura 11.5 permet fer ús dels llenguatges de programació TypeScript, JavaScript, Python, Java i C#/.NET",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "La comunicació entre els dos components es realitza a través d’internet mitjançant el protocol HTTP [26] i el model de REST API.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_34",
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "Com es pot observar en la figura 9.1 la comunicació entre el servei de l’Api Gateway és mitjançant el protocol de comunicació TCP",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_36"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Device",
+            "name": "Player",
+            "description": "Un player consisteix en un dispositiu que pot ser intern o extern, que permet a les pantalles reproduir continguts en les pantalles.",
+            "pageNumber": "8",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_34",
+            "type": "Connector",
+            "description": "La comunicació entre els dos components es realitza a través d’internet mitjançant el protocol HTTP [26] i el model de REST API.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_02",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "description": "A més, com s’ha indicat anteriorment, la capa de presentació es comunica amb la capa de negoci, més concretament amb l’Api Gateway, mitjançant el protocol HTTP.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_02",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "description": "Com es pot observar en la figura 9.1 la comunicació entre el servei de l’Api Gateway és mitjançant el protocol de comunicació TCP [29].",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_06",
+                "AU_07",
+                "AU_08",
+                "AU_09",
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Connector",
+            "description": "Defineix totes les rutes de l’API REST i processa les peticions per poder enviar-les al servei Core i al mòdul analític.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_06",
+                "AU_07",
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Connector",
+            "description": "Principalment, interactua amb la base de dades, encara que també interactua en menor mesura amb els serveis cloud.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_07",
+                "AU_11",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Connector",
+            "description": "Principalment, aquest servei interactua amb els serveis cloud, encara que també interactua en menor mesura amb la base de dades.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_08",
+                "AU_12",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Connector",
+            "description": "Aquest servei s’encarrega de comunicar-se amb els players rebent tota la informació corresponent a aquest.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_09",
+                "AU_33"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Connector",
+            "description": "Aquest servei s’encarrega de realitzar la comunicació entre la plataforma i els players, i d’aquesta manera permet l’intercanvi d’informació entre ells.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_10",
+                "AU_33"
+            ]
+        },
+        {
+            "id": "AU_42",
+            "type": "Connector",
+            "description": "Processa les dades provinents dels players i les emmagatzema en la base de dades i en els serveis cloud.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "En el nostre projecte la plataforma de Waapiti és un servei web que segueix l’arquitectura client-servidor.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three Layers",
+            "description": "Pel model client-servidor s’utilitza l’arquitectura de 3 capes, on el sistema es devidiex en 3 capes, la capa de presentació, la capa de negoci i la capa de dades.",
+            "pageNumber": "41",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "API Gateway",
+            "description": "Atho Això és degut de què es segueix el patró de disseny de microserveis Api Gateway.",
+            "pageNumber": "43",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        }
+    ]
+}

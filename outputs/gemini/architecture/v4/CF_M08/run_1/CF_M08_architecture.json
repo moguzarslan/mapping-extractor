@@ -4,7 +4,7 @@
             "id": "AU_01",
             "type": "Service",
             "name": "Security Service",
-            "description": "Functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
             "pageNumber": "41",
             "isPartOf": []
         },
@@ -12,8 +12,8 @@
             "id": "AU_02",
             "type": "Technology",
             "name": "Traefik",
-            "description": "Tool used to implement the Security Service.",
-            "pageNumber": "41",
+            "description": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic in container-based applications.",
+            "pageNumber": "43",
             "isPartOf": [
                 "AU_01"
             ]
@@ -22,7 +22,7 @@
             "id": "AU_03",
             "type": "Service",
             "name": "System Service",
-            "description": "Serves the web application and interacts with the database and external services.",
+            "description": "System Service (Next.js) serves the web application using React and communicates with the database service.",
             "pageNumber": "42",
             "isPartOf": []
         },
@@ -30,76 +30,73 @@
             "id": "AU_04",
             "type": "Technology",
             "name": "Next.js",
-            "description": "Framework used to develop the System Service.",
-            "pageNumber": "42",
+            "description": "Next.js is a framework for building web applications that supports both client-side and server-side rendering.",
+            "pageNumber": "44",
             "isPartOf": [
                 "AU_03"
             ]
         },
         {
             "id": "AU_05",
+            "type": "Technology",
+            "name": "React",
+            "description": "React is an open-source JavaScript library designed for building user interfaces efficiently and flexibly.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_06",
             "type": "Service",
             "name": "Data Service",
-            "description": "Provides the relational database for storing application data.",
+            "description": "Data Service (PostgreSQL) provides the relational database for storing application data.",
             "pageNumber": "42",
             "isPartOf": []
         },
         {
-            "id": "AU_06",
-            "type": "Technology",
-            "name": "PostgreSQL",
-            "description": "Database engine used for the Data Service.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_05"
-            ]
-        },
-        {
             "id": "AU_07",
             "type": "Technology",
-            "name": "Prisma",
-            "description": "ORM used to manage database queries and modifications.",
+            "name": "PostgreSQL",
+            "description": "PostgreSQL is the relational database management system used to store application data.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_03",
-                "AU_25"
+                "AU_06"
             ]
         },
         {
             "id": "AU_08",
-            "type": "Technology",
-            "name": "React",
-            "description": "Library used for building user interfaces within the System Service.",
-            "pageNumber": "47",
+            "type": "Component",
+            "name": "Prisma",
+            "description": "Prisma is an ORM tool used to simplify database access and management in Node.js and TypeScript applications.",
+            "pageNumber": "50",
             "isPartOf": [
-                "AU_03"
+                "AU_03",
+                "AU_20",
+                "AU_22"
             ]
         },
         {
             "id": "AU_09",
-            "type": "Service",
-            "name": "Authentication Service",
-            "description": "External service used for user authentication.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03"
-            ]
+            "type": "Technology",
+            "name": "Docker",
+            "description": "Docker is a containerization platform used to manage the execution of the application services.",
+            "pageNumber": "41",
+            "isPartOf": []
         },
         {
             "id": "AU_10",
             "type": "Technology",
-            "name": "Google",
-            "description": "Provider used for the Authentication Service.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_09"
-            ]
+            "name": "Amazon EC2",
+            "description": "Amazon EC2 is the cloud infrastructure where the application services are executed.",
+            "pageNumber": "41",
+            "isPartOf": []
         },
         {
             "id": "AU_11",
             "type": "Service",
             "name": "Cloud Storage Service",
-            "description": "External service for storing and retrieving files.",
+            "description": "External service used for storing and retrieving files.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_03"
@@ -109,17 +106,18 @@
             "id": "AU_12",
             "type": "Technology",
             "name": "Amazon S3",
-            "description": "Product used for the Cloud Storage Service.",
+            "description": "Amazon S3 is used for cloud storage to manage files.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_11"
+                "AU_11",
+                "AU_21"
             ]
         },
         {
             "id": "AU_13",
             "type": "Service",
             "name": "Payment Processing Service",
-            "description": "External service for handling payments and subscriptions.",
+            "description": "External service integrated to handle payments and subscriptions.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_03"
@@ -129,17 +127,18 @@
             "id": "AU_14",
             "type": "Technology",
             "name": "Stripe",
-            "description": "Product used for the Payment Processing Service.",
+            "description": "Stripe is used to integrate payment processing functionalities.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_13"
+                "AU_13",
+                "AU_21"
             ]
         },
         {
             "id": "AU_15",
             "type": "Service",
-            "name": "Analytics Service",
-            "description": "External service for tracking and analyzing site traffic.",
+            "name": "Email Service",
+            "description": "External service used for creating, sending, and scheduling emails.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_03"
@@ -148,18 +147,19 @@
         {
             "id": "AU_16",
             "type": "Technology",
-            "name": "Google Analytics",
-            "description": "Product used for the Analytics Service.",
+            "name": "Brevo",
+            "description": "Brevo is used for email communication and marketing automation.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_15"
+                "AU_15",
+                "AU_21"
             ]
         },
         {
             "id": "AU_17",
             "type": "Service",
-            "name": "Error Monitoring Service",
-            "description": "External service for tracking and managing application errors.",
+            "name": "Monitoring Service",
+            "description": "External service used to track and manage errors in the application.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_03"
@@ -169,139 +169,73 @@
             "id": "AU_18",
             "type": "Technology",
             "name": "Sentry",
-            "description": "Product used for the Error Monitoring Service.",
+            "description": "Sentry is used to track and manage errors in the application.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_17"
+                "AU_17",
+                "AU_21"
             ]
         },
         {
             "id": "AU_19",
-            "type": "Service",
-            "name": "Email Service",
-            "description": "External service for creating, sending, and scheduling emails.",
-            "pageNumber": "42",
+            "type": "Connector",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing. [...] Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
             "isPartOf": [
+                "AU_01",
                 "AU_03"
             ]
         },
         {
             "id": "AU_20",
-            "type": "Technology",
-            "name": "Brevo",
-            "description": "Product used for the Email Service.",
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
             "pageNumber": "42",
             "isPartOf": [
-                "AU_19"
+                "AU_03",
+                "AU_06"
             ]
         },
         {
             "id": "AU_21",
-            "type": "Technology",
-            "name": "Docker",
-            "description": "Platform used to manage the execution of containers for all services.",
-            "pageNumber": "41",
-            "isPartOf": []
+            "type": "Connector",
+            "description": "System Service (Next.js) [...] Interactúa con varios servicios externos para funcionalidades específicas: [...] Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos. [...] Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones. [...] Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos. [...] Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_11",
+                "AU_13",
+                "AU_15",
+                "AU_17"
+            ]
         },
         {
             "id": "AU_22",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "Communication protocol managed by Traefik.",
-            "pageNumber": "43",
+            "type": "Connector",
+            "description": "Data Service (PostgreSQL) [...] Se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "pageNumber": "42",
             "isPartOf": [
-                "AU_01",
-                "AU_24"
+                "AU_06",
+                "AU_08"
             ]
         },
         {
             "id": "AU_23",
             "type": "Technology",
-            "name": "HTTPS",
-            "description": "Communication protocol managed by Traefik.",
-            "pageNumber": "43",
+            "name": "HTTP",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
+            "pageNumber": "41",
             "isPartOf": [
-                "AU_01",
-                "AU_24"
+                "AU_19"
             ]
         },
         {
             "id": "AU_24",
-            "type": "Connector",
-            "description": "Security Service (Traefik) manages the routing of HTTP and HTTPS requests towards the Next.js application (System Service).",
+            "type": "Technology",
+            "name": "HTTPS",
+            "description": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing.",
             "pageNumber": "41",
             "isPartOf": [
-                "AU_01",
-                "AU_03"
-            ]
-        },
-        {
-            "id": "AU_25",
-            "type": "Connector",
-            "description": "The System Service communicates with the PostgreSQL database (Data Service) using Prisma as ORM.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_05"
-            ]
-        },
-        {
-            "id": "AU_26",
-            "type": "Connector",
-            "description": "The System Service interacts with Google for user authentication.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_09"
-            ]
-        },
-        {
-            "id": "AU_27",
-            "type": "Connector",
-            "description": "The System Service interacts with Amazon S3 for storing and retrieving files.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_11"
-            ]
-        },
-        {
-            "id": "AU_28",
-            "type": "Connector",
-            "description": "The System Service integrates with Stripe to handle payments and subscriptions.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_13"
-            ]
-        },
-        {
-            "id": "AU_29",
-            "type": "Connector",
-            "description": "The System Service implements Google Analytics to track and analyze site traffic.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_15"
-            ]
-        },
-        {
-            "id": "AU_30",
-            "type": "Connector",
-            "description": "The System Service uses Sentry to track and manage errors in the application.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
-                "AU_17"
-            ]
-        },
-        {
-            "id": "AU_31",
-            "type": "Connector",
-            "description": "The System Service connects to Brevo to create, send, and schedule emails.",
-            "pageNumber": "42",
-            "isPartOf": [
-                "AU_03",
                 "AU_19"
             ]
         }
@@ -311,10 +245,10 @@
             "id": "P_01",
             "type": "Architectural Pattern",
             "name": "Microservices",
-            "description": "The architecture of software based on microservices is a design and development approach where an application is built as a collection of small and independent services that communicate with each other.",
+            "description": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
             "pageNumber": "41",
             "isPartOf": [],
-            "fixedType": null
+            "fixedType": []
         },
         {
             "id": "P_02",
@@ -323,16 +257,16 @@
             "description": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components.",
             "pageNumber": "66",
             "isPartOf": [],
-            "fixedType": null
+            "fixedType": []
         },
         {
             "id": "P_03",
             "type": "Design Pattern",
             "name": "Observer Pattern",
-            "description": "The Observer pattern establishes a one-to-many relationship between objects, where an object known as the subject maintains a list of other objects called observers.",
+            "description": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers and notifies them of state changes.",
             "pageNumber": "66",
             "isPartOf": [],
-            "fixedType": null
+            "fixedType": []
         },
         {
             "id": "P_04",
@@ -341,7 +275,7 @@
             "description": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance.",
             "pageNumber": "67",
             "isPartOf": [],
-            "fixedType": null
+            "fixedType": []
         }
     ]
 }

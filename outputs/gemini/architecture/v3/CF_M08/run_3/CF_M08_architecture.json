@@ -1,0 +1,456 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "User",
+            "description": "Usuario: Un usuario es todo individuo o entidad que interactúa con el sistema, puede ser tanto un donante como una empresa.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Company",
+            "description": "Empresa: Una empresa es un tipo de usuario que puede ofrecer productos con sus respectivas rutas para que los donantes los entreguen, comenzando así a crear una cadena.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Other",
+            "name": "Donor",
+            "description": "Donante: Un donante es un tipo de usuario que contribuye con productos a una empresa.",
+            "pageNumber": "10",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Security Service",
+            "description": "Security Service (Traefik)",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Security Service (Traefik)",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "System Service",
+            "description": "System Service (Next.js)",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "System Service (Next.js)",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Data Service (PostgreSQL)",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "Data Service (PostgreSQL)",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon EC2",
+            "description": "En el caso de esta aplicación, dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "En el caso de esta aplicación, dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "React",
+            "description": "Sirve la aplicación web mediante React.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Component",
+            "name": "ORM",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM7 (Object-Relational Mapping).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM7 (Object-Relational Mapping).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_13",
+                "AU_36",
+                "AU_37"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "Autenticación: Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Google",
+            "description": "Autenticación: Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_15",
+                "AU_38"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Service",
+            "name": "Cloud Storage Service",
+            "description": "Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_17",
+                "AU_39"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Service",
+            "name": "Payment Processing Service",
+            "description": "Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_19",
+                "AU_40"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Service",
+            "name": "Analytics Service",
+            "description": "Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_21",
+                "AU_41"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Service",
+            "name": "Error Monitoring Service",
+            "description": "Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_23",
+                "AU_42"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Service",
+            "name": "Email Service",
+            "description": "Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_25",
+                "AU_43"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "Tailwind CSS",
+            "description": "Next.js soporta varios métodos de estilización, incluyendo módulos CSS, Tailwind CSS y CSS-in-JS, ofreciendo flexibilidad en la gestión de estilos.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "TypeScript es un lenguaje de programación fuertemente tipado que se basa en JavaScript y le brinda mejores herramientas a cualquier escala",
+            "pageNumber": "73",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "GitLab",
+            "description": "para desarrollar esta aplicación se ha hecho uso de la herramienta GitLab, la cual facilita el control de versiones, la colaboración en el proyecto y el despliegue en diversos entornos.",
+            "pageNumber": "89",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "Terraform",
+            "description": "Terraform es una herramienta de infraestructura como código que permite definir y gestionar la infraestructura de manera declarativa",
+            "pageNumber": "89",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "Vitest",
+            "description": "Para testear las funcionalidades principales de la aplicación, Vitest has sido utilizado como entorno de pruebas para la realización de tests unitarios",
+            "pageNumber": "91",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "Vite",
+            "description": "Vitest, una basada en Vite, ha demostrado ser especialmente adecuada para aplicaciones de JavaScript y TypeScript",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_31"
+            ]
+        },
+        {
+            "id": "AU_33",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_34",
+            "type": "Technology",
+            "name": "HTTPS",
+            "description": "Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "description": "Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_04",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM7 (Object-Relational Mapping).",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Connector",
+            "description": "Se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_08",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Connector",
+            "description": "Autenticación: Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Connector",
+            "description": "Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Connector",
+            "description": "Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Connector",
+            "description": "Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_21"
+            ]
+        },
+        {
+            "id": "AU_42",
+            "type": "Connector",
+            "description": "Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_23"
+            ]
+        },
+        {
+            "id": "AU_43",
+            "type": "Connector",
+            "description": "Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_25"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

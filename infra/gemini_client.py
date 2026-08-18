@@ -34,7 +34,7 @@ def create_gemini_client() -> genai.Client:
 def ask_gemini(
         user_prompt: str,
         system_prompt: str = "You are a helpful assistant.",
-        model: str = "gemini-3.1-flash-lite",
+        model: str = "gemini-3.5-flash-lite",
 ) -> str:
     client = create_gemini_client()
 

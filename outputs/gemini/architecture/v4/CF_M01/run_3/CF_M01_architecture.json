@@ -74,7 +74,7 @@
             "id": "AU_09",
             "type": "Service",
             "name": "API Player",
-            "description": "This service is responsible for communicating with the players, receiving all the corresponding information.",
+            "description": "This service is responsible for communicating with the players, receiving all the information corresponding to them.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_04"
@@ -97,28 +97,24 @@
             "description": "Framework used to develop the different services that interact with each other.",
             "pageNumber": "46",
             "isPartOf": [
-                "AU_06",
-                "AU_07",
-                "AU_08",
-                "AU_09",
-                "AU_10"
+                "AU_06"
             ]
         },
         {
             "id": "AU_12",
             "type": "Technology",
             "name": "TypeScript",
-            "description": "Programming language used for the backend development.",
+            "description": "Programming language used for the development of the backend.",
             "pageNumber": "46",
             "isPartOf": [
-                "AU_11"
+                "AU_06"
             ]
         },
         {
             "id": "AU_13",
             "type": "Technology",
             "name": "AWS",
-            "description": "Cloud services infrastructure used for deployment and data storage.",
+            "description": "Cloud services used for infrastructure.",
             "pageNumber": "46",
             "isPartOf": [
                 "AU_05"
@@ -128,7 +124,7 @@
             "id": "AU_14",
             "type": "Technology",
             "name": "MySQL",
-            "description": "Relational database used to store all the data necessary for the operation of the system.",
+            "description": "Relational database used to store all necessary data for the system operation.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_05"
@@ -138,7 +134,7 @@
             "id": "AU_15",
             "type": "Technology",
             "name": "Amazon S3",
-            "description": "Object storage service used to store JSON documents containing playlogs, connections, and audit trail.",
+            "description": "AWS object storage service used to store JSON documents containing playlogs, connections, and audit trail.",
             "pageNumber": "45",
             "isPartOf": [
                 "AU_05"
@@ -148,7 +144,7 @@
             "id": "AU_16",
             "type": "Technology",
             "name": "DynamoDB",
-            "description": "NoSQL database service used to store playlogs in real time.",
+            "description": "AWS NoSQL database service used to store playlogs in real time.",
             "pageNumber": "45",
             "isPartOf": [
                 "AU_05"
@@ -156,26 +152,6 @@
         },
         {
             "id": "AU_17",
-            "type": "Technology",
-            "name": "HTTP",
-            "description": "Communication protocol used between the presentation layer and the API Gateway.",
-            "pageNumber": "41, 42",
-            "isPartOf": [
-                "AU_24"
-            ]
-        },
-        {
-            "id": "AU_18",
-            "type": "Technology",
-            "name": "TCP",
-            "description": "Communication protocol used between the API Gateway and other services.",
-            "pageNumber": "44",
-            "isPartOf": [
-                "AU_25"
-            ]
-        },
-        {
-            "id": "AU_19",
             "type": "Technology",
             "name": "Amazon Athena",
             "description": "Service that allows performing SQL queries on data stored in Amazon S3.",
@@ -185,11 +161,31 @@
             ]
         },
         {
-            "id": "AU_20",
+            "id": "AU_18",
             "type": "Technology",
             "name": "AWS Glue",
-            "description": "Serverless data integration service used for metadata management.",
+            "description": "Serverless data integration service used for metadata storage.",
             "pageNumber": "49",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Kinesis Data Streams",
+            "description": "Data ingestion and processing service used for streaming data.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Kinesis Data Firehose",
+            "description": "Service used for loading large amounts of data into data stores.",
+            "pageNumber": "51",
             "isPartOf": [
                 "AU_08"
             ]
@@ -197,35 +193,29 @@
         {
             "id": "AU_21",
             "type": "Technology",
-            "name": "Kinesis Data Streams",
-            "description": "Service for data ingestion and streaming.",
-            "pageNumber": "50",
+            "name": "HTTP",
+            "description": "Communication protocol used between the presentation layer and the API Gateway.",
+            "pageNumber": "41",
             "isPartOf": [
-                "AU_08"
+                "AU_03",
+                "AU_23"
             ]
         },
         {
             "id": "AU_22",
             "type": "Technology",
-            "name": "Kinesis Data Firehose",
-            "description": "Service for loading large amounts of data into data stores.",
-            "pageNumber": "51",
+            "name": "TCP",
+            "description": "Communication protocol used between the API Gateway and other services.",
+            "pageNumber": "44",
             "isPartOf": [
-                "AU_08"
+                "AU_06",
+                "AU_24"
             ]
         },
         {
             "id": "AU_23",
-            "type": "Device",
-            "name": "Player",
-            "description": "A device that allows screens to play content, connecting the screen to the company platform.",
-            "pageNumber": "9",
-            "isPartOf": []
-        },
-        {
-            "id": "AU_24",
             "type": "Connector",
-            "description": "La capa de presentació es comunica amb la capa de negoci, més concretament amb l’Api Gateway, mitjançant el protocol HTTP.",
+            "description": "The presentation layer communicates with the business layer, more specifically with the API Gateway.",
             "pageNumber": "42",
             "isPartOf": [
                 "AU_03",
@@ -233,10 +223,10 @@
             ]
         },
         {
-            "id": "AU_25",
+            "id": "AU_24",
             "type": "Connector",
-            "description": "La comunicació entre el servei de l’Api Gateway és mitjançant el protocol de comunicació TCP. [...] processa les peticions per poder enviar-les al servei Core i al mòdul analític.",
-            "pageNumber": "43,44",
+            "description": "The API Gateway processes requests to send them to the Core service and the Analytical Module.",
+            "pageNumber": "43",
             "isPartOf": [
                 "AU_06",
                 "AU_07",
@@ -244,45 +234,86 @@
             ]
         },
         {
-            "id": "AU_26",
+            "id": "AU_25",
             "type": "Connector",
-            "description": "El servei Core [...] interactua amb la base de dades.",
-            "pageNumber": "44",
+            "description": "The Core service interacts with the database.",
+            "pageNumber": "43",
             "isPartOf": [
                 "AU_07",
                 "AU_05"
             ]
         },
         {
-            "id": "AU_27",
+            "id": "AU_26",
             "type": "Connector",
-            "description": "El mòdul analític [...] interactua en menor mesura amb la base de dades.",
-            "pageNumber": "44",
+            "description": "The Analytical Module interacts with the cloud services and the database.",
+            "pageNumber": "43",
             "isPartOf": [
                 "AU_08",
+                "AU_13",
                 "AU_05"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Connector",
+            "description": "The API Player communicates with the players, receiving all the information corresponding to them.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_09",
+                "AU_02"
             ]
         },
         {
             "id": "AU_28",
             "type": "Connector",
-            "description": "El mòdul analític [...] interactua amb els serveis cloud.",
+            "description": "The Web Socket service carries out the communication between the platform and the players.",
             "pageNumber": "44",
             "isPartOf": [
-                "AU_08",
-                "AU_13"
+                "AU_10",
+                "AU_02"
             ]
         },
         {
             "id": "AU_29",
             "type": "Connector",
-            "description": "Aquest servei [Web Socket] s’encarrega de realitzar la comunicació entre la plataforma i els players [...] Processa les dades provinents dels players i les emmagatzema en la base de dades i en els serveis cloud.",
+            "description": "The Web Socket service processes data from players and stores it in the database and cloud services.",
             "pageNumber": "44",
             "isPartOf": [
                 "AU_10",
-                "AU_23",
                 "AU_05",
                 "AU_13"
+            ]
+        },
+        {
+            "id": "AU_30",
+            "type": "Connector",
+            "description": "The Core service acts as a producer for Kinesis Data Streams for audit trail data.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_07",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_31",
+            "type": "Connector",
+            "description": "The Web Socket service acts as a producer for Kinesis Data Streams for playlog data.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_10",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_32",
+            "type": "Connector",
+            "description": "Kinesis Data Firehose reads from Kinesis Data Streams and stores data in Amazon S3.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_20",
+                "AU_19",
+                "AU_15"
             ]
         }
     ],
@@ -291,21 +322,19 @@
             "id": "P_01",
             "type": "Architectural Pattern",
             "name": "Client-Server",
-            "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+            "description": "The platform is a web service that follows the client-server architecture.",
             "pageNumber": "41",
             "isPartOf": [],
-            "fixedType": null
+            "fixedType": []
         },
         {
             "id": "P_02",
             "type": "Architectural Pattern",
             "name": "Three Layers",
-            "description": "The client-server model uses a 3-layer architecture, where the system is divided into 3 layers.",
+            "description": "The system is divided into 3 layers: presentation layer, business layer, and data layer.",
             "pageNumber": "41",
-            "isPartOf": [
-                "P_01"
-            ],
-            "fixedType": null
+            "isPartOf": [],
+            "fixedType": []
         },
         {
             "id": "P_03",

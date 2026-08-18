@@ -1,0 +1,489 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "Por un lado está el cliente, quien realiza las diferentes peticiones, y por otro lado está el servidor, quien las recibe y las procesa.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_01"
+            ]
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Server",
+            "description": "Por un lado está el cliente, quien realiza las diferentes peticiones, y por otro lado está el servidor, quien las recibe y las procesa.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_01"
+            ]
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "Capa de presentación: Es la capa que se encarga de mostrar la información al usuario.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Business Layer",
+            "description": "Capa de negocio: Es la capa que se encarga de procesar la información.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "Capa de datos: Es la capa que se encarga de almacenar la información.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "View",
+            "description": "Vista: Es la parte encargada de mostrar la información al usuario.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "P_03"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Component",
+            "name": "Actions",
+            "description": "Acciones: Son las acciones que puede realizar el usuario.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "P_03"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Component",
+            "name": "Dispatcher",
+            "description": "Dispatcher: Es el encargado de recibir las acciones y enviarlas al store para que modifique su estado.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "P_03"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Component",
+            "name": "Store",
+            "description": "Store: Es el encargado de almacenar el estado de la aplicación.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "P_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Service",
+            "name": "Business Service",
+            "description": "Servicio business: Se encarga de la gestión de usuarios, la autenticación y la autorización de los mismos.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Service",
+            "name": "Functional Service",
+            "description": "Servicio functional: Este es el servicio que realiza toda la lógica importante de la plataforma.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Database",
+            "name": "RDS Database",
+            "description": "RDS: RDS es un servicio de base de datos relacional distribuido.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Component",
+            "name": "Amazon S3 Storage",
+            "description": "Amazon S3: Es el servicio de almacenamiento de objetos de AWS.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Cache",
+            "name": "User Cache",
+            "description": "Cache de usuarios: Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB...",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Device",
+            "name": "Player",
+            "description": "Un player es un dispositivo externo que permite reproducir contenidos en una pantalla no profesional.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Device",
+            "name": "Screen",
+            "description": "Las pantallas profesionales o pantallas SOC tienen un player integrado en su interior.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Device",
+            "name": "Network Switch",
+            "description": "Como ejemplo, un activo puede ser la propia pantalla, un commutator de red, un player, etc.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "React",
+            "description": "En el frontend de la aplicación se ha utilizado el framework React, el cual se capítulo de tecnologías 9.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Redux",
+            "description": "Junto con la librería Redux se puede implementar la arquitectura Flux.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "REST API",
+            "description": "La comunicación entre ambos se realiza a través de internet utilizando el modelo de REST API y el protocolo de comunicación HTTP.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "La comunicación entre ambos se realiza a través de internet utilizando el modelo de REST API y el protocolo de comunicación HTTP.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_35"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "La comunicación se realiza mediante el protocolo de comunicación TCP.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_39"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "En el caso de Waapiti se utiliza una base de datos MySQL y contiene toda la información del sistema.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_12",
+                "AU_41"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Technology",
+            "name": "Amazon DynamoDB",
+            "description": "Cache de usuarios: Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB...",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_14",
+                "AU_43"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "NestJS es un framework de NodeJS para crear aplicaciones backend.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "TypeScript es un superconjunto de JavaScript.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "TypeORM",
+            "description": "TypeORM es un ORM para TypeScript y JavaScript.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_28",
+            "type": "Technology",
+            "name": "Material UI",
+            "description": "Material UI es una librería de React que contiene componentes de la interfaz de usuario.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Technology",
+            "name": "AWS",
+            "description": "Infraestructura AWS es un conjunto de servicios de computación en la nube que permite crear aplicaciones escalables y de alta disponibilidad.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_30",
+            "type": "Technology",
+            "name": "NextJS",
+            "description": "NextJS es un meta framework de React que permite crear aplicaciones web de una forma sencilla",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_31",
+            "type": "Technology",
+            "name": "Shadcn",
+            "description": "Shadcn es un proyecto de componentes reusables de UI",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_32",
+            "type": "Technology",
+            "name": "Figma",
+            "description": "Todos los prototipos se han creado utilizando la herramienta Figma",
+            "pageNumber": "62",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_33",
+            "type": "Technology",
+            "name": "Swagger",
+            "description": "Los decoradores @ApiResponse son parte de Swagger y permiten generar documentación de la API.",
+            "pageNumber": "74",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_34",
+            "type": "Technology",
+            "name": "SMPLRSpace",
+            "description": "El primer paso para visualizar el mapa 3D es crear este mapa en la página web que ofrece la librería utilizada (SMPLRSpace).",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_35",
+            "type": "Connector",
+            "description": "La comunicación entre ambos se realiza a través de internet utilizando el modelo de REST API y el protocolo de comunicación HTTP.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_36",
+            "type": "Connector",
+            "description": "Capa de presentación: Es la capa que se encarga de mostrar la información al usuario.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_03",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_37",
+            "type": "Connector",
+            "description": "Capa de negocio: Es la capa que se encarga de procesar la información.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_04",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_38",
+            "type": "Connector",
+            "description": "Dispatcher: Es el encargado de recibir las acciones y enviarlas al store para que modifique su estado.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_08",
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_39",
+            "type": "Connector",
+            "description": "Estas peticiones son procesadas y enviadas mediante una conexión interna al servicio functional, que es el que contiene la información sensible del sistema.",
+            "pageNumber": "57, 58",
+            "isPartOf": [
+                "AU_10",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_40",
+            "type": "Connector",
+            "description": "Es el servicio que tiene comunicación con la capa de datos.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_11",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_41",
+            "type": "Connector",
+            "description": "En el caso de Waapiti se utiliza una base de datos MySQL y contiene toda la información del sistema.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_11",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_42",
+            "type": "Connector",
+            "description": "Se utiliza para almacenar los archivos multimedia.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_11",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_43",
+            "type": "Connector",
+            "description": "Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB, a la cuál tiene acceso el servicio business.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_10",
+                "AU_14"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "La plataforma de Waapiti es un servicio web, por tanto, como es habitual en este tipo de softwares, sigue la arquitectura cliente-servidor.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three-Layer Architecture",
+            "description": "Para desacoplar las partes que componen el modelo de cliente-servidor, se ha utilizado la arquitectura de 3 capas.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "Flux es una arquitectura de frontend desarrollada por Facebook para el desarrollo de aplicaciones web.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "El patrón observador es un patrón de diseño de software que define una dependencia de uno a muchos entre objetos...",
+            "pageNumber": "59",
+            "isPartOf": [
+                "P_03"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Provider Pattern",
+            "description": "El patrón provider es un patrón de diseño de software que permite compartir información entre componentes de React sin necesidad de utilizar props.",
+            "pageNumber": "59",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": ""
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Module Pattern",
+            "description": "Este es el patrón más importante dentro del lenguaje de JavaScript. Este patrón permite encapsular la información y exponer solo aquella que se desea compartir entre módulos...",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": ""
+        },
+        {
+            "id": "P_07",
+            "type": "Design Pattern",
+            "name": "Hook Pattern",
+            "description": "Los ganchos son una nueva característica de React que permiten utilizar el estado y otras características de React sin necesidad de escribir una clase.",
+            "pageNumber": "59",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": ""
+        }
+    ]
+}
