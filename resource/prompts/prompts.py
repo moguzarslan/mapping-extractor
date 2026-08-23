@@ -1719,60 +1719,53 @@ Below are the definitions for each type of architectural unit and pattern with t
 
     ARCHITECTURAL_DECISION_EXTRACTION_PROMPT = """
 # Objective
-    You are an expert software architect and requirements engineer. Given the already-extracted Requirements (and Concepts) and the already-extracted Architecture (Architectural Units and Patterns), both provided below as JSON, and the software document, extract the Architectural Decisions of the system — the explicit rationale that ties an architectural element to the requirement or concept that motivated it.
+You are an expert software architect and requirements engineer. Given the already-extracted Requirements (and Concepts) and the already-extracted Architecture (Architectural Units and Patterns), both provided below as JSON, and the software document, extract the Architectural Decisions of the system.
 
 # Instructions
-    1. Carefully read the entire document.
-    2. Use the provided Requirements/Concepts and Architectural Units/Patterns as the only valid endpoints, referring to them by their given ids (R_xx or C_xx for the source; AU_xx or P_xx for the architectural element).
-    3. Sweep the document text section by section and extract one Architectural Decision for every sentence (or group of sentences) where the document explicitly justifies, motivates, or explains why an architectural element (a unit or a pattern) was chosen, in terms of a requirement or a concept (quality attribute) it addresses.
+1. Carefully read the entire document.
+2. Identify the architectural decisions in the document according to the definition and rules given below.
+3. Extract each of them according to the Extraction Process and rules defined below.
 
-## What is an Architectural Decision
-    - Definition: a stated link between ONE architectural element (a unit or a pattern) and ONE requirement or concept that motivated it, evidenced by a rationale sentence explaining WHY the element was chosen, or what it achieves, with respect to that requirement/concept.
-    - The source of the decision "architecturalDecisionSource" is the id of the requirement or the concept the element addresses.
-    - The related architecture "architecturalElementId" is the id of the unit or the pattern the decision is about.
-    - NOT an Architectural Decision: a plain structural description of a unit or a pattern with no stated justification (that is already captured by the unit's/pattern's own "description"); a requirement or acceptance criterion with no architectural element attached to it.
+## Architectural Decision
+- Definition: a stated link between ONE OR MORE architectural elements (units and patterns) and ONE OR MORE requirement or concept that motivated it, evidenced by a rationale sentence explaining why the element was chosen, or what it achieves, with respect to those requirements/concepts.
 
 # Extraction Process
-    - Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
-    - "architecturalElementId" must be exactly one id taken from the provided Architectural Units/Patterns (AU_xx or P_xx).
-    - "architecturalDecisionSource" must be exactly one id taken from the provided Requirements/Concepts (R_xx or C_xx).
-    - "rationale" must be the text from the document translated to English that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
-        - In case of multiple text from different pages, sentences should be separated with "[...]"
-    - Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
-    - Architectural Decision should have the following JSON Schema:
-        {
-        "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
-        "architecturalElementId": "<id of the related unit or pattern (AU_xx or P_xx)>",
-        "architecturalDecisionSource": "<id of the related requirement or concept (R_xx or C_xx)>",
-        "rationale": "<The document sentence(s) justifying the decision, translated to English>",
-        "pageNumber": "<Page number(s) where the rationale is stated>"
-        }
+- Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
+- "architecturalElementIds" should indicate which architectural elements (units or patterns) decision is related to.
+- "architecturalDecisionSource" must be a list contains:
+    - Related Requirement/Concept Id's (R_xx or C_xx).
+    - If the rationale introduces a motivating concept that is not present in the provided concepts, include the concept directly as an English string rather than assigning it an ID.
+- "rationale" must be the text from the document translated to English that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
+- Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
+- Architectural Decision should have the following JSON Schema:
+    {
+    "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
+    "architecturalElementIds": [<ids of the related units and patterns (AU_xx or P_xx)>],
+    "architecturalDecisionSource": [<ids of the related requirement or extracted concept from rationale>],
+    "rationale": "<The document sentence(s) justifying the decision, translated to English>",
+    "pageNumber": "<Page number(s) where the rationale is stated>"
+    }
 
 # Rules:
-    - Ensure every decision is strictly supported by the document; never invent a rationale, and never link an element to a requirement/concept the document does not explicitly connect.
-    - Reference only ids from the provided Requirements/Concepts and Architectural Units/Patterns; if the source or the element you see is not in the provided lists, skip it rather than inventing an id.
-    - When one rationale motivates several requirements/concepts for the same element, or several elements for the same requirement/concept, output one Architectural Decision per pair.
-    - Do not extract a decision from a plain structural description that carries no justification (e.g. "The system has three layers." alone, with no stated reason).
-    - Output should be given in JSON format as in the Example Output section.
-    - The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
-        - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-    - "rationale" field should extract only the sentences making a connection between requirement/concept and architectural element. Avoid extracting requirement sentence as an rationale.
-    - If both a requirement and a concept can be linked to the architectural decision, choose concept.
+- Output should be given in JSON format as in the Example Output section.
+- The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+- "rationale" field should extract only the sentences making a connection between requirement/concept and architectural element. Avoid extracting requirement sentence as an rationale.
     
 # Example Output (JSON)
 {
   "architectural_decisions": [
     {
       "id": "AD_01",
-      "architecturalElementId": "AU_10",
-      "architecturalDecisionSource": "C_01",
+      "architecturalElementIds": ["AU_10", "AU_11"],
+      "architecturalDecisionSource": ["C_01", "Scalability"],
       "rationale": "Increases system security [...] It is only the Api Gateway that is responsible for authorization and SSL with the client",
       "pageNumber": "43"
     },
     {
       "id": "AD_02",
-      "architecturalElementId": "AU_16",
-      "architecturalDecisionSource": "C_05",
+      "architecturalElementIds": ["P_01"],
+      "architecturalDecisionSource": ["C_05"],
       "rationale": "The decision was made to use AWS and not other cloud services due to its low price and its previous use by the company.",
       "pageNumber": "46"
     }

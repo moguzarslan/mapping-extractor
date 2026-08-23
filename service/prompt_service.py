@@ -811,18 +811,21 @@ def _reduce_architecture_for_decision(architecture) -> dict:
     }
 
 
-def process_decision_extraction(
+def extract_decisions(
         file: str,
         requirements_json_dir: str,
         concepts_json_dir: str,
         architecture_json_dir: str,
         prompt: str,
-        output_dir: str = "outputs",
-        output_file_name: str = "decisions",
-) -> str:
-    """Extract Architectural Decisions from the document, given the already-final
-    requirements JSON, concepts JSON, and architecture JSON on disk."""
-    print(f"Processing decision extraction: {file}")
+) -> list:
+    """Run one architectural-decision prompt over the document and the three
+    already-final artifacts it references (requirements JSON, concepts JSON,
+    architecture JSON on disk); return the decision records.
+
+    Nothing is written to disk — the runner owns where the results go, so the same
+    extraction can be saved under whichever version produced it.
+    """
+    print(f"Extracting architectural decisions from: {file}")
     requirements = _as_requirements_list(extract_json_from_file(requirements_json_dir))
     concepts = _as_requirements_list(extract_json_from_file(concepts_json_dir))
     architecture = extract_json_from_file(architecture_json_dir)
@@ -838,9 +841,22 @@ def process_decision_extraction(
 
     built = build_decision_extraction_prompt(file, prompt, requirements_json, architecture_json)
     response = ask_gemini(user_prompt=built)
+    return _as_decisions_list(extract_json_from_response(response))
 
-    output_path = save_result(output_file_name, output_dir, response)
-    print(f"Decision extraction saved successfully for: {file}")
+
+def _as_decisions_list(data) -> list:
+    """Normalise a decision response (list or {"architectural_decisions": [...]}) to a list."""
+    if isinstance(data, dict):
+        return data.get("architectural_decisions", [])
+    return data or []
+
+
+def save_decisions(decisions: list,
+                   output_file_name: str = "decisions",
+                   output_dir: str = "outputs") -> str:
+    """Write the single canonical decision file — the ONLY file the decision pass
+    saves — in the {architectural_decisions: [...]} shape the evaluator expects."""
+    output_path = save_json({"architectural_decisions": decisions}, output_file_name, output_dir)
     return str(output_path)
 
 

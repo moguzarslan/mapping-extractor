@@ -1,0 +1,95 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microserveis"
+            ],
+            "rationale": "Aquesta estructura permet desenvolupar, desplegar i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Tecnologia cloud"
+            ],
+            "rationale": "Ofereix flexibilitat, escalabilitat i reducció de costos, ja que elimina la necessitat d’infraestructura local pròpia.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "R_48"
+            ],
+            "rationale": "Aquest microservei incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions. Concretament, bloqueja qualsevol intent de connexió no autoritzada i aplica determinats protocols de seguretat per prevenir accessos indeguts i possibles vulnerabilitats.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "Això garanteix que la capa de presentació estigui disponible i actualitzada, facilitant el desplegament i reduint la dependència d’elements externs. D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_06"
+            ],
+            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "pageNumber": "81"
+        }
+    ]
+}

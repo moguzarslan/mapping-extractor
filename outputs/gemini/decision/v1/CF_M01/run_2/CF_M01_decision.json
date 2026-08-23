@@ -1,0 +1,71 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "It is only the Api Gateway that is responsible for authorization and SSL with the client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "S’ha decidit la utilització d’AWS i no altres serveis cloud pel seu baix preu i la seva utilització prèvia per part de l’empresa.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16",
+                "AU_18",
+                "AU_19",
+                "AU_20",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "R_24",
+                "R_25",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "NestJS",
+                "TypeScript"
+            ],
+            "rationale": "S’ha decidit la utilització d’aquest llenguatge, i no JavaScript, ja que és el llenguatge per defecte per NestJS i perquè gràcies al seu tipatge estàtic permet la detecció d’errors en temps de compilació.",
+            "pageNumber": "46"
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_07",
+                "R_45"
+            ],
+            "rationale": "This structure allows to develop, deploy and scale each service autonomously, facilitating maintenance, flexibility and the evolution of the system.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Cloud computing",
+                "R_43",
+                "R_44"
+            ],
+            "rationale": "The use of this type of architecture allows high scalability, availability and accessibility, as the management of resources can be done according to needs and anywhere with an Internet connection.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Certifications"
+            ],
+            "rationale": "AWS is a consolidated cloud platform with robust services and a reliable infrastructure. [...] Another reason why AWS was chosen was that this platform invests heavily in security and certifications, manages multiple levels of security and offers tools to protect data and infrastructures facilitating compliance with legal regulations and international standards.",
+            "pageNumber": "82"
+        }
+    ]
+}
