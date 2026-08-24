@@ -1,0 +1,91 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. This pattern increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16",
+                "AU_18",
+                "AU_19",
+                "AU_20",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04",
+                "Scalability"
+            ],
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module, improving the scalability and availability of the system.",
+            "pageNumber": "42, 44"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "NestJS allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "TypeScript was chosen over JavaScript because it is the default language for NestJS and because, thanks to its static typing, it allows for error detection at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "Scalability"
+            ],
+            "rationale": "AWS was chosen over other cloud services due to its low price and its previous use by the company, allowing the creation of scalable and highly available applications.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Performance"
+            ],
+            "rationale": "Amazon Athena is a serverless service that makes it unnecessary to manage infrastructure when there is an increase in the data set and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Kinesis Data Streams is used to transmit data in near real-time, as data transmitted by producers is available in the stream in milliseconds.",
+            "pageNumber": "50"
+        }
+    ]
+}

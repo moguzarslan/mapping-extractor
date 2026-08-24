@@ -3,29 +3,30 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
-                "P_03",
-                "AU_06"
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The physical architecture does not correspond exactly to the logical architecture, as both the business layer and the data layer are divided into several different services. The goal of this is to improve the security, scalability and availability of the system.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
             ],
             "architecturalDecisionSource": [
                 "C_05",
                 "Security"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. [...] Augmenta la seguretat del sistema al reduir les portes d’enllaç amb l’exterior, ja que l’única manera d’interactuar amb els microserveis és a través de l’Api Gateway.",
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. The use of this pattern provides several advantages to the system, such as: Increases the security of the system by reducing the gateways to the outside, as the only way to interact with the microservices is through the Api Gateway.",
             "pageNumber": "43"
-        },
-        {
-            "id": "AD_02",
-            "architecturalElementIds": [
-                "AU_15"
-            ],
-            "architecturalDecisionSource": [
-                "C_03",
-                "C_04",
-                "Low price",
-                "Previous company use"
-            ],
-            "rationale": "S’ha decidit la utilització d’AWS i no altres serveis cloud pel seu baix preu i la seva utilització prèvia per part de l’empresa.",
-            "pageNumber": "46"
         },
         {
             "id": "AD_03",
@@ -36,38 +37,71 @@
                 "AU_19"
             ],
             "architecturalDecisionSource": [
-                "R_24",
-                "R_25",
                 "C_03",
-                "C_04"
+                "C_04",
+                "Capacity"
             ],
-            "rationale": "L’objectiu d’aquests serveis és formar un data lake on s’emmagatzemi tots els històrics per poder processar-los en el mòdul analític.",
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module.",
             "pageNumber": "45"
         },
         {
             "id": "AD_04",
             "architecturalElementIds": [
-                "AU_20",
-                "AU_21"
+                "AU_13"
             ],
             "architecturalDecisionSource": [
-                "C_01"
+                "Maintainability"
             ],
-            "rationale": "Perquè sigui la transmissió de dades la més ràpida possible s’han fet ús de dos serveis d’Amazon, que ens permeten realitzar una transmissió en quasi temps real.",
-            "pageNumber": "50"
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than by making direct use of NodeJS.",
+            "pageNumber": "46"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "AU_13",
                 "AU_14"
             ],
             "architecturalDecisionSource": [
-                "NestJS framework",
-                "TypeScript language"
+                "Maintainability"
             ],
-            "rationale": "S’ha decidit la utilització d’aquest llenguatge, i no JavaScript, ja que és el llenguatge per defecte per NestJS i perquè gràcies al seu tipatge estàtic permet la detecció d’errors en temps de compilació.",
+            "rationale": "The use of this language has been decided, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
             "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "It is the set of cloud computing services that allows the creation of scalable and highly available applications. The use of AWS and not other cloud services has been decided due to its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Performance"
+            ],
+            "rationale": "Being a serverless service, it is not necessary to manage the infrastructure when there is an increase in the set of data and users. In addition, to be able to obtain the data quickly, Athena performs the queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_20",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Performance"
+            ],
+            "rationale": "For the data transmission to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "pageNumber": "50"
         }
     ]
 }

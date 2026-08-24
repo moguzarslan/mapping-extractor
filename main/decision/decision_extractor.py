@@ -1,7 +1,7 @@
 """Entry point for architectural-decision extraction.
 
 Which extraction is run is decided by DECISION_VERSION in the environment
-(v1 — see main/decision/versions.py); this file only starts it.
+(v1, v2 — see main/decision/versions.py); this file only starts it.
 """
 
 import sys

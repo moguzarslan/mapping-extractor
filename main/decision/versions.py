@@ -1,10 +1,9 @@
 """The catalogue of architectural-decision extraction versions.
 
 A version is a name (the one written in the environment) bound to a behaviour and
-the configuration that behaviour runs with. V1 is the original single-prompt
-extraction; a new prompt that keeps the same behaviour is one more entry here,
-differing only in the prompt, which is the whole point of keeping the prompt out
-of the strategy class.
+the configuration that behaviour runs with. V1 and V2 are deliberately the same
+behaviour — the single-prompt extraction — differing only in the prompt, which is
+the whole point of keeping the prompt out of the strategy class.
 
 Adding a version is one entry here; no other file needs to change.
 """
@@ -20,7 +19,7 @@ from main.decision.strategies import (
     SinglePromptExtraction,
 )
 
-DEFAULT_VERSION = "v1"
+DEFAULT_VERSION = "v2"
 VERSION_ENV_KEY = "DECISION_VERSION"
 
 
@@ -51,6 +50,16 @@ VERSIONS: dict[str, DecisionVersion] = {
         description="single decision prompt (V1)",
         build=lambda: SinglePromptExtraction(
             prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT,
+        ),
+    ),
+    # Same single-prompt behaviour as V1 — only the prompt differs, which is
+    # exactly the case the strategy/config split exists for.
+    "v2": DecisionVersion(
+        name="v2",
+        output_subdir="decision/v2",
+        description="single decision prompt (V2)",
+        build=lambda: SinglePromptExtraction(
+            prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V2,
         ),
     ),
 }

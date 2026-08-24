@@ -1750,7 +1750,6 @@ You are an expert software architect and requirements engineer. Given the alread
 - Output should be given in JSON format as in the Example Output section.
 - The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
     - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
-- "rationale" field should extract only the sentences making a connection between requirement/concept and architectural element. Avoid extracting requirement sentence as an rationale.
     
 # Example Output (JSON)
 {
@@ -1767,6 +1766,71 @@ You are an expert software architect and requirements engineer. Given the alread
       "architecturalElementIds": ["P_01"],
       "architecturalDecisionSource": ["C_05"],
       "rationale": "The decision was made to use AWS and not other cloud services due to its low price and its previous use by the company.",
+      "pageNumber": "46"
+    }
+  ]
+}
+    ...
+    """
+
+    ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V2 = """
+# Objective
+You are an expert software architect and requirements engineer. Given the already-extracted Requirements (and Concepts) and the already-extracted Architecture (Architectural Units and Patterns), both provided below as JSON, and the software document, extract the Architectural Decisions of the system.
+
+# Instructions
+1. Carefully read the entire document.
+2. Identify the architectural decisions in the document according to the definition and rules given below.
+3. Extract each of them according to the Extraction Process and rules defined below.
+
+## Architectural Decision
+- Definition: a stated link between the architectural element(s) that one justification in the document is about, and the requirement(s) or concept(s) that motivated it.
+- Identification question: Does this sentence say why this system uses it?
+- Meta Examples:
+    - Enablement — "The <element> allows <capability>, facilitating the <quality> of the application."
+    - Explicit choice with reason — "<element> was chosen over <alternative> due to its <property>."
+    - Purpose-first — "In order to <achieve quality>, <element> has been used."
+    - Role — "<element> is responsible for <function>, ensuring <quality>."
+
+# Extraction Process
+- Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
+- "architecturalElementIds" should indicate which architectural elements (units or patterns) decision is related to.
+- "architecturalDecisionSource" must be a list contains:
+    - Related Requirement/Concept Id's (R_xx or C_xx).
+    - If the rationale introduces a motivating concept that is not present in the provided concepts, include the concept directly as an English string rather than assigning it an ID.
+- "rationale" must be the text from the document translated to English that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
+- Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
+- Architectural Decision should have the following JSON Schema:
+    {
+    "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
+    "architecturalElementIds": [<ids of the related units and patterns (AU_xx or P_xx)>],
+    "architecturalDecisionSource": [<ids of the related requirement or extracted concept from rationale>],
+    "rationale": "<The document sentence(s) justifying the decision, translated to English>",
+    "pageNumber": "<Page number(s) where the rationale is stated>"
+    }
+
+# Rules:
+- If the document justifies an element in several separate places, that is several decisions, one per justification.
+- When the rationale introduces a motivating concept not present in the provided concepts, add it as a short English quality-attribute noun — "Scalability", "Security", "Maintainability", "Performance" — matching the style of the provided concepts. Never use a technology, product or component name as a concept.
+- "rationale" field should extract only the sentences (translated to English) making a connection between requirement(s)/concept(s) and architectural element(s). Avoid extracting requirement sentence as an rationale.
+- Output should be given in JSON format as in the Example Output section.
+- The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+
+# Example Output (JSON)
+{
+  "architectural_decisions": [
+    {
+      "id": "AD_01",
+      "architecturalElementIds": ["AU_10", "AU_11"],
+      "architecturalDecisionSource": ["C_01", "Scalability"],
+      "rationale": "Using this cloud provider increases scalability and maintainability.",
+      "pageNumber": "38"
+    },
+    {
+      "id": "AD_02",
+      "architecturalElementIds": ["P_01"],
+      "architecturalDecisionSource": ["C_05"],
+      "rationale": "This pattern enhances security and confidentiality",
       "pageNumber": "46"
     }
   ]

@@ -3,28 +3,55 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
-                "P_03"
+                "P_01",
+                "P_02"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "C_01",
+                "C_02",
+                "C_03",
+                "C_04"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
-            "pageNumber": "43"
+            "rationale": "The physical architecture does not correspond exactly to the logical architecture, as both the business layer and the data layer are divided into several different services. The goal of this is to improve the security, scalability, and availability of the system.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_06"
+                "AU_06",
+                "P_03"
             ],
             "architecturalDecisionSource": [
                 "C_05",
                 "Security"
             ],
-            "rationale": "It is only the Api Gateway that is responsible for authorization and SSL with the client.",
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. The use of this pattern provides several advantages to the system, such as: Increasing the security of the system by reducing the gateways to the outside, as the only way to interact with the microservices is through the Api Gateway.",
             "pageNumber": "43"
         },
         {
             "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "The use of this language was decided, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
             "architecturalElementIds": [
                 "AU_15"
             ],
@@ -32,40 +59,45 @@
                 "C_03",
                 "C_04"
             ],
-            "rationale": "S’ha decidit la utilització d’AWS i no altres serveis cloud pel seu baix preu i la seva utilització prèvia per part de l’empresa.",
+            "rationale": "The use of AWS was decided and not other cloud services due to its low price and its previous use by the company.",
             "pageNumber": "46"
         },
         {
-            "id": "AD_04",
+            "id": "AD_06",
             "architecturalElementIds": [
                 "AU_12",
-                "AU_16",
-                "AU_18",
-                "AU_19",
-                "AU_20",
-                "AU_21"
+                "AU_16"
             ],
             "architecturalDecisionSource": [
-                "R_24",
-                "R_25",
                 "C_03",
                 "C_04"
             ],
-            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module.",
-            "pageNumber": "45"
+            "rationale": "The Amazon S3 service is a necessary service to be able to develop a data lake, since this service allows us to store any element that is needed.",
+            "pageNumber": "48"
         },
         {
-            "id": "AD_05",
+            "id": "AD_07",
             "architecturalElementIds": [
-                "AU_13",
-                "AU_14"
+                "AU_18"
             ],
             "architecturalDecisionSource": [
-                "NestJS",
-                "TypeScript"
+                "C_01",
+                "Scalability"
             ],
-            "rationale": "S’ha decidit la utilització d’aquest llenguatge, i no JavaScript, ja que és el llenguatge per defecte per NestJS i perquè gràcies al seu tipatge estàtic permet la detecció d’errors en temps de compilació.",
-            "pageNumber": "46"
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the set of data and users.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Performance"
+            ],
+            "rationale": "For the data transmission to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "pageNumber": "50"
         }
     ]
 }

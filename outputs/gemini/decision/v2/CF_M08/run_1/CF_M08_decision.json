@@ -3,14 +3,14 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
-                "P_01",
-                "AU_09"
+                "P_01"
             ],
             "architecturalDecisionSource": [
                 "R_28",
-                "R_29"
+                "R_29",
+                "C_07"
             ],
-            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture. [...] In the case of this application, such services are executed in Amazon EC2 instances and are managed by Docker, which manages the execution of the containers.",
+            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture. The software architecture based on microservices is a design and software development approach where an application is built as a collection of small and independent services that communicate with each other.",
             "pageNumber": "41"
         },
         {
@@ -24,7 +24,7 @@
                 "R_21",
                 "C_03"
             ],
-            "rationale": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic. [...] HTTPS encrypts the data transmitted between the clients and the server, protecting the integrity and confidentiality of the information.",
+            "rationale": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic. HTTPS encrypts the data transmitted between the clients and the server, protecting the integrity and confidentiality of the information.",
             "pageNumber": "43"
         },
         {
@@ -44,44 +44,54 @@
             "id": "AD_04",
             "architecturalElementIds": [
                 "AU_08",
-                "AU_07"
+                "AU_04"
             ],
             "architecturalDecisionSource": [
                 "C_05"
             ],
-            "rationale": "Prisma is an ORM (Object-Relational Mapping) tool for databases. It is designed to simplify database access and management in Node.js and TypeScript applications.",
-            "pageNumber": "50"
+            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "P_02"
-            ],
-            "architecturalDecisionSource": [
-                "C_05",
-                "R_24"
-            ],
-            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. [...] This approach promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
-            "pageNumber": "66"
-        },
-        {
-            "id": "AD_06",
-            "architecturalElementIds": [
-                "P_03"
+                "AU_09"
             ],
             "architecturalDecisionSource": [
                 "C_04"
             ],
-            "rationale": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers. [...] When the subject's state changes, it automatically notifies all its observers, allowing them to react appropriately.",
+            "rationale": "In the case of this application, said services run on Amazon EC2 instances and are managed by Docker, which manages the execution of the containers.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. This approach promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
             "pageNumber": "66"
         },
         {
             "id": "AD_07",
             "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_06"
+            ],
+            "rationale": "The Observer pattern establishes a one-to-many relationship between objects... When the subject's state changes, it automatically notifies all its observers, allowing them to react appropriately.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
                 "P_04"
             ],
             "architecturalDecisionSource": [
-                "C_04"
+                "C_05"
             ],
             "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is generally used to manage shared resources, such as configurations, logs, or database connections, where having multiple instances could lead to inconsistent states or inefficient use of resources.",
             "pageNumber": "67"

@@ -6,10 +6,10 @@
                 "P_02"
             ],
             "architecturalDecisionSource": [
-                "Microserveis"
+                "Microservices"
             ],
-            "rationale": "Aquesta estructura permet desenvolupar, desplegar i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
-            "pageNumber": "9"
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "8"
         },
         {
             "id": "AD_02",
@@ -19,8 +19,8 @@
             "architecturalDecisionSource": [
                 "Tecnologia cloud"
             ],
-            "rationale": "Ofereix flexibilitat, escalabilitat i reducció de costos, ja que elimina la necessitat d’infraestructura local pròpia.",
-            "pageNumber": "9"
+            "rationale": "It offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure.",
+            "pageNumber": "8"
         },
         {
             "id": "AD_03",
@@ -28,9 +28,10 @@
                 "AU_08"
             ],
             "architecturalDecisionSource": [
-                "R_48"
+                "R_48",
+                "Security"
             ],
-            "rationale": "Aquest microservei incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions. Concretament, bloqueja qualsevol intent de connexió no autoritzada i aplica determinats protocols de seguretat per prevenir accessos indeguts i possibles vulnerabilitats.",
+            "rationale": "This microservice incorporates protection mechanisms to ensure the integrity and confidentiality of communications, blocking any unauthorized connection attempt and applying security protocols to prevent improper access and possible vulnerabilities.",
             "pageNumber": "57"
         },
         {
@@ -41,20 +42,19 @@
             "architecturalDecisionSource": [
                 "C_01"
             ],
-            "rationale": "Això garanteix que la capa de presentació estigui disponible i actualitzada, facilitant el desplegament i reduint la dependència d’elements externs. D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
+            "rationale": "This microservice incorporates the necessary binaries for the frontEnd of both the portal itself and the rest of the portal applications, ensuring visual and functional coherence of the entire ecosystem.",
             "pageNumber": "57"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "P_01",
-                "AU_13",
-                "AU_14"
+                "P_01"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "C_05",
+                "C_09"
             ],
-            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
             "pageNumber": "61"
         },
         {
@@ -65,7 +65,7 @@
             "architecturalDecisionSource": [
                 "C_02"
             ],
-            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services, which is designed for the implementation of user interfaces.",
             "pageNumber": "62"
         },
         {
@@ -74,9 +74,9 @@
                 "P_04"
             ],
             "architecturalDecisionSource": [
-                "C_09"
+                "Maintainability"
             ],
-            "rationale": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades.",
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated, clarifying roles, avoiding unnecessary coupling, and facilitating testing, reusing, and maintaining the code over time.",
             "pageNumber": "68"
         },
         {
@@ -86,9 +86,10 @@
                 "AU_19"
             ],
             "architecturalDecisionSource": [
-                "C_06"
+                "C_06",
+                "C_07"
             ],
-            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, executing thousands of containers on different servers, and ensuring high availability.",
             "pageNumber": "81"
         }
     ]

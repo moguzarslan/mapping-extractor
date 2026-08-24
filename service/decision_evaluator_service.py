@@ -86,7 +86,12 @@ the anchor already matched, where there is nothing to be precise or complete
 about: the question is only how much of that field is right.
 
 Output: an xlsx with sheets — Field_Metrics, Matching_Summary, Field_Counts,
-Matched_TP, False_Positives, False_Negatives.
+Matched_TP, False_Positives, False_Negatives. Two side-car workbooks are written
+next to it (matching the architecture evaluator): `<stem>_gt_report.xlsx` (the
+unmatched GT decisions / false negatives) and `<stem>_llm_report.xlsx` (the
+unmatched LLM decisions / false positives) — each row carrying the decision's
+full fields, its references RESOLVED to text, its closest counterpart on the
+other side and that similarity.
 """
 import json
 import re
@@ -650,6 +655,55 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
         for j in range(len(gt)) if j not in matched_gt
     ])
 
+    # Full-field views of the decisions that were NOT matched: the GT report
+    # lists every ground-truth decision the LLM missed (false negatives) and the
+    # LLM report lists every LLM decision with no ground-truth counterpart
+    # (false positives). Each row carries its closest counterpart on the other
+    # side and that similarity, mirroring the architecture evaluator's reports.
+    #
+    # Both also carry the reference fields RESOLVED to text. A raw id says
+    # nothing across the two namespaces — `AU_10` against `CF_M08_AU05` is not
+    # readable — so the resolved columns are what makes an unmatched decision
+    # diagnosable by hand: they show what the scoring actually compared.
+    def resolved_blob(index: int, side: str, prefix: str) -> dict:
+        blob = {}
+        for spec in REFERENCE_SPECS:
+            field = ref_fields[spec["name"]]
+            tokens = (field.gt if side == "gt" else field.llm)[index]
+            short = "source" if spec is SOURCE_SPEC else "element"
+            blob[f"{prefix}_{short}_resolved"] = "; ".join(tokens)
+        return blob
+
+    def closest_llm(j):
+        return int(rationale_sim[:, j].argmax()) if len(llm) else None
+
+    def closest_gt(i):
+        return int(rationale_sim[i].argmax()) if len(gt) else None
+
+    gt_report = pd.DataFrame([
+        {
+            "GT_ID": gt[j]["id"],
+            **fields_blob(gt[j], "GT"),
+            **resolved_blob(j, "gt", "GT"),
+            "closest_LLM_ID": llm[closest_llm(j)]["id"] if len(llm) else None,
+            "closest_LLM_rationale": llm[closest_llm(j)].get("rationale") if len(llm) else None,
+            "best_similarity": round(float(rationale_sim[:, j].max()), 4) if len(llm) else 0.0,
+        }
+        for j in range(len(gt)) if j not in matched_gt
+    ])
+
+    llm_report = pd.DataFrame([
+        {
+            "LLM_ID": llm[i]["id"],
+            **fields_blob(llm[i], "LLM"),
+            **resolved_blob(i, "llm", "LLM"),
+            "closest_GT_ID": gt[closest_gt(i)]["id"] if len(gt) else None,
+            "closest_GT_rationale": gt[closest_gt(i)].get("rationale") if len(gt) else None,
+            "best_similarity": round(float(rationale_sim[i].max()), 4) if len(gt) else 0.0,
+        }
+        for i in range(len(llm)) if i not in matched_llm
+    ])
+
     return {
         "Field_Metrics_Anchor": field_metrics_anchor,
         "Field_Metrics_Fields": field_metrics_fields,
@@ -658,6 +712,8 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
         "Matched_TP": matched,
         "False_Positives": fps,
         "False_Negatives": fns,
+        "LLM_Decision_Report": llm_report,
+        "GT_Decision_Report": gt_report,
         "stats": {"tp": tp, "fp": fp, "fn": fn},
     }
 
@@ -730,6 +786,14 @@ def average_decision_reports(reports: list[dict]) -> dict:
 # ---------------------------------------------------------------------------
 # Writing
 # ---------------------------------------------------------------------------
+def _write_workbook(path: Path, sheets: dict) -> None:
+    """Write {sheet name: frame} to one xlsx, creating the parent directory."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with pd.ExcelWriter(path, engine="openpyxl") as w:
+        for sheet, df in sheets.items():
+            df.to_excel(w, sheet_name=sheet, index=False)
+
+
 def _write_field_metrics(writer, anchor_df: pd.DataFrame, fields_df: pd.DataFrame) -> None:
     """The Field_Metrics sheet: the anchor's row first, then every other field's
     accuracy row, separated by two blank lines."""
@@ -802,11 +866,21 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
     report = build_report(gt, llm, pairs, threshold,
                           rationale_sim=rationale_sim, ref_fields=ref_fields)
 
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     with pd.ExcelWriter(output_path, engine="openpyxl") as w:
         _write_field_metrics(w, report["Field_Metrics_Anchor"], report["Field_Metrics_Fields"])
         for sheet in ("Matching_Summary", "Field_Counts", "Matched_TP", "False_Positives", "False_Negatives"):
             report[sheet].to_excel(w, sheet_name=sheet, index=False)
+
+    # Side-car files (same naming convention as the architecture evaluator): the
+    # unmatched LLM decisions (false positives) and the unmatched GT decisions
+    # (false negatives), each with their full fields, their references resolved
+    # to text, and their closest counterpart.
+    for suffix, sheet in (("_llm_report", "LLM_Decision_Report"),
+                          ("_gt_report", "GT_Decision_Report")):
+        _write_workbook(output_path.with_name(output_path.stem + suffix + ".xlsx"),
+                        {sheet: report[sheet]})
 
     return report
 

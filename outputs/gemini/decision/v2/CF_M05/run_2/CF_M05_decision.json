@@ -1,0 +1,72 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microservices"
+            ],
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Cloud computing"
+            ],
+            "rationale": "The use of this architecture allows high scalability, availability, and accessibility, as resource management can be done according to needs and anywhere with an Internet connection.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "Client-Server"
+            ],
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "MVVM"
+            ],
+            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Layered Architecture"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Amazon Web Services (AWS)"
+            ],
+            "rationale": "AWS is a consolidated cloud platform with robust services and a reliable infrastructure, and its wide selection of services makes it easy to adapt to the project's needs, allowing it to grow and scale in an agile way.",
+            "pageNumber": "82"
+        }
+    ]
+}
