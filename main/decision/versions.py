@@ -3,7 +3,8 @@
 A version is a name (the one written in the environment) bound to a behaviour and
 the configuration that behaviour runs with. V1 and V2 are deliberately the same
 behaviour — the single-prompt extraction — differing only in the prompt, which is
-the whole point of keeping the prompt out of the strategy class.
+the whole point of keeping the prompt out of the strategy class. V3 continues that
+line.
 
 Adding a version is one entry here; no other file needs to change.
 """
@@ -19,7 +20,7 @@ from main.decision.strategies import (
     SinglePromptExtraction,
 )
 
-DEFAULT_VERSION = "v2"
+DEFAULT_VERSION = "v3"
 VERSION_ENV_KEY = "DECISION_VERSION"
 
 
@@ -60,6 +61,14 @@ VERSIONS: dict[str, DecisionVersion] = {
         description="single decision prompt (V2)",
         build=lambda: SinglePromptExtraction(
             prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V2,
+        ),
+    ),
+    "v3": DecisionVersion(
+        name="v3",
+        output_subdir="decision/v3",
+        description="single decision prompt (V3)",
+        build=lambda: SinglePromptExtraction(
+            prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V3,
         ),
     ),
 }

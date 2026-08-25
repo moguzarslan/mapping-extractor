@@ -9,7 +9,7 @@
                 "C_05",
                 "Security"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. This pattern increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "rationale": "The only component that interacts directly with the presentation layer is the Api Gateway module. This is because the Api Gateway microservices design pattern is followed. This design pattern allows only one component to interact between users and the services provided by the platform. The use of this pattern provides several advantages to the system, such as: It increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
             "pageNumber": "43"
         },
         {
@@ -18,17 +18,16 @@
                 "AU_12",
                 "AU_16",
                 "AU_18",
-                "AU_19",
-                "AU_20",
-                "AU_21"
+                "AU_19"
             ],
             "architecturalDecisionSource": [
+                "R_24",
+                "R_25",
                 "C_03",
-                "C_04",
-                "Scalability"
+                "C_04"
             ],
-            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module, improving the scalability and availability of the system.",
-            "pageNumber": "42, 44"
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module. The system must be able to grow in capacity when the data volume increases. The system scales automatically as data increases.",
+            "pageNumber": "38, 45"
         },
         {
             "id": "AD_03",
@@ -38,7 +37,7 @@
             "architecturalDecisionSource": [
                 "Maintainability"
             ],
-            "rationale": "NestJS allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "rationale": "NestJS framework is used to develop the different services. This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
             "pageNumber": "46"
         },
         {
@@ -49,7 +48,7 @@
             "architecturalDecisionSource": [
                 "Maintainability"
             ],
-            "rationale": "TypeScript was chosen over JavaScript because it is the default language for NestJS and because, thanks to its static typing, it allows for error detection at compile time.",
+            "rationale": "TypeScript is used instead of JavaScript because it is the default language for NestJS and because, thanks to its static typing, it allows for the detection of errors at compile time.",
             "pageNumber": "46"
         },
         {
@@ -59,32 +58,21 @@
             ],
             "architecturalDecisionSource": [
                 "C_02",
-                "Scalability"
+                "C_04"
             ],
-            "rationale": "AWS was chosen over other cloud services due to its low price and its previous use by the company, allowing the creation of scalable and highly available applications.",
+            "rationale": "AWS is used for infrastructure. It is the set of cloud computing services that allows the creation of scalable and highly available applications.",
             "pageNumber": "46"
         },
         {
             "id": "AD_06",
             "architecturalElementIds": [
-                "AU_18"
+                "AU_20",
+                "AU_21"
             ],
             "architecturalDecisionSource": [
-                "C_01",
-                "Performance"
+                "C_01"
             ],
-            "rationale": "Amazon Athena is a serverless service that makes it unnecessary to manage infrastructure when there is an increase in the data set and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
-            "pageNumber": "49"
-        },
-        {
-            "id": "AD_07",
-            "architecturalElementIds": [
-                "AU_20"
-            ],
-            "architecturalDecisionSource": [
-                "Performance"
-            ],
-            "rationale": "Kinesis Data Streams is used to transmit data in near real-time, as data transmitted by producers is available in the stream in milliseconds.",
+            "rationale": "For the data transmission to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real-time.",
             "pageNumber": "50"
         }
     ]

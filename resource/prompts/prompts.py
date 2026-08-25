@@ -1838,3 +1838,72 @@ You are an expert software architect and requirements engineer. Given the alread
     ...
     """
 
+    ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V3 = """
+# Objective
+You are an expert software architect and requirements engineer. Given the already-extracted Requirements (and Concepts) and the already-extracted Architecture (Architectural Units and Patterns), both provided below as JSON, and the software document, extract the Architectural Decisions of the system.
+
+# Instructions
+1. Carefully read the entire document.
+2. Go through the provided architecture JSON element by element. For each architectural element (unit or pattern), locate every passage in the document that mentions it.
+3. In those passages, collect EVERY separate sentence that states a benefit, purpose, quality, goal or reason for that element (Check the type definition below for details).
+4. Extract each of them according to the Extraction Process and rules defined below.
+
+## Architectural Decision
+- Definition: A sentence demonstrates a stated link in the document between the architectural element(s) and the requirement(s) or concept(s) that motivated it. 
+- Identification Questions (One yes out of three is enough to accept):
+    - Does this sentence say why this system uses it?
+    - Does this sentence state something an architectural element does or provides, together with what that improves, simplifies, ensures, protects, facilitates or enables?
+    - Does the sentence describe the element with a word that is itself a quality (compatible, portable, scalable, efficient, flexible, open source)?
+- Meta Examples:
+    - Enablement — "The <element> allows <capability>, facilitating the <quality> of the application."
+    - Explicit choice with reason — "<element> was chosen over <alternative> due to its <property>."
+    - Purpose-first — "In order to <achieve quality>, <element> has been used."
+    - Role — "<element> is responsible for <function>, ensuring <quality>."
+
+# Extraction Process
+- Assign each Architectural Decision a strict sequential id: AD_01, AD_02, AD_03...
+- "architecturalElementIds" should indicate which architectural elements (units or patterns) decision is related to.
+- "architecturalDecisionSource" must be a list contains:
+    - Related Requirement/Concept Id's (R_xx or C_xx).
+    - If the rationale introduces a motivating concept that is not present in the provided concepts, include the concept directly as an English string rather than assigning it an ID.
+- "rationale" must be the text from the document translated to English that state why the architectural element addresses the requirement/concept — the evidence proving the decision.
+- Specify the page number from the document text (not the PDF page number) where the rationale is stated. If it spans several pages, list them all.
+- Architectural Decision should have the following JSON Schema:
+    {
+    "id": "<Sequential Architectural Decision id (AD_01, AD_02)>",
+    "architecturalElementIds": [<ids of the related units and patterns (AU_xx or P_xx)>],
+    "architecturalDecisionSource": [<ids of the related requirement or extracted concept from rationale>],
+    "rationale": "<The document sentence(s) justifying the decision, translated to English>",
+    "pageNumber": "<Page number(s) where the rationale is stated>"
+    }
+
+# Rules:
+- Each sentence mentioning or referring a concept (a quality) and architectural element is a strong candidate for architectural decision.
+- If the document justifies an element in several separate places, that is several decisions, one per justification.
+- The unit of extraction is the justifying sentence, NOT the architectural element. One element may have several decisions.
+- Output should be given in JSON format as in the Example Output section.
+- The whole output must be English. Translation must be made while extracting to ensure all extracted fields are in English.
+    - During translating, avoid to paraphrase, summarize, reword, or normalize phrasing.
+
+# Example Output (JSON)
+{
+  "architectural_decisions": [
+    {
+      "id": "AD_01",
+      "architecturalElementIds": ["AU_10", "AU_11"],
+      "architecturalDecisionSource": ["C_01", "Scalability"],
+      "rationale": "Using this cloud provider increases scalability and maintainability.",
+      "pageNumber": "38"
+    },
+    {
+      "id": "AD_02",
+      "architecturalElementIds": ["P_01"],
+      "architecturalDecisionSource": ["C_05"],
+      "rationale": "This pattern enhances security and confidentiality",
+      "pageNumber": "46"
+    }
+  ]
+}
+    ...
+    """
+

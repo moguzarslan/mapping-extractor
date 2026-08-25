@@ -1,0 +1,129 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07",
+                "Microserveis"
+            ],
+            "rationale": "Aquesta estructura permet desenvolupar, desplegar i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "C_09"
+            ],
+            "rationale": "A més de la seva tasca d’encaminament, aquest component incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "R_33"
+            ],
+            "rationale": "D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "C_09"
+            ],
+            "rationale": "Aquest microservei és essencial per mantenir la confidencialitat i protecció de dades.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07",
+                "Tecnologia cloud"
+            ],
+            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05"
+            ],
+            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05"
+            ],
+            "rationale": "Aquesta estructura clarifica rols, evita acoblaments innecessaris i facilita provar, reutilitzar i mantenir el codi amb el pas del temps.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04",
+                "Mantenibilitat"
+            ],
+            "rationale": "Tant Angular com Spring són frameworks madurs i àmpliament provats en entorns de producció, cosa que ofereix una gran estabilitat al projecte.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07"
+            ],
+            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "pageNumber": "81"
+        }
+    ]
+}

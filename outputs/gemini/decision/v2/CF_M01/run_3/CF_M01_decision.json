@@ -9,28 +9,18 @@
                 "C_05",
                 "Security"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. It increases the security of the system by reducing the entry points to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. It increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
             "pageNumber": "43"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_15"
-            ],
-            "architecturalDecisionSource": [
-                "C_02",
-                "C_04"
-            ],
-            "rationale": "AWS is used for infrastructure because it allows the creation of scalable and highly available applications.",
-            "pageNumber": "46"
-        },
-        {
-            "id": "AD_03",
-            "architecturalElementIds": [
                 "AU_12",
                 "AU_16",
                 "AU_18",
-                "AU_19"
+                "AU_19",
+                "AU_20",
+                "AU_21"
             ],
             "architecturalDecisionSource": [
                 "R_24",
@@ -38,28 +28,11 @@
                 "C_03",
                 "C_04"
             ],
-            "rationale": "The objective of these services is to form a data lake where all history is stored to be processed in the analytical module, allowing the system to grow in capacity when data volume increases and scale automatically as data increases.",
-            "pageNumber": "44, 45"
+            "rationale": "The platform lacks an efficient storage system that allows saving all necessary data on a large scale and a system that allows us to obtain and analyze this data. The objective of this is to improve the security, scalability and availability of the system.",
+            "pageNumber": "10, 42"
         },
         {
-            "id": "AD_04",
-            "architecturalElementIds": [
-                "AU_06",
-                "AU_07",
-                "AU_08",
-                "AU_09",
-                "AU_10"
-            ],
-            "architecturalDecisionSource": [
-                "C_02",
-                "C_04",
-                "Security"
-            ],
-            "rationale": "The business layer and the data layer are divided into several different services to improve the security, scalability, and availability of the system.",
-            "pageNumber": "42"
-        },
-        {
-            "id": "AD_05",
+            "id": "AD_03",
             "architecturalElementIds": [
                 "AU_13"
             ],
@@ -70,15 +43,50 @@
             "pageNumber": "46"
         },
         {
-            "id": "AD_06",
+            "id": "AD_04",
             "architecturalElementIds": [
                 "AU_14"
             ],
             "architecturalDecisionSource": [
                 "Maintainability"
             ],
-            "rationale": "TypeScript was chosen because, thanks to its static typing, it allows for the detection of errors at compile time.",
+            "rationale": "TypeScript was chosen over JavaScript because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
             "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "Scalability"
+            ],
+            "rationale": "AWS was chosen over other cloud services for its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Performance"
+            ],
+            "rationale": "Amazon Athena is a serverless service that makes it unnecessary to manage infrastructure when there is an increase in the data set and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Kinesis Data Streams is used to transmit data in near real-time.",
+            "pageNumber": "50"
         }
     ]
 }

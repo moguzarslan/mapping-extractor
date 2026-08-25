@@ -6,12 +6,11 @@
                 "P_01"
             ],
             "architecturalDecisionSource": [
-                "R_28",
-                "R_29",
-                "C_07"
+                "C_07",
+                "Scalability"
             ],
-            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture. The software architecture based on microservices is a design and software development approach where an application is built as a collection of small and independent services that communicate with each other.",
-            "pageNumber": "41"
+            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture. [...] The system must be scalable to handle an increase in the number of users and volume of data. [...] To adapt to future growth and ensure performance.",
+            "pageNumber": "33, 41"
         },
         {
             "id": "AD_02",
@@ -20,12 +19,11 @@
                 "AU_05"
             ],
             "architecturalDecisionSource": [
-                "R_20",
-                "R_21",
-                "C_03"
+                "C_04",
+                "C_08"
             ],
-            "rationale": "Traefik is a modern reverse proxy and load balancer designed to manage incoming and outgoing HTTP and HTTPS traffic. HTTPS encrypts the data transmitted between the clients and the server, protecting the integrity and confidentiality of the information.",
-            "pageNumber": "43"
+            "rationale": "Security Service (Traefik) functions as a reverse proxy and load balancer, managing HTTP and HTTPS request routing. [...] Traefik acts as an intermediary for client requests to backend servers. It redirects incoming requests (from users) to the corresponding internal services. Load Balancer: Distributes traffic between multiple instances of a service, improving availability and responsiveness of the application.",
+            "pageNumber": "41, 43"
         },
         {
             "id": "AD_03",
@@ -34,66 +32,59 @@
                 "AU_06"
             ],
             "architecturalDecisionSource": [
-                "R_18",
+                "C_01",
                 "C_02"
             ],
-            "rationale": "Next.js is a framework for building web applications that offers additional structure, features, and optimizations that allow building applications faster and without the need to configure tools manually.",
-            "pageNumber": "44"
+            "rationale": "Next.js is a framework for building web applications that supports both client-side and server-side rendering. [...] Next.js supports both Client-Side Rendering (CSR) and Server-Side Rendering (SSR), allowing the choice of the best strategy according to the application's needs.",
+            "pageNumber": "41, 44"
         },
         {
             "id": "AD_04",
             "architecturalElementIds": [
-                "AU_08",
-                "AU_04"
+                "AU_04",
+                "AU_07",
+                "AU_08"
             ],
             "architecturalDecisionSource": [
                 "C_05"
             ],
-            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
-            "pageNumber": "42"
+            "rationale": "Data Service (PostgreSQL) provides the relational database for storing application data. [...] Prisma is an ORM tool used to simplify database access and management.",
+            "pageNumber": "41, 42"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "AU_09"
+                "P_02"
             ],
             "architecturalDecisionSource": [
-                "C_04"
+                "C_05",
+                "Maintainability"
             ],
-            "rationale": "In the case of this application, said services run on Amazon EC2 instances and are managed by Docker, which manages the execution of the containers.",
-            "pageNumber": "41"
+            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. [...] This approach promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
+            "pageNumber": "66"
         },
         {
             "id": "AD_06",
             "architecturalElementIds": [
-                "P_02"
+                "P_03"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "C_06",
+                "Adaptability"
             ],
-            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. This approach promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
+            "rationale": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers. [...] When the subject's state changes, it automatically notifies all its observers, allowing them to react appropriately.",
             "pageNumber": "66"
         },
         {
             "id": "AD_07",
             "architecturalElementIds": [
-                "P_03"
-            ],
-            "architecturalDecisionSource": [
-                "C_06"
-            ],
-            "rationale": "The Observer pattern establishes a one-to-many relationship between objects... When the subject's state changes, it automatically notifies all its observers, allowing them to react appropriately.",
-            "pageNumber": "66"
-        },
-        {
-            "id": "AD_08",
-            "architecturalElementIds": [
                 "P_04"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "C_04",
+                "Robustness"
             ],
-            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is generally used to manage shared resources, such as configurations, logs, or database connections, where having multiple instances could lead to inconsistent states or inefficient use of resources.",
+            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is generally used to manage shared resources, such as configurations, logs, or database connections, where having multiple instances could lead to inconsistent states or inefficient resource use.",
             "pageNumber": "67"
         }
     ]

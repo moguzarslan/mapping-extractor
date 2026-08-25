@@ -1,0 +1,92 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_07"
+            ],
+            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture. The software architecture based on microservices is a design and software development approach where an application is built as a collection of small and independent services that communicate with each other.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "Traefik acts as an intermediary for client requests to backend servers. It redirects incoming requests (from users) to the corresponding internal services. It distributes traffic between multiple instances of a service, improving the availability and responsiveness of the application.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "C_03"
+            ],
+            "rationale": "HTTPS encrypts data transmitted between clients and the server, protecting the integrity and confidentiality of information.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_06"
+            ],
+            "rationale": "Next.js is a framework for building web applications that offers additional structure, features, and optimizations that allow building applications faster and without the need to configure tools manually.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "React is an open-source JavaScript library designed to build user interfaces efficiently and flexibly. React allows developers to create dynamic and fast web applications by facilitating the creation of reusable and modular components.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Prisma is an ORM tool designed to simplify database access and management in Node.js and TypeScript applications.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. This approach promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is generally used to manage shared resources, such as configurations, logs, or database connections, where having multiple instances could lead to inconsistent states or inefficient use of resources.",
+            "pageNumber": "67"
+        }
+    ]
+}

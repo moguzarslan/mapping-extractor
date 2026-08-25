@@ -19,8 +19,8 @@
                 "AU_05"
             ],
             "architecturalDecisionSource": [
-                "C_04",
-                "Robustness"
+                "R_22",
+                "C_04"
             ],
             "rationale": "Traefik acts as a reverse proxy and load balancer, distributing traffic between multiple instances of a service, improving the availability and responsiveness of the application.",
             "pageNumber": "43"
@@ -28,16 +28,15 @@
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "AU_02",
-                "AU_23",
-                "AU_24"
+                "AU_03",
+                "AU_06"
             ],
             "architecturalDecisionSource": [
-                "C_03",
-                "Security"
+                "C_01",
+                "C_06"
             ],
-            "rationale": "Traefik opens port 443 to handle HTTPS traffic, which is the standard for secure communications on the web. HTTPS encrypts the data transmitted between clients and the server, protecting the integrity and confidentiality of the information.",
-            "pageNumber": "43"
+            "rationale": "Next.js supports both client-side rendering (CSR) and server-side rendering (SSR), allowing to choose the best strategy according to the needs of the application.",
+            "pageNumber": "45"
         },
         {
             "id": "AD_04",
@@ -45,8 +44,8 @@
                 "P_02"
             ],
             "architecturalDecisionSource": [
-                "C_05",
-                "Maintainability"
+                "C_02",
+                "C_05"
             ],
             "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components. This approach promotes modularity, the reuse of code and maintainability, facilitating the management of the application.",
             "pageNumber": "66"
@@ -57,10 +56,9 @@
                 "P_03"
             ],
             "architecturalDecisionSource": [
-                "C_06",
-                "Adaptability"
+                "C_05"
             ],
-            "rationale": "The Observer pattern establishes a one-to-many relationship between objects... When the subject's state changes, it automatically notifies all its observers, allowing them to react appropriately.",
+            "rationale": "The Observer pattern establishes a one-to-many relationship between objects... When the state of the subject changes, it notifies automatically all its observers, allowing that these react appropriately.",
             "pageNumber": "66"
         },
         {
@@ -69,11 +67,34 @@
                 "P_04"
             ],
             "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is used generally to manage shared resources, such as configurations, logs or database connections, where having multiple instances could lead to inconsistent states or the inefficient use of resources.",
+            "pageNumber": "67"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_08",
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
                 "C_05",
                 "Maintainability"
             ],
-            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance. It is used generally to manage shared resources, such as configurations, logs or database connections, where having multiple instances could lead to inconsistent states or inefficient use of resources.",
-            "pageNumber": "67"
+            "rationale": "Docker is a containerization platform used to manage the execution of the application services.",
+            "pageNumber": "42"
         }
     ]
 }

@@ -9,7 +9,7 @@
                 "Microservices"
             ],
             "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
-            "pageNumber": "8"
+            "pageNumber": "9"
         },
         {
             "id": "AD_02",
@@ -19,54 +19,74 @@
                 "AU_19"
             ],
             "architecturalDecisionSource": [
-                "Cloud computing"
+                "Technology cloud"
             ],
-            "rationale": "The use of this architecture allows high scalability, availability, and accessibility, as resource management can be done according to needs and anywhere with an Internet connection.",
-            "pageNumber": "60"
+            "rationale": "It offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure.",
+            "pageNumber": "9"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "P_01"
+                "AU_08"
             ],
-            "architecturalDecisionSource": [
-                "Client-Server"
-            ],
-            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
-            "pageNumber": "61"
+            "rationale": "This microservice has the main function of routing all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57"
         },
         {
             "id": "AD_04",
             "architecturalElementIds": [
-                "P_03"
+                "AU_09"
             ],
-            "architecturalDecisionSource": [
-                "MVVM"
-            ],
-            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services.",
-            "pageNumber": "62"
+            "rationale": "The portal microservice incorporates the binaries necessary for the frontEnd [...] of the rest of the applications of the portal. This ensures that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements.",
+            "pageNumber": "57"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "P_04"
+                "AU_10"
             ],
-            "architecturalDecisionSource": [
-                "Layered Architecture"
-            ],
-            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
-            "pageNumber": "68"
+            "rationale": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application. This microservice is essential to maintain the confidentiality and protection of data.",
+            "pageNumber": "58"
         },
         {
             "id": "AD_06",
             "architecturalElementIds": [
-                "AU_17"
+                "AU_11"
             ],
-            "architecturalDecisionSource": [
-                "Amazon Web Services (AWS)"
+            "rationale": "The Communication Log microservice has as its main purpose to record all communications that occur within the system. This component acts as a mechanism for traceability and auditing, ensuring that each interaction is documented for subsequent analysis, incident resolution, and regulatory compliance.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_12"
             ],
-            "rationale": "AWS is a consolidated cloud platform with robust services and a reliable infrastructure, and its wide selection of services makes it easy to adapt to the project's needs, allowing it to grow and scale in an agile way.",
-            "pageNumber": "82"
+            "rationale": "This microservice has as its main function the planning and programming of processes within the system.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "rationale": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client and the server. This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "68"
         }
     ]
 }

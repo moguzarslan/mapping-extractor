@@ -3,93 +3,58 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
-                "P_02"
+                "AU_13",
+                "AU_22",
+                "P_03"
             ],
             "architecturalDecisionSource": [
-                "Microservices"
+                "R_42",
+                "C_05"
             ],
-            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
-            "pageNumber": "8"
+            "rationale": "En el present projecte, el client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA) [19] que renderitza vistes dinàmiques i gestiona la navegació interna sense haver de recarregar la pàgina, millorant la fluïdesa d’ús.",
+            "pageNumber": "60, 61"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_17"
+                "AU_14",
+                "P_04"
             ],
             "architecturalDecisionSource": [
-                "Tecnologia cloud"
+                "C_05",
+                "C_06",
+                "C_09"
             ],
-            "rationale": "It offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure.",
-            "pageNumber": "8"
+            "rationale": "Pel servidor s’ha utilitzat Spring Boot, que proporciona una plataforma per exposar una API REST [20].",
+            "pageNumber": "61"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "AU_08"
-            ],
-            "architecturalDecisionSource": [
-                "R_48",
-                "Security"
-            ],
-            "rationale": "This microservice incorporates protection mechanisms to ensure the integrity and confidentiality of communications, blocking any unauthorized connection attempt and applying security protocols to prevent improper access and possible vulnerabilities.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_04",
-            "architecturalElementIds": [
-                "AU_09"
-            ],
-            "architecturalDecisionSource": [
-                "C_01"
-            ],
-            "rationale": "This microservice incorporates the necessary binaries for the frontEnd of both the portal itself and the rest of the portal applications, ensuring visual and functional coherence of the entire ecosystem.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_05",
-            "architecturalElementIds": [
-                "P_01"
-            ],
-            "architecturalDecisionSource": [
-                "C_05",
-                "C_09"
-            ],
-            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
-            "pageNumber": "61"
-        },
-        {
-            "id": "AD_06",
-            "architecturalElementIds": [
-                "P_03"
-            ],
-            "architecturalDecisionSource": [
-                "C_02"
-            ],
-            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services, which is designed for the implementation of user interfaces.",
-            "pageNumber": "62"
-        },
-        {
-            "id": "AD_07",
-            "architecturalElementIds": [
-                "P_04"
-            ],
-            "architecturalDecisionSource": [
-                "Maintainability"
-            ],
-            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated, clarifying roles, avoiding unnecessary coupling, and facilitating testing, reusing, and maintaining the code over time.",
-            "pageNumber": "68"
-        },
-        {
-            "id": "AD_08",
-            "architecturalElementIds": [
+                "AU_17",
                 "AU_18",
                 "AU_19"
             ],
             "architecturalDecisionSource": [
+                "R_43",
+                "R_44",
+                "R_45",
+                "R_46",
                 "C_06",
                 "C_07"
             ],
-            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, executing thousands of containers on different servers, and ensuring high availability.",
+            "rationale": "Pel desplegament de l’aplicació s’ha fetús d’Amazon EKS, un servei que ofereix AWS el qual permet utilitzar Kubernetes (K8s), una plataforma d’orquestració de contenidors creada per Google, sense necessitat d’instal·lar-la ni mantenir-la.",
+            "pageNumber": "80"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Low price and previous company use"
+            ],
+            "rationale": "AWS és una plataforma cloud consolidada amb serveis robustos i una infraestructura fiable. Un dels grans avantatges d’AWS és que disposa d’una selecció molt àmplia de serveis: des del desplegament de servidors i bases de dades, fins a IA, emmagatzematge, seguretat i serveis específics per sectors. Aquesta diversitat fa que sigui fàcil adaptar-se a les necessitats del projecte, permet créixer i escalar el projecte de manera àgil i elimina la necessitat de buscar altre plataformes quan els requisits evolucionen. Per això s’ha triat AWS en comptes d’altres opcions com Google Cloud Platform o Microsoft Azure. El fet de disposar de tants serveis disponibles deixa centrar l’esforç en el desenvolupament de la solució, sense haver d’invertir temps extra en qüestions d’infraestructura. Una altra raó per la qual es va triar AWS va ser que aquesta plataforma inverteix molt en seguretat i certificacions, gestiona múltiples nivells de seguretat i ofereix eines per protegir dades i infraestructures facilitant el compliment de normatives legals i estàndards internacionals.",
             "pageNumber": "81"
         }
     ]

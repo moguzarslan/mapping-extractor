@@ -3,115 +3,60 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
-                "P_01"
+                "AU_02",
+                "AU_05",
+                "AU_23",
+                "AU_24"
             ],
             "architecturalDecisionSource": [
-                "R_28",
-                "R_29",
-                "C_07"
+                "R_20",
+                "R_21",
+                "C_03"
             ],
-            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
-            "pageNumber": "41"
+            "rationale": "Puerto443(HTTPS) :Traefikabreelpuerto443paramanejartráficoHTTPS,queesel estándar para comunicaciones seguras en la web. HTTPS cifra los datos transmitidos entre los clientes y el servidor, protegiendo la integridad y confidencialidad de la información.",
+            "pageNumber": "43"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_02",
-                "AU_05"
+                "AU_03",
+                "AU_06",
+                "AU_15"
             ],
             "architecturalDecisionSource": [
-                "R_22",
-                "R_23",
-                "C_04"
+                "R_18",
+                "C_02"
             ],
-            "rationale": "Traefik acts as a reverse proxy and load balancer, improving the availability and responsiveness of the application.",
-            "pageNumber": "43"
+            "rationale": "Next.js soporta tanto el renderizado de componentes en el lado del cliente (CSR) como el renderizado en el lado del servidor (SSR), utilizando las server actions [...] para comunicar los componentes de cliente con el servidor.",
+            "pageNumber": "44"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "AU_03",
-                "AU_06"
+                "AU_04",
+                "AU_07",
+                "AU_08"
             ],
             "architecturalDecisionSource": [
-                "R_18",
-                "C_02"
+                "C_05"
             ],
-            "rationale": "Next.js is a framework for building web applications that offers an additional structure, features and optimizations that allow building applications faster and without the need to configure tools manually.",
-            "pageNumber": "44"
+            "rationale": "System Service (Next.js) [...] Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM [...] Prisma Client es una biblioteca de consultas generada automáticamente para realizar operaciones con bases de datos. Proporciona una API para crear, leer, actualizar y eliminar datos en la base de datos.",
+            "pageNumber": "42, 50"
         },
         {
             "id": "AD_04",
             "architecturalElementIds": [
-                "AU_04",
-                "AU_07"
+                "AU_09",
+                "P_01"
             ],
             "architecturalDecisionSource": [
-                "R_07",
-                "R_30",
-                "R_31",
-                "C_03"
+                "R_22",
+                "R_28",
+                "C_04",
+                "C_07"
             ],
-            "rationale": "PostgreSQL provides the relational database for storing application data.",
-            "pageNumber": "42"
-        },
-        {
-            "id": "AD_05",
-            "architecturalElementIds": [
-                "AU_08"
-            ],
-            "architecturalDecisionSource": [
-                "R_24",
-                "R_25",
-                "C_05"
-            ],
-            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
-            "pageNumber": "42"
-        },
-        {
-            "id": "AD_06",
-            "architecturalElementIds": [
-                "AU_09"
-            ],
-            "architecturalDecisionSource": [
-                "C_06"
-            ],
-            "rationale": "Docker is a containerization platform used to manage the execution of the application services.",
-            "pageNumber": "42"
-        },
-        {
-            "id": "AD_07",
-            "architecturalElementIds": [
-                "P_02"
-            ],
-            "architecturalDecisionSource": [
-                "R_18",
-                "C_02"
-            ],
-            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components, which promotes modularity, code reuse, and maintainability.",
-            "pageNumber": "66"
-        },
-        {
-            "id": "AD_08",
-            "architecturalElementIds": [
-                "P_03"
-            ],
-            "architecturalDecisionSource": [
-                "C_05"
-            ],
-            "rationale": "The Observer pattern establishes a one-to-many relationship between objects, where a subject maintains a list of observers, allowing them to react appropriately when the subject's state changes.",
-            "pageNumber": "66"
-        },
-        {
-            "id": "AD_09",
-            "architecturalElementIds": [
-                "P_04"
-            ],
-            "architecturalDecisionSource": [
-                "C_05"
-            ],
-            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance, used to manage shared resources where having multiple instances could lead to inconsistent states or inefficient resource use.",
-            "pageNumber": "67"
+            "rationale": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios. La arquitectura de software basada en microservicios es un enfoque de diseño y desarrollo de software donde una aplicación se construye como una colección de servicios pequeños e independientes que se comunican entre sí. En el caso de esta aplicación, dichos servicios se ejecutan en instancias de Amazon EC2 y son gestionados por Docker, que administra la ejecución de los contenedores.",
+            "pageNumber": "41"
         }
     ]
 }

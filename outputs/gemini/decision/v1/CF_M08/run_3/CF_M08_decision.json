@@ -3,98 +3,166 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
+                "AU_01",
+                "AU_02",
+                "AU_05",
+                "AU_16",
+                "AU_23",
+                "AU_24",
                 "P_01"
             ],
             "architecturalDecisionSource": [
-                "R_28",
-                "C_07"
+                "R_22",
+                "R_23",
+                "C_04"
             ],
-            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
+            "rationale": "Funciona como un proxy inverso y balanceador de carga. • Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service). • Expone los puertos 80 (HTTP) y 443 (HTTPS) al mundo exterior y redirige el tráfico a los servicios internos según las reglas definidas.",
             "pageNumber": "41"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_02",
-                "AU_05"
+                "AU_03",
+                "AU_06",
+                "AU_15",
+                "P_01"
             ],
             "architecturalDecisionSource": [
-                "R_20",
-                "R_22",
-                "C_03",
-                "C_04"
+                "R_02",
+                "R_06",
+                "R_16",
+                "R_17",
+                "R_18",
+                "R_19",
+                "C_01",
+                "C_02"
             ],
-            "rationale": "Traefik acts as a reverse proxy and load balancer, managing HTTP and HTTPS request routing, improving availability and responsiveness.",
-            "pageNumber": "43"
+            "rationale": "Sirve la aplicación web mediante React.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "AU_06"
+                "AU_03",
+                "AU_07",
+                "AU_08",
+                "AU_17",
+                "P_01"
             ],
             "architecturalDecisionSource": [
-                "R_18",
-                "C_02"
+                "R_07",
+                "R_10",
+                "R_11",
+                "R_12",
+                "R_14",
+                "R_15",
+                "R_28",
+                "R_29",
+                "R_30",
+                "R_31",
+                "C_07"
             ],
-            "rationale": "Next.js is a framework for building web applications that supports both client-side and server-side rendering, allowing to choose the best strategy according to the needs of the application.",
-            "pageNumber": "44, 45"
+            "rationale": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM7 (Object-Relational Mapping).",
+            "pageNumber": "42"
         },
         {
             "id": "AD_04",
             "architecturalElementIds": [
-                "AU_08",
-                "AU_07"
+                "AU_03",
+                "AU_19",
+                "AU_21",
+                "AU_22",
+                "AU_18",
+                "AU_20"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "R_04",
+                "R_07",
+                "R_09",
+                "R_14",
+                "R_20",
+                "R_21",
+                "R_22",
+                "R_23",
+                "C_03",
+                "C_04"
             ],
-            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
-            "pageNumber": "50"
+            "rationale": "Interactúa con varios servicios externos para funcionalidades específicas: ◦ Autenticación: Utiliza Google para la autenticación de usuarios. ◦ Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos. ◦ Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones. ◦ Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio. ◦ Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación. ◦ Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_05",
             "architecturalElementIds": [
-                "P_02"
+                "AU_04",
+                "AU_07",
+                "AU_17"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "R_28",
+                "R_29",
+                "C_07"
             ],
-            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components, promoting modularity, code reuse, and maintainability.",
-            "pageNumber": "66"
+            "rationale": "Proporciona la base de datos relacional para almacenar los datos de la aplicación. • Se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_06",
             "architecturalElementIds": [
-                "P_03"
+                "AU_09",
+                "P_01"
             ],
             "architecturalDecisionSource": [
-                "C_05"
+                "R_22",
+                "R_23",
+                "C_04"
             ],
-            "rationale": "The Observer pattern establishes a one-to-many relationship between objects, allowing them to react appropriately to state changes.",
-            "pageNumber": "66"
+            "rationale": "Cabe destacar que cada uno de estos servicios esta contenido en un contenedor de Docker.",
+            "pageNumber": "42"
         },
         {
             "id": "AD_07",
             "architecturalElementIds": [
-                "P_04"
+                "P_02"
             ],
             "architecturalDecisionSource": [
+                "R_18",
+                "R_24",
+                "R_25",
+                "C_02",
                 "C_05"
             ],
-            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point to that instance, used to manage shared resources like database connections.",
-            "pageNumber": "67"
+            "rationale": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables. Cada componente encapsula su propia lógica, estilos y estructura, lo que permite que estos se desarrollen, mantengan y prueben de manera aislada.",
+            "pageNumber": "66"
         },
         {
             "id": "AD_08",
             "architecturalElementIds": [
-                "AU_09"
+                "P_03"
             ],
             "architecturalDecisionSource": [
-                "C_05",
-                "C_06"
+                "R_24",
+                "R_25",
+                "C_05"
             ],
-            "rationale": "Docker is a containerization platform used to manage the execution of the application services, allowing to create an application and package it together with its dependencies and libraries.",
-            "pageNumber": "76"
+            "rationale": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores. Estos observadores se suscriben al sujeto para recibir notificaciones de cambios en su estado. Cuando el estado del sujeto cambia, notifica automáticamente a todos sus observadores, permitiendo que estos reaccionen adecuadamente.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_08",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "R_22",
+                "R_23",
+                "R_24",
+                "R_25",
+                "C_04",
+                "C_05"
+            ],
+            "rationale": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia. Se utiliza generalmente para gestionar recursos compartidos, como configuraciones, registros o conexiones a bases de datos, donde tener múltiples instancias podría llevar a estados inconsistentes o al uso ineficiente de recursos.",
+            "pageNumber": "67"
         }
     ]
 }

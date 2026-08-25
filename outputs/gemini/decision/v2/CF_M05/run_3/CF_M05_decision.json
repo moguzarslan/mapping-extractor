@@ -9,32 +9,29 @@
                 "Microservices"
             ],
             "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
-            "pageNumber": "8"
+            "pageNumber": "9"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_08"
+                "AU_17"
             ],
             "architecturalDecisionSource": [
-                "R_48",
-                "Security"
+                "Technology cloud"
             ],
-            "rationale": "In addition to its routing task, this component incorporates protection mechanisms to ensure the integrity and confidentiality of communications, specifically blocking any unauthorized connection attempt and applying certain security protocols to prevent improper access and possible vulnerabilities.",
-            "pageNumber": "57"
+            "rationale": "It offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure.",
+            "pageNumber": "9"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "AU_09"
+                "AU_08"
             ],
             "architecturalDecisionSource": [
-                "C_01",
-                "R_33",
-                "R_34"
+                "Bus d’integració"
             ],
-            "rationale": "This ensures that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements. In this way, the portal not only centralizes access, but also ensures the visual and functional coherence of the entire ecosystem.",
-            "pageNumber": "57"
+            "rationale": "It acts as a centralized bridge, ensuring that systems, despite being independent or heterogeneous, can connect, share information, and work in a coordinated manner.",
+            "pageNumber": "9"
         },
         {
             "id": "AD_04",
@@ -43,7 +40,7 @@
             ],
             "architecturalDecisionSource": [
                 "C_05",
-                "Performance"
+                "C_09"
             ],
             "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
             "pageNumber": "61"
@@ -56,7 +53,7 @@
             "architecturalDecisionSource": [
                 "C_02"
             ],
-            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services.",
             "pageNumber": "62"
         },
         {
@@ -67,24 +64,44 @@
             "architecturalDecisionSource": [
                 "Maintainability"
             ],
-            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated. This structure clarifies roles, avoids unnecessary coupling, and facilitates testing, reusing, and maintaining the code over time.",
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated, clarifying roles, avoiding unnecessary coupling, and facilitating testing, reusing, and maintaining the code.",
             "pageNumber": "68"
         },
         {
             "id": "AD_07",
             "architecturalElementIds": [
-                "AU_17",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Both frameworks are mature and widely tested in production environments, which offers great stability to the project.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
                 "AU_18",
                 "AU_19"
             ],
             "architecturalDecisionSource": [
-                "C_06",
-                "C_07",
                 "Availability",
-                "Scalability"
+                "Capacity"
             ],
-            "rationale": "The use of this architecture allows high scalability, availability, and accessibility, since the management of resources can be done according to needs and anywhere with an Internet connection.",
-            "pageNumber": "60"
+            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, running thousands of containers on different servers, and ensuring high availability.",
+            "pageNumber": "81"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "AWS invests heavily in security and certifications, manages multiple levels of security, and offers tools to protect data and infrastructure, facilitating compliance with legal regulations and international standards.",
+            "pageNumber": "82"
         }
     ]
 }
