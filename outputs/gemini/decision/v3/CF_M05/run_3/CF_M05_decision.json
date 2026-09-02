@@ -6,13 +6,11 @@
                 "P_02"
             ],
             "architecturalDecisionSource": [
-                "C_07",
-                "Scalability",
-                "Maintainability",
-                "Resilience"
+                "Microservices",
+                "R_45"
             ],
-            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
-            "pageNumber": "9"
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and system evolution.",
+            "pageNumber": "8"
         },
         {
             "id": "AD_02",
@@ -20,7 +18,7 @@
                 "AU_08"
             ],
             "architecturalDecisionSource": [
-                "C_08",
+                "R_48",
                 "Integrity",
                 "Confidentiality"
             ],
@@ -33,10 +31,11 @@
                 "AU_09"
             ],
             "architecturalDecisionSource": [
-                "C_01",
-                "Visual coherence"
+                "R_33",
+                "R_34",
+                "C_01"
             ],
-            "rationale": "In this way, the portal not only centralizes access, but also ensures the visual and functional coherence of the entire ecosystem.",
+            "rationale": "This ensures that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements. In this way, the portal not only centralizes access, but also ensures the visual and functional coherence of the entire ecosystem.",
             "pageNumber": "57"
         },
         {
@@ -45,9 +44,8 @@
                 "AU_10"
             ],
             "architecturalDecisionSource": [
-                "C_08",
-                "Confidentiality",
-                "Integrity"
+                "R_48",
+                "C_09"
             ],
             "rationale": "This microservice is essential to maintain the confidentiality and protection of data.",
             "pageNumber": "58"
@@ -58,11 +56,9 @@
                 "AU_11"
             ],
             "architecturalDecisionSource": [
-                "C_09",
-                "Traceability",
-                "Auditability"
+                "C_09"
             ],
-            "rationale": "This component acts as a traceability and auditing mechanism, ensuring that every interaction remains documented for subsequent analysis, incident resolution, and regulatory compliance.",
+            "rationale": "This component acts as a traceability and auditing mechanism, ensuring that each interaction remains documented for subsequent analysis, incident resolution, and regulatory compliance.",
             "pageNumber": "58"
         },
         {
@@ -72,10 +68,11 @@
             ],
             "architecturalDecisionSource": [
                 "C_06",
-                "Availability",
-                "Scalability"
+                "C_07",
+                "Scalability",
+                "Availability"
             ],
-            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, since the management of resources can be done according to needs and anywhere with an Internet connection.",
+            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, since resource management can be done according to needs and anywhere with an Internet connection.",
             "pageNumber": "60"
         },
         {
@@ -84,9 +81,9 @@
                 "P_01"
             ],
             "architecturalDecisionSource": [
+                "C_02",
                 "C_05",
-                "Security",
-                "Integrity"
+                "C_09"
             ],
             "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
             "pageNumber": "61"
@@ -98,7 +95,7 @@
             ],
             "architecturalDecisionSource": [
                 "C_02",
-                "Usability"
+                "C_04"
             ],
             "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
             "pageNumber": "62"
@@ -109,10 +106,10 @@
                 "P_04"
             ],
             "architecturalDecisionSource": [
-                "C_02",
-                "Maintainability"
+                "Maintainability",
+                "Reusability"
             ],
-            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated. This structure clarifies roles, avoids unnecessary coupling, and facilitates testing, reusing, and maintaining the code over time.",
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated. This structure clarifies roles, avoids unnecessary coupling, and makes it easier to test, reuse, and maintain the code over time.",
             "pageNumber": "68"
         },
         {

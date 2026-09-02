@@ -1,0 +1,87 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The physical architecture does not correspond exactly to the logical architecture, as both the business layer and the data layer are divided into several different services. The goal of this is to improve the security, scalability, and availability of the system.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The only component that interacts directly with the presentation layer is the Api Gateway module. This is because the Api Gateway microservices design pattern is followed. This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "NestJS"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "TypeScript"
+            ],
+            "rationale": "It has been decided to use this language, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "AWS"
+            ],
+            "rationale": "It has been decided to use AWS and not other cloud services due to its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_03"
+            ],
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the set of data and users. In addition, to be able to obtain the data quickly, Athena performs the queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "For the development of this project, Kinesis Data Streams has been used to be able to transmit the playlog and audit trail data, since in the case of connections it has been decided to store them directly in S3. This is due to the fact that Kinesis Data Streams has an hourly price and in the case of connections they are only stored once every hour.",
+            "pageNumber": "51"
+        }
+    ]
+}

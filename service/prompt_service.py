@@ -746,16 +746,52 @@ def save_requirements(requirements: list, concepts: list, output_file_name: str,
 def build_decision_extraction_prompt(
         file: str,
         prompt: str,
-        requirements_json: str,
         architecture_json: str,
+        requirements_json: str = None,
 ) -> Union[str, list]:
     """
-    Builds a text prompt combining the document text with the two already-extracted
-    JSON payloads (requirements + concepts, architectural units + patterns) the
-    decision pass needs to reference a source and an element by id.
+    Builds a text prompt combining the document text with the already-extracted
+    JSON payloads the decision pass needs to reference an element — and, when the
+    pass also names its sources, a requirement or concept — by id.
+
+    The requirements payload is optional: a version that leaves the sources to a
+    second prompt sends the architecture alone, so the document and the elements
+    are all the model has to weigh.
     """
     document_text = read_document(file)
 
+    requirements_block = f"""
+ALREADY-EXTRACTED REQUIREMENTS AND CONCEPTS (JSON):
+{requirements_json}
+""" if requirements_json else ""
+
+    full_text = f"""
+{prompt}
+{requirements_block}
+ALREADY-EXTRACTED ARCHITECTURE (JSON):
+{architecture_json}
+
+Document:
+\"\"\"
+{document_text}
+\"\"\"
+""".strip()
+
+    content = [types.Part.from_text(text=full_text)]
+    return content
+
+
+def build_decision_source_prompt(
+        prompt: str,
+        requirements_json: str,
+        architecture_json: str,
+        decisions_json: str,
+) -> Union[str, list]:
+    """
+    Builds the source pass's prompt: the requirements + concepts, the architectural
+    elements and the decisions a previous pass extracted. No document text is sent
+    — the rationale each decision carries is the sentence this pass reasons about.
+    """
     full_text = f"""
 {prompt}
 
@@ -765,10 +801,8 @@ ALREADY-EXTRACTED REQUIREMENTS AND CONCEPTS (JSON):
 ALREADY-EXTRACTED ARCHITECTURE (JSON):
 {architecture_json}
 
-Document:
-\"\"\"
-{document_text}
-\"\"\"
+ALREADY-EXTRACTED ARCHITECTURAL DECISIONS (JSON):
+{decisions_json}
 """.strip()
 
     content = [types.Part.from_text(text=full_text)]
@@ -811,37 +845,137 @@ def _reduce_architecture_for_decision(architecture) -> dict:
     }
 
 
+def _requirements_payload(requirements_json_dir: str, concepts_json_dir: str) -> str:
+    """The requirements and the concepts as one reduced payload — the pool a
+    decision picks its source ids from."""
+    requirements = _as_requirements_list(extract_json_from_file(requirements_json_dir))
+    concepts = _as_requirements_list(extract_json_from_file(concepts_json_dir))
+    return json.dumps(
+        {"requirements": _reduce_requirements_for_decision(requirements + concepts)},
+        ensure_ascii=False, indent=2,
+    )
+
+
+def _architecture_payload(architecture_json_dir: str) -> str:
+    return json.dumps(
+        _reduce_architecture_for_decision(extract_json_from_file(architecture_json_dir)),
+        ensure_ascii=False, indent=2,
+    )
+
+
 def extract_decisions(
         file: str,
-        requirements_json_dir: str,
-        concepts_json_dir: str,
         architecture_json_dir: str,
         prompt: str,
+        requirements_json_dir: str = None,
+        concepts_json_dir: str = None,
 ) -> list:
-    """Run one architectural-decision prompt over the document and the three
-    already-final artifacts it references (requirements JSON, concepts JSON,
-    architecture JSON on disk); return the decision records.
+    """Run one architectural-decision prompt over the document and the already-final
+    artifacts it references (architecture JSON, and optionally requirements JSON and
+    concepts JSON on disk); return the decision records.
+
+    The requirements and concepts are optional because a version may leave the
+    source of each decision to a second prompt: without them the pass sees only the
+    document and the architectural elements, and returns decisions with no source.
 
     Nothing is written to disk — the runner owns where the results go, so the same
     extraction can be saved under whichever version produced it.
     """
     print(f"Extracting architectural decisions from: {file}")
-    requirements = _as_requirements_list(extract_json_from_file(requirements_json_dir))
-    concepts = _as_requirements_list(extract_json_from_file(concepts_json_dir))
-    architecture = extract_json_from_file(architecture_json_dir)
-
-    requirements_json = json.dumps(
-        {"requirements": _reduce_requirements_for_decision(requirements + concepts)},
-        ensure_ascii=False, indent=2,
-    )
-    architecture_json = json.dumps(
-        _reduce_architecture_for_decision(architecture),
-        ensure_ascii=False, indent=2,
+    requirements_json = (
+        _requirements_payload(requirements_json_dir, concepts_json_dir)
+        if requirements_json_dir and concepts_json_dir else None
     )
 
-    built = build_decision_extraction_prompt(file, prompt, requirements_json, architecture_json)
+    built = build_decision_extraction_prompt(
+        file, prompt, _architecture_payload(architecture_json_dir), requirements_json,
+    )
     response = ask_gemini(user_prompt=built)
     return _as_decisions_list(extract_json_from_response(response))
+
+
+def _reduce_decisions_for_source(decisions: list) -> list:
+    """Reduce the decisions to id + elements + rationale — the rationale is the
+    sentence the source pass reads, and the elements are what that sentence is
+    about. The page number plays no part in matching a source, so it is left out."""
+    return [
+        {"id": d.get("id"),
+         "architecturalElementIds": d.get("architecturalElementIds") or [],
+         "rationale": d.get("rationale")}
+        for d in decisions if isinstance(d, dict)
+    ]
+
+
+def _as_source_list(sources) -> list:
+    """Normalise one decision's answer to a list of non-empty strings — an id
+    (R_xx, C_xx) or a concept the pass created."""
+    if sources is None:
+        return []
+    if not isinstance(sources, list):
+        sources = [sources]
+    return [str(s).strip() for s in sources if str(s).strip()]
+
+
+def merge_decision_sources(decisions: list, sources: list) -> list:
+    """Fold the source pass's answer back into the decisions of the first pass.
+
+    The first pass owns the decisions: a decision the source pass failed to answer
+    for keeps an empty source rather than disappearing, and a source reported for
+    an id the first pass never produced is ignored.
+    """
+    by_id = {
+        str(s.get("id") or "").strip(): _as_source_list(s.get("architecturalDecisionSource"))
+        for s in sources if isinstance(s, dict)
+    }
+
+    merged = []
+    for decision in decisions:
+        if not isinstance(decision, dict):
+            continue
+        source = by_id.get(str(decision.get("id") or "").strip(), [])
+        # Rebuilt key by key rather than assigned, so the source sits where it sits
+        # in every other version's file: between the elements and the rationale.
+        # A source the first pass named itself is dropped: naming it is this pass's
+        # job, and the two answers must not silently overwrite each other.
+        record = {}
+        for key, value in decision.items():
+            if key == "architecturalDecisionSource":
+                continue
+            record[key] = value
+            if key == "architecturalElementIds":
+                record["architecturalDecisionSource"] = source
+        record.setdefault("architecturalDecisionSource", source)
+        merged.append(record)
+    return merged
+
+
+def extract_decision_sources(
+        decisions: list,
+        requirements_json_dir: str,
+        concepts_json_dir: str,
+        architecture_json_dir: str,
+        prompt: str,
+) -> list:
+    """Run the source prompt over the decisions a previous pass extracted, together
+    with the requirements, concepts and architectural elements those decisions
+    reference; return the same decisions with `architecturalDecisionSource` filled
+    in.
+
+    With no decisions there is nothing to source, so the model is not called.
+    """
+    if not decisions:
+        return []
+
+    print(f"Extracting the source of {len(decisions)} architectural decisions")
+    built = build_decision_source_prompt(
+        prompt,
+        _requirements_payload(requirements_json_dir, concepts_json_dir),
+        _architecture_payload(architecture_json_dir),
+        json.dumps({"architectural_decisions": _reduce_decisions_for_source(decisions)},
+                   ensure_ascii=False, indent=2),
+    )
+    response = ask_gemini(user_prompt=built)
+    return merge_decision_sources(decisions, _as_decisions_list(extract_json_from_response(response)))
 
 
 def _as_decisions_list(data) -> list:

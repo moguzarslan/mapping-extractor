@@ -1,0 +1,171 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "R_28",
+                "Scalability"
+            ],
+            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "R_22"
+            ],
+            "rationale": "Traefik acts as an intermediary for client requests to backend servers, redirecting incoming requests to the corresponding internal services.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "R_22",
+                "C_04",
+                "Performance"
+            ],
+            "rationale": "Traefik distributes traffic between multiple instances of a service, improving availability and responsiveness of the application.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "R_20",
+                "C_03"
+            ],
+            "rationale": "HTTPS encrypts data transmitted between clients and the server, protecting the integrity and confidentiality of information.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Next.js offers additional structure, features, and optimizations that allow building applications faster and without the need to configure tools manually.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Next.js includes automatic optimizations for images, fonts, and scripts, improving application performance.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Server actions in Next.js allow executing server-side code in response to client events, which is useful for handling complex logic or interacting with databases and other server-side services from client-rendered components without having to write a full API.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "Maintainability"
+            ],
+            "rationale": "React allows developers to create dynamic and fast web applications by facilitating the creation of reusable and modular components.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "The Virtual DOM makes React applications more efficient and faster by updating only the necessary changes.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Prisma is designed to simplify database access and management in Node.js and TypeScript applications by providing a typed API for queries and modifications.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "The Component-Based pattern promotes modularity, code reuse, and maintainability, facilitating the management of the application.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "The Observer pattern allows observers to react appropriately when the subject's state changes by notifying them automatically.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Performance"
+            ],
+            "rationale": "The Singleton pattern is used to manage shared resources, such as configurations, logs, or database connections, where having multiple instances could lead to inconsistent states or inefficient use of resources.",
+            "pageNumber": "67"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "Maintainability"
+            ],
+            "rationale": "Docker allows creating an application and packaging it together with its dependencies and libraries in a container.",
+            "pageNumber": "77"
+        }
+    ]
+}

@@ -1,0 +1,83 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "R_45",
+                "Microservices"
+            ],
+            "rationale": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services. This structure allows to develop, deploy, and scale each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "8, 56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07",
+                "Technology cloud"
+            ],
+            "rationale": "The application is designed, deployed, and executed using cloud services (cloud computing) instead of local or physical servers. The use of this architecture allows high scalability, availability, and accessibility, as the management of resources can be done according to needs and anywhere with an Internet connection.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05"
+            ],
+            "rationale": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client and the server. This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_03",
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_04"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services. The ViewModel acts as an intermediary between the View and the Model, providing the data that the view needs and managing user actions.",
+            "pageNumber": "62, 64"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_04",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "R_49"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies the domain rules, the data access layer interacts with the database and the domain layer defines the data model.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Reliability"
+            ],
+            "rationale": "The decision was made to use AWS and not other cloud services due to its wide catalog of services, its investment in security and certifications, and its ability to manage multiple levels of security to protect data and infrastructure.",
+            "pageNumber": "61, 82"
+        }
+    ]
+}

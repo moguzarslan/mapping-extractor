@@ -1,0 +1,80 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microserveis"
+            ],
+            "rationale": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services. This structure allows to develop, deploy and scale each service autonomously, facilitating maintenance, flexibility and the evolution of the system.",
+            "pageNumber": "8, 56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Tecnologia cloud",
+                "R_43",
+                "R_44",
+                "R_45",
+                "R_46"
+            ],
+            "rationale": "The application applies a cloud architecture, designed, deployed and executed using cloud services instead of local or physical servers, allowing high scalability, availability and accessibility. Amazon Web Services (AWS) was chosen as the provider, using Amazon EKS and Kubernetes for deployment.",
+            "pageNumber": "8, 60, 81"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "C_06"
+            ],
+            "rationale": "The application follows the Client-Server pattern. The client was developed with Angular, implementing a Single-Page Application (SPA) that renders dynamic views and manages internal navigation. For the server, Spring Boot was used, which provides a platform to expose a REST API.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services, which is designed for the implementation of user interfaces.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies the domain rules, the data access layer interacts with the database and the domain layer defines the data model.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "A transversal contract layer is added that separates the internal model from the external representation of the API, clarifying roles, avoiding unnecessary coupling and facilitating testing, reusing and maintaining the code.",
+            "pageNumber": "68"
+        }
+    ]
+}

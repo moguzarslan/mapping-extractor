@@ -6,76 +6,43 @@
                 "P_02"
             ],
             "architecturalDecisionSource": [
+                "C_02",
+                "C_03",
                 "C_06",
-                "C_07",
-                "Microserveis"
+                "C_07"
             ],
-            "rationale": "Aquesta estructura permet desenvolupar, desplegar i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
             "pageNumber": "9"
         },
         {
             "id": "AD_02",
-            "architecturalElementIds": [
-                "AU_08"
-            ],
-            "architecturalDecisionSource": [
-                "R_48",
-                "C_09"
-            ],
-            "rationale": "A més de la seva tasca d’encaminament, aquest component incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_03",
-            "architecturalElementIds": [
-                "AU_09"
-            ],
-            "architecturalDecisionSource": [
-                "C_01",
-                "R_33"
-            ],
-            "rationale": "D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_04",
-            "architecturalElementIds": [
-                "AU_10"
-            ],
-            "architecturalDecisionSource": [
-                "R_48",
-                "C_09"
-            ],
-            "rationale": "Aquest microservei és essencial per mantenir la confidencialitat i protecció de dades.",
-            "pageNumber": "58"
-        },
-        {
-            "id": "AD_05",
             "architecturalElementIds": [
                 "AU_17"
             ],
             "architecturalDecisionSource": [
                 "C_06",
                 "C_07",
-                "Tecnologia cloud"
+                "Scalability",
+                "Availability"
             ],
-            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, as the management of resources can be done according to needs and anywhere with an Internet connection.",
             "pageNumber": "60"
         },
         {
-            "id": "AD_06",
+            "id": "AD_01",
             "architecturalElementIds": [
                 "P_01"
             ],
             "architecturalDecisionSource": [
                 "C_02",
-                "C_05"
+                "C_05",
+                "C_09"
             ],
-            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
             "pageNumber": "61"
         },
         {
-            "id": "AD_07",
+            "id": "AD_04",
             "architecturalElementIds": [
                 "P_03"
             ],
@@ -83,23 +50,23 @@
                 "C_02",
                 "C_04"
             ],
-            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
             "pageNumber": "62"
         },
         {
-            "id": "AD_08",
+            "id": "AD_05",
             "architecturalElementIds": [
                 "P_04"
             ],
             "architecturalDecisionSource": [
                 "C_02",
-                "C_05"
+                "C_09"
             ],
-            "rationale": "Aquesta estructura clarifica rols, evita acoblaments innecessaris i facilita provar, reutilitzar i mantenir el codi amb el pas del temps.",
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
             "pageNumber": "68"
         },
         {
-            "id": "AD_09",
+            "id": "AD_06",
             "architecturalElementIds": [
                 "AU_13",
                 "AU_14"
@@ -107,23 +74,36 @@
             "architecturalDecisionSource": [
                 "C_02",
                 "C_04",
-                "Mantenibilitat"
+                "Maintainability"
             ],
-            "rationale": "Tant Angular com Spring són frameworks madurs i àmpliament provats en entorns de producció, cosa que ofereix una gran estabilitat al projecte.",
+            "rationale": "Both Angular and Spring are mature and widely tested frameworks in production environments, which offers great stability to the project.",
             "pageNumber": "77"
         },
         {
-            "id": "AD_10",
+            "id": "AD_07",
             "architecturalElementIds": [
                 "AU_18",
                 "AU_19"
             ],
             "architecturalDecisionSource": [
                 "C_06",
-                "C_07"
+                "Availability"
             ],
-            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, running thousands of containers on different servers and ensuring high availability.",
             "pageNumber": "81"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_08",
+                "C_09",
+                "Security"
+            ],
+            "rationale": "AWS invests heavily in security and certifications, manages multiple levels of security and offers tools to protect data and infrastructures facilitating compliance with legal regulations and international standards.",
+            "pageNumber": "82"
         }
     ]
 }

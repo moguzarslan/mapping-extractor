@@ -1,0 +1,98 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microserveis"
+            ],
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating the maintenance, flexibility, and evolution of the system.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Tecnologia cloud"
+            ],
+            "rationale": "It offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure of its own.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Bus d’integració"
+            ],
+            "rationale": "This microservice has the main function of routing all communications to the corresponding microservice within the system architecture, acting as a central traffic management point.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "R_06",
+                "R_10"
+            ],
+            "rationale": "The portal microservice has the main function of offering a centralized interface for access to the different VWGS applications.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "R_48"
+            ],
+            "rationale": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client and the server. This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
+            "pageNumber": "68"
+        }
+    ]
+}

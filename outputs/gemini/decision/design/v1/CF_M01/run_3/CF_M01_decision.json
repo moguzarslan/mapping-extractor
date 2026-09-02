@@ -1,0 +1,92 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_03",
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "Increases system security by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "It is only the Api Gateway that is responsible for authorization and SSL with the client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The decision was made to use AWS and not other cloud services due to its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16",
+                "AU_18",
+                "AU_19",
+                "AU_20",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "R_24",
+                "R_25",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The objective was to develop the necessary infrastructure that would allow us to manage, obtain and store the data of the playlogs, connections and platform actions (audit trail). To achieve this, different AWS services have been used that have allowed us to develop a data lake.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the set of data and users. In addition, to be able to obtain the data quickly, Athena performs the queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "For the transmission of data to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "pageNumber": "50"
+        }
+    ]
+}

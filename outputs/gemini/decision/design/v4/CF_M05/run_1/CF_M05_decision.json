@@ -1,0 +1,107 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Flexibility",
+                "Scalability"
+            ],
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "This microservice has the main function of routing all communications to the corresponding microservice within the system architecture, acting as a central traffic management point to ensure that any interaction is carried out in an orderly and secure manner.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_06"
+            ],
+            "rationale": "The portal microservice incorporates the necessary binaries for the frontEnd of both the portal itself and the rest of the portal applications, ensuring that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "C_09"
+            ],
+            "rationale": "This component is essential to maintain the confidentiality and protection of data, as it is responsible for verifying user identity and determining permissions associated with each user or service.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Traceability"
+            ],
+            "rationale": "This component acts as a traceability and auditing mechanism, ensuring that each interaction is documented for subsequent analysis, incident resolution, and regulatory compliance.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Automation"
+            ],
+            "rationale": "This component allows defining, automating, and executing tasks at specific times, ensuring that operations are executed in an orderly manner and according to the defined temporal requirements.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_09"
+            ],
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "Angular applies the MVVM pattern, as its architecture is based on components and services, which is designed for the implementation of user interfaces.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated, clarifying roles, avoiding unnecessary coupling, and facilitating testing, reusing, and maintaining the code over time.",
+            "pageNumber": "68"
+        }
+    ]
+}

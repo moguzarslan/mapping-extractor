@@ -9,22 +9,11 @@
                 "C_05",
                 "Security"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. It increases the security of the system by reducing the entry points to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform, increasing the security of the system by reducing the gateways to the outside.",
             "pageNumber": "43"
         },
         {
             "id": "AD_02",
-            "architecturalElementIds": [
-                "P_03"
-            ],
-            "architecturalDecisionSource": [
-                "C_02"
-            ],
-            "rationale": "It gives the ability to handle partial system failures, managing which services are in operation at all times.",
-            "pageNumber": "43"
-        },
-        {
-            "id": "AD_03",
             "architecturalElementIds": [
                 "AU_06"
             ],
@@ -35,29 +24,29 @@
             "pageNumber": "43"
         },
         {
-            "id": "AD_04",
+            "id": "AD_03",
             "architecturalElementIds": [
                 "AU_13"
             ],
             "architecturalDecisionSource": [
-                "Efficiency"
+                "C_01"
             ],
             "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
             "pageNumber": "46"
         },
         {
-            "id": "AD_05",
+            "id": "AD_04",
             "architecturalElementIds": [
                 "AU_14"
             ],
             "architecturalDecisionSource": [
-                "Reliability"
+                "C_01"
             ],
-            "rationale": "It has been decided to use this language, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "rationale": "TypeScript was chosen because it is the default language for NestJS and because, thanks to its static typing, it allows for error detection at compile time.",
             "pageNumber": "46"
         },
         {
-            "id": "AD_06",
+            "id": "AD_05",
             "architecturalElementIds": [
                 "AU_15"
             ],
@@ -65,11 +54,11 @@
                 "C_04",
                 "C_02"
             ],
-            "rationale": "It is the set of cloud computing services that allows the creation of scalable and highly available applications.",
+            "rationale": "AWS is a set of cloud computing services that allows the creation of scalable and highly available applications.",
             "pageNumber": "46"
         },
         {
-            "id": "AD_07",
+            "id": "AD_06",
             "architecturalElementIds": [
                 "AU_18"
             ],
@@ -77,19 +66,30 @@
                 "C_01",
                 "Scalability"
             ],
-            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the set of data and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "rationale": "As a serverless service, it makes it unnecessary to manage infrastructure when there is an increase in the data set and users.",
             "pageNumber": "49"
         },
         {
-            "id": "AD_08",
+            "id": "AD_07",
             "architecturalElementIds": [
                 "AU_20"
             ],
             "architecturalDecisionSource": [
                 "C_01"
             ],
-            "rationale": "For the data transmission to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "rationale": "Kinesis Data Streams was used to transmit playlog and audit trail data to ensure the fastest possible data transmission.",
             "pageNumber": "50"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "C_03"
+            ],
+            "rationale": "The database is implemented in the RDS service, which is a distributed relational database service from AWS.",
+            "pageNumber": "45"
         }
     ]
 }

@@ -4,7 +4,8 @@ A version is a name (the one written in the environment) bound to a behaviour an
 the configuration that behaviour runs with. V1 and V2 are deliberately the same
 behaviour — the single-prompt extraction — differing only in the prompt, which is
 the whole point of keeping the prompt out of the strategy class. V3 continues that
-line.
+line; V4 is the first to change the behaviour, splitting the pass in two so that
+the source of a decision is decided by a prompt of its own.
 
 Adding a version is one entry here; no other file needs to change.
 """
@@ -18,6 +19,7 @@ from resource.prompts.prompts import Prompts
 from main.decision.strategies import (
     DecisionExtractionStrategy,
     SinglePromptExtraction,
+    SourcedDecisionExtraction,
 )
 
 DEFAULT_VERSION = "v3"
@@ -69,6 +71,18 @@ VERSIONS: dict[str, DecisionVersion] = {
         description="single decision prompt (V3)",
         build=lambda: SinglePromptExtraction(
             prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V3,
+        ),
+    ),
+    # The first version that is not one prompt: the decisions come from the
+    # document and the architecture, their sources from a second prompt that never
+    # sees the document.
+    "v4": DecisionVersion(
+        name="v4",
+        output_subdir="decision/v4",
+        description="decision prompt + source prompt (V4)",
+        build=lambda: SourcedDecisionExtraction(
+            prompt=Prompts.ARCHITECTURAL_DECISION_EXTRACTION_PROMPT_V4,
+            source_prompt=Prompts.ARCHITECTURAL_DECISION_SOURCE_EXTRACTION_PROMPT_V4,
         ),
     ),
 }

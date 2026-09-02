@@ -1,0 +1,78 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "R_45",
+                "C_07"
+            ],
+            "rationale": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services. This structure allows to develop, deploy, and scale each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07"
+            ],
+            "rationale": "The application is designed, deployed, and executed using cloud services (cloud computing) instead of local or physical servers. The use of this type of architecture allows high scalability, availability, and accessibility.",
+            "pageNumber": "59, 60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client, which formulates service requests, and the server, which receives, processes, and returns responses.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_13",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services. The MVVM pattern is a derivative of the classic Model-View-Controller pattern, designed for the implementation of user interfaces.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_14",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies the domain rules, the data access layer interacts with the database and the domain layer defines the data model.",
+            "pageNumber": "67"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Reliability"
+            ],
+            "rationale": "AWS was chosen over other options such as Google Cloud Platform or Microsoft Azure because this platform invests heavily in security and certifications, manages multiple levels of security, and offers tools to protect data and infrastructures, facilitating compliance with legal regulations and international standards.",
+            "pageNumber": "81"
+        }
+    ]
+}

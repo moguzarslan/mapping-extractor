@@ -1,0 +1,137 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Flexibility",
+                "Scalability"
+            ],
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating the maintenance, flexibility, and evolution of the system.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_08",
+                "Security"
+            ],
+            "rationale": "This microservice has the main function of routing all communications to the corresponding microservice within the system architecture, acting as a central traffic management point, ensuring that any interaction, both with external services and between internal microservices, is carried out in an orderly and secure manner.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_06"
+            ],
+            "rationale": "The portal microservice incorporates the binaries necessary for the frontEnd of the portal itself and the rest of the portal applications, ensuring that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "C_09",
+                "Security"
+            ],
+            "rationale": "This microservice is essential to maintain the confidentiality and protection of data.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Traceability"
+            ],
+            "rationale": "This component acts as a traceability and auditing mechanism, ensuring that each interaction is documented for subsequent analysis, incident resolution, and regulatory compliance.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Automation"
+            ],
+            "rationale": "This component allows defining, automating, and executing tasks at specific times, ensuring that operations are executed in an orderly manner and according to the defined temporal requirements.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_07",
+                "C_06",
+                "C_08"
+            ],
+            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, as resource management can be done according to needs and anywhere with an Internet connection.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_09",
+                "Security"
+            ],
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "The MVVM pattern is a derivative of the classic Model-View-Controller pattern, designed for the implementation of user interfaces.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "This structure clarifies roles, avoids unnecessary coupling, and makes it easier to test, reuse, and maintain the code over time.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Automation",
+                "C_07",
+                "C_06"
+            ],
+            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, running thousands of containers on different servers, and ensuring high availability.",
+            "pageNumber": "81"
+        }
+    ]
+}

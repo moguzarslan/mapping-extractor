@@ -1,0 +1,101 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The physical architecture does not correspond exactly to the logical architecture, as both the business layer and the data layer are divided into several different services. The goal of this is to improve the security, scalability, and availability of the system.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The only component that interacts directly with the presentation layer is the Api Gateway module. This is because the Api Gateway microservices design pattern is followed. This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "NestJS"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "NestJS"
+            ],
+            "rationale": "TypeScript was chosen over JavaScript because it is the default language for NestJS and because, thanks to its static typing, it allows for error detection at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "AWS was chosen over other cloud services due to its low price and its prior use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "R_24",
+                "R_25",
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The objective was to develop the necessary infrastructure that would allow us to manage, obtain, and store data from playlogs, connections, and platform actions. To achieve this, different AWS services were used that allowed us to develop a data lake.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "Amazon Athena is a serverless service, which means it is not necessary to manage the infrastructure when there is an increase in the data set and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "Kinesis Data Streams was used to transmit playlog and audit trail data to ensure the fastest possible data transmission, allowing for near real-time transmission.",
+            "pageNumber": "50"
+        }
+    ]
+}

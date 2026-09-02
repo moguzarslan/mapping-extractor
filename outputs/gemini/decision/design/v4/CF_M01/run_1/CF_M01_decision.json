@@ -1,0 +1,108 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "In our project the Waapiti platform is a web service that follows the client-server architecture. For the client-server model, a 3-layer architecture is used, where the system is divided into 3 layers, the presentation layer, the business layer, and the data layer.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security",
+                "Reliability"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. The use of this pattern provides several advantages to the system, such as: It increases the security of the system by reducing the gateways to the outside, as the only way to interact with the microservices is through the Api Gateway. It gives the ability to handle partial system failures, managing which services are running at all times. It is only the Api Gateway that is responsible for authorization and SSL with the client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Maintainability"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "The use of this language has been decided, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Cost"
+            ],
+            "rationale": "The use of AWS has been decided and not other cloud services for its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [
+                "C_03"
+            ],
+            "rationale": "The Amazon S3 service is a necessary service to be able to develop a data lake, since this service allows us to store any element that is needed.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_03",
+                "Scalability"
+            ],
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the data set and users. In addition, to be able to obtain the data quickly, Athena performs the queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "Cost"
+            ],
+            "rationale": "Kinesis Data Streams is used to transmit playlog and audit trail data, as in the case of connections it has been decided to store them directly in S3. This is because Kinesis Data Streams has an hourly price and in the case of connections they are only stored once every hour.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_03"
+            ],
+            "rationale": "The Kinesis Data Firehose service has as its main function the loading of large amounts of data into data stores.",
+            "pageNumber": "51"
+        }
+    ]
+}

@@ -3,35 +3,37 @@
         {
             "id": "AD_01",
             "architecturalElementIds": [
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "The communication between the two components is carried out through the internet using the HTTP protocol and the REST API model.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06",
                 "P_03"
             ],
             "architecturalDecisionSource": [
                 "C_05",
                 "Security"
             ],
-            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
-            "pageNumber": "43"
-        },
-        {
-            "id": "AD_02",
-            "architecturalElementIds": [
-                "P_03"
-            ],
-            "architecturalDecisionSource": [
-                "Security"
-            ],
-            "rationale": "Augments the security of the system by reducing the entry points to the exterior, since the only way to interact with the microservices is through the Api Gateway.",
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. The use of this pattern provides several advantages to the system, such as: Increases the security of the system by reducing the gateways to the outside, as the only way to interact with the microservices is through the Api Gateway.",
             "pageNumber": "43"
         },
         {
             "id": "AD_03",
             "architecturalElementIds": [
-                "P_03"
+                "AU_06"
             ],
             "architecturalDecisionSource": [
-                "C_02"
+                "Availability"
             ],
-            "rationale": "Gives the capacity to handle partial system failures, managing which services are in operation at all times.",
+            "rationale": "Gives the ability to handle partial system failures, managing which services are running at all times.",
             "pageNumber": "43"
         },
         {
@@ -40,13 +42,13 @@
                 "AU_13"
             ],
             "architecturalDecisionSource": [
-                "C_01"
+                "Maintainability"
             ],
             "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
             "pageNumber": "46"
         },
         {
-            "id": "AD_05",
+            "id": "AU_05",
             "architecturalElementIds": [
                 "AU_14"
             ],
@@ -74,22 +76,22 @@
                 "AU_18"
             ],
             "architecturalDecisionSource": [
-                "C_03",
+                "C_01",
                 "Scalability"
             ],
-            "rationale": "This service, being a serverless service, makes it unnecessary to manage the infrastructure when there is an increase in the set of data and users.",
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the set of data and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
             "pageNumber": "49"
         },
         {
             "id": "AD_08",
             "architecturalElementIds": [
-                "AU_18"
+                "AU_20"
             ],
             "architecturalDecisionSource": [
                 "C_01"
             ],
-            "rationale": "In addition, to obtain the data quickly, Athena performs the queries in parallel.",
-            "pageNumber": "49"
+            "rationale": "For the data transmission to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "pageNumber": "50"
         },
         {
             "id": "AD_09",
@@ -101,25 +103,8 @@
                 "C_03",
                 "C_04"
             ],
-            "rationale": "The objective of these services is to form a data lake where all history is stored to be able to process them in the analytical module.",
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module.",
             "pageNumber": "45"
-        },
-        {
-            "id": "AD_10",
-            "architecturalElementIds": [
-                "AU_06",
-                "AU_07",
-                "AU_08",
-                "AU_09",
-                "AU_10"
-            ],
-            "architecturalDecisionSource": [
-                "C_04",
-                "C_02",
-                "Security"
-            ],
-            "rationale": "The objective of this is to improve the security, scalability and availability of the system.",
-            "pageNumber": "42"
         }
     ]
 }

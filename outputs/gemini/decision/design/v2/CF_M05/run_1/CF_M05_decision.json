@@ -1,0 +1,109 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microserveis"
+            ],
+            "rationale": "The application has an architecture based on microservices, consisting of dividing the system into a set of small, independent, and autonomous services. This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
+            "pageNumber": "8, 56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Tecnologia cloud"
+            ],
+            "rationale": "Technology cloud offers flexibility, scalability, and cost reduction, as it eliminates the need for local infrastructure.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Bus d’integració"
+            ],
+            "rationale": "The Leader microservice has as its main function the routing of all communications to the corresponding microservice within the system architecture. It acts as a central traffic management point, ensuring that any interaction, both with external services and between internal microservices, is carried out in an orderly and secure manner.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "R_06",
+                "R_10"
+            ],
+            "rationale": "The portal microservice has the main function of offering a centralized interface for access to the different VWGS applications. This component acts as an entry point for users, providing a unified experience.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "R_48"
+            ],
+            "rationale": "The Access Control microservice has as its main objective the management of user authentication and their permissions within the application.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "The application follows the Client-Server pattern which organizes the code into two differentiated components: the client and the server. The client has been developed with Angular, implementing a Single-Page Application (SPA) that renders dynamic views and manages internal navigation without having to reload the page, improving fluidity of use. For the server, Spring Boot has been used, which provides a platform for exposing a REST API.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services. The MVVM pattern is a derivative of the classic Model-View-Controller pattern, designed for the implementation of user interfaces.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated: the presentation layer receives requests and builds responses, the business logic layer applies the domain rules, the data access layer interacts with the database and the domain layer defines the data model.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07"
+            ],
+            "rationale": "For the deployment of the application, Amazon EKS has been used, a service that offers AWS which allows using Kubernetes, a container orchestration platform, without the need to install or maintain it. It allows automating the deployment, scaling, and management of applications running in containers, executing thousands of containers on different servers, and ensuring high availability.",
+            "pageNumber": "81"
+        }
+    ]
+}

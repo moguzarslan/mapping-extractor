@@ -6,72 +6,30 @@
                 "P_02"
             ],
             "architecturalDecisionSource": [
-                "Microserveis"
+                "C_06",
+                "C_07",
+                "R_43",
+                "R_45"
             ],
-            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating the maintenance, flexibility, and evolution of the system.",
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating maintenance, flexibility, and the evolution of the system.",
             "pageNumber": "9"
         },
         {
             "id": "AD_02",
             "architecturalElementIds": [
-                "AU_08"
-            ],
-            "architecturalDecisionSource": [
-                "R_48",
-                "C_09"
-            ],
-            "rationale": "In addition to its routing task, this component incorporates protection mechanisms to ensure the integrity and confidentiality of communications.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_03",
-            "architecturalElementIds": [
-                "AU_09"
-            ],
-            "architecturalDecisionSource": [
-                "C_01",
-                "R_33"
-            ],
-            "rationale": "This ensures that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements. In this way, the portal not only centralizes access, but also ensures the visual and functional coherence of the entire ecosystem.",
-            "pageNumber": "57"
-        },
-        {
-            "id": "AD_04",
-            "architecturalElementIds": [
-                "AU_10"
-            ],
-            "architecturalDecisionSource": [
-                "R_48",
-                "C_09"
-            ],
-            "rationale": "This microservice is essential to maintain the confidentiality and protection of data.",
-            "pageNumber": "58"
-        },
-        {
-            "id": "AD_05",
-            "architecturalElementIds": [
-                "AU_11"
-            ],
-            "architecturalDecisionSource": [
-                "C_09"
-            ],
-            "rationale": "This component acts as a traceability and auditing mechanism, ensuring that every interaction remains documented for subsequent analysis, incident resolution, and regulatory compliance.",
-            "pageNumber": "58"
-        },
-        {
-            "id": "AD_06",
-            "architecturalElementIds": [
                 "AU_17"
             ],
             "architecturalDecisionSource": [
                 "C_06",
-                "C_07"
+                "C_07",
+                "R_43",
+                "R_45"
             ],
-            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, since the management of resources can be done according to needs and anywhere with an Internet connection.",
+            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, as the management of resources can be done according to needs and anywhere with an Internet connection.",
             "pageNumber": "60"
         },
         {
-            "id": "AD_07",
+            "id": "AD_03",
             "architecturalElementIds": [
                 "P_01"
             ],
@@ -83,30 +41,34 @@
             "pageNumber": "61"
         },
         {
-            "id": "AD_08",
+            "id": "AD_04",
             "architecturalElementIds": [
+                "AU_13",
                 "P_03"
             ],
             "architecturalDecisionSource": [
-                "C_02"
+                "C_02",
+                "C_04"
             ],
             "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
             "pageNumber": "62"
         },
         {
-            "id": "AD_09",
+            "id": "AD_05",
             "architecturalElementIds": [
+                "AU_14",
                 "P_04"
             ],
             "architecturalDecisionSource": [
-                "C_02"
+                "C_09"
             ],
-            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated. This structure clarifies roles, avoids unnecessary coupling, and facilitates testing, reusing, and maintaining the code over time.",
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated.",
             "pageNumber": "68"
         },
         {
-            "id": "AD_10",
+            "id": "AD_06",
             "architecturalElementIds": [
+                "AU_17",
                 "AU_18",
                 "AU_19"
             ],
@@ -114,8 +76,8 @@
                 "C_06",
                 "C_07"
             ],
-            "rationale": "It allows automating the deployment, scaling, and management of applications running in containers, running thousands of containers on different servers, and ensuring high availability.",
-            "pageNumber": "81"
+            "rationale": "AWS is a consolidated cloud platform with robust services and a reliable infrastructure. This diversity makes it easy to adapt to the needs of the project, allows growing and scaling the project in an agile way and eliminates the need to look for other platforms when requirements evolve.",
+            "pageNumber": "82"
         }
     ]
 }

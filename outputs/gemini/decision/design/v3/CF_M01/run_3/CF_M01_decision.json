@@ -1,0 +1,106 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "Augments the security of the system by reducing the entry points to the exterior, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Gives the capacity to manage partial system failures, managing which services are in operation at all times.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Reliability"
+            ],
+            "rationale": "It has been decided to use this language, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_02"
+            ],
+            "rationale": "It is the set of cloud computing services that allows the creation of scalable and highly available applications.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "Being a serverless service, it is not necessary to manage the infrastructure when there is an increase in the data set and users.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "For the transmission of data to be as fast as possible, two Amazon services have been used, which allow us to perform a transmission in near real time.",
+            "pageNumber": "50"
+        }
+    ]
+}

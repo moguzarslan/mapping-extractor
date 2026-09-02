@@ -1,0 +1,98 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_07"
+            ],
+            "rationale": "The architecture implemented for the development of the Revivack project system is a microservices-based architecture.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "Traefik acts as a reverse proxy and load balancer, improving the availability and responsiveness of the application.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_03",
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_06"
+            ],
+            "rationale": "Next.js supports both client-side and server-side rendering, allowing to choose the best strategy according to the needs of the application.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_04",
+                "AU_07",
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Prisma is an ORM tool used to simplify database access and management.",
+            "pageNumber": "42, 50"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Docker is a containerization platform used to manage the execution of the application services.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05"
+            ],
+            "rationale": "The Component-Based pattern focuses on building the user interface by creating independent and reusable components, promoting modularity, reusability, and maintainability.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_06"
+            ],
+            "rationale": "The Observer pattern establishes a one-to-many relationship between objects, allowing them to react appropriately to state changes.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "The Singleton pattern ensures that a class has only one instance and provides a global access point, used to manage shared resources like database connections to avoid inconsistent states or inefficient resource use.",
+            "pageNumber": "67"
+        }
+    ]
+}

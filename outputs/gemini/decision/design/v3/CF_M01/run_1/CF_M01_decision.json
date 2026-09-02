@@ -1,0 +1,88 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform. This pattern increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "TypeScript was chosen because it is the default language for NestJS and because, thanks to its static typing, it allows for the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_02",
+                "Scalability",
+                "Availability"
+            ],
+            "rationale": "AWS is a set of cloud computing services that allows for the creation of scalable and highly available applications. AWS was chosen over other cloud services due to its low price and its prior use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "As a serverless service, it is not necessary to manage the infrastructure when there is an increase in the data set and users. In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "Kinesis Data Streams was used to transmit playlog and audit trail data to ensure the fastest possible data transmission, allowing for near real-time transmission.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "The physical architecture does not correspond exactly to the logical architecture, as both the business layer and the data layer are divided into several different services. The goal of this is to improve the security, scalability, and availability of the system.",
+            "pageNumber": "42"
+        }
+    ]
+}

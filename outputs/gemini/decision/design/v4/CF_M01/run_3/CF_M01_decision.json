@@ -1,0 +1,121 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Gives the ability to handle partial system failures, managing which services are running at all times.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "It is only the Api Gateway that is responsible for authorization and SSL with the client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Maintainability"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "It has been decided to use this language, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Cost"
+            ],
+            "rationale": "It has been decided to use AWS and not other cloud services due to its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04",
+                "Maintainability"
+            ],
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the data set and users.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "C_04",
+                "C_02"
+            ],
+            "rationale": "The objective of this is to improve the security, scalability and availability of the system.",
+            "pageNumber": "42"
+        }
+    ]
+}

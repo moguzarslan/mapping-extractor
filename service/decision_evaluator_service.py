@@ -55,8 +55,8 @@ What it does
    cosine >= threshold). Among eligible pairs, an optimal (Hungarian)
    one-to-one assignment is solved, maximising the number of matches first and
    using the rationale similarity only as a tie-breaker. This is scored at the
-   DECISION level with Precision, Recall and Mean Semantic Meaning (the average
-   rationale similarity over matched pairs).
+   DECISION level with Precision, Recall, F1 (their harmonic mean) and Mean
+   Semantic Meaning (the average rationale similarity over matched pairs).
 2. `architecturalDecisionSource` and `architecturalElementIds` are scored as
    Accuracy over the matched pairs, SET-WISE, so a decision that cites three
    sources and gets one of them right earns partial credit instead of a flat
@@ -69,18 +69,45 @@ What it does
 
    HOW two references are judged to be the same is a per-field choice, declared
    as `matcher` in the field spec and named in the report:
-     - architecturalDecisionSource -> ExactMatcher. A source is a requirement or
-       a concept from a fixed catalog, so naming the same source means naming
-       that entry, not something that merely reads like it. Comparison is exact
-       on normalised text (Volere-style section label dropped, whitespace
-       collapsed, case folded).
-     - architecturalElementIds -> EmbeddingMatcher. An element is matched on its
-       free-text name, whose wording legitimately differs between the two
-       extractions ("API Gateway" vs "API Gateway Service").
+     - architecturalDecisionSource -> CitationFormMatcher. The ground truth
+       writes a source in one of two FORMS, and the form says where the concept
+       came from: a plain id (CF_M08_C08) cites the same catalog the model was
+       given, while a starred id (*CF_M08_C11) is a concept the annotator added
+       while reading the rationale and which is therefore ABSENT from that
+       catalog. The model can only reproduce the first by citing an id and the
+       second by writing the concept out as a name, so the two forms are scored
+       separately and never against each other:
+         * LLM id   <-> GT plain id     STAGE 1's rule: embedding cosine >=
+                                        threshold over the resolved text — the
+                                        same comparison `evaluator_service`
+                                        applies to a requirement (its
+                                        `description` anchor) and to a concept
+                                        (its `concept` field), reusing stage 1's
+                                        own `resolve_concept_text`. A plain id
+                                        therefore means the same thing in both
+                                        evaluations.
+         * LLM name <-> GT starred id   embedding cosine >= threshold
+       Any other combination scores 0. Citing an id where the ground truth
+       expects a named concept is a different claim about where the concept came
+       from, not a near miss, so it earns nothing.
+     - architecturalElementIds -> ArchitectureNameMatcher, which is the
+       ARCHITECTURE evaluator's own element matching rule, reused here rather
+       than restated: two names denote the same element when they are identical
+       once normalised, when they are identical after dropping the generic noun
+       that only states the element's kind ("Portal Microservice" -> "Portal"),
+       or when they share a content token AND their embedding cosine clears the
+       threshold. Because an element reference resolves to the name of an
+       element of the very extraction the architecture evaluator scored, the two
+       evaluations agree by construction on element identity: an element judged
+       found there is judged cited here. Embedding similarity alone cannot carry
+       that decision — over the short names architecture elements carry it ranks
+       unrelated siblings (Kubernetes / Docker at 0.77) above genuine matches
+       (Portal / Portal Microservice at 0.79) — so the deterministic tiers run
+       first and similarity decides only the remainder.
 3. `pageNumber` is scored as Accuracy over the matched pairs too (correct
    when the two page-number sets overlap).
 
-Only the anchor carries Precision and Recall — it is the field that decides
+Only the anchor carries Precision, Recall and F1 — it is the field that decides
 which decisions were found at all. Every other field is scored over the pairs
 the anchor already matched, where there is nothing to be precise or complete
 about: the question is only how much of that field is right.
@@ -104,9 +131,9 @@ import numpy as np
 import pandas as pd
 
 from service.evaluator_service import (
-    _CONCEPT_PREFIX,
     _is_blank,
     norm_text,
+    resolve_concept_text,
     compute_similarity,
     optimal_match,
     _fmt,
@@ -118,6 +145,7 @@ from service.architecture_evaluator_service import (
     _is_number,
     load_ground_truth as load_architecture_ground_truth,
     load_llm_extraction as load_architecture_llm_extraction,
+    match_named_elements,
     page_set,
 )
 
@@ -131,13 +159,21 @@ RATIONALE_SPEC = {"name": "rationale", "json": ["rationale", "Rationale"],
                   "gt": ["Rationale"]}
 
 # `matcher` is how two resolved references are judged to name the same thing.
-# A source is a requirement or a concept drawn from a fixed catalog, so naming
-# the same one means naming it exactly; an element is matched on its free-text
-# name, where wording legitimately varies between the two extractions.
+# A source is compared by the FORM it was cited in — an id against the catalog
+# the model was given, a written-out name against a concept the annotator added
+# that is not in that catalog — see CitationFormMatcher. An element is matched
+# on its name by the very rule the architecture evaluator matches elements with,
+# reused rather than restated — see ArchitectureNameMatcher.
 SOURCE_SPEC = {"name": "architecturalDecisionSource",
                "json": ["architecturalDecisionSource", "architectural_decision_source", "ArchitecturalDecisionSource"],
                "gt": ["AD Source", "ArchitecturalDecisionSource"],
-               "matcher": lambda threshold: ExactMatcher()}
+               # Stage 1's own resolver, reused rather than restated: look the id
+               # up in its catalog, keep the raw token when it is not a known id,
+               # and drop the leading Volere-style label ("12g. Scalability" ->
+               # "Scalability"). With stage 1's comparison rule below, a plain id
+               # is resolved and compared identically in both evaluations.
+               "resolve": resolve_concept_text,
+               "matcher": lambda threshold: CitationFormMatcher(threshold)}
 ELEMENT_SPEC = {"name": "architecturalElementIds",
                 # The singular spellings are kept so extractions made before the
                 # field became a list still load.
@@ -145,7 +181,10 @@ ELEMENT_SPEC = {"name": "architecturalElementIds",
                          "architecturalElementId", "architectural_element_id", "ArchitecturalElementId"],
                 "gt": ["Architectural Element IDs", "Architectural Element ID",
                        "ArchitecturalElementIds", "ArchitecturalElementId"],
-                "matcher": lambda threshold: EmbeddingMatcher(threshold)}
+                # No `resolve` key: an element name carries no catalog notation,
+                # so it takes the default `plain_resolve` — the architecture rule
+                # does its own normalisation.
+                "matcher": lambda threshold: ArchitectureNameMatcher(threshold)}
 PAGE_SPEC = {"name": "pageNumber",
              "json": ["pageNumber", "page", "page_number", "Page Number"],
              "gt": ["Page Number", "PageNumber", "Page"],
@@ -161,6 +200,11 @@ ID_GT_CANDIDATES = ["AD ID", "ID", "Id", "id"]
 
 _REF_SPLIT = re.compile(r"[,;]")
 _TRAILING_MARK = re.compile(r"[*\s]+$")
+# A catalog citation: an optionally document-prefixed concept/requirement id.
+# The two sides spell them differently — the model emits "C_05"/"R_43", the
+# ground truth "CF_M08_C11" — so the separator before the number is optional.
+# Element ids (AU_xx, P_xx) deliberately do not match: they are not sources.
+_REF_ID = re.compile(r"^(?:[A-Za-z0-9]+_)*[CR]_?\d+$", re.IGNORECASE)
 
 
 # ---------------------------------------------------------------------------
@@ -282,56 +326,75 @@ def build_llm_requirement_id_to_text(requirements_json_path: str, concepts_json_
     return id_to_text
 
 
-def resolved_ref_tokens(raw_value, id_to_text: dict) -> list[str]:
-    """Resolve a reference field to the list of texts it cites — one entry per
+class Reference(NamedTuple):
+    """One cited reference: the text it resolves to, and the FORM it was cited
+    in. The form is part of the reference's identity for sources, where citing
+    an id and writing a name out are claims about different populations — see
+    CitationFormMatcher — and is simply ignored by the element matcher."""
+    text: str
+    #: "id" when written as a catalog id, "name" when written out as text.
+    kind: str
+
+
+def citation_kind(raw_token: str) -> str:
+    """The form a reference was written in.
+
+    A ground-truth id carrying the annotator's star (*CF_M08_C11) marks a
+    concept that is NOT in the catalog handed to the model; the model can only
+    express it by writing the name out, so it is classified with the names it
+    will be compared against rather than with the ids it can never match.
+    """
+    token = raw_token.strip()
+    if token.startswith("*"):
+        return "name"
+    return "id" if _REF_ID.match(token) else "name"
+
+
+def plain_resolve(token: str, id_to_text: dict) -> str | None:
+    """Default resolution: the referenced text, or the raw token when it is not
+    a known id. No catalog notation is stripped — an architectural element name
+    carries none, and the Volere pattern would eat a leading alphanumeric
+    ("2FA Service" -> "Service")."""
+    return norm_text(id_to_text.get(token, token))
+
+
+def resolved_ref_tokens(raw_value, id_to_text: dict, resolve=plain_resolve) -> list[Reference]:
+    """Resolve a reference field to the references it cites — one entry per
     distinct reference, which is what makes the field scorable set-wise.
 
     Every token is resolved to its referenced text, or kept as its own raw text
     when it is not a known id (the ground truth naming a technology directly,
-    the model citing a concept by name). Duplicates are then collapsed
-    case-insensitively: a model that cites one concept both by id and by name
-    ("C_05", "Security" -> "Security", "Security") is citing one reference, and
-    counting it twice would penalise it for being explicit.
+    the model citing a concept by name), and tagged with the form it was cited
+    in. Duplicates are collapsed case-insensitively WITHIN a form: citing the
+    same concept twice by id is one reference. The same text cited in both
+    forms is not collapsed, because the two forms address different ground-truth
+    populations and so are no longer the same claim.
     """
-    seen, tokens = set(), []
+    seen, refs = set(), []
     for token in split_ref_tokens(raw_value):
-        text = norm_text(id_to_text.get(token, token))
+        kind = citation_kind(token)
+        text = resolve(token, id_to_text)
         if not text:
             continue
-        key = text.casefold()
+        key = (text.casefold(), kind)
         if key not in seen:
             seen.add(key)
-            tokens.append(text)
-    return tokens
+            refs.append(Reference(text=text, kind=kind))
+    return refs
 
 
 # ---------------------------------------------------------------------------
 # How two resolved references are judged to name the same thing
 # ---------------------------------------------------------------------------
-_WHITESPACE = re.compile(r"\s+")
-
-
-def normalise_reference_text(text) -> str:
-    """Canonical form of a reference text for exact comparison.
-
-    Drops the Volere-style section label a concept name may carry
-    ("12g. Scalability" -> "Scalability") using the same pattern the
-    requirement evaluator applies, so a concept means the same thing in both
-    evaluations; then collapses whitespace and folds case. Everything else is
-    left alone: the point is to remove notation, not to paraphrase.
-    """
-    stripped = _CONCEPT_PREFIX.sub("", str(text)).strip()
-    return _WHITESPACE.sub(" ", stripped).casefold()
-
-
 class ReferenceMatcher(ABC):
     """A comparison strategy for one reference field.
 
-    A matcher scores two token vocabularies against each other and states the
-    score at which a pair counts as the same reference. Everything downstream —
-    alignment and set-wise accuracy — is identical whichever matcher a field
-    uses, so changing how a field is compared is a one-line change in its spec
-    rather than a change to the scoring code.
+    A matcher scores two token vocabularies against each other, states the
+    score at which a pair counts as the same reference, and aligns one
+    decision's two reference sets. Set-wise accuracy is computed from that
+    alignment identically whichever matcher a field uses, so changing how a
+    field is compared is a one-line change in its spec rather than a change to
+    the scoring code.
     """
 
     #: Score at or above which two references are the same.
@@ -343,31 +406,20 @@ class ReferenceMatcher(ABC):
     label: str
 
     @abstractmethod
-    def score_matrix(self, gt_texts: list[str], llm_texts: list[str]) -> np.ndarray:
-        """Score every LLM text against every GT text; shape (llm x gt)."""
+    def score_matrix(self, gt_refs: list[Reference],
+                     llm_refs: list[Reference]) -> np.ndarray:
+        """Score every LLM reference against every GT one; shape (llm x gt)."""
 
+    def align(self, gt_refs: list[Reference], llm_refs: list[Reference],
+              scores: np.ndarray) -> list[tuple[int, int, float]]:
+        """One-to-one align one decision's two reference sets, returning the
+        (llm, gt, score) triples that count as the same reference.
 
-class ExactMatcher(ReferenceMatcher):
-    """Two references are the same only when their normalised texts are equal.
-
-    Used where both sides draw from a fixed catalog — a requirement or a
-    concept — so that naming the same reference means naming that entry and not
-    merely something that reads like it. Embedding similarity cannot make that
-    distinction: on this corpus 'Confidentiality' and 'Security' score 0.771,
-    which a cosine gate would accept as the same source.
-    """
-
-    threshold = 1.0
-    scores_are_graded = False
-    label = "exact match on normalised text"
-
-    def score_matrix(self, gt_texts: list[str], llm_texts: list[str]) -> np.ndarray:
-        if not gt_texts or not llm_texts:
-            return np.zeros((len(llm_texts), len(gt_texts)))
-        gt_keys = [normalise_reference_text(t) for t in gt_texts]
-        llm_keys = [normalise_reference_text(t) for t in llm_texts]
-        return np.array([[1.0 if (a and a == b) else 0.0 for b in gt_keys]
-                         for a in llm_keys], dtype=float)
+        The default is an optimal assignment over the pair's scores, keeping
+        only cells at or above the matcher's threshold. A matcher whose rule is
+        not a single score gate — see ArchitectureNameMatcher — overrides this.
+        """
+        return optimal_match(scores, self.threshold)
 
 
 class EmbeddingMatcher(ReferenceMatcher):
@@ -384,8 +436,118 @@ class EmbeddingMatcher(ReferenceMatcher):
         self.threshold = threshold
         self.label = f"embedding cosine >= {threshold}"
 
-    def score_matrix(self, gt_texts: list[str], llm_texts: list[str]) -> np.ndarray:
-        return compute_similarity(gt_texts, llm_texts)
+    def score_matrix(self, gt_refs, llm_refs) -> np.ndarray:
+        if not gt_refs or not llm_refs:
+            return np.zeros((len(llm_refs), len(gt_refs)))
+        return compute_similarity([r.text for r in gt_refs], [r.text for r in llm_refs])
+
+
+class ArchitectureNameMatcher(ReferenceMatcher):
+    """Two element references are the same when the ARCHITECTURE evaluator says
+    they are, by the identical three-tier name rule it matches its own elements
+    with — `service.architecture_evaluator_service.match_named_elements`:
+
+      1. identical normalised names ("Contract Layer (DTO/Mappers)" == "contract layer"),
+      2. identical once the generic kind noun is dropped ("Portal Microservice" == "Portal"),
+      3. otherwise an optimal assignment on embedding cosine >= threshold,
+         restricted to pairs that share a content token.
+
+    A decision's `architecturalElementIds` resolve to the NAMES of the elements
+    of the very extraction the architecture evaluator scored, so the two
+    evaluations now agree by construction on whether two names denote the same
+    element: an element judged found there is judged cited here. Embedding
+    similarity alone cannot carry that decision — over the one- and two-word
+    names architecture elements carry it measures topical relatedness, ranking
+    unrelated siblings (Kubernetes / Docker at 0.77) above genuine matches
+    (Portal / Portal Microservice at 0.79) — which is why the deterministic
+    tiers run first and similarity is consulted only for the remainder.
+
+    The scores are the embedding cosines, including on the pairs the
+    deterministic tiers matched, exactly as the architecture evaluator reports
+    them; only which pairs are aligned at all is the three-tier rule's decision.
+    """
+
+    scores_are_graded = True
+
+    def __init__(self, threshold: float):
+        self.threshold = threshold
+        self.label = ("architecture name rule: exact, kind-stripped, "
+                      f"then shared token and embedding cosine >= {threshold}")
+
+    def score_matrix(self, gt_refs, llm_refs) -> np.ndarray:
+        """The embedding cosines the rule's similarity tier consults. Computed
+        once over the whole vocabulary, then sliced per decision."""
+        if not gt_refs or not llm_refs:
+            return np.zeros((len(llm_refs), len(gt_refs)))
+        return compute_similarity([r.text for r in gt_refs], [r.text for r in llm_refs])
+
+    def align(self, gt_refs, llm_refs, scores):
+        """Hand the pair's references to the architecture evaluator's matcher as
+        the named elements they are — the resolved name is the element's name —
+        so the rule is applied, not reimplemented."""
+        return match_named_elements(
+            [{"name": r.text} for r in llm_refs],
+            [{"name": r.text} for r in gt_refs],
+            scores, self.threshold,
+            list(range(len(llm_refs))), list(range(len(gt_refs))),
+        )
+
+
+class CitationFormMatcher(ReferenceMatcher):
+    """Two sources are the same only when they were cited in the same FORM, and
+    each form is compared the way that form can be compared.
+
+    The ground truth records a source either as a plain id, which cites the
+    concept/requirement catalog the model was also given, or as a starred id,
+    which is a concept the annotator introduced from the rationale and that is
+    absent from that catalog. Those are different claims about provenance, and
+    the model expresses them differently — an id for the first, the concept name
+    written out for the second — so they are scored against their own kind only:
+
+      * id   <-> id    STAGE 1's rule, reused rather than restated: embedding
+                       cosine >= threshold over the resolved text, which is how
+                       `service.evaluator_service` compares both of the artifacts
+                       a plain id can point at — a requirement through its
+                       `description` anchor (`compute_similarity` +
+                       `greedy_match`) and a concept through its `concept` field
+                       (`resolve_concept_text` then `text_similarity >=
+                       threshold`). A plain id therefore means the same thing in
+                       both evaluations: a concept or requirement judged
+                       extracted in stage 1 is judged cited here.
+      * name <-> name  embedding cosine >= threshold. Neither side is drawn from
+                       a catalog, so wording legitimately differs ('Simplification
+                       (of development)' vs 'Simplification').
+
+    A cross-form pair scores 0 and can never be aligned.
+
+    The cost of matching stage 1 on the id form is that a cosine gate is looser
+    than literal equality over short catalog names — on this corpus
+    'Confidentiality' and 'Security' score 0.771 and are now accepted as the
+    same source. That is stage 1's behaviour too, and consistency between the
+    two evaluations is what this field is scored for.
+    """
+
+    scores_are_graded = True
+
+    def __init__(self, threshold: float):
+        self.threshold = threshold
+        self.id_matcher = EmbeddingMatcher(threshold)
+        self.name_matcher = EmbeddingMatcher(threshold)
+        self.label = (f"same citation form; stage-1 rule, "
+                      f"embedding cosine >= {threshold}")
+
+    def score_matrix(self, gt_refs, llm_refs) -> np.ndarray:
+        scores = np.zeros((len(llm_refs), len(gt_refs)), dtype=float)
+        # Each form is scored in its own block, so the embedding model is only
+        # ever asked about the names — the ids are never embedded at all.
+        for kind, matcher in (("id", self.id_matcher), ("name", self.name_matcher)):
+            rows = [i for i, r in enumerate(llm_refs) if r.kind == kind]
+            cols = [j for j, r in enumerate(gt_refs) if r.kind == kind]
+            if not rows or not cols:
+                continue
+            scores[np.ix_(rows, cols)] = matcher.score_matrix(
+                [gt_refs[j] for j in cols], [llm_refs[i] for i in rows])
+        return scores
 
 
 # ---------------------------------------------------------------------------
@@ -407,26 +569,27 @@ class ReferenceField(NamedTuple):
     matcher: ReferenceMatcher  # how two tokens are judged to be the same
 
     def align(self, i: int, j: int) -> tuple[int, list[float]]:
-        """Align LLM decision `i`'s tokens with GT decision `j`'s: an optimal
-        one-to-one assignment over the pair's token scores, keeping only
-        alignments the matcher accepts. Returns the number of aligned tokens
-        and their scores."""
+        """Align LLM decision `i`'s tokens with GT decision `j`'s, one-to-one,
+        by the field's own matcher. Returns the number of aligned tokens and
+        their scores."""
         llm_tokens, gt_tokens = self.llm[i], self.gt[j]
         if not llm_tokens or not gt_tokens:
             return 0, []
         rows = [self.llm_index[t] for t in llm_tokens]
         cols = [self.gt_index[t] for t in gt_tokens]
         pair_scores = self.scores[np.ix_(rows, cols)]
-        aligned = optimal_match(pair_scores, self.matcher.threshold)
+        aligned = self.matcher.align(gt_tokens, llm_tokens, pair_scores)
         return len(aligned), [s for _, _, s in aligned]
 
 
 def build_reference_field(gt_values, llm_values, gt_idx: dict, llm_idx: dict,
-                          matcher: ReferenceMatcher) -> ReferenceField:
-    """Resolve one reference field on both sides and score its token vocabulary
-    with the field's matcher."""
-    gt_tokens = [resolved_ref_tokens(v, gt_idx) for v in gt_values]
-    llm_tokens = [resolved_ref_tokens(v, llm_idx) for v in llm_values]
+                          matcher: ReferenceMatcher,
+                          resolve=plain_resolve) -> ReferenceField:
+    """Resolve one reference field on both sides — by the field's own resolver,
+    see `resolve` in the field specs — and score its token vocabulary with the
+    field's matcher."""
+    gt_tokens = [resolved_ref_tokens(v, gt_idx, resolve) for v in gt_values]
+    llm_tokens = [resolved_ref_tokens(v, llm_idx, resolve) for v in llm_values]
 
     gt_vocab = sorted({t for toks in gt_tokens for t in toks})
     llm_vocab = sorted({t for toks in llm_tokens for t in toks})
@@ -506,6 +669,20 @@ def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict) -> bool:
 # ---------------------------------------------------------------------------
 # Report assembly
 # ---------------------------------------------------------------------------
+def f1_score(precision: float | None, recall: float | None) -> float | None:
+    """Harmonic mean of precision and recall — None when either is undefined, 0.0
+    when both are zero.
+
+    Reported for the anchor only. Precision and recall are the anchor's alone:
+    every other field is scored as Accuracy over the pairs the anchor already
+    matched, where there is nothing to be complete about and so no recall to
+    combine.
+    """
+    if precision is None or recall is None:
+        return None
+    return (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+
+
 def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
     matched_llm = {i for i, _, _ in pairs}
     matched_gt = {j for _, j, _ in pairs}
@@ -517,6 +694,7 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
     gt_rationale_total = sum(field_present(r, RATIONALE_SPEC) for r in gt)
     precision = (tp / llm_rationale_total) if llm_rationale_total else None
     recall = (tp / gt_rationale_total) if gt_rationale_total else None
+    f1 = f1_score(precision, recall)
     mean_rationale_sim = float(np.mean([s for _, _, s in pairs])) if pairs else None
 
     field_metrics_anchor = pd.DataFrame(
@@ -524,9 +702,10 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
             "field": "rationale (matching anchor)",
             "precision": _fmt(precision),
             "recall": _fmt(recall),
+            "f1": _fmt(f1),
             "mean semantic meaning": _fmt(mean_rationale_sim),
         }],
-        columns=["field", "precision", "recall", "mean semantic meaning"],
+        columns=["field", "precision", "recall", "f1", "mean semantic meaning"],
     )
 
     count_rows = [{
@@ -608,6 +787,7 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
         {"Metric": "False Negatives", "Value": fn},
         {"Metric": "Decision precision (by rationale)", "Value": _fmt(precision)},
         {"Metric": "Decision recall (by rationale)", "Value": _fmt(recall)},
+        {"Metric": "Decision F1 (by rationale)", "Value": _fmt(f1)},
         {"Metric": "Rationale match threshold (cosine)", "Value": threshold},
     ])
 
@@ -671,7 +851,7 @@ def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
             field = ref_fields[spec["name"]]
             tokens = (field.gt if side == "gt" else field.llm)[index]
             short = "source" if spec is SOURCE_SPEC else "element"
-            blob[f"{prefix}_{short}_resolved"] = "; ".join(tokens)
+            blob[f"{prefix}_{short}_resolved"] = "; ".join(t.text for t in tokens)
         return blob
 
     def closest_llm(j):
@@ -773,6 +953,12 @@ def average_decision_reports(reports: list[dict]) -> dict:
     Only the metric tables are averaged. The per-decision sheets (Matched_TP,
     the false positive / negative lists) belong to one run each and stay in that
     run's own workbook: averaging them would mean averaging different decisions.
+
+    Every metric is averaged the same way — the mean of the runs' values — F1
+    included. The averaged F1 is therefore the mean of the runs' F1 scores, not
+    the F1 recomputed from the averaged precision and recall; the two differ
+    slightly, and the mean-of-runs form is what makes F1 read like every other
+    row of the sheet.
     """
     if not reports:
         raise ValueError("average_decision_reports requires at least one report")
@@ -859,6 +1045,7 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
             [r.get(spec["name"]) for r in llm],
             *resolvers[spec["name"]],
             matcher=spec["matcher"](threshold),
+            resolve=spec.get("resolve", plain_resolve),
         )
         for spec in REFERENCE_SPECS
     }

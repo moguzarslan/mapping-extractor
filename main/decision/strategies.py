@@ -11,7 +11,7 @@ lets two versions be the same behaviour driven by a different prompt.
 from abc import ABC, abstractmethod
 from typing import NamedTuple
 
-from service.prompt_service import extract_decisions
+from service.prompt_service import extract_decision_sources, extract_decisions
 
 
 class DecisionSources(NamedTuple):
@@ -60,9 +60,47 @@ class SinglePromptExtraction(DecisionExtractionStrategy):
     def extract(self, file: str, sources: DecisionSources) -> DecisionResult:
         decisions = extract_decisions(
             file=file,
+            architecture_json_dir=sources.architecture_json,
+            prompt=self.prompt,
+            requirements_json_dir=sources.requirements_json,
+            concepts_json_dir=sources.concepts_json,
+        )
+        return DecisionResult(decisions=decisions)
+
+
+class SourcedDecisionExtraction(DecisionExtractionStrategy):
+    """Two prompts, one concern each. Pass A finds the decisions — which element,
+    why, on which page — but does not say what motivated them. Pass B is shown
+    those decisions and answers only with the source of each; its answer is folded
+    back into Pass A's decisions in the program.
+
+    Both passes are given the same three artifacts. Pass A reads the requirements
+    and concepts as a description of what counts as a quality in this system, not
+    as a list to reference: the ids stay Pass B's job, so finding the justifying
+    sentence and naming its source are never traded off against each other.
+    """
+
+    label = "decision + source prompts"
+
+    def __init__(self, prompt: str, source_prompt: str):
+        self.prompt = prompt
+        self.source_prompt = source_prompt
+
+    def extract(self, file: str, sources: DecisionSources) -> DecisionResult:
+        # Pass A — the decisions themselves, with no source named.
+        decisions = extract_decisions(
+            file=file,
+            architecture_json_dir=sources.architecture_json,
+            prompt=self.prompt,
+            requirements_json_dir=sources.requirements_json,
+            concepts_json_dir=sources.concepts_json,
+        )
+
+        # Pass B — the source of each of those decisions, merged back in.
+        return DecisionResult(decisions=extract_decision_sources(
+            decisions=decisions,
             requirements_json_dir=sources.requirements_json,
             concepts_json_dir=sources.concepts_json,
             architecture_json_dir=sources.architecture_json,
-            prompt=self.prompt,
-        )
-        return DecisionResult(decisions=decisions)
+            prompt=self.source_prompt,
+        ))

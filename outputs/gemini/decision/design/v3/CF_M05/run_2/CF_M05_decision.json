@@ -1,0 +1,111 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Microserveis",
+                "C_06",
+                "C_07"
+            ],
+            "rationale": "This structure allows developing, deploying, and scaling each service autonomously, facilitating the maintenance, flexibility, and evolution of the system.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_08",
+                "C_09"
+            ],
+            "rationale": "In addition to its routing task, this component incorporates protection mechanisms to ensure the integrity and confidentiality of communications.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "This ensures that the presentation layer is available and updated, facilitating deployment and reducing dependence on external elements. In this way, the portal not only centralizes access, but also ensures the visual and functional coherence of the entire ecosystem.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "C_09"
+            ],
+            "rationale": "This microservice is essential to maintain the confidentiality and protection of data.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "This component acts as a traceability and audit mechanism, ensuring that each interaction remains documented for subsequent analysis, incident resolution, and regulatory compliance.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "C_07"
+            ],
+            "rationale": "The use of this type of architecture allows high scalability, availability, and accessibility, as resource management can be done according to needs and anywhere with an Internet connection.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05",
+                "C_09"
+            ],
+            "rationale": "This separation of responsibilities allows the client to focus on presentation and user experience, while the server focuses on business logic, security, data integrity, and persistence.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Angular applies the MVVM (Model-View-ViewModel) pattern, as its architecture is based on components and services.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_05"
+            ],
+            "rationale": "Spring Boot organizes the code following the layered pattern with which responsibilities are separated. This structure clarifies roles, avoids unnecessary coupling, and facilitates testing, reusing, and maintaining the code over time.",
+            "pageNumber": "68"
+        }
+    ]
+}

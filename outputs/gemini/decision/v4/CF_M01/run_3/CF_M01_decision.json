@@ -1,0 +1,167 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "In our project the Waapiti platform is a web service that follows the client-server architecture.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "For the client-server model, the 3-layer architecture is used, where the system is divided into 3 layers, the presentation layer, the business layer and the data layer.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This design pattern allows only one component to interact between users and the services provided by the platform.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Security"
+            ],
+            "rationale": "Increases the security of the system by reducing the gateways to the outside, since the only way to interact with the microservices is through the Api Gateway.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Gives the ability to handle partial system failures, managing which services are running at all times.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "This framework allows the creation of a secure and complex REST API in an easier way than using NodeJS directly.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "The use of this language has been decided, and not JavaScript, because it is the default language for NestJS and because thanks to its static typing it allows the detection of errors at compile time.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_02"
+            ],
+            "rationale": "It is the set of cloud computing services that allows the creation of scalable and highly available applications.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Cost-effectiveness"
+            ],
+            "rationale": "The use of AWS and not other cloud services has been decided due to its low price and its previous use by the company.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "C_04"
+            ],
+            "rationale": "This service, being a serverless service, means that it is not necessary to manage the infrastructure when there is an increase in the data set and users.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "In addition, to obtain data quickly, Athena performs queries in parallel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Kinesis Data Streams is a data processing and ingestion service aimed especially at data streaming.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_03"
+            ],
+            "rationale": "The Kinesis Data Firehose service has as its main function the loading of large amounts of data into data stores.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "C_04",
+                "C_02"
+            ],
+            "rationale": "The objective of this is to improve the security, scalability and availability of the system.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The objective of these services is to form a data lake where all history is stored so that it can be processed in the analytical module.",
+            "pageNumber": "45"
+        }
+    ]
+}
