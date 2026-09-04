@@ -1,0 +1,284 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Client",
+            "description": "The client is the user of the platform.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Server",
+            "description": "The server is the software that is responsible for processing user requests.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "It is the layer that is responsible for displaying information to the user.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Business Layer",
+            "description": "This layer is the core of the application and is responsible for processing all the information.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "It is the layer that is responsible for storing all the data.",
+            "pageNumber": "55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Business Service",
+            "description": "Service responsible for user management, authentication and authorization, defining REST API routes and processing requests.",
+            "pageNumber": "57, 58",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Functional Service",
+            "description": "Service that performs all the important logic of the platform and communicates with the data layer.",
+            "pageNumber": "57, 58",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "React",
+            "description": "JavaScript library used for building user interfaces and frontend components.",
+            "pageNumber": "56, 60",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "NodeJS framework used to create backend applications and REST APIs.",
+            "pageNumber": "60, 68",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "AWS",
+            "description": "Cloud computing services used for infrastructure, including RDS, S3, and DynamoDB.",
+            "pageNumber": "58, 61",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Relational database management system used within AWS RDS.",
+            "pageNumber": "58, 76",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "AWS object storage service used to store multimedia files.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Amazon DynamoDB",
+            "description": "AWS NoSQL database service used for user caching.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Communication protocol used between client and server.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "TCP",
+            "description": "Communication protocol used for internal communication between business and functional services.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Redux",
+            "description": "JavaScript library used to implement the Flux architecture.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "TypeORM",
+            "description": "ORM used for database entity mapping and queries.",
+            "pageNumber": "60, 68",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The client is the user of the platform. [...] The server is the software that is responsible for processing user requests. [...] The communication between both is performed through the internet using the REST API model and the HTTP communication protocol.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "These requests are processed and sent through an internal connection to the functional service, which is the one that contains the sensitive information of the system. The communication is performed using the TCP communication protocol.",
+            "pageNumber": "57,58",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "This is the service that performs all the important logic of the platform. It is the service that has communication with the data layer.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_07",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "For better response speed of the system, there is a user cache system stored in Amazon DynamoDB, to which the business service has access.",
+            "pageNumber": "58",
+            "isPartOf": [
+                "AU_06",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "REST",
+            "description": "The communication between both is performed through the internet using the REST API model and the HTTP communication protocol.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_18"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+            "pageNumber": "55",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Three Layers",
+            "description": "This architecture divides the system into three parts, the presentation layer, the business layer and the data layer.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "P_01"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "Flux is a frontend architecture based on the MVC design pattern, but with unidirectional communication.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_03"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "The observer pattern defines a one-to-many dependency between objects, so that when one object changes its state, all objects that depend on it are notified and updated automatically.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Provider",
+            "description": "The provider pattern allows sharing information between React components without using props.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Module",
+            "description": "This pattern allows encapsulating information and exposing only what is desired to be shared between modules.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_07",
+            "type": "Design Pattern",
+            "name": "Hook",
+            "description": "Hooks are functions that allow hooking into React state and other features.",
+            "pageNumber": "59",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

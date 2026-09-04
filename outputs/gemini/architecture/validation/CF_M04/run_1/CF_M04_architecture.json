@@ -1,0 +1,272 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Frontend",
+            "description": "The frontend is the mobile application developed with Flutter that acts as the presentation layer, managing the graphical interface, navigation, and user interaction.",
+            "pageNumber": "54",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Backend",
+            "description": "The backend is the software responsible for processing user requests, business logic, data persistence, and integration with external services.",
+            "pageNumber": "54, 55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Domain Layer (Backend)",
+            "description": "Contains the purest business logic of the system, as well as domain models and repository interfaces, independent of Django, the database, or any external service.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Application Layer (Backend)",
+            "description": "Includes the system's use cases, which orchestrate business logic and define the flow of operations, acting as an intermediary between the domain and infrastructure.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Infrastructure Layer (Backend)",
+            "description": "Responsible for interaction with the exterior, implementing Django HTTP views, repositories that access the database via ORM, and adapters for external services.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Layer",
+            "name": "Presentation Layer (Frontend)",
+            "description": "Manages the application state and communication with the user interface using Bloc/Cubit.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Layer",
+            "name": "Domain Layer (Frontend)",
+            "description": "Contains the business logic, with use cases, entities, and repositories defined as interfaces.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Layer",
+            "name": "Data Layer (Frontend)",
+            "description": "Responsible for data access, including backend calls, data transformation, and concrete implementation of repositories.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "Service responsible for managing user authentication, including delegated login and OTP generation.",
+            "pageNumber": "67",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Service",
+            "name": "AI Service",
+            "description": "External service used for generating intelligent response suggestions for reviews.",
+            "pageNumber": "55, 68",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Flutter",
+            "description": "Framework used for the development of the mobile application.",
+            "pageNumber": "54, 56",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Django",
+            "description": "Backend framework used for building the REST API.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Relational database management system used for data persistence.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Gemini",
+            "description": "AI service integrated for generating review responses.",
+            "pageNumber": "55, 68",
+            "isPartOf": [
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "ChatGPT",
+            "description": "AI service integrated for generating review responses.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "REST",
+            "description": "Communication protocol used between frontend and backend.",
+            "pageNumber": "55, 66",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Communication protocol used for API requests.",
+            "pageNumber": "66, 70",
+            "isPartOf": [
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The frontend is the mobile application developed with Flutter that acts as the presentation layer [...] and of performing the necessary requests to the back-end to obtain or modify information.",
+            "pageNumber": "54",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "The communication between the front-end and the back-end is carried out through a REST API, using JSON format messages for both requests and responses.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "The back-end integrates several external services, such as artificial intelligence services (Gemini or ChatGPT) and authentication services.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_09",
+                "AU_10"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "The persistence of data is carried out through a MySQL relational database, managed through the Django ORM.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "The communication between the front-end and the back-end is carried out through a REST API, using JSON format messages for both requests and responses.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_19"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The system follows a client-server architecture where the mobile application (frontend) makes requests to a server (backend) that processes them.",
+            "pageNumber": "54",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Hexagonal Architecture",
+            "description": "The backend follows the Hexagonal Architecture (Ports and Adapters) pattern, which allows separating business logic from the framework and infrastructure technologies.",
+            "pageNumber": "55, 64",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Repository Pattern",
+            "description": "Isolates data access and simplifies the use of the ORM in use cases.",
+            "pageNumber": "65",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Factory Pattern",
+            "description": "Used to dynamically instantiate artificial intelligence services according to the system configuration.",
+            "pageNumber": "65",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Clean Architecture",
+            "description": "The frontend follows the principles of Clean Architecture, separating responsibilities into Presentation, Domain, and Data layers.",
+            "pageNumber": "71",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

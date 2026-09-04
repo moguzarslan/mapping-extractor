@@ -1,0 +1,293 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Device",
+            "name": "Mobile Device",
+            "description": "The physical device where the application is hosted, either iOS or Android.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Waapiti Server",
+            "description": "API of the company that the application consumes, responsible for communicating with the database and other services hosted on AWS.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "The layer that communicates with the user, displaying system data and collecting user input; in this case, the mobile application.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "The layer that contains the business logic, processing information and performing necessary operations.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "The layer that contains the information.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Store",
+            "description": "The component that contains the state and logic of the application.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Component",
+            "name": "Action",
+            "description": "A Javascript object that indicates an intention to modify the application state.",
+            "pageNumber": "47",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Component",
+            "name": "Dispatcher",
+            "description": "The central axis that manages the entire data flow and notifies Stores when the state should be modified.",
+            "pageNumber": "47",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "React Native",
+            "description": "Open source development framework used to develop applications for Android and iOS.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "React",
+            "description": "Library for building user interfaces using Javascript.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Expo",
+            "description": "Open source framework for native Android, iOS, and Web applications.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Jest",
+            "description": "Testing framework for Javascript.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "NodeJS",
+            "description": "Javascript execution environment used for compiling.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "TypeScript",
+            "description": "Programming language developed by Microsoft, a superset of Javascript.",
+            "pageNumber": "51",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "Progressive NodeJS framework for creating efficient, reliable, and scalable backend applications.",
+            "pageNumber": "52",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_16",
+            "type": "Service",
+            "name": "Push Notification Service",
+            "description": "Service responsible for delivering push notifications to devices.",
+            "pageNumber": "91",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "AWS SNS",
+            "description": "Amazon Simple Notification Service used for delivering push notifications.",
+            "pageNumber": "92",
+            "isPartOf": [
+                "AU_16",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Firebase Cloud Messaging",
+            "description": "Messaging service for Android devices.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_16",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "Apple Push Notification Service",
+            "description": "Messaging service for iOS devices.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_16",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Other",
+            "name": "Partner",
+            "description": "Third-party companies that offer digital signage service/consulting using Waapiti technology.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "The mobile application interacts with the Waapiti API using HTTP requests.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "The Waapiti Server communicates with the database and other services hosted on AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_02",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "description": "The Dispatcher notifies Stores when the state should be modified.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_08",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "The application uses sockets to receive logs in real time from the server.",
+            "pageNumber": "38,79",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "description": "The application connects via socket with the server to show content in real time.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Connector",
+            "description": "The Push Notification Service delivers push notifications to devices using AWS SNS, Firebase Cloud Messaging, and Apple Push Notification Service.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_16",
+                "AU_01",
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Aquesta interactuarà amb l’API de Waapiti mitjançant peticions HTTP.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_21"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Three-layer Architecture",
+            "description": "This architecture follows the 3-layer model: Presentation, Domain, and Data.",
+            "pageNumber": "45",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "An architecture for handling and flowing data in a web application, designed to replace the Model-View-Controller (MVC) pattern.",
+            "pageNumber": "46",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "A design pattern to observe the state of an object in a program.",
+            "pageNumber": "48",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Decorator",
+            "description": "A design pattern that allows adding behavior to an object, both statically and dynamically.",
+            "pageNumber": "49",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Lazy Loading",
+            "description": "The concept of loading objects/components only when they are necessary.",
+            "pageNumber": "49",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

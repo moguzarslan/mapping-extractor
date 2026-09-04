@@ -1,0 +1,150 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05",
+                "AU_23",
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "R_20",
+                "Security"
+            ],
+            "rationale": "Traefik abre el puerto 80 para manejar tráfico HTTP no seguro redirigiendo este tráfico al puerto 443 (HTTPS) para asegurar que todas las comunicaciones se realicen de forma segura.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05",
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Traefik abre el puerto 443 para manejar tráfico HTTPS, que es el estándar para comunicaciones seguras en la web.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05",
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "C_03",
+                "Security"
+            ],
+            "rationale": "HTTPS cifra los datos transmitidos entre los clientes y el servidor, protegiendo la integridad y confidencialidad de la información.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Prisma es una herramienta ORM (Object-Relational Mapping) para bases de datos.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Está diseñada para simplificar el acceso y manejo de bases de datos en aplicaciones Node.js y TypeScript.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Prisma facilita la interacción con bases de datos proporcionando una API tipada (enteros, strings, booleanos, etc.) para realizar consultas y modificaciones",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Cada componente encapsula su propia lógica, estilos y estructura, lo que permite que estos se desarrollen, mantengan y prueben de manera aislada.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Este enfoque promueve la modularidad, la reutilización de código y la mantenibilidad, facilitando la gestión de la aplicación.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Cuando el estado del sujeto cambia, notifica automáticamente a todos sus observadores, permitiendo que estos reaccionen adecuadamente.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Se utiliza generalmente para gestionar recursos compartidos, como configuraciones, registros o conexiones a bases de datos, donde tener múltiples instancias podría llevar a estados inconsistentes o al uso ineficiente de recursos.",
+            "pageNumber": "67"
+        }
+    ]
+}

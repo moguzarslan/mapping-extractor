@@ -1,0 +1,107 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_01",
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "The application was developed with Flutter, which allows for cross-platform mobile development for Android and iOS.",
+            "pageNumber": "10, 56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "The system follows a client-server architecture where the mobile application (frontend) makes requests to a server (backend) that processes them.",
+            "pageNumber": "54"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_19",
+                "AU_16",
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Interoperability"
+            ],
+            "rationale": "The communication between the front-end and the back-end is carried out through a REST API, using JSON format messages for both requests and responses, which guarantees technological independence between both parts.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The backend follows the Hexagonal Architecture (Ports and Adapters) pattern, which allows separating business logic from the framework and infrastructure technologies.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Data Integrity"
+            ],
+            "rationale": "The persistence of data is carried out through a MySQL relational database, managed through the Django ORM, which allows defining clear relationships between entities and ensuring data integrity.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Scalability"
+            ],
+            "rationale": "The frontend follows the principles of Clean Architecture, separating responsibilities into Presentation, Domain, and Data layers, which allows for modularity, readability, and scalability.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "For the management of state and business logic, the Bloc pattern (specifically Cubit) is used, which allows a clear separation between the presentation layer and the application logic.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The Repository Pattern isolates data access and simplifies the use of the ORM in use cases.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Flexibility"
+            ],
+            "rationale": "The Factory Pattern is used to dynamically instantiate artificial intelligence services according to the system configuration.",
+            "pageNumber": "65"
+        }
+    ]
+}

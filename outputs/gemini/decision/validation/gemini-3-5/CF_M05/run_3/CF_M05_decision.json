@@ -1,0 +1,251 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "C_06",
+                "C_08"
+            ],
+            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Cost"
+            ],
+            "rationale": "També redueix la mantenibilitat, gestionada pels proveïdors dels recursos, i sense grans despeses, pel fet de que es paga pels recursos consumits.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02",
+                "Security",
+                "C_09"
+            ],
+            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_02",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "Maintainability",
+                "Flexibility"
+            ],
+            "rationale": "Aquesta estructura permet des desplegar, i escalar cada servei de manera autònoma, facilitant el manteniment, la flexibilitat i l’evolució del sistema.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_02",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Scalability"
+            ],
+            "rationale": "Cada microservei es desplega de manera independent, la qual cosa permet actualitzacions, escalats i manteniments sense afectar la resta del sistema.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_02",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Flexibility"
+            ],
+            "rationale": "També permet que cada servei pugui tenir el seu propi llenguatge de programació, base de dades i entorn.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_02",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Flexibility",
+                "Scalability",
+                "Resilience"
+            ],
+            "rationale": "Aquesta flexibilitat facilita l’adaptació al canvi i l’escalabilitat de l’aplicació i millora la resiliència del sistema, ja que un error a un microservei no significa la caiguda completa de l’aplicació.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Actua com a punt central de gestió del trànsit, garantint que qualsevol interacció, tant amb serveis externs com entre microserveis interns, es realitzis de manera ordenada i segura.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "C_09",
+                "Confidentiality"
+            ],
+            "rationale": "A més de la seva tasca d’encaminament, aquest component incorpora mecanismes de protecció per assegurar la integritat i la confidencialitat de les comunicacions.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_06",
+                "Maintainability"
+            ],
+            "rationale": "Això garanteix que la capa de presentació estigui disponible i actualitzada, facilitant el desplegament i reduint la dependència d’elements externs.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "D’aquesta manera, el portal no només centralitza l’accés, sinó que també assegura la coherència visual i funcional de tot l’ecosistema.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "Confidentiality",
+                "Security"
+            ],
+            "rationale": "Aquest microservei és essencial per mantenir la confidencialitat i protecció de dades.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Traceability",
+                "Compliance"
+            ],
+            "rationale": "Aquest component actua com un mecanisme de traçabilitat i auditoria, assegurant que cada interacció quedi documentada per a anàlisi posterior, resolució d’incidències i compliment normatiu.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Usability"
+            ],
+            "rationale": "A més, ofereix la funcionalitat de generació de gràfiques i panells interactius que representen estadístiques de comunicació, volum de trànsit, temps de resposta i incidències, facilitant una anàlisi més intuïtiva i ràpida.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Automation"
+            ],
+            "rationale": "Aquest component permet definir, automatitzar i executar tasques en moments específics, garantint que les operacions s’executin de manera ordenada i segons els requisits temporals definits.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "Maintainability"
+            ],
+            "rationale": "Permet crear interfícies d’usuari dinàmiques, interactives i escalables, facilitant el desenvolupament i el manteniment de grans aplicacions.",
+            "pageNumber": "76"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Es fa servir per accelerar el desenvolupament de microserveis i aplicacions empresarials, reduint la complexitat de configuració.",
+            "pageNumber": "76"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Facilita la gestió de les dependències i el desplegament.",
+            "pageNumber": "76"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "C_06"
+            ],
+            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "pageNumber": "81"
+        }
+    ]
+}

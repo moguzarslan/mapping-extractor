@@ -1,0 +1,24 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Degut a la experiència prèvia que ja teníem amb React, ens va semblar una bona idea desenvolupar el projecte amb aquest framework.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability"
+            ],
+            "rationale": "Flux proposa una arquitectura en el qual el flux de dades és unidireccional, obtenint així una depuració d'errors i escalabilitat més fàcil.",
+            "pageNumber": "46"
+        }
+    ]
+}

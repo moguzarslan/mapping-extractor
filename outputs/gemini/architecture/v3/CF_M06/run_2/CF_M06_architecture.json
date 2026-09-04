@@ -1,0 +1,229 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Device",
+            "name": "Mobile Device",
+            "description": "The physical device where the application is hosted, either iOS or Android.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Waapiti Server",
+            "description": "API of the company that the application consumes, responsible for communicating with the database and other services hosted on AWS.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "The layer that communicates with the user, displays system data, and collects user input; in this case, the mobile application.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "The layer that contains the business logic, processes information, and performs necessary operations.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "The layer that contains the information.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Store",
+            "description": "The component that contains the state and logic of the application.",
+            "pageNumber": "46",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Component",
+            "name": "Action",
+            "description": "A Javascript object that indicates an intention to modify the application state.",
+            "pageNumber": "47",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Component",
+            "name": "Dispatcher",
+            "description": "The central axis that manages the entire data flow and notifies Stores when the state needs to be modified.",
+            "pageNumber": "47",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "React Native",
+            "description": "Development framework used to build the mobile application.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "React",
+            "description": "Library for building user interfaces using Javascript.",
+            "pageNumber": "51",
+            "isPartOf": [
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Redux",
+            "description": "Library used to manage the application state.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "AWS SNS",
+            "description": "Service used for push notifications.",
+            "pageNumber": "92",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Firebase Cloud Messaging",
+            "description": "Messaging service for Android push notifications.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_12",
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Apple Push Notification Service",
+            "description": "Messaging service for iOS push notifications.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_12",
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Communication protocol used by the mobile application to interact with the Waapiti API.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_16"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Connector",
+            "description": "The mobile application interacts with the Waapiti API using HTTP requests.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Connector",
+            "description": "The Waapiti Server is responsible for communicating with the database and other services hosted on AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_02",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The Dispatcher notifies Stores when the state needs to be modified.",
+            "pageNumber": "46",
+            "isPartOf": [
+                "AU_08",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "The mobile application uses sockets to receive logs in real time.",
+            "pageNumber": "38, 70, 79",
+            "isPartOf": [
+                "AU_03",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "The mobile application uses Firebase Cloud Messaging (FCM) for Android push notifications and Apple Push Notification Service (APNS) for iOS push notifications.",
+            "pageNumber": "91",
+            "isPartOf": [
+                "AU_03",
+                "AU_13",
+                "AU_14"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "3-Layer Architecture",
+            "description": "This architecture follows the 3-layer model: Presentation, Domain, and Data.",
+            "pageNumber": "45",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "An architecture for handling and flowing data in a web application, designed to replace the Model-View-Controller (MVC) pattern.",
+            "pageNumber": "46",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "A design pattern to observe the state of an object in a program, reflected in the Flux architecture where stores act as subjects.",
+            "pageNumber": "48",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Decorator",
+            "description": "A design pattern that allows adding behavior to an object, used to extend component functionality for testing.",
+            "pageNumber": "49",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

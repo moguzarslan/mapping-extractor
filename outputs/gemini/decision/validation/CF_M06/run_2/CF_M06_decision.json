@@ -1,0 +1,87 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This architecture follows the 3-layer model: Presentation, Domain, and Data.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "In this project it has been decided to develop using the Flux architecture, introduced by Facebook. It is an architecture for handling and flowing data in a web application and aims to replace the Model-View-Controller (MVC) pattern.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Due to the previous experience we already had with React, it seemed like a good idea to develop the project with this framework.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency",
+                "Reliability",
+                "Scalability"
+            ],
+            "rationale": "NestJS is a progressive NodeJS framework for creating efficient, reliable, and scalable backend applications.",
+            "pageNumber": "52"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This pattern is reflected in the Flux architecture. The stores of the system act as a subject.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "In this project, it has been used to facilitate testing tasks. The components are wrapped with a decorator pattern to extend their functionalities.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency"
+            ],
+            "rationale": "The concept of Lazy Loading consists of loading objects/components only when they are necessary. In this way, we manage to optimize efficiency.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Cost",
+                "Scalability"
+            ],
+            "rationale": "In the end, it was decided to use AWS SNS for the cost compared to Expo Push API. Furthermore, AWS SNS is more scalable and can be used by other services.",
+            "pageNumber": "92"
+        }
+    ]
+}

@@ -1,0 +1,217 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "L’aplicació de Localboss va ser desenvolupada amb Flutter . Com que cap dels 2 fundadors era expert en aquest framework, van aconseguir crear una aplicació funcional, però amb mancances tant de qualitat de codi com de funcionalitats.",
+            "pageNumber": "10"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "C_02"
+            ],
+            "rationale": "Front-End: Flutter (Dart), utilitzat per al desenvolupament multiplataforma de l’aplicació mòbil per a Android i iOS.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "R_25",
+                "R_27"
+            ],
+            "rationale": "Des del punt de vista de l’usuari, la interacció con el sistema es realitza a través d’una aplicació mòbil desenvolupada amb Flutter, que actua com a capa de presentació (front-end). Aquesta aplicació s’encarrega de gestionar la interfície gràfica, la navegació entre pantalles i la interacció amb l’usuari, així com de realitzar les peticions necessàries al back-end per obtenir o modificar informació.",
+            "pageNumber": "54, 55"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [
+                "Interoperability",
+                "Extensibility"
+            ],
+            "rationale": "La comunicació entre el front-end i el back-end es realitza mitjançant una API REST, utilitzant missatges en format JSON tant per a les peticions com per a les respostes. Aquest mecanisme garanteix la independència tecnològica entre ambdues parts i permet que el sistema pugui ser consumit, si fos necessari, per altres clients en el futur.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_02",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "El back-end està implementat utilitzant Django i segueix el patró d’Arquitectura Hexagonal (Ports and Adapters), que permet separar la lògica de negoci del framework i de les tecnologies d’infraestructura.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Capa de Domini (Domain Layer): conté la lògica de negoci més pura del sistema, així com els models de domini i les interfícies dels repositoris. Aquesta capa és totalment independent de Django, de la base de dades i de qualsevol servei extern.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Capa d’Aplicació (Application Layer): inclou els casos d’ús del sistema, que orquestren la lògica de negoci i defineixen el flux de les operacions. Aquesta capa actua com a intermediària entre el domini i la infraestructura.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Capa d’Infraestructura (Infrastructure Layer): és la responsable de la interacció amb l’exterior. En aquesta capa s’implementen les views HTTP de Django, els repositoris que accedeixen a la base de dades mitjançant l’ORM, i els adaptadors per a serveis externs.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "La persistència de les dades es realitza mitjançant una base de dades relacional MySQL, gestionada a través de l’ORM de Django. Aquesta solució permet definir de manera clara les relacions entre entitats i garantir la integritat de les dades, així com facilitar l’evolució de l’esquema mitjançant migracions.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_14",
+                "AU_15",
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Finalment, el sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació. Aquests serveis s’integren mitjançant adaptadors específics situats a la capa d’infraestructura, de manera que el domini del sistema no depèn directament de cap tecnologia externa.",
+            "pageNumber": "55, 56"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12",
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "Maintainability"
+            ],
+            "rationale": "En conjunt, aquesta arquitectura proporciona una base sòlida, flexible i escalable per al desenvolupament de l’aplicació, permetent incorporar noves funcionalitats amb un impacte mínim sobre el codi existent i assegurant una clara separació de responsabilitats entre les diferents parts del sistema.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12",
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Scalability"
+            ],
+            "rationale": "Aquest stack ha estat escollit per coherència amb la infraestructura existent de Localboss i per garantir estabilitat, mantenibilitat i escalabilitat del producte.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Scalability"
+            ],
+            "rationale": "A nivell intern, el front-end de l’aplicació segueix una arquitectura modular basada en features, on el codi s’organitza per funcionalitats en lloc de fer-ho per tipus de components. Aquest enfocament permet encapsular tot el que està relacionat amb una funcionalitat concreta (pantalles, widgets, cubits, estats i serveis associats) dins d’un mateix mòdul, facilitant així el manteniment i l’escalabilitat del projecte.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Per a la gestió de l’estat i de la lògica de negoci s’utilitza el patró Bloc, concretament mitjançant la seva variant Cubit, àmpliament utilitzada en aplicacions Flutter modernes. Aquest patró permet una separació clara entre la capa de presentació i la lògica d’aplicació, evitant que les pantalles continguin codi de negoci o dependències directes amb el backend.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Reliability"
+            ],
+            "rationale": "Aquesta comunicació es basa en un flux unidireccional, fet que millora la previsibilitat del comportament de l’aplicació i redueix els efectes col·laterals.",
+            "pageNumber": "63"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Testability"
+            ],
+            "rationale": "Beneficis de l’enfocament adoptat: L’ús combinat d’una arquitectura basada en features i del patró Bloc/Cubit aporta diversos avantatges: \n● Millora del manteniment del codi \n● Facilitat per afegir noves funcionalitats sense afectar les existents \n● Separació clara de responsabilitats \n● Millor testabilitat de la lògica d’aplicació \n● Reducció de dependències entre components",
+            "pageNumber": "64"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "L’Arquitectura Hexagonal Permet definir un nucli de domini independent de la infraestructura. Les dependències sempre apunten cap al domini, evitant que aquest depengui de detalls externs com l’ORM, el framework web o serveis de tercers.",
+            "pageNumber": "64"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "P_03",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "● Inversió de Dependència (DIP): El domini defineix interfícies que són implementades per la infraestructura.\n● Repository Pattern: Aïlla l’accés a dades i simplifica l’ús de l’ORM als casos d’ús.\n● Factory Pattern: Utilitzat per instanciar dinàmicament serveis d’intel·ligència artificial segons la configuració del sistema.",
+            "pageNumber": "66"
+        }
+    ]
+}

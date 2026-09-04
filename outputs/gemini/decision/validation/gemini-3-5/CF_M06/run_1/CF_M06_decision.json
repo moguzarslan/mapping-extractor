@@ -1,0 +1,451 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest servei permetrà als partners gestionar els seus players de forma centralitzada, així com també proporcionar notificacions push a l'instant en cas d'incidències.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability"
+            ],
+            "rationale": "Disposa d'una plataforma escalable, basada en web i sense servidor; permetent així distribuir automàticament els continguts, entre altres funcionalitats destacables, com rols d'usuari multinivell, funcionament en segon pla, accions massives, integració de música de fons, etc.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [
+                "R_11"
+            ],
+            "rationale": "S'utilitza l'API de Google Maps per tal de facilitar la búsqueda d'adreça, facilitant així la feina a l'hora d'omplir camps de formulari.",
+            "pageNumber": "36"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_01",
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta interactuarà amb l'API de Waapiti mitjançant peticions HTTP.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "És el servidor que s'encarrega de comunicar-se amb la base de dades i altres serveis allotjats a AWS.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta arquitectura segueix el model de 3 capes:",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Presentació: és la capa que es comunica amb l'usuari.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En aquest es mostra les dades del sistema i es recullen les dades introduïdes per l'usuari.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Domini: és la capa que conté la lògica de negoci.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En aquest es processa la informació i es realitzen les operacions necessàries per a que el sistema funcioni correctament.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Dades: és la capa que conté la informació.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En aquest projecte s'ha decidit desenvolupar utilitzant l'arquitectura Flux, introduïda per Facebook.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "És una arquitectura per al maneig i el flux de les dades en una aplicació web i té l'objectiu de substituir el patró Model-View-Controller (MVC).",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_09",
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El framework que s'utilitza en aquest treball és React Native, que corre sobre React (framework per crear interfícies frontend).",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "React és una llibreria que està basada en components en cascada.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Els components finals de la cascada realitzen la mateixa funció que les vistes en un patró MVC: crear la interfície gràfica i mantenir actualitzats els components renderitzats amb les dades.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Flux fa ús de Controller-View, és a dir, components de React que tenen l'únic objectiu de gestionar l'estat de l'aplicació.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Scalability"
+            ],
+            "rationale": "Flux proposa una arquitectura en el qual el flux de dades és unidireccional, obtenint així una depuració d'errors i escalabilitat més fàcil.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Store: és el component que conté l'estat i la lògica de l'aplicació.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_20",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquí es gestiona l'estat de múltiples objectes per un domini particular dintre de l'aplicació.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_21",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Al actualitzar-la, tots els components que estan consumint informació d'aquesta es veuen afectats.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_22",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07",
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Cal destacar que no es pot modificar el contingut dels stores directament, sinó que s'ha de fer a través d'un Dispatcher i un Action.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_23",
+            "architecturalElementIds": [
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Action: és un objecte Javascript que indica una intenció de modificar l'estat de l'aplicació.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_24",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07",
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Amb les dades obtingudes, el Dispatcher notifica els Stores que s'han de modificar, així actualitzant els components.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_25",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Dispatcher: és l'eix central que gestiona tot el flux de dades.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_26",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "És el que notifica els Stores quan s'ha de modificar l'estat.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_27",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patró observador és un patró de disseny per observar l'estat d'un objecte en un programa.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_28",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest patró permet que un objecte, el subjecte, mantingui una llista d'objectes que observen el seu estat.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_29",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Quan el subjecte canvia d'estat, es notifica als observadors, que poden reaccionar a aquest canvi.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_30",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Tot objecte observador pot subscriure's o desubscriure's del subjecte en qualsevol moment.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_31",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest patró es veu reflectit en l'arquitectura Flux.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_32",
+            "architecturalElementIds": [
+                "P_03",
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Els stores del sistema actuen com a subjecte.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_33",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patró decorador és un patró de disseny que permet afegir un comportament a un objecte, tant estàticament com dinàmicament.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_34",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "En aquest projecte, s'ha utilitzat per facilitar les tasques de test.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_35",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Els components estan embolicats amb un patró decorador per extendre les seves funcionalitats.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_36",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El concepte de Lazy Loading consisteix en carregar els objectes/components només quan són necessaris.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_37",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "D'aquesta manera, aconseguim optimitzar eficiència.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_38",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "S'utilitza per desenvolupar aplicacions per Android, iOS, macOS, Web i Windows.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_39",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Es basa en la llibreria de React oferint possibilitats d'incorporar codi natiu per a cada plataforma.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_40",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "React: és una llibreria per construir interfícies d'usuari utilitzant Javascript.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_41",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Expo: és un framework de codi obert per aplicacions natives d'Android, iOS i Web.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_42",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Usability"
+            ],
+            "rationale": "Expo ofereix eines per facilitar el desenvolupament d'aquestes.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_43",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Jest: és un framework de testeig per Javascript.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_44",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "NodeJS: és un entorn d'execució de Javascript que permet executar-ho fora del navegador.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_45",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "TypeScript: és un llenguatge de programació desenvolupat i mantingut per Microsoft.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_46",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "És un superconjunt de Javascript, que essencialment afegeix tipus i objectes basats en classes.",
+            "pageNumber": "52"
+        },
+        {
+            "id": "AD_47",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency",
+                "Reliability",
+                "Scalability"
+            ],
+            "rationale": "NestJS: és un framework progressiu de NodeJS per crear aplicacions eficients, confiables i escalables de backend.",
+            "pageNumber": "52"
+        }
+    ]
+}

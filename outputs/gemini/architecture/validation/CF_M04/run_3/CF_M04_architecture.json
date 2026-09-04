@@ -1,0 +1,254 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Frontend",
+            "description": "The mobile application developed with Flutter, which acts as the presentation layer.",
+            "pageNumber": "54",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Backend",
+            "description": "The server-side software responsible for processing user requests, implemented using Django.",
+            "pageNumber": "54, 55",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "Contains the purest business logic of the system, as well as domain models and repository interfaces.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Application Layer",
+            "description": "Includes the system's use cases, which orchestrate business logic and define the flow of operations.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Infrastructure Layer",
+            "description": "Responsible for interaction with the outside, including Django HTTP views, repositories, and adapters for external services.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Component",
+            "name": "Cubit",
+            "description": "A pattern used for state management and business logic in the Flutter frontend.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "Specialized service responsible for creating and sending OTP codes for delegated login.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Service",
+            "name": "AI Service",
+            "description": "External service used for generating response suggestions for reviews.",
+            "pageNumber": "55, 69",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Flutter",
+            "description": "Framework used for the development of the mobile application.",
+            "pageNumber": "54, 56",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Django",
+            "description": "Framework used for the construction of the REST API in the backend.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Relational database management system used for data persistence.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Gemini",
+            "description": "External AI service integrated into the system.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "ChatGPT",
+            "description": "External AI service integrated into the system.",
+            "pageNumber": "55, 56",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Communication protocol used between frontend and backend.",
+            "pageNumber": "55, 70",
+            "isPartOf": [
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Connector",
+            "description": "La comunicació entre el front-end i el back-end es realitza mitjançant una API REST, utilitzant missatges en format JSON tant per a les peticions com per a les respostes.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Connector",
+            "description": "El back-end està implementat utilitzant Django i segueix el patró d’Arquitectura Hexagonal [...] Dins del back-end es poden distingir clarament tres capes principals: Capa de Domini [...] Capa d’Aplicació [...] Capa d’Infraestructura.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Connector",
+            "description": "La persistència de les dades es realitza mitjançant una base de dades relacional MySQL, gestionada a través de l’ORM de Django.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_05",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "El sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació.",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_02",
+                "AU_07",
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Technology",
+            "name": "REST",
+            "description": "La comunicació entre el front-end i el back-end es realitza mitjançant una API REST",
+            "pageNumber": "55",
+            "isPartOf": [
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "Les dades s’intercanvien en format JSON, utilitzant mètodes HTTP estàndard com GET i POST.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "AU_15"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The system follows a client-server architecture where the mobile application acts as the frontend and the server processes requests.",
+            "pageNumber": "54",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Hexagonal Architecture",
+            "description": "The backend follows the Hexagonal Architecture (Ports and Adapters) pattern, which allows separating business logic from the framework and infrastructure technologies.",
+            "pageNumber": "55, 64",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Repository Pattern",
+            "description": "Isolates data access and simplifies the use of the ORM in use cases.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Factory Pattern",
+            "description": "Used to dynamically instantiate artificial intelligence services according to the system configuration.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Clean Architecture",
+            "description": "The frontend follows the principles of Clean Architecture, applied strictly to organize code into layers.",
+            "pageNumber": "71",
+            "isPartOf": [],
+            "fixedType": null
+        }
+    ]
+}

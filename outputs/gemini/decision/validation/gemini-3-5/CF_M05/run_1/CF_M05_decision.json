@@ -1,0 +1,118 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "C_06",
+                "C_08"
+            ],
+            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "També redueix la mantenibilitat, gestionada pels proveïdors dels recursos, i sense grans despeses, pel fet que es paga pels recursos consumits.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14",
+                "AU_15",
+                "AU_16",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "C_02",
+                "C_09"
+            ],
+            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_15",
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "En el present projecte, el client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA) [19] que renderitza vistes dinàmiques i gestiona la navegació interna sense haver de recarregar la pàgina, millorant la fluïdesa d’ús.",
+            "pageNumber": "61, 62"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_14",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Pel servidor, el backEnd, Spring Boot organitza el codi seguint el patró a capes amb les quals es separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades.",
+            "pageNumber": "67, 68"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "S’hi afegeix una capa transversal de contracte que separa el model intern de la representació externa de l’API.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Aquesta estructura clarifica rols, evita acoblaments innecessaris i facilita provar, reutilitzar i mantenir el codi amb el pas del temps.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "L’existència d’aquesta capa garanteix una separació clara de responsabilitats entre les capes de dades i presentació, facilitant la gestió eficient de les operacions de l’aplicació.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Entre els principals avantatges destaquen la reducció de la quantitat de codi necessari per accedir a les dades, la facilitat per canviar de base de dades amb menys esforç.",
+            "pageNumber": "76"
+        }
+    ]
+}

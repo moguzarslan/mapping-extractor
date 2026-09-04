@@ -1,0 +1,106 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "To decouple the parts that make up the client-server model, the 3-layer architecture has been used.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "For the development of the presentation layer, a logical architecture called Flux has been used.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "It has been decided to use NestJS instead of popular alternatives like Express for its opinionated structure that allows creating complex REST APIs.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "It has been decided to use TypeORM instead of accessing directly through SQL for its ease of use and its integration with NestJS.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "Cost-effectiveness"
+            ],
+            "rationale": "It has been decided to use AWS instead of other alternatives like Google Cloud or Microsoft Azure for its popularity and its low cost.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [
+                "R_56",
+                "R_58",
+                "C_09"
+            ],
+            "rationale": "This separation allows adding security to the system since the only public access is to the business service, which only contains the minimum information to understand the user's requests.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "R_48",
+                "R_49",
+                "C_04"
+            ],
+            "rationale": "For better response speed of the system, there is a user cache system stored in Amazon DynamoDB, to which the business service has access.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "This pattern is found in the Flux architecture, since the store notifies the views when its state changes.",
+            "pageNumber": "59"
+        }
+    ]
+}

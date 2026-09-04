@@ -1,0 +1,378 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05",
+                "AU_23",
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "R_20",
+                "Security"
+            ],
+            "rationale": "Traefik abre el puerto 80 para manejar tráfico HTTP no seguro redirigiendo este tráfico al puerto 443 (HTTPS) para asegurar que todas las comunicaciones se realicen de forma segura.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02",
+                "AU_05",
+                "AU_24"
+            ],
+            "architecturalDecisionSource": [
+                "R_20",
+                "Security",
+                "Confidentiality"
+            ],
+            "rationale": "HTTPS cifra los datos transmitidos entre los clientes y el servidor, protegiendo la integridad y confidencialidad de la información.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_03",
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Next.js soporta tanto el renderizado de componentes en el lado del cliente (CSR) como el renderizado en el lado del servidor (SSR), utilizando las server actions (explicado posteriormente en la sección de Tecnologías Empleadas) para comunicar los componentes de cliente con el servidor.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Productivity"
+            ],
+            "rationale": "Next.js es un framework para la creación de aplicaciones web que ofrece una estructura adicional, características y optimizaciones que permiten construir aplicaciones más rápido y sin necesidad de configurar herramientas de manera manual",
+            "pageNumber": "44, 45"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Next.js utiliza el sistema de archivos para definir las rutas de la aplicación.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Simplicity"
+            ],
+            "rationale": "Esto facilita la creación de rutas al simplemente agregar archivos y carpetas dentro del directorio src.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Soporta tanto el Renderizado en el Lado del Cliente (CSR) como el Renderizado en el Lado del Servidor (SSR), permitiendo elegir la mejor estrategia según las necesidades de la aplicación.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency"
+            ],
+            "rationale": "Ofrece soporte para async/await en los componentes de React, facilitando la obtención de datos de manera asíncrona y eficiente, así como el uso de las server actions",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Flexibility"
+            ],
+            "rationale": "Next.js soporta varios métodos de estilización, incluyendo módulos CSS, Tailwind CSS y CSS-in-JS, ofreciendo flexibilidad en la gestión de estilos.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Incluye optimizaciones automáticas para imágenes, fuentes y scripts, mejorando el rendimiento de la aplicación.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Los segmentos dinámicos permiten crear rutas basadas en datos dinámicos que se rellenan en el tiempo de solicitud o se prerenderizan en el tiempo de compilación.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Para gestionar los componentes renderizados en el cliente, las server actions en Next.js permiten ejecutar código del lado del servidor en respuesta a eventos del cliente, como clics de botones o envíos de formularios, y luego actualizar la interfaz de usuario en consecuencia.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Esto es útil para manejar lógica compleja o interactuar con bases de datos y otros servicios del lado del servidor desde componentes renderizados en el cliente sin tener que escribir una API completa.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Simplicity"
+            ],
+            "rationale": "Es similar a una simulación de una API, permitiendo una integración más sencilla y directa de la lógica del servidor en la aplicación.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "Compatibility"
+            ],
+            "rationale": "Además, ofrece una API de meta-datos para mejorar el SEO y la compatibilidad web, generando automáticamente los elementos <head> relevantes para las páginas.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency",
+                "Flexibility"
+            ],
+            "rationale": "React es una biblioteca de JavaScript de código abierto diseñada para construir interfaces de usuario (UI) de manera eficiente y flexible.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "React permite a los desarrolladores crear aplicaciones web dinámicas y rápidas al facilitar la creación de componentes reutilizables y modulares",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Los componentes permiten dividir la UI en partes más pequeñas y manejables.",
+            "pageNumber": "47"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Los Hooks permiten usar estado y otras características de React sin escribir una clase.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_20",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Los Hooks proporcionan una manera más directa y simple de manejar el estado y otros efectos en los componentes funcionales",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_21",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Cuando el estado de un componente cambia, React actualiza el Virtual DOM primero, compara las diferencias con el DOM real (proceso conocido como reconciliación) y luego realiza solo las actualizaciones necesarias.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_22",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "Esto hace que las aplicaciones React sean más eficientes y rápidas.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_23",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Prisma es una herramienta ORM (Object-Relational Mapping) para bases de datos.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_24",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Simplicity"
+            ],
+            "rationale": "Está diseñada para simplificar el acceso y manejo de bases de datos en aplicaciones Node.js y TypeScript.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_25",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Prisma facilita la interacción con bases de datos proporcionando una API tipada (enteros, strings, booleanos, etc.) para realizar consultas y modificaciones",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_26",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Prisma Client es una biblioteca de consultas generada automáticamente para realizar operaciones con bases de datos.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_27",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Proporciona una API para crear, leer, actualizar y eliminar datos en la base de datos.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_28",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Prisma Migrate es una herramienta de migración de base de datos que facilita la gestión del esquema de la base de datos a lo largo del ciclo de vida de la aplicación.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_29",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Prisma Studio es una herramienta visual para explorar y editar datos en la base de datos.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_30",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Proporciona una interfaz gráfica para visualizar y manipular los datos, facilitando el desarrollo y la depuración.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_31",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_32",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Cada componente encapsula su propia lógica, estilos y estructura, lo que permite que estos se desarrollen, mantengan y prueben de manera aislada.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_33",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability"
+            ],
+            "rationale": "Este enfoque promueve la modularidad, la reutilización de código y la mantenibilidad, facilitando la gestión de la aplicación.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_34",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_35",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Cuando el estado del sujeto cambia, notifica automáticamente a todos sus observadores, permitiendo que estos reaccionen adecuadamente.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_36",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67"
+        },
+        {
+            "id": "AD_37",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Se utiliza generalmente para gestionar recursos compartidos, como configuraciones, registros o conexiones a bases de datos, donde tener múltiples instancias podría llevar a estados inconsistentes o al uso ineficiente de recursos.",
+            "pageNumber": "67"
+        }
+    ]
+}

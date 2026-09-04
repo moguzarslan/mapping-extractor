@@ -1,0 +1,266 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Frontend",
+            "description": "The mobile application developed with Flutter that acts as the presentation layer, managing the graphical interface, navigation, and user interaction.",
+            "pageNumber": "54",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Other",
+            "name": "Backend",
+            "description": "The server-side software responsible for processing business logic, data persistence, and integration with external services.",
+            "pageNumber": "54, 70",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Layer",
+            "name": "Presentation Layer (Frontend)",
+            "description": "Manages the application state and communication with the user interface using Bloc/Cubit.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Domain Layer (Frontend)",
+            "description": "Contains business logic, with use cases, entities, and repositories defined as interfaces.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Data Layer (Frontend)",
+            "description": "Handles data access, including backend calls, data transformation, and concrete repository implementation.",
+            "pageNumber": "71",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Layer",
+            "name": "Domain Layer (Backend)",
+            "description": "Contains the purest business logic of the system, domain models, and repository interfaces, independent of Django or the database.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Layer",
+            "name": "Application Layer (Backend)",
+            "description": "Includes system use cases that orchestrate business logic and define the flow of operations.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Layer",
+            "name": "Infrastructure Layer (Backend)",
+            "description": "Responsible for interaction with the exterior, including Django HTTP views, ORM repositories, and external service adapters.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Flutter",
+            "description": "Framework used for cross-platform mobile application development.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Django",
+            "description": "Framework used as the main backend for building the REST API.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "MySQL",
+            "description": "Relational database management system used for data persistence.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_02",
+                "AU_18"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Service",
+            "name": "AI Service",
+            "description": "External service for generating intelligent responses (Cintia).",
+            "pageNumber": "55, 69",
+            "isPartOf": [
+                "AU_08"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Technology",
+            "name": "Gemini",
+            "description": "AI service provider used for generating responses.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_12",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "ChatGPT",
+            "description": "AI service provider used for generating responses.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_12",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Technology",
+            "name": "Firebase",
+            "description": "Used for complementary functionalities like notifications and associated services.",
+            "pageNumber": "56",
+            "isPartOf": [
+                "AU_02",
+                "AU_20"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "REST API",
+            "description": "Communication protocol between frontend and backend using JSON.",
+            "pageNumber": "55, 66",
+            "isPartOf": [
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Connector",
+            "description": "The frontend (mobile application) performs requests to the backend to obtain or modify information. [...] The communication between the front-end and the back-end is carried out through a REST API, using JSON format messages for both requests and responses.",
+            "pageNumber": "55, 70",
+            "isPartOf": [
+                "AU_01",
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Connector",
+            "description": "The backend uses the Django ORM to access the MySQL database for data persistence.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Connector",
+            "description": "The backend integrates external AI services like Gemini and ChatGPT through specific adapters located in the infrastructure layer.",
+            "pageNumber": "55, 65",
+            "isPartOf": [
+                "AU_02",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Connector",
+            "description": "The backend integrates Firebase for complementary functionalities like notifications and associated services.",
+            "pageNumber": "56, 65",
+            "isPartOf": [
+                "AU_02",
+                "AU_15"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "The system interaction is performed through a mobile application (frontend) that makes requests to a backend server.",
+            "pageNumber": "54",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Hexagonal Architecture",
+            "description": "The backend follows the Hexagonal Architecture (Ports and Adapters) pattern, which allows separating business logic from the framework and infrastructure technologies.",
+            "pageNumber": "55, 64",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Clean Architecture",
+            "description": "The frontend follows the principles of Clean Architecture, applied strictly to organize code into Presentation, Domain, and Data layers.",
+            "pageNumber": "71",
+            "isPartOf": [],
+            "fixedType": null
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Repository Pattern",
+            "description": "Isolates data access and simplifies the use of the ORM in use cases.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Factory Pattern",
+            "description": "Used to dynamically instantiate artificial intelligence services according to system configuration.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        },
+        {
+            "id": "P_06",
+            "type": "Design Pattern",
+            "name": "Dependency Inversion (DIP)",
+            "description": "The domain defines interfaces that are implemented by the infrastructure.",
+            "pageNumber": "66",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": null
+        }
+    ]
+}

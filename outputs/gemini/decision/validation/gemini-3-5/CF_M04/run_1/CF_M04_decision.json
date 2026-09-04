@@ -1,0 +1,502 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "L’aplicació de Localboss va ser desenvolupada amb Flutter.",
+            "pageNumber": "10"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Supervisa el projecte i proporciona els endpoints necessaris per a la integració amb el frontend.",
+            "pageNumber": "11"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Des del punt de vista de l’usuari, la interacció amb el sistema es realitza a través d’una aplicació mòbil desenvolupada amb Flutter, que actua com a capa de presentació (front-end).",
+            "pageNumber": "54",
+            "pdf_page_range": "54-55"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta aplicació s’encarrega de gestionar la interfície gràfica, la navegació entre pantalles i la interacció amb l’usuari, així com de realitzar les peticions necessàries al back-end per obtenir o modificar informació.",
+            "pageNumber": "54",
+            "pdf_page_range": "54-55"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_01",
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El front-end no conté lògica de negoci crítica, sinó que delega aquesta responsabilitat al servidor.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_16",
+                "AU_22",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La comunicació entre el front-end i el back-end es realitza mitjançant una API REST, utilitzant missatges en format JSON tant per a les peticions com per a les respostes.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_16",
+                "AU_22"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest mecanisme garanteix la independència tecnològica entre ambdues parts i permet que el sistema pugui ser consumit, si fos necessari, per altres clients en el futur.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_12",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El back-end està implementat utilitzant Django i segueix el patró d’Arquitectura Hexagonal (Ports and Adapters), que permet separar la lògica de negoci del framework i de les tecnologies d’infraestructura.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de Domini (Domain Layer): conté la lògica de negoci més pura del sistema, així com els models de domini i les interfícies dels repositoris.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta capa és totalment independent de Django, de la base de dades i de qualsevol servei extern.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’Aplicació (Application Layer): inclou els casos d’ús del sistema, que orquestren la lògica de negoci i defineixen el flux de les operacions.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta capa actua com a intermediària entre el domini i la infraestructura.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’Infraestructura (Infrastructure Layer): és la responsable de la interacció amb l’exterior.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_12",
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En aquesta capa s’implementen les views HTTP de Django, els repositoris que accedeixen a la base de dades mitjançant l’ORM, i els adaptadors per a serveis externs.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La persistència de les dades es realitza mitjançant una base de dades relacional MySQL, gestionada a través de l’ORM de Django.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Aquesta solució permet definir de manera clara les relacions entre entitats i garantir la integritat de les dades, així com facilitar l’evolució de l’esquema mitjançant migracions.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "AU_10",
+                "AU_14",
+                "AU_15",
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Finalment, el sistema integra diversos serveis externs a través del back-end, com ara serveis d’intel·ligència artificial (Gemini o ChatGPT) i serveis d’autenticació.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_10",
+                "AU_14",
+                "AU_15",
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquests serveis s’integren mitjançant adaptadors específics situats a la capa d’infraestructura, de manera que el domini del sistema no depèn directament de cap tecnologia externa.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "P_01",
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Scalability"
+            ],
+            "rationale": "En conjunt, aquesta arquitectura proporciona una base sòlida, flexible i escalable per al desenvolupament de l’aplicació, permetent incorporar noves funcionalitats amb un impacte mínim sobre el codi existent i assegurant una clara separació de responsabilitats entre les diferents parts del sistema.",
+            "pageNumber": "55",
+            "pdf_page_range": "55-56"
+        },
+        {
+            "id": "AD_20",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Front-End: Flutter (Dart), utilitzat per al desenvolupament multiplataforma de l’aplicació mòbil per a Android i iOS.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_21",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Back-End: Django (Python), utilitzat com a framework principal per a la construcció de l’API REST.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_22",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Base de dades: MySQL, com a sistema de gestió de bases de dades relacionals.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_23",
+            "architecturalElementIds": [
+                "AU_14",
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Serveis d’intel·ligència artificial com Gemini i ChatGPT.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_24",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "L’Arquitectura Hexagonal permet definir un nucli de domini independent de la infraestructura.",
+            "pageNumber": "64",
+            "pdf_page_range": "64-65"
+        },
+        {
+            "id": "AD_25",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Les dependències sempre apunten cap al domini, evitant que aquest depengui de detalls externs com l’ORM, el framework web o serveis de tercers.",
+            "pageNumber": "64",
+            "pdf_page_range": "64-65"
+        },
+        {
+            "id": "AD_26",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de Domini (domain): Conté la lògica de negoci més pura del sistema.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_27",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Defineix els models de domini i les interfícies dels repositoris, sense cap dependència de Django ni de la base de dades.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_28",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’Aplicació (application): Conté els casos d’ús del sistema.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_29",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquesta capa coordina la lògica de negoci, orquestra les operacions i utilitza els ports definits al domini per accedir a les dades.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_30",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’Infraestructura (infrastructure): Implementa els detalls tècnics del sistema.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_31",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Les views HTTP de Django, que actuen com a controladors.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_32",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_13",
+                "AU_21",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Les implementacions dels repositoris mitjançant l’ORM de Django.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_33",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_10",
+                "AU_14",
+                "AU_15",
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Les integracions amb serveis externs com Gemini, ChatGPT o Firebase.",
+            "pageNumber": "65"
+        },
+        {
+            "id": "AD_34",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Inversió de Dependència (DIP): El domini defineix interfícies que són implementades per la infraestructura.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_35",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Repository Pattern: Aïlla l’accés a dades i simplifica l’uso de l’ORM als casos d’ús.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_36",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Factory Pattern: Utilitzat per instanciar dinàmicament serveis d’intel·ligència artificial segons la configuració del sistema.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_37",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La base de dades utilitza MySQL com a motor relacional.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_38",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Les taules i relacions es defineixen mitjançant l’ORM de Django, permetent una gestió senzilla de migracions i assegurant la coherència de l’esquema.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_39",
+            "architecturalElementIds": [
+                "AU_16",
+                "AU_17",
+                "AU_22",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La comunicació es realitza mitjançant una API REST basada en HTTP.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_40",
+            "architecturalElementIds": [
+                "AU_16",
+                "AU_22"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Les dades s’intercanvien en format JSON, utilitzant mètodes HTTP estàndard com GET i POST.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_41",
+            "architecturalElementIds": [
+                "AU_01",
+                "AU_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El front-end és totalment independent del back-end, coneixent únicament l’estructura dels endpoints i el format de les dades.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_42",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Presentation: gestiona l’estat de l’aplicació i la comunicació amb la interfície d’usuari mitjançant Bloc/Cubit.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_43",
+            "architecturalElementIds": [
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Domain: conté la lògica de negoci, amb use cases, entitats i repositoris definits com a interfícies.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_44",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Data: s’encarrega de l’accés a dades, incloent les crides al backend, la transformació de dades i la implementació concreta dels repositoris.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_45",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El front-end està implementat amb Flutter i segueix una estructura basada en els principis de la Clean Architecture, aplicada de manera estricta.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_46",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de domini (domain): conté els models de negoci i els repositoris definits com a interfícies, sense dependències de Django ni de la base de dades.",
+            "pageNumber": "71",
+            "pdf_page_range": "71-72"
+        },
+        {
+            "id": "AD_47",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’aplicació (application): inclou els casos d’ús, que coordinen la lògica de negoci i fan ús dels repositoris del domini.",
+            "pageNumber": "72"
+        },
+        {
+            "id": "AD_48",
+            "architecturalElementIds": [
+                "AU_05",
+                "AU_10",
+                "AU_12",
+                "AU_13",
+                "AU_14",
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa d’infraestructura (infrastructure): implementa els repositoris utilitzant l’ORM de Django, defineix les views HTTP i integra serveis externs com sistemes d’intel·ligència artificial.",
+            "pageNumber": "72"
+        },
+        {
+            "id": "AD_49",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Maintainability",
+                "Testability"
+            ],
+            "rationale": "Aquesta estructura garanteix que la lògica de negoci sigui independent del framework i facilita la seva evolució i testabilitat.",
+            "pageNumber": "72"
+        }
+    ]
+}

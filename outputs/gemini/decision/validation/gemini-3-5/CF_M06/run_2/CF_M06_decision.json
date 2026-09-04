@@ -1,0 +1,22 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Degut a la experiència prèvia que ja teníem amb React, ens va semblar una bona idea desenvolupar el projecte amb aquest framework.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "És també la llibreria recomanada per a projectes de React.",
+            "pageNumber": "51"
+        }
+    ]
+}

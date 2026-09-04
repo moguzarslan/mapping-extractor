@@ -1,0 +1,110 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This architecture follows the 3-layer model: Presentation, Domain, and Data.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Flux is an architecture for handling and flowing data in a web application, designed to replace the Model-View-Controller (MVC) pattern.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Scalability"
+            ],
+            "rationale": "Flux proposes an architecture in which the data flow is unidirectional, thus obtaining easier debugging and scalability.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "React is a library that is based on cascading components, which perform the same function as views in an MVC pattern: creating the graphical interface and keeping the rendered components updated with the data.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Due to the previous experience we already had with React, it seemed like a good idea to develop the project with this framework.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "Scalability",
+                "Efficiency"
+            ],
+            "rationale": "NestJS is a progressive NodeJS framework for creating efficient, reliable, and scalable backend applications.",
+            "pageNumber": "52"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The observer pattern is a design pattern to observe the state of an object in a program, allowing an object to maintain a list of objects that observe its state.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "In this project, the decorator pattern has been used to facilitate testing tasks, as components are wrapped with it to extend their functionalities.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "Efficiency"
+            ],
+            "rationale": "The concept of Lazy Loading consists of loading objects/components only when they are necessary, thus optimizing efficiency.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "Cost-effectiveness"
+            ],
+            "rationale": "AWS SNS was chosen for the cost compared to Expo Push API, and because it is more scalable and can be used by other services.",
+            "pageNumber": "92"
+        }
+    ]
+}

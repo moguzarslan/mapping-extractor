@@ -1,0 +1,95 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_08",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En el frontend de la aplicación se ha utilizado el framework React, el cuál se detalla en el capítulo de tecnologías 9. Junto con la librería Redux [33] se puede implementar la arquitectura Flux.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_08",
+                "P_03",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Este patrón se encuentra en la arquitectura Flux, ya que el store notifica a las vistas cuando cambia su estado.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Se ha utilizado para desplegar la aplicación web y la API REST.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En el caso de Waapiti se utiliza una base de datos MySQL y contiene toda la información del sistema.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Se utiliza para almacenar los archivos multimedia.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB, a la cuál tiene acceso el servicio business.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_16",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La comunicación entre ambos se realiza a través de internet utilizando el modelo de REST API [30] y el protocolo de comunicación HTTP [31].",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Esta separación permite añadir seguridad al sistema ya que el único acceso público es al servicio business, que tan solo contiene la información mínima para entender las peticiones del usuario.",
+            "pageNumber": "57, 58"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB, a la cuál tiene acceso el servicio business.",
+            "pageNumber": "58"
+        }
+    ]
+}

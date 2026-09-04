@@ -1,0 +1,109 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "Scalability",
+                "Stability"
+            ],
+            "rationale": "The application of Localboss was developed with Flutter, and this stack has been chosen for coherence with the existing Localboss infrastructure and to ensure stability, maintainability, and scalability of the product.",
+            "pageNumber": "10, 56"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The system follows a client-server architecture where the mobile application (frontend) makes requests to a server (backend) that processes them.",
+            "pageNumber": "54"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_16",
+                "AU_19",
+                "AU_22"
+            ],
+            "architecturalDecisionSource": [
+                "Technological Independence",
+                "Interoperability"
+            ],
+            "rationale": "The communication between the front-end and the back-end is carried out through a REST API, using JSON format messages for both requests and responses, which guarantees technological independence between both parts and allows the system to be consumed by other clients in the future.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "The backend follows the Hexagonal Architecture (Ports and Adapters) pattern, which allows separating business logic from the framework and infrastructure technologies.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Data Integrity",
+                "C_05"
+            ],
+            "rationale": "The persistence of data is carried out through a MySQL relational database, managed through the Django ORM, which allows defining clearly the relationships between entities and ensuring data integrity, as well as facilitating the evolution of the schema through migrations.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_05"
+            ],
+            "architecturalDecisionSource": [
+                "Modularity",
+                "C_05",
+                "Scalability"
+            ],
+            "rationale": "The frontend follows the principles of Clean Architecture, separating responsibilities into Presentation, Domain, and Data layers, which allows an high degree of modularity, facilitates code reading and improves its scalability.",
+            "pageNumber": "71"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "For the management of the state and business logic, the Bloc pattern is used, specifically through its Cubit variant, which allows a clear separation between the presentation layer and the application logic, avoiding that screens contain business code or direct dependencies with the backend.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Flexibility"
+            ],
+            "rationale": "Factory Pattern is used to dynamically instantiate artificial intelligence services according to the system configuration.",
+            "pageNumber": "66"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "C_05"
+            ],
+            "rationale": "Repository Pattern isolates data access and simplifies the use of the ORM in use cases.",
+            "pageNumber": "66"
+        }
+    ]
+}

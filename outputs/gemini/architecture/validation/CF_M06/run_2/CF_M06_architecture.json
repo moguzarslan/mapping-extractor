@@ -1,0 +1,203 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Other",
+            "name": "Partner",
+            "description": "Third-party companies that offer digital signage service/consultancy using Waapiti technology.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Device",
+            "name": "Player",
+            "description": "Computer equipment that acts as an intermediary between the Waapiti platform and the audiovisual support.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Waapiti Platform",
+            "description": "Scalable, web-based platform that allows automatic distribution of content and management of players.",
+            "pageNumber": "9",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Layer",
+            "name": "Presentation Layer",
+            "description": "The layer that communicates with the user, displaying system data and collecting user input.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Layer",
+            "name": "Domain Layer",
+            "description": "The layer that contains the business logic, processing information and performing necessary operations.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Layer",
+            "name": "Data Layer",
+            "description": "The layer that contains the information.",
+            "pageNumber": "45",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "React Native",
+            "description": "Framework used to develop the mobile application.",
+            "pageNumber": "46, 51",
+            "isPartOf": [
+                "AU_04"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Redux",
+            "description": "Library used to manage the application state.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "AWS SNS",
+            "description": "Service used for the delivery of push notifications.",
+            "pageNumber": "92",
+            "isPartOf": [
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "NestJS",
+            "description": "Progressive NodeJS framework for building efficient, reliable, and scalable backend applications.",
+            "pageNumber": "52",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Connector",
+            "description": "The mobile application interacts with the Waapiti API using HTTP requests.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_04",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Connector",
+            "description": "The Waapiti server communicates with the database and other services hosted on AWS.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_03",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Connector",
+            "description": "The application uses AWS SNS for the delivery of push notifications.",
+            "pageNumber": "91,92",
+            "isPartOf": [
+                "AU_03",
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Connector",
+            "description": "The application uses sockets to receive logs in real time from the server.",
+            "pageNumber": "38,79",
+            "isPartOf": [
+                "AU_04",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Connector",
+            "description": "The application uses sockets to show content in real time from the server.",
+            "pageNumber": "70",
+            "isPartOf": [
+                "AU_04",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "Aquesta interactuar` a amb l’API de Waapiti mitjan¸ cant peticions HTTP.",
+            "pageNumber": "45",
+            "isPartOf": [
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "Socket",
+            "description": "Via sockets es poden rebre els logs en temps real [...] Aquesta funcionalitat es connecta via socket amb el servidor.",
+            "pageNumber": "38,70,79",
+            "isPartOf": [
+                "AU_14",
+                "AU_15"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "3-Layer Architecture",
+            "description": "The architecture follows the 3-layer model: Presentation, Domain, and Data.",
+            "pageNumber": "45",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Flux",
+            "description": "Architecture for managing and flowing data in a web application, designed to replace MVC.",
+            "pageNumber": "46",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer",
+            "description": "Design pattern to observe the state of an object in a program, reflected in the Flux architecture where stores act as subjects.",
+            "pageNumber": "48",
+            "isPartOf": [
+                "P_02"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Decorator",
+            "description": "Design pattern that allows adding behavior to an object, used to extend component functionality for testing.",
+            "pageNumber": "49",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

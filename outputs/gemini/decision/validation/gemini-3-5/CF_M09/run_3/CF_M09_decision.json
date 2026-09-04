@@ -1,0 +1,138 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The communication between both is performed through the internet using the REST API model and the HTTP communication protocol.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_08",
+                "C_09",
+                "Security"
+            ],
+            "rationale": "This separation allows to add security to the system as the only public access is to the business service, which only contains the minimum information to understand the user's requests.",
+            "pageNumber": "57, 58"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "These requests are processed and sent through an internal connection to the functional service, which is the one that contains the sensitive information of the system.",
+            "pageNumber": "57, 58"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "For better response speed of the system, there is a user cache system stored in Amazon DynamoDB, to which the business service has access.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12",
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_06",
+                "Performance",
+                "Scalability"
+            ],
+            "rationale": "The data layer is divided into various AWS services that allow improving the performance and scalability of the system.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This pattern is found in the Flux architecture, since the store notifies the views when its state changes.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It is used to create reusable and dynamic components.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "It has been used to create the REST API and without its use a REST API could not be created so securely and complexly but at the same time easy to work with.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It has been decided to use NestJS instead of popular alternatives like Express for its opinionated structure that allows creating complex REST APIs.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It has been used to create database entities and to perform database queries.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It has been decided to use TypeORM instead of accessing directly via SQL for its ease of use and its integration with NestJS.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It has been used to deploy the web application and the REST API.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "It has been decided to use AWS instead of other alternatives like Google Cloud or Microsoft Azure for its popularity and its low cost.",
+            "pageNumber": "61"
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "The platform is a web service that follows the client-server architecture, where the client makes requests to a server that processes them and returns the response.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "To decouple the parts that make up the client-server model, the 3-layer architecture has been used.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_08",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "For the development of the presentation layer, a logical architecture called Flux has been used.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_08",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Redux has been chosen for its ease of integration with React and for its large community of developers.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07",
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "C_09",
+                "C_06",
+                "C_05"
+            ],
+            "rationale": "Both the business layer and the data layer are divided into different services (each executed on different machines) to improve the security, scalability and availability of the system.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "This separation allows adding security to the system since the only public access is to the business service, which only contains the minimum information to understand the user's requests.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12",
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_06"
+            ],
+            "rationale": "The data layer is divided into several AWS services that allow improving the performance and scalability of the system.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "For better response speed of the system, there is a user cache system stored in Amazon DynamoDB, to which the business service has access.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "This pattern is found in the Flux architecture, as the store notifies the views when its state changes.",
+            "pageNumber": "59"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "It has been decided to use NestJS instead of popular alternatives like Express for its opinionated structure that allows creating complex REST APIs.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "It has been decided to use TypeORM instead of accessing directly via SQL for its ease of use and its integration with NestJS.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [
+                "Cost"
+            ],
+            "rationale": "It has been decided to use AWS instead of other alternatives like Google Cloud or Microsoft Azure for its popularity and its low cost.",
+            "pageNumber": "61"
+        }
+    ]
+}

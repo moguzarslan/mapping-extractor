@@ -1,0 +1,293 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "C_06",
+                "C_08"
+            ],
+            "rationale": "L’ús d’aquest tipus d’arquitectura permet alta escalabilitat, disponibilitat i accessibilitat, ja que la gestió dels recursos es pot fer segons les necessitats i en qualsevol lloc amb connexió a Internet.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Cost"
+            ],
+            "rationale": "També redueix la mantenibilitat, gestionada pels proveïdors dels recursos, i sense grans despeses, pel fet que es paga pels recursos consumits.",
+            "pageNumber": "60"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_01",
+                "AU_02",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "C_01",
+                "Security",
+                "C_09"
+            ],
+            "rationale": "Aquesta separació de responsabilitats permet que el client es focalitzi en la presentació i en l’experiència d’usuari, mentre que el servidor se centra en la lògica de negoci, la seguretat, la integritat de les dades i la persistència.",
+            "pageNumber": "61"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_15",
+                "AU_16",
+                "AU_18",
+                "AU_19",
+                "P_01"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "En el present projecte, el client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA) [19] que renderitza vistes dinàmiques i gestiona la navegació interna sense haver de recarregar la pàgina, millorant la fluïdesa d’ús.",
+            "pageNumber": "61, 62"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_13",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_14",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Pel servidor, el backEnd, Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats: la capa de presentació rep les peticions i construeix les respostes, la capa de lògica de negoci aplica les regles del domini, la capa d’accés a dades interactua amb la base de dades i la capa de domini defineix el model de dades.",
+            "pageNumber": "67, 68"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_14",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "S’hi afegeix una capa transversal de contracte que separa el model intern de la representació externa de l’API.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_14",
+                "P_04"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Aquesta estructura clarifica rols, evita acoblaments innecessaris i facilita provar, reutilitzar i mantenir el codi amb el pas del temps.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "L’existència d’aquesta capa garanteix una separació clara de responsabilitats entre les capes de dades i presentació, facilitant la gestió eficient de les operacions de l’aplicació.",
+            "pageNumber": "68"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "A l’hora de prendre la decisió d’utilitzar Angular pel desenvolupament del frontEnd i Spring pel backEnd es van considerar diversos criteris tecnològics, es va pensar en la metodologia de treball que s’implementaria al llarg del desenvolupament de l’aplicació i es va tenir en consideració la mantenibilitat del projecte a llarg termini.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Stability"
+            ],
+            "rationale": "Tant Angular com Spring són frameworks madurs i àmpliament provats en entorns de producció, cosa que ofereix una gran estabilitat al projecte.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "El fet que siguin estandarditzats implica que s’han anat perfeccionant al llarg dels anys, resolent o mitigant moltes de les possibles incidències que podrien sorgir en fases de desenvolupament, integració o manteniment.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Per tant, els riscos relacionats amb canvis sobtats, incompatibilitats o disrupcions en les seves versions són molt menors en comparació amb altres tecnologies més emergents.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Aquest suport institucional garanteix un suport tècnic de qualitat, la compatibilitat amb els estàndards empresarials més exigents i la disponibilitat regular d’actualitzacions i millores de seguretat.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Disposar d’una gran varietat de serveis integrats i eines oficials facilita la integració amb altres solucions, així com el desplegament i la gestió eficient dels sistemes.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "Maintainability"
+            ],
+            "rationale": "Per un altre costat, aquestes tecnologies compten amb una gran comunitat activa d’usuaris i desenvolupadors que generen constantment recursos didàctics, documentació exhaustiva, tutorials, llibreries addicionals i eines de manteniment agilitzant el procés d’aprenentatge així com la resolució d’incidències.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability",
+                "Scalability"
+            ],
+            "rationale": "També és més senzill trobar professionals qualificats per aquestes tecnologies, cosa que redueix el risc que el projecte quedi obsolet per manca de manteniment en el futur i garanteix la seva escalabilitat i adaptabilitat.",
+            "pageNumber": "77"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Finalment, cal mencionar que la utilització de frameworks consolidats facilita la gestió del projecte durant tot el seu cicle de vida.",
+            "pageNumber": "77, 78"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Les bones pràctiques, les metodologies d’implementació recomanades i la compatibilitat amb eines de test, integració contínua i desplegament automàtic són factors fonamentals per garantir la maduresa, l’eficiència i la sostenibilitat del projecte a llarg termini.",
+            "pageNumber": "78"
+        },
+        {
+            "id": "AD_20",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Pel desplegament de l’aplicació s’ha fet ús d’Amazon EKS, un servei que ofereix AWS el qual permet utilitzar Kubernetes (K8s), una plataforma d’orquestració de contenidors creada per Google, sense necessitat d’instal·lar-la ni mantenir-la.",
+            "pageNumber": "81"
+        },
+        {
+            "id": "AD_21",
+            "architecturalElementIds": [
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability",
+                "C_06"
+            ],
+            "rationale": "Permet automatitzar el desplegament, escalat i gestió d’aplicacions que corren en contenidors, executar milers de contenidors en diferents servidors i assegurar alta disponibilitat.",
+            "pageNumber": "81"
+        },
+        {
+            "id": "AD_22",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "AWS és una plataforma cloud consolidada amb serveis robustos i una infraestructura fiable.",
+            "pageNumber": "82"
+        },
+        {
+            "id": "AD_23",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability"
+            ],
+            "rationale": "Aquesta diversitat fa que sigui fàcil adaptar-se a les necessitats del projecte, permet créixer i escalar el projecte de manera àgil i elimina la necessitat de buscar altres plataformes quan els requisits evolucionen.",
+            "pageNumber": "82"
+        },
+        {
+            "id": "AD_24",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El fet de disposar de tants serveis disponibles deixa centrar l’esforç en el desenvolupament de la solució, sense haver d’invertir temps extra en qüestions d’infraestructura.",
+            "pageNumber": "82"
+        },
+        {
+            "id": "AD_25",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Compliance"
+            ],
+            "rationale": "Una altra raó per la qual es va triar AWS va ser que aquesta plataforma inverteix molt en seguretat i certificacions, gestiona múltiples nivells de seguretat i ofereix eines per protegir dades i infraestructures facilitant el compliment de normatives legals i estàndards internacionals.",
+            "pageNumber": "82"
+        }
+    ]
+}

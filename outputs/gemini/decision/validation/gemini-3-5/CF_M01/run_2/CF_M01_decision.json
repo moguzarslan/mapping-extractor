@@ -1,0 +1,390 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Com a framework es farà ús de NestJS [2], amb el llenguatge Typescript [3], i per la infraestructura es farà ús dels serveis cloud d’AWS [4].",
+            "pageNumber": "7"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Com a framework es farà ús de NestJS [2], amb el llenguatge Typescript [3], i per la infraestructura es farà ús dels serveis cloud d’AWS [4].",
+            "pageNumber": "7"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Com a framework es farà ús de NestJS [2], amb el llenguatge Typescript [3], i per la infraestructura es farà ús dels serveis cloud d’AWS [4].",
+            "pageNumber": "7"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Actualment, per a l’emmagatzematge de les dades provinents dels players es fa ús de DynamoDB [5], que és una base de dades NoSQL i que forma part dels serveis cloud d’AWS.",
+            "pageNumber": "9"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "P_01"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En el nostre projecte la plataforma de Waapiti és un servei web que segueix l’arquitectura client-servidor.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Pel model client-servidor s’utilitza l’arquitectura de 3 capes, on el sistema es devidiex en 3 capes, la capa de presentació, la capa de negoci i la capa de dades.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de presentació: És la capa que s’encarrega de mostrar la informació a l’usuari.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de negoci: Aquesta capa és el nucli de l’aplicació, que s’encarrega de processar tota la informació.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_05"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Capa de dades: És la capa que s’encarrega d'emmagatzemar totes les dades.",
+            "pageNumber": "41"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07",
+                "AU_08",
+                "AU_11",
+                "AU_12"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04",
+                "Security"
+            ],
+            "rationale": "L’objectiu d’això és millorar la seguretat, l’escalabilitat i la disponibilitat del sistema.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_11",
+            "architecturalElementIds": [
+                "AU_03",
+                "AU_06",
+                "AU_23",
+                "AU_25"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "A més, com s’ha indicat anteriorment, la capa de presentació es comunica amb la capa de negoci, més concretament amb l’Api Gateway, mitjançant el protocol HTTP.",
+            "pageNumber": "42"
+        },
+        {
+            "id": "AD_12",
+            "architecturalElementIds": [
+                "AU_06",
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Això és degut de què es segueix el patró de disseny de microserveis Api Gateway [27].",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_13",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest patró de disseny permet que solament un component sigui qui interactuï entre els usuaris i els serveis que proporciona la plataforma.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_14",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [
+                "Security",
+                "Reliability"
+            ],
+            "rationale": "L’ús d’aquest patró proveeix diversos avantatges al sistema, com poden ser:  ● Augmenta la seguretat del sistema al reduir les portes d’enllaç amb l’exterior, ja que l’única manera d’interactuar amb els microserveis és a través de l’Api Gateway.  ● Dona la capacitat de manegar caigudes parcials del sistema, manegant quins serveis estan en funcionament en tot moment.  ● És solament l’Api Gateway que s’encarrega de l’autorització i el SSL amb el client.",
+            "pageNumber": "43"
+        },
+        {
+            "id": "AD_15",
+            "architecturalElementIds": [
+                "AU_06",
+                "AU_07",
+                "AU_08",
+                "AU_09",
+                "AU_10",
+                "AU_24",
+                "AU_26"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Com es pot observar en la figura 9.1 la comunicació entre el servei de l’Api Gateway és mitjançant el protocol de comunicació TCP [29].",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_16",
+            "architecturalElementIds": [
+                "AU_06"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Servei Api Gateway: Aquest servei s’encarrega de la gestió, autenticació i autorització dels usuaris de la plataforma.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_17",
+            "architecturalElementIds": [
+                "AU_07"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Servei Core: Aquest servei s’encarrega de realitzar la lògica de negoci de la plataforma, seria el nucli principal de la plataforma.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_18",
+            "architecturalElementIds": [
+                "AU_08"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El mòdul analític té com a funció principal obtenir i processar les dades dels playlogs, les connexions i les accions en plataforma.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_19",
+            "architecturalElementIds": [
+                "AU_09"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Api Player: Aquest servei s’encarrega de comunicar-se amb els players rebent tota la informació corresponent à aquest.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_20",
+            "architecturalElementIds": [
+                "AU_10",
+                "AU_27"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Web Socket: Aquest servei s’encarrega de realitzar la comunicació entre la plataforma i els players, i d’aquesta manera permet l’intercanvi d’informació entre ells.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_21",
+            "architecturalElementIds": [
+                "AU_11"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Base de dades: La base de dades utilitzada és una base de dades MySQL que s’encarrega d’emmagatzemar totes les dades necessàries per al funcionament del sistema.",
+            "pageNumber": "44"
+        },
+        {
+            "id": "AD_22",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Conjunt de serveis cloud AWS: L’objectiu d’aquests serveis és formar un data lake on s’emmagatzemi tots els històrics per poder processar-los en el mòdul analític.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_23",
+            "architecturalElementIds": [
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Amazon S3: Aquest és el servei d’emmagatzament d’objectes d’AWS. En aquest projecte s’encarrega d’emmagatzemar documents JSON que contenen els playlogs, les connexions i l’audit trail.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_24",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "DynamoDB: Aquest servei és una base de dades no relacional d’AWS. En el nostre cas s’encarrega d’emmagatzemar els playlogs en temps real.",
+            "pageNumber": "45"
+        },
+        {
+            "id": "AD_25",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Aquest framework és un framework de NodeJS que té com a funció principal la creació d’aplicacions de backend.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_26",
+            "architecturalElementIds": [
+                "AU_13"
+            ],
+            "architecturalDecisionSource": [
+                "Security"
+            ],
+            "rationale": "Aquest framework permet la creació d’una API REST segura i complexa d’una manera més fàcil que fent ús directe de NodeJS.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_27",
+            "architecturalElementIds": [
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "S’ha decidit la utilització d’aquest llenguatge, i no JavaScript, ja que és el llenguatge per defecte per NestJS i perquè gràcies al seu tipatge estàtic permet la detecció d’errors en temps de compilació.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_28",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [
+                "C_02",
+                "C_04"
+            ],
+            "rationale": "És el conjunt de serveis de computació en el núvol que permet la creació d’aplicacions escalables i altament disponibles.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_29",
+            "architecturalElementIds": [
+                "AU_15"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "S’ha decidit la utilització d’AWS i no altres serveis cloud pel seu baix preu i la seva utilització prèvia per part de l’empresa.",
+            "pageNumber": "46"
+        },
+        {
+            "id": "AD_30",
+            "architecturalElementIds": [
+                "AU_12",
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El servei d’Amazon S3 és un servei necessari per poder desenvolupar un data lake, ja que aquest servei ens permet emmagatzemar qualsevol element que es necessiti.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_31",
+            "architecturalElementIds": [
+                "AU_16"
+            ],
+            "architecturalDecisionSource": [
+                "Performance"
+            ],
+            "rationale": "L’emmagatzament s’ha fet d’aquesta manera, ja que com s’explicarà més endavant, fa que la lectura de dades sigui més eficient.",
+            "pageNumber": "48"
+        },
+        {
+            "id": "AD_32",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En el cas d’aquest projecte, l’ús de DynamoDB serà per l’emmagatzament en temps real dels playlogs.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_33",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El servei d’Amazon Athena és un servei que permet realitzar consultes en SQL sobre dades emmagatzemades en Amazon S3.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_34",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "Scalability"
+            ],
+            "rationale": "Aquest servei, al ser un servei sense servidor fa que no sigui necessari administrar la infraestructura quan hi ha un augment en el conjunt de dades i usuaris.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_35",
+            "architecturalElementIds": [
+                "AU_18"
+            ],
+            "architecturalDecisionSource": [
+                "C_01"
+            ],
+            "rationale": "A més, per poder obtenir les dades d’una manera ràpida, Athena realitza les consultes en paral·lel.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_36",
+            "architecturalElementIds": [
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El servei d’AWS Glue és un servei d’integració de dades sense servidor que ens permet la detecció, preparació, migració i integració de les dades provinents de diferents orígens.",
+            "pageNumber": "49"
+        },
+        {
+            "id": "AD_37",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Kinesis Data Streams és un servei de processament i ingesta de dades dirigit especialment al streaming de dades.",
+            "pageNumber": "50"
+        },
+        {
+            "id": "AD_38",
+            "architecturalElementIds": [
+                "AU_20"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "En el desenvolupament d’aquest projecte s’ha fet ús de Kinesis Data Streams per poder transmetre les dades dels playlogs i l’audit trail, ja que en el cas de les connexions s’ha decidit emmagatzemar-les directament a S3.",
+            "pageNumber": "51"
+        },
+        {
+            "id": "AD_39",
+            "architecturalElementIds": [
+                "AU_21"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "El servei de Kinesis Data Firehose té com a funció principal la càrrega de grans quantitats de dades en magatzems de dades.",
+            "pageNumber": "51"
+        }
+    ]
+}

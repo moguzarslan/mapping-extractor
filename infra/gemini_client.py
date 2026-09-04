@@ -20,6 +20,14 @@ def get_gemini_api_key() -> str:
     return project_id
 
 
+DEFAULT_GEMINI_MODEL = "gemini-3.1-flash-lite"
+
+
+def get_gemini_model() -> str:
+    """The generation model, configurable through GEMINI_MODEL in .env."""
+    return os.getenv("GEMINI_MODEL", DEFAULT_GEMINI_MODEL)
+
+
 def create_gemini_client() -> genai.Client:
     project_id = get_gemini_api_key()
     location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
@@ -34,9 +42,10 @@ def create_gemini_client() -> genai.Client:
 def ask_gemini(
         user_prompt: str,
         system_prompt: str = "You are a helpful assistant.",
-        model: str = "gemini-3.1-flash-lite",
+        model: str | None = None,
 ) -> str:
     client = create_gemini_client()
+    model = model or get_gemini_model()
 
     timestamp = datetime.now(timezone.utc).isoformat()
     timestamped_prompt = f"[{timestamp}]\n{user_prompt}"

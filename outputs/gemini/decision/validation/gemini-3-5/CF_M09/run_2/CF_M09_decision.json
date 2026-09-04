@@ -1,0 +1,121 @@
+{
+    "architectural_decisions": [
+        {
+            "id": "AD_01",
+            "architecturalElementIds": [
+                "AU_08",
+                "AU_09",
+                "AU_10"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Dentro de la mención en ingeniería del software, este proyecto se centra en tecnologías web, más concretamente se usará React [2] y Nest [3] para el código base y servicios cloud de AWS [4] para la infraestructura.",
+            "pageNumber": "8"
+        },
+        {
+            "id": "AD_02",
+            "architecturalElementIds": [
+                "P_01",
+                "AU_14"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "La comunicación entre ambos se realiza a través de internet utilizando el modelo de REST API [30] y el protocolo de comunicación HTTP [31].",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_03",
+            "architecturalElementIds": [
+                "P_02"
+            ],
+            "architecturalDecisionSource": [
+                "Maintainability"
+            ],
+            "rationale": "Para desacoplar las partes que componen el modelo de cliente-servidor, se ha utilizado la arquitectura de 3 capas.",
+            "pageNumber": "55"
+        },
+        {
+            "id": "AD_04",
+            "architecturalElementIds": [
+                "P_03"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Para el desarrollo de la capa de presentación se ha utilizado una arquitectura lógica llamada Flux.",
+            "pageNumber": "56"
+        },
+        {
+            "id": "AD_05",
+            "architecturalElementIds": [
+                "AU_10",
+                "AU_11",
+                "AU_17",
+                "AU_18",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_05",
+                "C_06",
+                "C_09"
+            ],
+            "rationale": "Tanto la capa de negocio como la capa de datos se dividen en diferentes servicios (cada uno ejecutado en máquinas diferentes) para mejorar la seguridad, la escalabilidad y la disponibilidad del sistema.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_06",
+            "architecturalElementIds": [
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Esta separación permite añadir seguridad al sistema ya que el único acceso público es al servicio business, que tan solo contiene la información mínima para entender las peticiones del usuario.",
+            "pageNumber": "57"
+        },
+        {
+            "id": "AD_07",
+            "architecturalElementIds": [
+                "AU_15",
+                "AU_17"
+            ],
+            "architecturalDecisionSource": [
+                "C_09"
+            ],
+            "rationale": "Estas peticiones son procesadas y enviadas mediante una conexión interna al servicio functional, que es el que contiene la información sensible del sistema. La comunicación se realiza mediante el protocolo de comunicación TCP [34].",
+            "pageNumber": "57, 58"
+        },
+        {
+            "id": "AD_08",
+            "architecturalElementIds": [
+                "AU_11",
+                "AU_12",
+                "AU_13",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_04",
+                "C_06"
+            ],
+            "rationale": "La capa de datos se divide en varios servicios de AWS que permiten mejorar el rendimiento y la escalabilidad del sistema.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_09",
+            "architecturalElementIds": [
+                "AU_13",
+                "AU_19"
+            ],
+            "architecturalDecisionSource": [
+                "C_04"
+            ],
+            "rationale": "Para mejorar la velocidad de respuesta del sistema, existe un sistema de caché de usuarios almacenada en Amazon DynamoDB, a la cuál tiene acceso el servicio business.",
+            "pageNumber": "58"
+        },
+        {
+            "id": "AD_10",
+            "architecturalElementIds": [
+                "P_04"
+            ],
+            "architecturalDecisionSource": [],
+            "rationale": "Este patrón se encuentra en la arquitectura Flux, ya que el store notifica a las vistas cuando cambia su estado.",
+            "pageNumber": "59"
+        }
+    ]
+}
