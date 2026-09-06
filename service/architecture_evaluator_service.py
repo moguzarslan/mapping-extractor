@@ -31,12 +31,17 @@ What it does
          sides alone, so a connector never competes with a named element.
 
 2. Both matching anchors are reported the same way: at the ELEMENT level with
-   Precision, Recall and Mean Semantic Meaning, each over the elements that anchor
-   matched, denominators spanning them all (matched + unmatched). `name anchor`
-   covers the named elements (units, patterns) and `description anchor` covers the
-   connectors, so the two rows partition the elements behind the headline figure:
+   Precision, Recall, F1 (their harmonic mean) and Mean Semantic Meaning, each over
+   the elements that anchor matched, denominators spanning them all (matched +
+   unmatched). `name anchor` covers the named elements (units, patterns) and
+   `description anchor` covers the connectors, so the two rows partition the
+   elements behind the headline figure:
        Precision_A = correct_A / (LLM elements anchored on A that populate A)
        Recall_A    = correct_A / (GT  elements anchored on A that populate A)
+   The headline `all elements` row carries an F1 on the same basis. Only these
+   element-level rows do: every other field is scored as Accuracy over the pairs
+   the anchors already matched, where precision and recall are equal by
+   construction and an F1 would just restate the accuracy (see `f1_score`).
 
 3. Every OTHER field (type, description, pageNumber, isPartOf, fixedType) is scored
    as Accuracy over the matched (TP) pairs — the fraction of matched pairs where
@@ -113,6 +118,7 @@ from service.evaluator_service import (
     optimal_match,
     build_type_breakdown,
     _fmt,
+    f1_score,
     _pick,
 )
 
@@ -710,13 +716,13 @@ def _count_row(label: str, st: dict, tp: int) -> dict:
 
 
 def _field_rows(gt, llm, pairs, judge, tp):
-    """The per-field rows of the report: element-level Precision/Recall for each
+    """The per-field rows of the report: element-level Precision/Recall/F1 for each
     matching anchor, Accuracy over the matched pairs for every other field, and the
     raw counts behind both. `judge(spec, i, j)` decides one pair on one field."""
     name_rows, other_rows, count_rows = [], [], []
 
-    # One Precision/Recall row per anchor, each scored over the elements that anchor
-    # matched: `name anchor` over units and patterns, `description anchor` over
+    # One Precision/Recall/F1 row per anchor, each scored over the elements that
+    # anchor matched: `name anchor` over units and patterns, `description anchor` over
     # connectors. Denominators span all such elements, matched and unmatched.
     for field, classes in ANCHOR_CLASSES.items():
         spec = SPEC_BY_NAME[field]
@@ -728,6 +734,7 @@ def _field_rows(gt, llm, pairs, judge, tp):
             "field": label,
             "precision": _fmt(precision),
             "recall": _fmt(recall),
+            "f1": _fmt(f1_score(precision, recall)),
             "mean semantic meaning": _fmt(st["mean_sem"]),
         })
         count_rows.append(_count_row(label, st, tp))
@@ -811,10 +818,12 @@ def build_report(gt, llm, sim, pairs, threshold):
         "field": "all elements (units/patterns by name, connectors by description)",
         "precision": _fmt(full_precision),
         "recall": _fmt(full_recall),
+        "f1": _fmt(f1_score(full_precision, full_recall)),
         "mean semantic meaning": "-",
     })
 
-    field_metrics_name = pd.DataFrame(name_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
+    field_metrics_name = pd.DataFrame(
+        name_rows, columns=["field", "precision", "recall", "f1", "mean semantic meaning"])
     field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy", "mean semantic meaning"])
     field_counts = pd.DataFrame(count_rows)
 
@@ -997,6 +1006,11 @@ def _average_summary(tables: list[pd.DataFrame]) -> pd.DataFrame:
 def average_architecture_reports(reports: list[dict]) -> dict:
     """Average the metric tables across N `evaluate_architecture` reports — the
     repeated extraction runs over one document — into tables of the same shape.
+
+    Every metric is averaged the same way — the mean of the runs' values — F1
+    included. The averaged F1 is therefore the mean of the runs' F1 scores, not the
+    F1 recomputed from the averaged precision and recall; the two differ slightly,
+    and the mean-of-runs form is what makes F1 read like every other cell.
 
     Only the metric tables are averaged. The per-element sheets (Matched_TP, the
     false positive / negative lists) belong to one run each and stay in that run's

@@ -137,6 +137,7 @@ from service.evaluator_service import (
     compute_similarity,
     optimal_match,
     _fmt,
+    f1_score,
     _pick,
 )
 from service.evaluator_service import load_ground_truth as load_requirement_ground_truth
@@ -669,20 +670,6 @@ def field_agrees(spec: dict, llm_rec: dict, gt_rec: dict) -> bool:
 # ---------------------------------------------------------------------------
 # Report assembly
 # ---------------------------------------------------------------------------
-def f1_score(precision: float | None, recall: float | None) -> float | None:
-    """Harmonic mean of precision and recall — None when either is undefined, 0.0
-    when both are zero.
-
-    Reported for the anchor only. Precision and recall are the anchor's alone:
-    every other field is scored as Accuracy over the pairs the anchor already
-    matched, where there is nothing to be complete about and so no recall to
-    combine.
-    """
-    if precision is None or recall is None:
-        return None
-    return (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
-
-
 def build_report(gt, llm, pairs, threshold, *, rationale_sim, ref_fields):
     matched_llm = {i for i, _, _ in pairs}
     matched_gt = {j for _, j, _ in pairs}

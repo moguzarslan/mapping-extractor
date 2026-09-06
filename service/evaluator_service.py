@@ -20,13 +20,14 @@ What it does
    true positives (TP) the per-field scoring is built on.
 2. Reports two separate per-field metric tables, since `description` (the
    matching anchor) is the only field with genuinely distinct Precision and
-   Recall — every other field is scored as a success rate over the matched
-   pairs, where Precision and Recall are equal by construction, so it is
-   reported as a single Accuracy metric instead:
+   Recall — and therefore the only one carrying an F1, their harmonic mean.
+   Every other field is scored as a success rate over the matched pairs, where
+   Precision and Recall are equal by construction, so it is reported as a single
+   Accuracy metric instead:
 
        Description field (requirement-level):
-       field           precision   recall   mean semantic meaning
-       description        x          x              x
+       field           precision   recall   f1   mean semantic meaning
+       description        x          x       x            x
 
        Other fields (accuracy over matched pairs):
        field           accuracy
@@ -85,11 +86,11 @@ fraction of matched pairs where the field was correctly identified:
                            LLM vs GT id namespaces never get compared directly)
 
 Because `description` is the matching anchor, its Precision/Recall equal the
-requirement-level Precision/Recall, and its Mean Semantic Meaning is the mean
-similarity of the matched pairs.
+requirement-level Precision/Recall, its F1 is their harmonic mean, and its Mean
+Semantic Meaning is the mean similarity of the matched pairs.
 
 Output: a single compacted xlsx with four sheets — Metrics (requirement-level
-summary, stacked on the description field's precision/recall/mean-semantic
+summary, stacked on the description field's precision/recall/f1/mean-semantic
 table, stacked on every other field's accuracy table), Matched,
 False_Positives, False_Negatives. A side-car `<stem>_by_type.xlsx` is also written with a
 Type_Breakdown sheet: per requirement-`type` value (e.g. Functional,
@@ -602,6 +603,21 @@ def _fmt(x):
     return "-" if x is None else round(float(x), 4)
 
 
+def f1_score(precision: float | None, recall: float | None) -> float | None:
+    """Harmonic mean of precision and recall — None when either is undefined, 0.0
+    when both are zero.
+
+    Reported for the matching anchor only, here and in the architecture and
+    decision evaluators alike. Every other field is scored as a success rate over
+    the pairs the anchor already matched, where precision and recall are equal by
+    construction: their harmonic mean would just restate the accuracy already in
+    the table.
+    """
+    if precision is None or recall is None:
+        return None
+    return (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+
+
 def build_type_breakdown(gt: list[dict], llm: list[dict],
                          pairs: list[tuple[int, int, float]],
                          type_field: str = "type",
@@ -773,12 +789,17 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
         recall    = (correct / gt_den) if gt_den else None
         mean_sem  = (float(np.mean(sims)) if sims else None) if spec["semantic"] else None
 
-        field_rows.append({
+        row = {
             "field": name,
             "precision": _fmt(precision),
             "recall": _fmt(recall),
             "mean semantic meaning": _fmt(mean_sem),
-        })
+        }
+        if name == DESC_REQUIRED_NAME:
+            # Only the anchor carries an F1: it is the one field whose precision
+            # and recall are genuinely distinct (see `f1_score`).
+            row["f1"] = _fmt(f1_score(precision, recall))
+        field_rows.append(row)
         count_rows.append({
             "field": name,
             "gt_populated_total": gt_has_total,
@@ -792,7 +813,7 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
     desc_rows  = [r for r in field_rows if r["field"] == DESC_REQUIRED_NAME]
     other_rows = [{"field": r["field"], "accuracy": r["precision"]}
                   for r in field_rows if r["field"] != DESC_REQUIRED_NAME]
-    field_metrics_desc  = pd.DataFrame(desc_rows,  columns=["field", "precision", "recall", "mean semantic meaning"])
+    field_metrics_desc  = pd.DataFrame(desc_rows,  columns=["field", "precision", "recall", "f1", "mean semantic meaning"])
     field_metrics_other = pd.DataFrame(other_rows, columns=["field", "accuracy"])
     field_metrics = pd.DataFrame(field_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
     field_counts  = pd.DataFrame(count_rows)
@@ -861,8 +882,9 @@ def write_report(report: dict, output_path) -> None:
 
     The Metrics sheet stacks, top to bottom: the requirement-level summary
     (counts, precision, recall, threshold), the description field's metrics
-    (precision, recall, mean semantic meaning — the only field with genuinely
-    distinct precision/recall, since it is the matching anchor), and every
+    (precision, recall, f1, mean semantic meaning — the only field with genuinely
+    distinct precision/recall, since it is the matching anchor, and so the only
+    one whose F1 is not just a restatement of its accuracy), and every
     other field's metrics (a single accuracy column, since precision == recall
     for a field scored as a success rate over matched pairs).
     """
@@ -903,6 +925,12 @@ def average_reports(reports: list[dict]) -> dict:
     so a field that was unscored in some runs is averaged only over the runs
     that did score it. The threshold row is constant across runs and taken
     as-is from the first report.
+
+    Every metric is averaged the same way — the mean of the runs' values — F1
+    included. The averaged F1 is therefore the mean of the runs' F1 scores, not
+    the F1 recomputed from the averaged precision and recall; the two differ
+    slightly, and the mean-of-runs form is what makes F1 read like every other
+    cell in the table.
     """
     if not reports:
         raise ValueError("average_reports requires at least one report")
@@ -926,15 +954,17 @@ def average_reports(reports: list[dict]) -> dict:
     for field in desc_tables[0]["field"]:
         precisions = [t.loc[t["field"] == field, "precision"].iloc[0] for t in desc_tables]
         recalls = [t.loc[t["field"] == field, "recall"].iloc[0] for t in desc_tables]
+        f1s = [t.loc[t["field"] == field, "f1"].iloc[0] for t in desc_tables]
         sems = [t.loc[t["field"] == field, "mean semantic meaning"].iloc[0] for t in desc_tables]
         desc_rows.append({
             "field": field,
             "precision": avg(precisions),
             "recall": avg(recalls),
+            "f1": avg(f1s),
             "mean semantic meaning": avg(sems),
         })
     avg_field_metrics_desc = pd.DataFrame(
-        desc_rows, columns=["field", "precision", "recall", "mean semantic meaning"])
+        desc_rows, columns=["field", "precision", "recall", "f1", "mean semantic meaning"])
 
     other_tables = [r["Field_Metrics_Other"] for r in reports]
     other_rows = []
@@ -953,7 +983,7 @@ def average_reports(reports: list[dict]) -> dict:
 def write_average_report(reports: list[dict], output_path) -> None:
     """Write the across-runs average Metrics sheet (same layout as
     `write_report`'s Metrics sheet: requirement summary, then the description
-    field's precision/recall/mean-semantic table, then every other field's
+    field's precision/recall/f1/mean-semantic table, then every other field's
     accuracy table) to a standalone workbook."""
     avg = average_reports(reports)
     output_path = Path(output_path)

@@ -169,7 +169,8 @@ class EvaluatorGUI(tk.Tk):
         desc_frame = ttk.LabelFrame(f, text="Description Field (Requirement-Level)", padding=6)
         desc_frame.pack(fill="x", padx=8, pady=4)
         self._desc_tree = self._make_tree(
-            desc_frame, ["field", "precision", "recall", "mean semantic meaning"], height=2)
+            desc_frame, ["field", "precision", "recall", "f1", "mean semantic meaning"],
+            height=2)
 
         # Other fields
         other_frame = ttk.LabelFrame(f, text="Other Fields (Accuracy over matched pairs)", padding=6)
