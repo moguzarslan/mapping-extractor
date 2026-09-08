@@ -1,5 +1,112 @@
 class Prompts:
-    REQUIREMENT_EXTRACTION_PROMPT = """
+    REQUIREMENT_EXTRACTION_PROMPT_V1 = """
+    #  Objective
+        You are an expert software requirements analyst. Extract functional requirements, quality requirements, constraints and acceptance criteria from the provided software document.
+
+    # Instructions
+        1. Review the entire document.
+        2. Identify all functional requirements (FR), quality requirements (QR), and constraints and their acceptance criteria for all of them.
+        3. For each identified FR, QR, constraint and criterion apply the specific processing logic found in the Extraction Process by Type section below, during the extraction make sure to oblige the rules defined in Rules section.
+
+    # Extraction Process by Type
+
+    ## For All Types
+       	- Assign a unique, strict sequential ID starting from R_01 (e.g., R_01, R_02, R_03...) regardless of type.
+        - Specify the page number from the document text (not the PDF page number) where the requirement starts.
+        - Specify the type (FR, QR, constraint or criterion).
+
+    ## For FR, QR and Constraint
+        - In the case of document stating incorrect type correct it and specify the fix
+
+    ## For FR
+        - In the case of a FR expressed as a user story AS A actor I WANT something IN ORDER TO whatever, extract I WANT something.
+        - In the case of a FR expressed in a use case specification, extract the objective.
+        - In the case of a FR expressed as a plain text without a specific format, FR is the text.
+    	- Extracted FR should have the following JSON Schema:
+    		{
+    		"id":<Sequential Id shared with all types (R_01, R_02)>,
+    		"type": "<FR>",
+            "description": "<FR in English>",
+    		“pageNumber”: “<Page number of the FR>”,
+    		"fix": "<Changed from ... to FR>"
+            }
+
+    ## For QR
+        - For QRs, concept and categorization should be extracted from the document.
+        - In case of a QR expressed using Volere with Description and Acceptance, extract the Description contents.
+        - In the case of a QR expressed as a plain text without a specific format, QR is the text.
+    	- Extracted QR should have the following JSON schema:
+    		{
+    		"id":<Sequential Id shared with all types (R_01, R_02)>,
+    		"type": "<QR>",
+            "description": "<QR in English>",
+    		“pageNumber”: “<Page number of the requirement>”,
+            "concept": "<Type of QR (in English) >",
+            "fix": "<Changed from ... to QR>"
+            }
+
+    ## For Constraint
+    	- Extracted constraint should have the following JSON Schema:
+            {
+    		"id":<Sequential Id shared with all types (R_01, R_02)>,
+    		"type": "<Constraint>",
+            "description": "<Constraint in English>",
+    		“pageNumber”: “<Page number of the Constraint>”,
+    		"fix": "<Changed from ... to Constraint>"
+            }	
+
+    ## For Criterion
+        - Acceptance criteria should be extracted from acceptance criteria section for each requirement (if exists).
+        - In case of a QR expressed using Volere with several acceptance criterion, each should be added as a separate criterion.
+        - In the case of FR expressed as a user story with several acceptance criterion, each should be added as separate criterion.
+        - The link between an acceptance criterion and its related requirement should be explicitly represented by stating the ID of the related requirement.
+        - Extracted criterion should have the following JSON schema:
+    		{
+    		"id":<Sequential Id shared with all types (R_01, R_02)>,
+    		"type":”<criterion>”,
+    		"description": “<Actual acceptance criterion of the requirement in English>>”,
+    		"pageNumber": “<Page number of the criterion>”,
+            "relatedTo":”<Id of the related requirement>”
+            }
+
+    # Rules:
+        - Ensure that all information is strictly supported by the document.
+        - Output should be given in JSON format as in Example Output section.
+        - Whole output must be English. If the source document is in another language, translation should be made while extracting to ensure all extracted fields are in English.
+
+    # Example Output (JSON)
+         {
+          "id": "R_01",
+          "type": "FR",
+          "description": "The system shall allow users to reset their password via email verification.",
+          "pageNumber": "12",
+          "fix": "Changed from QR to FR"
+        },
+        {
+          "id": "R_02",
+          "type": "criterion",
+          "description": "When a registered user requests a password reset, the system shall send a password reset email containing a valid verification link within 1 minute.",
+          "pageNumber": "12",
+          "relatedTo": "R_01",
+        },
+        {
+          "id": "R_03",
+          "type": "QR",
+          "description": "The system shall respond to user requests within 2 seconds under normal operating conditions.",
+          "pageNumber": "15",
+          "concept": "12a. Speed and latency",
+        },
+        {
+          "id": "R_04",
+          "type": "criterion",
+          "description": "During performance testing with up to 1,000 concurrent users, 95% of requests shall complete within 2 seconds.",
+          "pageNumber": "15",
+          "relatedTo": "R_03"
+        }
+            ... 
+        """
+
+    REQUIREMENT_EXTRACTION_PROMPT_V2 = """
 #  Objective
     You are an expert software requirements analyst. Extract functional requirements, quality requirements, constraints and acceptance criteria from the provided software document.
     

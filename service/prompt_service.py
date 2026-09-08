@@ -504,7 +504,7 @@ def save_architecture(units: list, connectors: list, patterns: list,
 def process_chained_prompt(file: str, folder: str, final_prompt: str, output_dir: str = "outputs") -> None:
 
     print(f"Processing: {folder}")
-    requirements_prompt = build_document_prompt(file, Prompts.REQUIREMENT_EXTRACTION_PROMPT, None)
+    requirements_prompt = build_document_prompt(file, Prompts.REQUIREMENT_EXTRACTION_PROMPT_V1, None)
     requirements_response = ask_gemini(
         user_prompt=requirements_prompt
     )
