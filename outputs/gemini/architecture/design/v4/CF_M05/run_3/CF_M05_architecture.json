@@ -1,0 +1,191 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Leader",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Portal",
+            "description": "El microservei del portal té com a funció principal oferir una interfície centralitzada per a l’accés a les diferents aplicacions de VWGS.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "El microservei Access Control té com a objectiu principal la gestió d’autenticació d’usuaris i els seus permisos dins de l’aplicació.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "Té com a funció principal la planificació i programació de processos dins del sistema.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "El client s’ha desenvolupat amb Angular, implementant una Single-Page Application (SPA).",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Pel servidor s’ha utilitzat Spring Boot, que proporciona una plataforma per exposar una API REST.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "El protocol d’intercanvi de missatges que es fa servir en aquest cas és HTTP.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_12",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "El format de dades emprat és JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_12"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "El proveïdor per aquest projecte és Amazon Web Services el qual té un ampli catàleg de serveis i recursos cloud.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Connector",
+            "description": "The Leader microservice routes all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Connector",
+            "description": "The client (frontEnd) communicates with the server (backEnd) using HTTP and JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Connector",
+            "description": "The services (ViewModel) orchestrate HTTP calls to the server.",
+            "pageNumber": "64",
+            "isPartOf": [
+                "AU_06",
+                "AU_07"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "L’aplicació té una arquitectura basada en microserveis.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Cloud Architecture",
+            "description": "L’aplicació també aplica una arquitectura de núvol o cloud.",
+            "pageNumber": "60",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_06"
+            ],
+            "fixedType": []
+        },
+        {
+            "id": "P_05",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_07"
+            ],
+            "fixedType": []
+        }
+    ]
+}

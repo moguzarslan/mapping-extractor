@@ -41,7 +41,8 @@ What it does
    - Precision/Recall/Accuracy are computed for every field except `id` (id is
      the key used to resolve cross-references, not a scored field).
    - When a field is not populated on either side at all (e.g. nobody has
-     `fixes`), its metrics are "-".
+     `categorization`), its metrics are "-" — except `fixes`, where an empty
+     field on both sides is itself the correct verdict (see "Agreement").
 
 Per-field metric definitions
 ----------------------------
@@ -80,7 +81,10 @@ fraction of matched pairs where the field was correctly identified:
                            pair referencing it is dropped from the `concept`
                            field's scoring on both sides, as if unpopulated,
                            rather than counted as a mismatch.
-    description, fixes      cosine similarity >= threshold
+    description            cosine similarity >= threshold
+    fixes                  cosine similarity >= threshold; a pair where NEITHER
+                           side records a fix also agrees, and every matched
+                           pair counts: Accuracy = correct / tp
     relatedTo              both criteria point at the *same* parent requirement,
                            resolved through the matching (so the differing
                            LLM vs GT id namespaces never get compared directly)
@@ -128,8 +132,12 @@ FIELD_SPECS = [
      "gt": ["Categorization"],                                "kind": "categorical", "semantic": False},
     {"name": "relatedTo",      "json": ["relatedTo", "related_to", "RelatedTo", "relatedto"],
      "gt": ["Related to", "RelatedTo", "Related To"],         "kind": "related",     "semantic": False},
-    {"name": "fixes",          "json": ["fixes", "appliedFixes", "Applied Fixes"],
-     "gt": ["Applied Fixes", "Fixes", "AppliedFixes"],        "kind": "list",        "semantic": True},
+    # `fix` (v1) / `fixedType` (v2) are the keys the requirement prompts emit and
+    # "Fixed Type" the GT column. `empty_agrees`: a pair where neither side records
+    # a fix is a correct "nothing to fix" verdict, so it counts as agreeing.
+    {"name": "fixes",          "json": ["fixes", "appliedFixes", "Applied Fixes", "fix", "fixedType"],
+     "gt": ["Applied Fixes", "Fixes", "AppliedFixes", "Fixed Type"], "kind": "list", "semantic": True,
+     "empty_agrees": True},
 ]
 
 ID_JSON_CANDIDATES = ["id", "ID", "requirement_id", "Requirement ID"]
@@ -762,6 +770,10 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
             if gt_populated:
                 gt_has_matched += 1
             if not (llm_populated and gt_populated):
+                # Neither side recording the field is itself agreement for a field
+                # whose absence is a verdict (see `empty_agrees` in FIELD_SPECS).
+                if spec.get("empty_agrees") and not (llm_populated or gt_populated):
+                    correct += 1
                 continue
             agree, s = field_agrees(spec, llm[i], gt[j], threshold,
                                     llm_idx=llm_idx, gt_idx=gt_idx, llm_to_gt=llm_to_gt,
@@ -779,6 +791,10 @@ def build_report(gt, llm, sim, pairs, threshold, forced_pairs=None,
             # Description is the matching anchor: score it at the requirement
             # level, so its denominators span ALL items (matched + unmatched).
             llm_den, gt_den = llm_has_total, gt_has_total
+        elif spec.get("empty_agrees"):
+            # Every matched pair carries a verdict for this field, empty included:
+            # correct / tp.
+            llm_den, gt_den = tp, tp
         else:
             # Every other field is scored as a success rate over the matched
             # pairs (TP): correct / tp, so precision == recall == success rate.

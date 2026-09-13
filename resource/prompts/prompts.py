@@ -1407,7 +1407,8 @@ Below are the definitions for each type of architectural unit and pattern with t
     - (2) its Layer
     - (3) the Service or Component that uses it
     - (4) the high-level unit it belongs to (e.g. Frontend, Backend, Server, Mobile Application)
-    -(5) empty if none applies. For a Technology, start at (3). 
+    - (5) empty if none applies. 
+    - For a Technology, start at (3). 
     - List several parents only when the document states them.
 - Architectural Unit should have the following JSON Schema:
     {
@@ -1420,6 +1421,7 @@ Below are the definitions for each type of architectural unit and pattern with t
     }
 
 # Rules:
+- Ensure every unit is strictly supported by the document; do not output a unit or technology whose name or role does not actually appear in the source, and include an inferred unit only when the evidence is strong
 - Extract units from every view and section of the document (e.g. deployment, frontend structure, backend layering), not only from a single section.
 - Extract each distinct unit individually, including units that are only listed together, named in passing, or mentioned in prose; never collapse several distinct units into one.
 - Extract each real unit exactly once: do not output the same unit twice under different names, and do not split one real unit into several.

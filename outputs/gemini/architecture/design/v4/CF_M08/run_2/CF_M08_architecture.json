@@ -1,0 +1,333 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Security Service",
+            "description": "Funciona como un proxy inverso y balanceador de carga. Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Technology",
+            "name": "Traefik",
+            "description": "Traefik es un proxy inverso y balanceador de carga moderno diseñado para gestionar la entrada y salida de tráfico HTTP y HTTPS en aplicaciones basadas en contenedores.",
+            "pageNumber": "43",
+            "isPartOf": [
+                "AU_01"
+            ]
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "System Service",
+            "description": "Sirve la aplicación web mediante React. Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Technology",
+            "name": "Next.js",
+            "description": "Next.js es un framework para la creación de aplicaciones web que ofrece una estructura adicional, características y optimizaciones que permiten construir aplicaciones más rápido.",
+            "pageNumber": "44",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_05",
+            "type": "Technology",
+            "name": "React",
+            "description": "React es una biblioteca de JavaScript de código abierto diseñada para construir interfaces de usuario (UI) de manera eficiente y flexible.",
+            "pageNumber": "47",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Data Service",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Technology",
+            "name": "PostgreSQL",
+            "description": "Proporciona la base de datos relacional para almacenar los datos de la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Prisma",
+            "description": "Prisma es una herramienta ORM (Object-Relational Mapping) para bases de datos.",
+            "pageNumber": "50",
+            "isPartOf": [
+                "AU_03",
+                "AU_22"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Service",
+            "name": "Authentication Service",
+            "description": "Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Google",
+            "description": "Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_09",
+                "AU_23"
+            ]
+        },
+        {
+            "id": "AU_11",
+            "type": "Service",
+            "name": "Cloud Storage Service",
+            "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Amazon S3",
+            "description": "Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_11",
+                "AU_24"
+            ]
+        },
+        {
+            "id": "AU_13",
+            "type": "Service",
+            "name": "Payment Processing Service",
+            "description": "Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Technology",
+            "name": "Stripe",
+            "description": "Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_13",
+                "AU_25"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Service",
+            "name": "Analytics Service",
+            "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "Google Analytics",
+            "description": "Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_15",
+                "AU_26"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Service",
+            "name": "Error Monitoring Service",
+            "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "Sentry",
+            "description": "Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_17",
+                "AU_27"
+            ]
+        },
+        {
+            "id": "AU_19",
+            "type": "Service",
+            "name": "Email Service",
+            "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_20",
+            "type": "Technology",
+            "name": "Brevo",
+            "description": "Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_19",
+                "AU_28"
+            ]
+        },
+        {
+            "id": "AU_21",
+            "type": "Connector",
+            "description": "Gestiona el enrutamiento de solicitudes HTTP y HTTPS hacia la aplicación Next.js (System Service).",
+            "pageNumber": "41",
+            "isPartOf": [
+                "AU_01",
+                "AU_03"
+            ]
+        },
+        {
+            "id": "AU_22",
+            "type": "Connector",
+            "description": "Se comunica con el servicio de base de datos PostgreSQL (Data Service) utilizando Prisma como ORM.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_06"
+            ]
+        },
+        {
+            "id": "AU_23",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Autenticación: Utiliza Google para la autenticación de usuarios.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_24",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Almacenamiento en la nube: Utiliza Amazon S3 para almacenar y recuperar archivos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_11"
+            ]
+        },
+        {
+            "id": "AU_25",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Procesamiento de pagos: Integra con Stripe para manejar pagos y suscripciones.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_13"
+            ]
+        },
+        {
+            "id": "AU_26",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Análisis: Implementa Google Analytics para rastrear y analizar el tráfico del sitio.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_15"
+            ]
+        },
+        {
+            "id": "AU_27",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Monitoreo de errores: Utiliza Sentry para rastrear y gestionar errores en la aplicación.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_17"
+            ]
+        },
+        {
+            "id": "AU_28",
+            "type": "Connector",
+            "description": "Interactúa con varios servicios externos para funcionalidades específicas: Correo Electrónico: Se conecta a Brevo para crear, enviar y programar correos electrónicos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_03",
+                "AU_19"
+            ]
+        },
+        {
+            "id": "AU_29",
+            "type": "Connector",
+            "description": "Se comunica directamente con Prisma para gestionar las consultas de la base de datos.",
+            "pageNumber": "42",
+            "isPartOf": [
+                "AU_06",
+                "AU_08"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "La arquitectura implementada para el desarrollo del sistema del proyecto Revivack es una arquitectura basada en microservicios.",
+            "pageNumber": "41",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_02",
+            "type": "Design Pattern",
+            "name": "Component-Based",
+            "description": "El patrón Component-Based se centra en la construcción de la interfaz de usuario mediante la creación de componentes independientes y reutilizables.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "Observer Pattern",
+            "description": "El patrón Observer establece una relación de uno a muchos entre objetos, donde un objeto conocido como el sujeto mantiene una lista de otros objetos llamados observadores.",
+            "pageNumber": "66",
+            "isPartOf": [],
+            "fixedType": []
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Singleton Pattern",
+            "description": "El patrón Singleton asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a esa instancia.",
+            "pageNumber": "67",
+            "isPartOf": [],
+            "fixedType": []
+        }
+    ]
+}

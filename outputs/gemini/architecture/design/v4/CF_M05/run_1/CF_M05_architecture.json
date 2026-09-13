@@ -1,0 +1,218 @@
+{
+    "architectural_units": [
+        {
+            "id": "AU_01",
+            "type": "Service",
+            "name": "Leader",
+            "description": "Aquest microservei té com a funció principal l’encaminament de totes les comunicacions cap al microservei corresponent dins de l’arquitectura del sistema.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_02",
+            "type": "Service",
+            "name": "Portal",
+            "description": "El microservei del portal té com a funció principal oferir una interfície centralitzada per a l’accés a les diferents aplicacions de VWGS.",
+            "pageNumber": "57",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_03",
+            "type": "Service",
+            "name": "Access Control",
+            "description": "El microservei Access Control té com a objectiu principal la gestió d’autenticació d’usuaris i els seus permisos dins de l’aplicació.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_04",
+            "type": "Service",
+            "name": "Communication Log",
+            "description": "El microservei Communication Log té com a finalitat principal registrar totes les comunicacions que es produeixen dins del sistema, tant entre microserveis com amb serveis externs.",
+            "pageNumber": "58",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_05",
+            "type": "Service",
+            "name": "Scheduler",
+            "description": "Té com a funció principal la planificació i programació de processos dins del sistema.",
+            "pageNumber": "59",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_06",
+            "type": "Service",
+            "name": "Ordering",
+            "description": "Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_07",
+            "type": "Service",
+            "name": "GSB",
+            "description": "Aquests dos microserveis s’encarreguen de les crides cap a serveis externs relacionades amb la venda d’automòbils.",
+            "pageNumber": "60",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_08",
+            "type": "Technology",
+            "name": "Angular",
+            "description": "Angular és un framework de desenvolupament web creat per Google, basat en el llenguatge de programació superconjunt de JavaScript anomenat TypeScript.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_02"
+            ]
+        },
+        {
+            "id": "AU_09",
+            "type": "Technology",
+            "name": "Spring Boot",
+            "description": "Spring Boot és un framework que simplifica la creació d’aplicacions Java basades en Spring, oferint configuració automàtica i eines que permeten desplegar aplicacions de manera ràpida.",
+            "pageNumber": "76",
+            "isPartOf": [
+                "AU_03",
+                "AU_04",
+                "AU_05"
+            ]
+        },
+        {
+            "id": "AU_10",
+            "type": "Technology",
+            "name": "Amazon Web Services",
+            "description": "El proveïdor per aquest projecte és Amazon Web Services el qual té un ampli catàleg de serveis i recursos cloud.",
+            "pageNumber": "61",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_11",
+            "type": "Technology",
+            "name": "Docker",
+            "description": "El procés de desplegament per la nostra aplicació comença per la creació d’una imatge Docker per a cada microservei.",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_12",
+            "type": "Technology",
+            "name": "Kubernetes",
+            "description": "Kubernetes (K8s), una plataforma d’orquestració de contenidors creada per Google.",
+            "pageNumber": "81",
+            "isPartOf": []
+        },
+        {
+            "id": "AU_13",
+            "type": "Connector",
+            "description": "The Leader microservice routes all communications to the corresponding microservice within the system architecture.",
+            "pageNumber": "57",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_14",
+            "type": "Connector",
+            "description": "The client (frontEnd) communicates with the server (backEnd) using HTTP and JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_02",
+                "AU_09"
+            ]
+        },
+        {
+            "id": "AU_15",
+            "type": "Connector",
+            "description": "The microservices are connected to a shared database.",
+            "pageNumber": "60",
+            "isPartOf": [
+                "AU_01",
+                "AU_02",
+                "AU_03",
+                "AU_04",
+                "AU_05",
+                "AU_06",
+                "AU_07"
+            ]
+        },
+        {
+            "id": "AU_16",
+            "type": "Technology",
+            "name": "HTTP",
+            "description": "The protocol for exchanging messages used in this case is HTTP.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_14"
+            ]
+        },
+        {
+            "id": "AU_17",
+            "type": "Technology",
+            "name": "JSON",
+            "description": "The data format used is JSON.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_14"
+            ]
+        },
+        {
+            "id": "AU_18",
+            "type": "Technology",
+            "name": "REST",
+            "description": "Spring Boot provides a platform for exposing a REST API.",
+            "pageNumber": "61",
+            "isPartOf": [
+                "AU_14"
+            ]
+        }
+    ],
+    "patterns": [
+        {
+            "id": "P_01",
+            "type": "Architectural Pattern",
+            "name": "Microservices",
+            "description": "L’aplicació té una arquitectura basada en microserveis. Consisteix a dividir el sistema en un conjunt de serveis petits, independents i autònoms.",
+            "pageNumber": "56",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_02",
+            "type": "Architectural Pattern",
+            "name": "Client-Server",
+            "description": "L’aplicació segueix el patró Client-Servidor el qual organitza el codi en dos components diferenciats: el client, que formula sol·licituds de servei, i el servidor, que les rep, les processa i retorna respostes.",
+            "pageNumber": "61",
+            "isPartOf": [],
+            "fixedType": "Architectural Pattern"
+        },
+        {
+            "id": "P_03",
+            "type": "Design Pattern",
+            "name": "MVVM",
+            "description": "Angular aplica el patró MVVM (Model-View-ViewModel), ja que la seva arquitectura està basada en components i serveis.",
+            "pageNumber": "62",
+            "isPartOf": [
+                "AU_08"
+            ],
+            "fixedType": "Design Pattern"
+        },
+        {
+            "id": "P_04",
+            "type": "Design Pattern",
+            "name": "Layered Architecture",
+            "description": "Spring Boot organitza el codi seguint el patró a capes amb les quals se separen responsabilitats.",
+            "pageNumber": "68",
+            "isPartOf": [
+                "AU_09"
+            ],
+            "fixedType": "Design Pattern"
+        }
+    ]
+}
