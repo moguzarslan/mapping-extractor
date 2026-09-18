@@ -47,6 +47,9 @@ What it does
    as Accuracy over the matched (TP) pairs — the fraction of matched pairs where
    the LLM populated the field and its value agrees with the GT:
        Accuracy_F = correct_F / (matched pairs where LLM populated F)
+   `fixedType` is the exception, scored like the requirement evaluator's `fixes`:
+   a pair where NEITHER side records a fixed type also agrees, and every matched
+   pair counts — Accuracy = correct / matched pairs.
    A field that is an anchor for some class is scored here over the OTHER classes
    only, and labelled "(non-anchor)": a pair matched ON a field agrees on it by
    construction, so including it would measure the matcher, not the extraction.
@@ -83,7 +86,8 @@ Per-field agreement
     fixedType           case-insensitive exact match, like `type`: the field names
                         the corrected (or pre-fix) type, drawn from the same closed
                         taxonomy, so a near-miss is a different type rather than
-                        partial credit. A list-wrapped value is flattened first
+                        partial credit. A list-wrapped value is flattened first.
+                        A pair where neither side records one also agrees (3.)
 
 Output: an xlsx with sheets — Field_Metrics, Class_Breakdown, Matching_Summary,
 Field_Counts, Matched_TP, False_Positives, False_Negatives. Three side-car files
@@ -139,8 +143,11 @@ FIELD_SPECS = [
      "gt": ["Page Number", "PageNumber", "Page"],      "kind": "page",        "semantic": False, "anchor": False},
     {"name": "isPartOf",    "json": ["isPartOf", "is_part_of", "is-part-of", "partOf"],
      "gt": ["is-part-of", "isPartOf", "is part of"],   "kind": "parents",     "semantic": False, "anchor": False},
+    # `empty_agrees`: a pair where neither side records a fixed type is a correct
+    # "nothing to fix" verdict — scored like the requirement evaluator's `fixes`.
     {"name": "fixedType",   "json": ["fixedType", "fixed_type", "FixedType"],
-     "gt": ["fixedType", "Fixed Type", "FixedType"],   "kind": "categorical", "semantic": False, "anchor": False},
+     "gt": ["fixedType", "Fixed Type", "FixedType"],   "kind": "categorical", "semantic": False, "anchor": False,
+     "empty_agrees": True},
 ]
 
 ANCHOR_FIELD = "name"
@@ -677,15 +684,20 @@ def _field_stats(spec, gt, llm, pairs, judge, classes) -> dict:
     gt_total = sum(field_present(r, spec) for r in gt if match_class(r) in classes)
 
     correct, sims = 0, []
-    llm_matched, gt_matched, both_matched = 0, 0, 0
+    pairs_in_classes, llm_matched, gt_matched, both_matched = 0, 0, 0, 0
     for i, j, _ in pairs:
         if match_class(llm[i]) not in classes or match_class(gt[j]) not in classes:
             continue
+        pairs_in_classes += 1
         llm_populated = field_present(llm[i], spec)
         gt_populated = field_present(gt[j], spec)
         llm_matched += llm_populated
         gt_matched += gt_populated
         if not (llm_populated and gt_populated):
+            # Neither side recording the field is itself agreement for a field
+            # whose absence is a verdict (see `empty_agrees` in FIELD_SPECS).
+            if spec.get("empty_agrees") and not (llm_populated or gt_populated):
+                correct += 1
             continue
         both_matched += 1
         agree, s = judge(spec, i, j)
@@ -695,11 +707,19 @@ def _field_stats(spec, gt, llm, pairs, judge, classes) -> dict:
             sims.append(s)
 
     return {
-        "llm_total": llm_total, "gt_total": gt_total,
+        "llm_total": llm_total, "gt_total": gt_total, "pairs": pairs_in_classes,
         "llm_matched": llm_matched, "gt_matched": gt_matched,
         "both_matched": both_matched, "correct": correct,
         "mean_sem": (float(np.mean(sims)) if sims else None) if spec["semantic"] else None,
     }
+
+
+def _field_accuracy(spec: dict, st: dict) -> float | None:
+    """Accuracy of a non-anchor field over the matched pairs: correct / the pairs
+    where the LLM populated it — or / every pair, for a field whose absence is a
+    verdict (`empty_agrees`), where an empty field on both sides counts as correct."""
+    denominator = st["pairs"] if spec.get("empty_agrees") else st["llm_matched"]
+    return (st["correct"] / denominator) if denominator else None
 
 
 def _count_row(label: str, st: dict, tp: int) -> dict:
@@ -749,7 +769,7 @@ def _field_rows(gt, llm, pairs, judge, tp):
         classes = ALL_CLASSES - ANCHOR_CLASSES.get(spec["name"], frozenset())
         label = spec["name"] + (" (non-anchor)" if spec["name"] in ANCHOR_CLASSES else "")
         st = _field_stats(spec, gt, llm, pairs, judge, classes)
-        accuracy = (st["correct"] / st["llm_matched"]) if st["llm_matched"] else None
+        accuracy = _field_accuracy(spec, st)
         other_rows.append({
             "field": label,
             "accuracy": _fmt(accuracy),
