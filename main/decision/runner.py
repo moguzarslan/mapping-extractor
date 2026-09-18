@@ -9,10 +9,15 @@ runs the same from anywhere.
 """
 
 import os
+import tempfile
 from pathlib import Path
+
+import pandas as pd
 
 from service.decision_evaluator_service import (
     evaluate_decisions,
+    load_ground_truth_decisions,
+    split_ref_tokens,
     write_average_decision_report,
 )
 from service.prompt_service import save_decisions
@@ -32,6 +37,10 @@ RUNS_ENV_KEY = "DECISION_RUNS"
 # against the very artifacts the model was shown.
 REQUIREMENT_INPUT_SUBDIR = "requirement/validation/gemini-3-5-flash-lite/{file_name}/first"
 ARCHITECTURE_INPUT_SUBDIR = "architecture/design/v3/{file_name}/run_1"
+
+# Marks every file the second, narrower evaluation below writes — see
+# `build_found_elements_only_ground_truth`.
+FOUND_ELEMENTS_ONLY_SUFFIX = "found_elements_only"
 
 
 def get_document_files_from_env(env_key: str = DOCUMENTS_ENV_KEY) -> list[str]:
@@ -107,37 +116,55 @@ class DecisionExtractionRunner:
         # holds configuration only, and every run of a document is the same call.
         strategy = self.version.strategy()
 
-        # The extraction is repeated `runs` times because the model is sampled,
-        # not deterministic: a single run measures one draw, and the averaged
-        # report is what characterises the prompt.
-        reports = []
-        for run in range(1, self.runs + 1):
-            run_label = f"run_{run}"
-            print(f"Run {run} of {self.runs} for '{file_name}'")
+        # The found-elements-only ground truth (see its own docstring) depends
+        # only on the document and the fixed architecture extraction `sources`
+        # points at, not on any one run, so it is built once and reused across
+        # every run of this document. It lives in a temporary directory since it
+        # is an input to the evaluator, not a deliverable — nothing here writes
+        # to it, and the directory (with it) is gone once the document is done.
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            found_elements_only_gt_path = self.build_found_elements_only_ground_truth(
+                file_name, sources, Path(tmp_dir))
 
-            result = strategy.extract(str(document), sources)
+            # The extraction is repeated `runs` times because the model is
+            # sampled, not deterministic: a single run measures one draw, and
+            # the averaged report is what characterises the prompt.
+            reports, found_elements_only_reports = [], []
+            for run in range(1, self.runs + 1):
+                run_label = f"run_{run}"
+                print(f"Run {run} of {self.runs} for '{file_name}'")
 
-            llm_json_path = save_decisions(
-                result.decisions,
-                output_file_name=file_name + "_decision",
-                output_dir=str(self.extraction_dir(file_name) / run_label),
-            )
-            print(f"Architectural decisions ({strategy.label}) saved: {llm_json_path}")
+                result = strategy.extract(str(document), sources)
 
-            report = self.evaluate(file_name, run_label, llm_json_path, sources)
-            if report is not None:
-                reports.append(report)
+                llm_json_path = save_decisions(
+                    result.decisions,
+                    output_file_name=file_name + "_decision",
+                    output_dir=str(self.extraction_dir(file_name) / run_label),
+                )
+                print(f"Architectural decisions ({strategy.label}) saved: {llm_json_path}")
 
-        self.write_averages(file_name, reports)
+                report = self.evaluate(file_name, run_label, llm_json_path, sources)
+                if report is not None:
+                    reports.append(report)
 
-    def write_averages(self, file_name: str, reports: list) -> None:
+                if found_elements_only_gt_path is not None:
+                    found_report = self.evaluate_found_elements_only(
+                        file_name, run_label, llm_json_path, sources, found_elements_only_gt_path)
+                    if found_report is not None:
+                        found_elements_only_reports.append(found_report)
+
+            self.write_averages(file_name, reports)
+            self.write_averages(file_name, found_elements_only_reports,
+                                suffix=f"_{FOUND_ELEMENTS_ONLY_SUFFIX}")
+
+    def write_averages(self, file_name: str, reports: list, suffix: str = "") -> None:
         """The average over the runs. With a single run there is nothing to
         average, so that run's own report is left to speak for itself."""
         if len(reports) < 2:
             return
 
         avg_output_path = (self.evaluation_dir(file_name)
-                           / f"{file_name}_decision_eval_avg.xlsx")
+                           / f"{file_name}_decision_eval{suffix}_avg.xlsx")
         write_average_decision_report(reports, str(avg_output_path))
         print(f"Average evaluation saved: {avg_output_path}")
 
@@ -161,8 +188,37 @@ class DecisionExtractionRunner:
             print(f"No decision ground truth found for '{file_name}', skipping evaluation.")
             return None
 
+        return self._run_decision_evaluation(
+            file_name, run_label, llm_json_path, sources,
+            gt_decision_path=gt_decision_path, gt_architecture_path=gt_architecture_path,
+            gt_requirement_path=gt_requirement_path, suffix="")
+
+    def evaluate_found_elements_only(self, file_name: str, run_label: str, llm_json_path: str,
+                                     sources: DecisionSources,
+                                     gt_decision_path: Path) -> dict | None:
+        """The same evaluation as `evaluate`, against the filtered ground truth
+        `gt_decision_path` instead of the full one. A failure here (the report
+        this reads happens to be stale or malformed) must not cost the run its
+        primary evaluation, so it is isolated the same way one document's
+        failure is isolated from the others in `run`."""
+        gt_architecture_path = self.ground_truth("architecture", file_name)
+        gt_requirement_path = self.ground_truth("requirement", file_name)
+        try:
+            return self._run_decision_evaluation(
+                file_name, run_label, llm_json_path, sources,
+                gt_decision_path=gt_decision_path, gt_architecture_path=gt_architecture_path,
+                gt_requirement_path=gt_requirement_path, suffix=f"_{FOUND_ELEMENTS_ONLY_SUFFIX}")
+        except Exception as evaluation_error:
+            print(f"Found-elements-only evaluation failed for '{file_name}' {run_label}: "
+                  f"{evaluation_error}")
+            return None
+
+    def _run_decision_evaluation(self, file_name: str, run_label: str, llm_json_path: str,
+                                 sources: DecisionSources, *, gt_decision_path: Path,
+                                 gt_architecture_path: Path, gt_requirement_path: Path,
+                                 suffix: str) -> dict:
         eval_output_path = (self.evaluation_dir(file_name) / run_label
-                            / f"{file_name}_decision_eval.xlsx")
+                            / f"{file_name}_decision_eval{suffix}.xlsx")
         report = evaluate_decisions(
             gt_decision_path=str(gt_decision_path),
             llm_decision_path=llm_json_path,
@@ -176,6 +232,91 @@ class DecisionExtractionRunner:
         )
         print(f"Decision evaluation saved: {eval_output_path}")
         return report
+
+    def build_found_elements_only_ground_truth(self, file_name: str, sources: DecisionSources,
+                                                tmp_dir: Path) -> Path | None:
+        """A second decision ground truth, restricted to decisions that are
+        actually answerable from the architecture extraction this decision pass
+        was given.
+
+        This pass is conditioned on the LLM's own architecture extraction
+        (`sources.architecture_json`), not on the architecture ground truth: a
+        ground-truth decision that cites an element that extraction never found
+        can never be matched correctly however accurate the decision prompt is,
+        and scoring it anyway blends decision-prompt quality with the
+        architecture stage's recall. So here, a decision whose cited elements are
+        ALL missing from that extraction is dropped; a decision citing both found
+        and missing elements is kept, with the missing element id(s) removed from
+        its reference list, so `architecturalElementIds` is not penalised for a
+        reference the model was never given the opportunity to make. The scoring
+        itself is untouched — `evaluate_decisions` runs exactly as it does for
+        the full ground truth, just against this filtered one.
+
+        Which elements that extraction missed is read from the architecture
+        evaluator's own report for it (see `architecture_gt_report_path`) rather
+        than recomputed, so this reuses the architecture evaluation instead of
+        re-scoring it. Returns None — and the found-elements-only evaluation is
+        skipped for this document — when that report is not available, or when
+        every ground-truth decision ends up with nothing left to cite.
+        """
+        gt_report_path = self.architecture_gt_report_path(file_name, sources.architecture_json)
+        if gt_report_path is None or not gt_report_path.exists():
+            print(f"No architecture evaluation report found for '{file_name}' "
+                  f"(expected {gt_report_path}); skipping the found-elements-only evaluation.")
+            return None
+
+        gt_decision_path = self.ground_truth("decision", file_name)
+        if not gt_decision_path.exists():
+            return None
+
+        try:
+            gt_report = pd.read_excel(gt_report_path)
+            not_found = (set(gt_report["GT_ID"].dropna().astype(str).str.strip())
+                        if "GT_ID" in gt_report.columns else set())
+            records = load_ground_truth_decisions(str(gt_decision_path))
+        except Exception as read_error:
+            print(f"Could not build the found-elements-only ground truth for '{file_name}' "
+                  f"({read_error}); skipping the found-elements-only evaluation.")
+            return None
+
+        rows = []
+        for rec in records:
+            kept = [t for t in split_ref_tokens(rec.get("architecturalElementIds"))
+                   if t not in not_found]
+            if not kept:
+                continue
+            rows.append({
+                "AD ID": rec["id"],
+                "Architectural Element ID": ", ".join(kept),
+                "AD Source": rec.get("architecturalDecisionSource"),
+                "Rationale": rec.get("rationale"),
+                "Page Number": rec.get("pageNumber"),
+            })
+
+        if not rows:
+            print(f"Every ground-truth decision for '{file_name}' cites only architectural "
+                  f"elements missing from its architecture input; skipping the "
+                  f"found-elements-only evaluation.")
+            return None
+
+        out_path = tmp_dir / f"{file_name}_ground_truth_decision_{FOUND_ELEMENTS_ONLY_SUFFIX}.xlsx"
+        pd.DataFrame(rows, columns=["AD ID", "Architectural Element ID", "AD Source",
+                                    "Rationale", "Page Number"]).to_excel(out_path, index=False)
+        return out_path
+
+    def architecture_gt_report_path(self, file_name: str, architecture_json_path: str) -> Path | None:
+        """The architecture evaluator's own unmatched-ground-truth report for the
+        extraction at `architecture_json_path` — the same relative path under
+        outputs/evaluation that the extraction has under outputs/gemini, since
+        that is where the architecture pass's own runner writes it. None when
+        the extraction does not live under outputs/gemini at all, so no such
+        report can exist."""
+        gemini_root = PROJECT_ROOT / "outputs" / "gemini"
+        try:
+            rel_dir = Path(architecture_json_path).relative_to(gemini_root).parent
+        except ValueError:
+            return None
+        return PROJECT_ROOT / "outputs" / "evaluation" / rel_dir / f"{file_name}_arch_eval_gt_report.xlsx"
 
     def sources(self, file_name: str) -> DecisionSources:
         gemini = PROJECT_ROOT / "outputs" / "gemini"
