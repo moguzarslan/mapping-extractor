@@ -35,7 +35,7 @@ RUNS_ENV_KEY = "DECISION_RUNS"
 # no new ids of its own for them, so it reads the exact files these point at — and
 # the evaluator is later handed the same paths, so the ids in a decision resolve
 # against the very artifacts the model was shown.
-REQUIREMENT_INPUT_SUBDIR = "requirement/validation/gemini-3-5-flash-lite/{file_name}/first"
+REQUIREMENT_INPUT_SUBDIR = "requirement/validation/gemini-3-5/{file_name}/first"
 ARCHITECTURE_INPUT_SUBDIR = "architecture/design/v3/{file_name}/run_1"
 
 # Marks every file the second, narrower evaluation below writes — see
