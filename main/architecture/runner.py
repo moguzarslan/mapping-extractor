@@ -20,6 +20,7 @@ from service.prompt_service import save_architecture
 from main.architecture.versions import ArchitectureVersion, get_version_from_env
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs"
 
 DEFAULT_RUNS = 3
 DOCUMENTS_ENV_KEY = "DOCUMENTS"
@@ -58,10 +59,14 @@ class ArchitectureExtractionRunner:
     """Runs one version over the configured documents and evaluates the results."""
 
     def __init__(self, version: ArchitectureVersion, runs: int = DEFAULT_RUNS,
-                 documents: list[str] = None):
+                 documents: list[str] = None, output_root: Path = DEFAULT_OUTPUT_ROOT):
         self.version = version
         self.runs = runs
         self.documents = documents or []
+        # Where the `gemini/` (extraction) and `evaluation/` folders live. The
+        # full pipeline passes its own root so its results never overwrite a
+        # stage's standalone runs.
+        self.output_root = Path(output_root)
 
     @classmethod
     def from_env(cls) -> "ArchitectureExtractionRunner":
@@ -140,7 +145,7 @@ class ArchitectureExtractionRunner:
         print(f"Average by-type evaluation saved: {avg_by_type_output_path}")
 
     def extraction_dir(self, file_name: str) -> Path:
-        return PROJECT_ROOT / "outputs" / "gemini" / self.version.output_subdir / file_name
+        return self.output_root / "gemini" / self.version.output_subdir / file_name
 
     def evaluation_dir(self, file_name: str) -> Path:
-        return PROJECT_ROOT / "outputs" / "evaluation" / self.version.output_subdir / file_name
+        return self.output_root / "evaluation" / self.version.output_subdir / file_name

@@ -4,7 +4,9 @@ architectural-decision extraction, in that order.
 Which extraction is run at each stage is decided by REQUIREMENT_VERSION,
 ARCHITECTURE_VERSION and DECISION_VERSION in the environment (see each
 stage's own main/*/versions.py); this file only starts the three of them in
-sequence, over the same DOCUMENTS.
+sequence, over the same DOCUMENTS. Each stage runs once, the decision stage
+reads what the two earlier stages have just produced, and everything is written
+under outputs/pipeline/ (see main/pipeline/runner.py).
 """
 
 import sys

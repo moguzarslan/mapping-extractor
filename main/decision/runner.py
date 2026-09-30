@@ -11,6 +11,7 @@ runs the same from anywhere.
 import os
 import tempfile
 from pathlib import Path
+from typing import Callable
 
 import pandas as pd
 
@@ -26,6 +27,7 @@ from main.decision.strategies import DecisionSources
 from main.decision.versions import DecisionVersion, get_version_from_env
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs"
 
 DEFAULT_RUNS = 3
 DOCUMENTS_ENV_KEY = "DOCUMENTS"
@@ -75,10 +77,20 @@ class DecisionExtractionRunner:
     """Runs one version over the configured documents and evaluates the results."""
 
     def __init__(self, version: DecisionVersion, runs: int = DEFAULT_RUNS,
-                 documents: list[str] = None):
+                 documents: list[str] = None, output_root: Path = DEFAULT_OUTPUT_ROOT,
+                 sources_resolver: Callable[[str], DecisionSources] = None):
         self.version = version
         self.runs = runs
         self.documents = documents or []
+        # Where the `gemini/` (extraction) and `evaluation/` folders live. The
+        # full pipeline passes its own root so its results never overwrite a
+        # stage's standalone runs.
+        self.output_root = Path(output_root)
+        # Which upstream artifacts a document's decision pass reads. None means
+        # the fixed, already-final files REQUIREMENT_INPUT_SUBDIR and
+        # ARCHITECTURE_INPUT_SUBDIR point at; the full pipeline instead hands
+        # over the artifacts its own earlier stages have just produced.
+        self.sources_resolver = sources_resolver
 
     @classmethod
     def from_env(cls) -> "DecisionExtractionRunner":
@@ -311,14 +323,16 @@ class DecisionExtractionRunner:
         that is where the architecture pass's own runner writes it. None when
         the extraction does not live under outputs/gemini at all, so no such
         report can exist."""
-        gemini_root = PROJECT_ROOT / "outputs" / "gemini"
+        gemini_root = self.output_root / "gemini"
         try:
             rel_dir = Path(architecture_json_path).relative_to(gemini_root).parent
         except ValueError:
             return None
-        return PROJECT_ROOT / "outputs" / "evaluation" / rel_dir / f"{file_name}_arch_eval_gt_report.xlsx"
+        return self.output_root / "evaluation" / rel_dir / f"{file_name}_arch_eval_gt_report.xlsx"
 
     def sources(self, file_name: str) -> DecisionSources:
+        if self.sources_resolver is not None:
+            return self.sources_resolver(file_name)
         gemini = PROJECT_ROOT / "outputs" / "gemini"
         requirement_dir = gemini / REQUIREMENT_INPUT_SUBDIR.format(file_name=file_name)
         architecture_dir = gemini / ARCHITECTURE_INPUT_SUBDIR.format(file_name=file_name)
@@ -333,7 +347,7 @@ class DecisionExtractionRunner:
                 / f"{file_name}_ground_truth_{artifact}.xlsx")
 
     def extraction_dir(self, file_name: str) -> Path:
-        return PROJECT_ROOT / "outputs" / "gemini" / self.version.output_subdir / file_name
+        return self.output_root / "gemini" / self.version.output_subdir / file_name
 
     def evaluation_dir(self, file_name: str) -> Path:
-        return PROJECT_ROOT / "outputs" / "evaluation" / self.version.output_subdir / file_name
+        return self.output_root / "evaluation" / self.version.output_subdir / file_name

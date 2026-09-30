@@ -39,7 +39,8 @@ not share an id namespace for these references (the ground truth references its
 own human-annotated architecture/requirement/concept ids; the LLM references
 the ids of its own architecture/requirement/concept extraction). Direct id
 comparison is therefore meaningless — each id is instead RESOLVED to
-human-readable text (the referenced element's name, the referenced
+human-readable text (the referenced element's name — a connector's
+description, since connectors carry no name — the referenced
 requirement's description, or the referenced concept's name) using the matching
 ground-truth or LLM architecture, requirement and concept artifacts. A token
 that does not resolve to a known id (e.g. the ground truth names a technology
@@ -144,9 +145,12 @@ from service.evaluator_service import load_ground_truth as load_requirement_grou
 from service.evaluator_service import load_ground_truth_concepts
 from service.architecture_evaluator_service import (
     _is_number,
+    is_connector,
     load_ground_truth as load_architecture_ground_truth,
     load_llm_extraction as load_architecture_llm_extraction,
+    match_connectors,
     match_named_elements,
+    match_text,
     page_set,
 )
 
@@ -163,8 +167,9 @@ RATIONALE_SPEC = {"name": "rationale", "json": ["rationale", "Rationale"],
 # A source is compared by the FORM it was cited in — an id against the catalog
 # the model was given, a written-out name against a concept the annotator added
 # that is not in that catalog — see CitationFormMatcher. An element is matched
-# on its name by the very rule the architecture evaluator matches elements with,
-# reused rather than restated — see ArchitectureNameMatcher.
+# by the very rules the architecture evaluator matches elements with — a named
+# element on its name, a connector on its description, connectors only to
+# connectors — reused rather than restated — see ArchitectureNameMatcher.
 SOURCE_SPEC = {"name": "architecturalDecisionSource",
                "json": ["architecturalDecisionSource", "architectural_decision_source", "ArchitecturalDecisionSource"],
                "gt": ["AD Source", "ArchitecturalDecisionSource"],
@@ -290,8 +295,27 @@ def split_ref_tokens(v) -> list[str]:
     return tokens
 
 
-def build_architecture_id_to_name(records: list[dict]) -> dict:
-    return {r["id"]: norm_text(r.get("name")) for r in records if r.get("id") and not _is_blank(r.get("name"))}
+def build_architecture_id_to_text(records: list[dict]) -> dict:
+    """id -> the element's anchor text, as the architecture evaluator defines it
+    (`match_text`): a connector's `description`, since connectors carry no name,
+    otherwise the element's `name`."""
+    id_to_text = {}
+    for r in records:
+        text = match_text(r)
+        if r.get("id") and text:
+            id_to_text[r["id"]] = text
+    return id_to_text
+
+
+def architecture_connector_ids(records: list[dict]) -> set:
+    return {r["id"] for r in records if r.get("id") and is_connector(r)}
+
+
+def element_kind(connector_ids: set):
+    """The citation kind for an element reference: "connector" for a connector
+    id, so it is only ever matched against another connector, otherwise "name"
+    (what `citation_kind` gives every element id)."""
+    return lambda token: "connector" if token in connector_ids else citation_kind(token)
 
 
 def build_gt_requirement_id_to_text(gt_requirements: list[dict]) -> dict:
@@ -333,7 +357,8 @@ class Reference(NamedTuple):
     an id and writing a name out are claims about different populations — see
     CitationFormMatcher — and is simply ignored by the element matcher."""
     text: str
-    #: "id" when written as a catalog id, "name" when written out as text.
+    #: "id" when written as a catalog id, "name" when written out as text;
+    #: for an element, "connector" when it cites a connector (see `element_kind`).
     kind: str
 
 
@@ -359,7 +384,8 @@ def plain_resolve(token: str, id_to_text: dict) -> str | None:
     return norm_text(id_to_text.get(token, token))
 
 
-def resolved_ref_tokens(raw_value, id_to_text: dict, resolve=plain_resolve) -> list[Reference]:
+def resolved_ref_tokens(raw_value, id_to_text: dict, resolve=plain_resolve,
+                        kind_of=citation_kind) -> list[Reference]:
     """Resolve a reference field to the references it cites — one entry per
     distinct reference, which is what makes the field scorable set-wise.
 
@@ -373,7 +399,7 @@ def resolved_ref_tokens(raw_value, id_to_text: dict, resolve=plain_resolve) -> l
     """
     seen, refs = set(), []
     for token in split_ref_tokens(raw_value):
-        kind = citation_kind(token)
+        kind = kind_of(token)
         text = resolve(token, id_to_text)
         if not text:
             continue
@@ -483,15 +509,20 @@ class ArchitectureNameMatcher(ReferenceMatcher):
         return compute_similarity([r.text for r in gt_refs], [r.text for r in llm_refs])
 
     def align(self, gt_refs, llm_refs, scores):
-        """Hand the pair's references to the architecture evaluator's matcher as
-        the named elements they are — the resolved name is the element's name —
-        so the rule is applied, not reimplemented."""
-        return match_named_elements(
-            [{"name": r.text} for r in llm_refs],
-            [{"name": r.text} for r in gt_refs],
-            scores, self.threshold,
-            list(range(len(llm_refs))), list(range(len(gt_refs))),
-        )
+        """Hand the pair's references to the architecture evaluator's matchers
+        as the elements they are, so its rules are applied, not reimplemented:
+        named elements by `match_named_elements` (the resolved text is the
+        element's name), connectors by `match_connectors` (the resolved text is
+        the connector's description). The two passes cover disjoint references,
+        so a connector is only ever matched to another connector."""
+        llm_recs = [{"name": r.text} for r in llm_refs]
+        gt_recs = [{"name": r.text} for r in gt_refs]
+        pairs = []
+        for kind, matcher in (("name", match_named_elements), ("connector", match_connectors)):
+            llm_idxs = [i for i, r in enumerate(llm_refs) if (r.kind == "connector") == (kind == "connector")]
+            gt_idxs = [j for j, r in enumerate(gt_refs) if (r.kind == "connector") == (kind == "connector")]
+            pairs.extend(matcher(llm_recs, gt_recs, scores, self.threshold, llm_idxs, gt_idxs))
+        return pairs
 
 
 class CitationFormMatcher(ReferenceMatcher):
@@ -585,12 +616,15 @@ class ReferenceField(NamedTuple):
 
 def build_reference_field(gt_values, llm_values, gt_idx: dict, llm_idx: dict,
                           matcher: ReferenceMatcher,
-                          resolve=plain_resolve) -> ReferenceField:
+                          resolve=plain_resolve,
+                          gt_kind_of=citation_kind,
+                          llm_kind_of=citation_kind) -> ReferenceField:
     """Resolve one reference field on both sides — by the field's own resolver,
     see `resolve` in the field specs — and score its token vocabulary with the
-    field's matcher."""
-    gt_tokens = [resolved_ref_tokens(v, gt_idx, resolve) for v in gt_values]
-    llm_tokens = [resolved_ref_tokens(v, llm_idx, resolve) for v in llm_values]
+    field's matcher. `gt_kind_of`/`llm_kind_of` tag each token with its kind
+    (see `Reference.kind`) against that side's own artifacts."""
+    gt_tokens = [resolved_ref_tokens(v, gt_idx, resolve, gt_kind_of) for v in gt_values]
+    llm_tokens = [resolved_ref_tokens(v, llm_idx, resolve, llm_kind_of) for v in llm_values]
 
     gt_vocab = sorted({t for toks in gt_tokens for t in toks})
     llm_vocab = sorted({t for toks in llm_tokens for t in toks})
@@ -1012,8 +1046,12 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
     # (Concept ID -> name); concept ids take precedence on key collision, which
     # cannot happen in practice since the two id namespaces (R_xx / C_xx) are
     # disjoint by construction.
-    element_gt_idx = build_architecture_id_to_name(load_architecture_ground_truth(gt_architecture_path))
-    element_llm_idx = build_architecture_id_to_name(load_architecture_llm_extraction(llm_architecture_path))
+    # Elements resolve like the architecture evaluator anchors them: a connector
+    # through its description, every other element through its name.
+    gt_architecture = load_architecture_ground_truth(gt_architecture_path)
+    llm_architecture = load_architecture_llm_extraction(llm_architecture_path)
+    element_gt_idx = build_architecture_id_to_text(gt_architecture)
+    element_llm_idx = build_architecture_id_to_text(llm_architecture)
     source_gt_idx = {
         **build_gt_requirement_id_to_text(load_requirement_ground_truth(gt_requirement_path)),
         **load_ground_truth_concepts(gt_concept_path),
@@ -1026,6 +1064,10 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
         SOURCE_SPEC["name"]: (source_gt_idx, source_llm_idx),
         ELEMENT_SPEC["name"]: (element_gt_idx, element_llm_idx),
     }
+    kinds = {
+        ELEMENT_SPEC["name"]: {"gt_kind_of": element_kind(architecture_connector_ids(gt_architecture)),
+                               "llm_kind_of": element_kind(architecture_connector_ids(llm_architecture))},
+    }
     ref_fields = {
         spec["name"]: build_reference_field(
             [r.get(spec["name"]) for r in gt],
@@ -1033,6 +1075,7 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
             *resolvers[spec["name"]],
             matcher=spec["matcher"](threshold),
             resolve=spec.get("resolve", plain_resolve),
+            **kinds.get(spec["name"], {}),
         )
         for spec in REFERENCE_SPECS
     }

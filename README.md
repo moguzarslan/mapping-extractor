@@ -177,7 +177,15 @@ Put each input document at `resource/docs/<DOC_ID>/<DOC_ID>.pdf`, add its ID to 
 python main/pipeline/pipeline.py
 ```
 
+This runs the three stages in order over the documents in `DOCUMENTS`, as one chained extraction:
+
+- Each stage runs **once** per document. The `*_RUNS` variables are ignored.
+- The decision stage uses the requirements, concepts and architecture that the first two stages **have just extracted** in this same execution.
+- All results are written under `outputs/pipeline/`, so a pipeline execution never overwrites the results of standalone stage runs.
+
 ### A single stage
+
+Each stage can also be run on its own. It then repeats `*_RUNS` times, and its evaluation reports are averaged across the runs:
 
 ```bash
 python main/requirement/requirement_extractor.py
@@ -193,7 +201,7 @@ python main/decision/decision_extractor.py
 
 When one document fails (for example a missing PDF or a response that can't be parsed), the error is logged and the remaining documents still run. If a document has no ground truth, it is extracted but not evaluated.
 
-> **Note: Stage III inputs.** The decision stage doesn't pick up whatever Stages I and II produced most recently. It reads fixed input paths that are defined at the top of [`main/decision/runner.py`](main/decision/runner.py) (`REQUIREMENT_INPUT_SUBDIR`, `ARCHITECTURE_INPUT_SUBDIR`), relative to `outputs/gemini/`. Before running Stage III, make sure those paths point at the requirement and architecture outputs you want to build on. If they don't exist, the document is skipped.
+> **Note: Stage III inputs when run on its own.** A standalone decision run doesn't use the latest requirement and architecture outputs. It reads fixed input paths set at the top of [`main/decision/runner.py`](main/decision/runner.py) (`REQUIREMENT_INPUT_SUBDIR`, `ARCHITECTURE_INPUT_SUBDIR`), relative to `outputs/gemini/`. This keeps every decision version working from the same inputs. If those files don't exist, the document is skipped. The full pipeline doesn't use these paths.
 
 ---
 
@@ -215,7 +223,7 @@ outputs/
         └── <DOC_ID>_<stage>_eval_avg.xlsx       # average over all runs
 ```
 
-Different versions write to different subfolders, so switching versions never overwrites earlier results.
+Different versions write to different subfolders, so switching versions never overwrites earlier results. A full pipeline execution writes the same structure under `outputs/pipeline/` (`outputs/pipeline/gemini/…` and `outputs/pipeline/evaluation/…`), always with a single `run_1`.
 
 ---
 

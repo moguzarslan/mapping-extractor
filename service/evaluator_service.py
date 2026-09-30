@@ -1067,10 +1067,13 @@ def average_type_breakdowns(reports: list[dict]) -> pd.DataFrame:
         for col in ratio_cols:
             values = [t.loc[t["type"] == ty, col].iloc[0] for t in tables if (t["type"] == ty).any()]
             row[col] = avg_ratio(values)
+        # F1 from the averaged precision/recall; "-" when either is undefined.
+        p, r = row["precision"], row["recall"]
+        row["f1"] = "-" if "-" in (p, r) else _fmt(f1_score(p, r))
         rows.append(row)
 
     # No re-sort: `all_types` already carries the input tables' row order.
-    return pd.DataFrame(rows, columns=["type"] + count_cols + ratio_cols)
+    return pd.DataFrame(rows, columns=["type"] + count_cols + ratio_cols + ["f1"])
 
 
 def write_average_type_breakdown_report(reports: list[dict], output_path) -> None:
