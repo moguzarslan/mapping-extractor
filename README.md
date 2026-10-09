@@ -57,6 +57,7 @@ The LLM backend is **Google Gemini on Vertex AI**. Matching during evaluation us
 
 | Path | Contents |
 |---|---|
+| `run.py` | Single entry point; runs the stage or pipeline named by `EXECUTION_MODE` |
 | `main/requirement/` | Stage I: entry point, runner, strategies and version catalogue |
 | `main/architecture/` | Stage II: same structure |
 | `main/decision/` | Stage III: same structure |
@@ -111,6 +112,9 @@ GOOGLE_CLOUD_LOCATION=us-central1
 GOOGLE_GENAI_USE_VERTEXAI=true
 GEMINI_MODEL=gemini-3.1-flash-lite
 
+# --- What run.py executes ---
+EXECUTION_MODE=PIPELINE         # REQUIREMENT | ARCHITECTURE | DECISION | PIPELINE
+
 # --- Documents to process (comma-separated document IDs) ---
 DOCUMENTS=CF_M01,CF_M05,CF_M08
 
@@ -135,6 +139,7 @@ DECISION_ARCHITECTURE_INPUT=result/output/architecture/design/v3/{file_name}/run
 | `GOOGLE_CLOUD_PROJECT` | yes | none | GCP project that has Vertex AI enabled |
 | `GOOGLE_CLOUD_LOCATION` | no | `us-central1` | Vertex AI region |
 | `GEMINI_MODEL` | no | `gemini-3.1-flash-lite` | Generation model |
+| `EXECUTION_MODE` | for `run.py` | none | What `python run.py` executes: `REQUIREMENT`, `ARCHITECTURE`, `DECISION` (a single stage) or `PIPELINE` (all three). Case-insensitive |
 | `DOCUMENTS` | yes | none | Document IDs to process, matching folders in `resource/docs/` |
 | `*_VERSION` | no | `v2` / `v3` / `v3` | Prompt version per stage (see below) |
 | `*_RUNS` | no | `3` | Repetitions per document for that stage |
@@ -175,6 +180,14 @@ Versions are case-insensitive, and a bare number also works (`V2`, `v2` and `2` 
 ## Running the pipeline
 
 Put each input document at `resource/docs/<DOC_ID>/<DOC_ID>.pdf`, add its ID to `DOCUMENTS`, and run the commands from the project root.
+
+The simplest way is to set `EXECUTION_MODE` in `.env` and run:
+
+```bash
+python run.py
+```
+
+`PIPELINE` runs the full pipeline and `REQUIREMENT`, `ARCHITECTURE` or `DECISION` run that single stage, exactly as the commands below do. The per-stage scripts below can still be run directly.
 
 ### Full pipeline (all three stages)
 
