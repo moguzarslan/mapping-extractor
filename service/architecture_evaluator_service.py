@@ -1116,8 +1116,7 @@ def evaluate_architecture(gt_path, llm_path, output_path, threshold=0.75):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with pd.ExcelWriter(output_path, engine="openpyxl") as w:
         _write_field_metrics(w, report["Field_Metrics_Name"], report["Field_Metrics_Other"])
-        for sheet in ("Class_Breakdown", "Matching_Summary", "Field_Counts",
-                      "Matched_TP", "False_Positives", "False_Negatives"):
+        for sheet in ("Class_Breakdown", "Matching_Summary", "Field_Counts"):
             report[sheet].to_excel(w, sheet_name=sheet, index=False)
 
     # Side-car files (same naming convention as the requirements evaluator): the

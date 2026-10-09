@@ -10,11 +10,12 @@ which the LLM populated the field (service/architecture_evaluator_service.py):
   - connectors: the hub-centred endpoint pairs, mapped through the matching, must
     equal the GT pairs.
 
-For every document and run the script reads the matched pairs the evaluator
-produced (Matched_TP of <doc>_arch_eval.xlsx), the LLM extraction JSON and the
-ground-truth workbook, re-judges every pair with the evaluator's own
-`field_agrees` (no embeddings are computed, so the figures reproduce the reported
-ones) and attributes every wrong pair to ONE primary cause, checked in this order:
+For every document and run the script reads the LLM extraction JSON and the
+ground-truth workbook, recomputes the matched pairs with the evaluator's own
+element matching (the evaluation workbook no longer stores them), re-judges every
+pair with the evaluator's own `field_agrees`, checks the result against the
+evaluator's Field_Counts of <doc>_arch_eval.xlsx, and attributes every wrong pair
+to ONE primary cause, checked in this order:
 
   Ground truth   GT has no parent / GT parent id does not resolve
   Upstream       a GT parent (connector endpoint) was never extracted or matched
@@ -88,7 +89,7 @@ from openpyxl.styles import Font  # noqa: E402
 sys.path.insert(0, str(PROJECT_ROOT))
 from service import architecture_evaluator_service as ev  # noqa: E402
 
-THRESHOLD = 0.75  # unused by the isPartOf judgement, required by the signature
+THRESHOLD = 0.75  # the evaluator's element-matching threshold; unused by the isPartOf judgement
 
 GROUND_TRUTH = "Ground truth"
 UPSTREAM = "Upstream (extraction / matching)"
@@ -182,20 +183,28 @@ def connector_cause(l_rec, g_rec, gt, llm_idx, gt_idx, llm_to_gt, gt_to_llm):
 # ---------------------------------------------------------------------------
 # One run
 # ---------------------------------------------------------------------------
+def matched_pairs(gt: list[dict], llm: list[dict]) -> list[tuple[int, int]]:
+    """The (llm, gt) index pairs the evaluator matched, recomputed with its own
+    two passes exactly as `evaluate_architecture` runs them: named elements on
+    their name, then connectors on their description, connectors only."""
+    sim = ev.compute_similarity([ev.match_text(r) for r in gt],
+                                [ev.match_text(r) for r in llm])  # (n_llm, n_gt)
+    nonconn_llm = [i for i in range(len(llm)) if not ev.is_connector(llm[i])]
+    nonconn_gt = [j for j in range(len(gt)) if not ev.is_connector(gt[j])]
+    pairs = ev.match_named_elements(llm, gt, sim, THRESHOLD, nonconn_llm, nonconn_gt)
+    llm_conn = [i for i in range(len(llm)) if ev.is_connector(llm[i])]
+    gt_conn = [j for j in range(len(gt)) if ev.is_connector(gt[j])]
+    pairs += ev.match_connectors(llm, gt, sim, THRESHOLD, llm_conn, gt_conn)
+    return [(i, j) for i, j, *_ in pairs]
+
+
 def analyse_run(doc: str, run: str, gt_path: Path, llm_path: Path, eval_path: Path) -> list[dict]:
     ispartof = ev.SPEC_BY_NAME["isPartOf"]
     gt = ev.load_ground_truth(str(gt_path))
     llm = ev.load_llm_extraction(str(llm_path))
     llm_idx, gt_idx = ev.build_id_index(llm), ev.build_id_index(gt)
 
-    matched = pd.read_excel(eval_path, sheet_name="Matched_TP", dtype=str)
-    pairs = []
-    for llm_id, gt_id in zip(matched.get("LLM_ID", []), matched.get("GT_ID", [])):
-        i, j = llm_idx.get(str(llm_id).strip()), gt_idx.get(str(gt_id).strip())
-        if i is None or j is None:
-            print(f"  ! {doc}/{run}: matched pair {llm_id} / {gt_id} not found in inputs")
-            continue
-        pairs.append((i, j))
+    pairs = matched_pairs(gt, llm)
     llm_to_gt = {i: j for i, j in pairs}
     gt_to_llm = {j: i for i, j in pairs}
 

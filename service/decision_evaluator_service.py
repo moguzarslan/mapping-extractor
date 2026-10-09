@@ -1087,7 +1087,7 @@ def evaluate_decisions(gt_decision_path, llm_decision_path,
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with pd.ExcelWriter(output_path, engine="openpyxl") as w:
         _write_field_metrics(w, report["Field_Metrics_Anchor"], report["Field_Metrics_Fields"])
-        for sheet in ("Matching_Summary", "Field_Counts", "Matched_TP", "False_Positives", "False_Negatives"):
+        for sheet in ("Matching_Summary", "Field_Counts"):
             report[sheet].to_excel(w, sheet_name=sheet, index=False)
 
     # Side-car files (same naming convention as the architecture evaluator): the
