@@ -27,7 +27,7 @@ For each document:
 
 Which architecture extraction is "Stage II's output" for a document is fixed,
 not configurable, matching the one actually fed to the decision stage (see
-main/decision/runner.py's ARCHITECTURE_INPUT_SUBDIR and its module docstring
+the DECISION_ARCHITECTURE_INPUT variable main/decision/runner.py reads
 for how this was established for each document set):
   Design documents (CF_M01, CF_M05, CF_M08)   architecture/design/v3/<doc>/run_1
   Pilot documents  (CF_M04, CF_M06, CF_M09)   architecture/validation/<doc>/run_1

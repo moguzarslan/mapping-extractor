@@ -79,6 +79,7 @@ _ensure_project_interpreter()
 import tempfile  # noqa: E402
 
 import pandas as pd  # noqa: E402
+from dotenv import load_dotenv  # noqa: E402
 
 sys.path.insert(0, str(PROJECT_ROOT))
 from service.decision_evaluator_service import (  # noqa: E402
@@ -88,6 +89,9 @@ from service.decision_evaluator_service import (  # noqa: E402
 )
 from main.decision.runner import DecisionExtractionRunner  # noqa: E402
 from main.decision.versions import get_version  # noqa: E402
+
+# `runner.sources` reads the decision stage's inputs from the environment.
+load_dotenv(PROJECT_ROOT / ".env")
 
 # ---------------------------------------------------------------------------
 # Configuration — edit and re-run to analyse a different version.

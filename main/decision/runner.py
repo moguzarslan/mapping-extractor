@@ -34,11 +34,15 @@ DOCUMENTS_ENV_KEY = "DOCUMENTS"
 RUNS_ENV_KEY = "DECISION_RUNS"
 
 # The decision pass consumes three already-final extraction artifacts and produces
-# no new ids of its own for them, so it reads the exact files these point at — and
-# the evaluator is later handed the same paths, so the ids in a decision resolve
-# against the very artifacts the model was shown.
-REQUIREMENT_INPUT_SUBDIR = "requirement/validation/gemini-3-5/{file_name}/first"
-ARCHITECTURE_INPUT_SUBDIR = "architecture/design/v3/{file_name}/run_1"
+# no new ids of its own for them, so it reads the exact files these variables point
+# at — and the evaluator is later handed the same paths, so the ids in a decision
+# resolve against the very artifacts the model was shown. Each value is a path
+# template, relative to the project root unless absolute, in which `{file_name}`
+# stands for the document id. The concepts file is not configured separately: it
+# is `{file_name}_concepts.json` next to the requirements file, which is where the
+# requirement stage writes it.
+REQUIREMENT_INPUT_ENV_KEY = "DECISION_REQUIREMENT_INPUT"
+ARCHITECTURE_INPUT_ENV_KEY = "DECISION_ARCHITECTURE_INPUT"
 
 # Marks every file the second, narrower evaluation below writes — see
 # `build_found_elements_only_ground_truth`.
@@ -55,6 +59,19 @@ def get_document_files_from_env(env_key: str = DOCUMENTS_ENV_KEY) -> list[str]:
         raise ValueError(f"No valid file paths found in '{env_key}'.")
 
     return files
+
+
+def get_input_path_from_env(env_key: str, file_name: str) -> Path:
+    """The upstream artifact `env_key` names for document `file_name`."""
+    template = os.getenv(env_key, "").strip()
+    if not template:
+        raise ValueError(f"Environment variable '{env_key}' is empty or not set.")
+    try:
+        path = Path(template.format(file_name=file_name))
+    except (KeyError, IndexError, ValueError):
+        raise ValueError(f"'{env_key}' may only use the '{{file_name}}' placeholder, "
+                         f"got {template!r}.") from None
+    return path if path.is_absolute() else PROJECT_ROOT / path
 
 
 def get_run_count(env_key: str = RUNS_ENV_KEY, default: int = DEFAULT_RUNS) -> int:
@@ -87,8 +104,8 @@ class DecisionExtractionRunner:
         # stage's standalone runs.
         self.output_root = Path(output_root)
         # Which upstream artifacts a document's decision pass reads. None means
-        # the fixed, already-final files REQUIREMENT_INPUT_SUBDIR and
-        # ARCHITECTURE_INPUT_SUBDIR point at; the full pipeline instead hands
+        # the already-final files DECISION_REQUIREMENT_INPUT and
+        # DECISION_ARCHITECTURE_INPUT point at; the full pipeline instead hands
         # over the artifacts its own earlier stages have just produced.
         self.sources_resolver = sources_resolver
 
@@ -333,13 +350,12 @@ class DecisionExtractionRunner:
     def sources(self, file_name: str) -> DecisionSources:
         if self.sources_resolver is not None:
             return self.sources_resolver(file_name)
-        gemini = PROJECT_ROOT / "outputs" / "gemini"
-        requirement_dir = gemini / REQUIREMENT_INPUT_SUBDIR.format(file_name=file_name)
-        architecture_dir = gemini / ARCHITECTURE_INPUT_SUBDIR.format(file_name=file_name)
+        requirements_json = get_input_path_from_env(REQUIREMENT_INPUT_ENV_KEY, file_name)
+        architecture_json = get_input_path_from_env(ARCHITECTURE_INPUT_ENV_KEY, file_name)
         return DecisionSources(
-            requirements_json=str(requirement_dir / f"{file_name}_requirements.json"),
-            concepts_json=str(requirement_dir / f"{file_name}_concepts.json"),
-            architecture_json=str(architecture_dir / f"{file_name}_architecture.json"),
+            requirements_json=str(requirements_json),
+            concepts_json=str(requirements_json.parent / f"{file_name}_concepts.json"),
+            architecture_json=str(architecture_json),
         )
 
     def ground_truth(self, artifact: str, file_name: str) -> Path:

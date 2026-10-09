@@ -9,8 +9,8 @@ A pipeline execution differs from running the stages on their own in two ways:
     experiment;
   - the decision stage reads the requirements, concepts and architecture this
     very execution has just extracted, instead of the fixed, already-final
-    artifacts its standalone runner reads (see main/decision/runner.py's
-    REQUIREMENT_INPUT_SUBDIR / ARCHITECTURE_INPUT_SUBDIR).
+    artifacts its standalone runner reads (DECISION_REQUIREMENT_INPUT /
+    DECISION_ARCHITECTURE_INPUT, see main/decision/runner.py).
 
 Everything the pipeline writes lives under outputs/pipeline/, so an execution
 never overwrites a stage's standalone runs. The stages' own behaviour —

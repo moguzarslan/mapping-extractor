@@ -125,6 +125,9 @@ ARCHITECTURE_RUNS=3
 # --- Stage III: architectural decision extraction ---
 DECISION_VERSION=v4             # v1 | v2 | v3 | v4
 DECISION_RUNS=3
+# Upstream artifacts the standalone decision stage reads ({file_name} = document ID)
+DECISION_REQUIREMENT_INPUT=outputs/gemini/requirement/validation/gemini-3-5/{file_name}/first/{file_name}_requirements.json
+DECISION_ARCHITECTURE_INPUT=outputs/gemini/architecture/design/v3/{file_name}/run_1/{file_name}_architecture.json
 ```
 
 | Variable | Required | Default | Description |
@@ -135,6 +138,8 @@ DECISION_RUNS=3
 | `DOCUMENTS` | yes | none | Document IDs to process, matching folders in `resource/docs/` |
 | `*_VERSION` | no | `v2` / `v3` / `v3` | Prompt version per stage (see below) |
 | `*_RUNS` | no | `3` | Repetitions per document for that stage |
+| `DECISION_REQUIREMENT_INPUT` | for the decision stage | none | Path template of the requirements JSON the decision stage reads; `{file_name}` is replaced by the document ID, relative paths resolve against the project root. The concepts JSON is read from the same folder (`{file_name}_concepts.json`) |
+| `DECISION_ARCHITECTURE_INPUT` | for the decision stage | none | Path template of the architecture JSON the decision stage reads, same format |
 | `EVAL_EMBEDDING_MODEL` | no | `text-embedding-005` | Embedding model used for matching during evaluation |
 
 Versions are case-insensitive, and a bare number also works (`V2`, `v2` and `2` all select `v2`).
@@ -201,7 +206,7 @@ python main/decision/decision_extractor.py
 
 When one document fails (for example a missing PDF or a response that can't be parsed), the error is logged and the remaining documents still run. If a document has no ground truth, it is extracted but not evaluated.
 
-> **Note: Stage III inputs when run on its own.** A standalone decision run doesn't use the latest requirement and architecture outputs. It reads fixed input paths set at the top of [`main/decision/runner.py`](main/decision/runner.py) (`REQUIREMENT_INPUT_SUBDIR`, `ARCHITECTURE_INPUT_SUBDIR`), relative to `outputs/gemini/`. This keeps every decision version working from the same inputs. If those files don't exist, the document is skipped. The full pipeline doesn't use these paths.
+> **Note: Stage III inputs when run on its own.** A standalone decision run doesn't use the latest requirement and architecture outputs. It reads the input files named by `DECISION_REQUIREMENT_INPUT` and `DECISION_ARCHITECTURE_INPUT` in `.env` (path templates where `{file_name}` is the document ID, relative to the project root). The concepts JSON is read from the requirements JSON's folder. This keeps every decision version working from the same inputs. If those files don't exist, the document is skipped. The full pipeline doesn't use these paths.
 
 ---
 
