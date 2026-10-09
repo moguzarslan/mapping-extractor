@@ -50,11 +50,11 @@ exact translations used can be inspected there.
 Report sheets: Summary (one row per stage) and End to end (per run).
 
 Scope: requirement, decision and architecture anchors of every gemini-3-5
-run (outputs/gemini/<stage>/validation/gemini-3-5/). Only anchors are
+run (result/output/<stage>/validation/gemini-3-5/). Only anchors are
 translated; an architecture element's non-anchor description is left as it
 was, since it does not decide whether the element is matched.
 
-Nothing under outputs/, resource/ or any code is modified. Writes the report
+Nothing under result/, resource/ or any code is modified. Writes the report
 and the translation cache under analysis/report/.
 
 Usage (from any directory):
@@ -148,8 +148,8 @@ _norm = _audit._norm
 THRESHOLD = 0.75  # the evaluators' default anchor threshold
 DOCS = ["CF_M01", "CF_M05", "CF_M08", "CF_M04", "CF_M06", "CF_M09"]
 
-GEMINI = PROJECT_ROOT / "outputs" / "gemini"
-EVALUATION = PROJECT_ROOT / "outputs" / "evaluation"
+GEMINI = PROJECT_ROOT / "result" / "output"
+EVALUATION = PROJECT_ROOT / "result" / "evaluation"
 GROUND_TRUTHS = PROJECT_ROOT / "resource" / "groundTruths"
 
 STAGES = {

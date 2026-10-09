@@ -23,14 +23,14 @@ directly:
 
 This script performs analysis only. It reads existing extraction outputs and
 ground truth, and writes ONE new report under analysis/report/ — it does not
-write, move or modify anything under outputs/ or resource/. The filtered
+write, move or modify anything under result/ or resource/. The filtered
 ground truth is rebuilt in memory (via the exact same, unmodified
 `DecisionExtractionRunner.build_found_elements_only_ground_truth` used by the
 real pipeline) inside a temporary directory that is discarded immediately.
 
 Which decision version to analyse is set by VERSION_NUMBER below — the design
 prompt version (design/v1 .. design/v4), always resolved to the "design/vN"
-folder under outputs/gemini/decision/ and outputs/evaluation/decision/, never
+folder under result/output/decision/ and result/evaluation/decision/, never
 the validation set. The document set and run count are discovered from that
 folder, not hard-coded. The report is named after the version so different
 versions never overwrite each other.
@@ -128,9 +128,9 @@ def average_references_per_element(counts: dict[str, int]) -> float | None:
 
 def discover_runs(version: str) -> dict[str, list[Path]]:
     """{document: [run decision json paths, sorted]} under
-    outputs/gemini/decision/<version>/ — whatever documents and runs actually
+    result/output/decision/<version>/ — whatever documents and runs actually
     exist there, nothing hard-coded."""
-    base = PROJECT_ROOT / "outputs" / "gemini" / "decision" / version
+    base = PROJECT_ROOT / "result" / "output" / "decision" / version
     runs: dict[str, list[Path]] = {}
     for path in sorted(base.glob("*/run_*/*_decision.json")):
         doc = path.parent.parent.name
@@ -175,7 +175,7 @@ def _avg(values: list[float | None]) -> float | None:
 def build_report(version: str) -> dict[str, pd.DataFrame]:
     runs_by_doc = discover_runs(version)
     if not runs_by_doc:
-        raise ValueError(f"No decision runs found under outputs/gemini/decision/{version}/")
+        raise ValueError(f"No decision runs found under result/output/decision/{version}/")
 
     # Any version works here — `sources` / `build_found_elements_only_ground_truth`
     # do not depend on it, only on the document and the fixed architecture input

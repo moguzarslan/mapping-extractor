@@ -38,7 +38,7 @@ the one run made available there.)
 This script performs analysis only: it reads existing ground truth and
 evaluation reports and writes ONE new report under analysis/report/. It makes
 no extraction or evaluation calls (no embeddings, no LLM), and writes nothing
-under outputs/ or resource/.
+under result/ or resource/.
 
 Usage (from any directory):
     analysis/script/decision_architecture_dependency.py
@@ -49,7 +49,7 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-EVAL_ROOT = PROJECT_ROOT / "outputs" / "evaluation"
+EVAL_ROOT = PROJECT_ROOT / "result" / "evaluation"
 GROUND_TRUTHS = PROJECT_ROOT / "resource" / "groundTruths"
 REPORT_DIR = PROJECT_ROOT / "analysis" / "report"
 VENV_PYTHON = PROJECT_ROOT / ".venv" / "bin" / "python"

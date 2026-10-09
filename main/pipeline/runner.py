@@ -12,7 +12,7 @@ A pipeline execution differs from running the stages on their own in two ways:
     artifacts its standalone runner reads (DECISION_REQUIREMENT_INPUT /
     DECISION_ARCHITECTURE_INPUT, see main/decision/runner.py).
 
-Everything the pipeline writes lives under outputs/pipeline/, so an execution
+Everything the pipeline writes lives under result/pipeline/, so an execution
 never overwrites a stage's standalone runs. The stages' own behaviour —
 versions, extraction, evaluation, isolating one document's failure from the
 others — is left to their runners, unchanged.

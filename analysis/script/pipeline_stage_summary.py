@@ -11,13 +11,13 @@ project's chosen versions: Requirement v2, Architecture v3, Decision v4.
 Document sets:
   Design       CF_M01, CF_M05, CF_M08 — the documents the prompts were iterated on.
   Evaluation   CF_M04, CF_M06, CF_M09 — the held-out documents ("validation" in
-               the outputs/ folder names) the settled prompt was then tried on.
+               the result/ folder names) the settled prompt was then tried on.
   All          Design + Evaluation together.
 
 Models:
   gemini-3-1   the project default (DEFAULT_GEMINI_MODEL in infra/gemini_client.py).
-               Design-set runs live under outputs/evaluation/<stage>/design/vN/;
-               evaluation-set runs under outputs/evaluation/<stage>/validation/
+               Design-set runs live under result/evaluation/<stage>/design/vN/;
+               evaluation-set runs under result/evaluation/<stage>/validation/
                (or, for the requirement stage specifically, the explicitly named
                .../validation/gemini-3-1-flash-lite/ — the requirement stage is
                the only one that names this folder instead of leaving it bare).
@@ -53,7 +53,7 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-EVAL_ROOT = PROJECT_ROOT / "outputs" / "evaluation"
+EVAL_ROOT = PROJECT_ROOT / "result" / "evaluation"
 REPORT_DIR = PROJECT_ROOT / "analysis" / "report"
 VENV_PYTHON = PROJECT_ROOT / ".venv" / "bin" / "python"
 _REEXEC_FLAG = "PIPELINE_STAGE_SUMMARY_REEXEC"
@@ -98,7 +98,7 @@ DOC_SETS = [("Design", DESIGN_DOCS), ("Evaluation", EVALUATION_DOCS),
 # One entry per stage: which version to read, where its avg reports live, what
 # they are named, and which sheet holds the field/precision/recall/f1 table.
 # `evaluation_31_subdir` is where the bare (gemini-3-1) evaluation-set run sits
-# under outputs/evaluation/<subdir>/ — every stage but requirement leaves it
+# under result/evaluation/<subdir>/ — every stage but requirement leaves it
 # unnamed.
 STAGES = [
     {

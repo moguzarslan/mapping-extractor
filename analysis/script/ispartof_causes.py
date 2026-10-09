@@ -290,13 +290,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--version", default="design/v3",
-                        help="subdirectory under outputs/{evaluation,gemini}/architecture (default: design/v3)")
+                        help="subdirectory under result/{evaluation,output}/architecture (default: design/v3)")
     parser.add_argument("--output", type=Path, default=None,
                         help="output xlsx (default: analysis/report/isPartOf_causes_<version>.xlsx)")
     args = parser.parse_args()
 
-    eval_root = PROJECT_ROOT / "outputs" / "evaluation" / "architecture" / args.version
-    llm_root = PROJECT_ROOT / "outputs" / "gemini" / "architecture" / args.version
+    eval_root = PROJECT_ROOT / "result" / "evaluation" / "architecture" / args.version
+    llm_root = PROJECT_ROOT / "result" / "output" / "architecture" / args.version
     gt_root = PROJECT_ROOT / "resource" / "groundTruths" / "architecture"
     output = args.output or REPORT_DIR / f"isPartOf_causes_{args.version.replace('/', '_')}.xlsx"
 

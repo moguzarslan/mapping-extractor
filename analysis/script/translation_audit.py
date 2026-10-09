@@ -7,7 +7,7 @@
 # translation cache are translated with Gemini, so the project's .env
 # credentials must work for those.
 """
-Translation-to-English audit of every extraction output under outputs/gemini/.
+Translation-to-English audit of every extraction output under result/output/.
 
 Every stage's prompt requires its free-text fields to be translated to
 English while extracting. This script checks how well that held, over every
@@ -40,7 +40,7 @@ many English ones as Catalan at confidence 1.0. For concepts only:
     field — and a name is a leak when fastText's top language is not English.
     No confidence threshold is applied: fastText's scores on two- or
     three-word labels are low (0.3–0.4) even when its language is right.
-Checked by hand over all 73 distinct concept names in outputs/gemini/: no
+Checked by hand over all 73 distinct concept names in result/output/: no
 English label is flagged, and every flagged one is genuine Spanish/Catalan;
 one genuine Catalan label ("Requisit no funcional – Rendiment") is read as
 English and missed. Concepts therefore have no borderline cases.
@@ -65,10 +65,10 @@ and patterns; descriptions are the anchor of connectors (stored among the
 units, with type "Connector") and a non-anchor field of units and patterns.
 The description row is the total over all three kinds.
 
-This script only reads outputs/gemini/ and the ground truth is never touched.
+This script only reads result/output/ and the ground truth is never touched.
 It writes the report (and adds any new name translations to the translation
 cache) under analysis/report/ and nothing else — no output file, code file,
-or anything under outputs/ is modified.
+or anything under result/ is modified.
 
 Scope: the final prompt of each stage only — requirement v2 (with its
 concepts), architecture v3, decision v4 — i.e. those versions' design-set runs
@@ -93,7 +93,7 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-GEMINI_ROOT = PROJECT_ROOT / "outputs" / "gemini"
+GEMINI_ROOT = PROJECT_ROOT / "result" / "output"
 REPORT_DIR = PROJECT_ROOT / "analysis" / "report"
 VENV_PYTHON = PROJECT_ROOT / ".venv" / "bin" / "python"
 _REEXEC_FLAG = "TRANSLATION_AUDIT_REEXEC"
@@ -331,7 +331,7 @@ _VERSION_RE = re.compile(r"^v\d+$")
 
 def classify_path(rel_parts: tuple[str, ...]) -> tuple[str, str, str]:
     """(version_bucket, document, run) from a file's path parts relative to
-    outputs/gemini/<stage>/ — the folder-naming convention is not uniform
+    result/output/<stage>/ — the folder-naming convention is not uniform
     across stages (see main/pipeline_stage_summary.py's own notes on this),
     so this reads structure rather than assuming one fixed template."""
     document = next((p for p in rel_parts if _DOC_RE.match(p)), "?")

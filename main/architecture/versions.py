@@ -31,7 +31,7 @@ class ArchitectureVersion:
 
     #: Canonical name, as written in the environment variable.
     name: str
-    #: Path, relative to outputs/gemini and outputs/evaluation, that this version's
+    #: Path, relative to result/output and result/evaluation, that this version's
     #: results live under — every version sits in its own subfolder of a shared
     #: `architecture` folder, so the versions group together and never overwrite
     #: each other.

@@ -20,7 +20,7 @@ from service.prompt_service import save_requirements
 from main.requirement.versions import RequirementVersion, get_version_from_env
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs"
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "result"
 
 DEFAULT_RUNS = 3
 DOCUMENTS_ENV_KEY = "DOCUMENTS"
@@ -63,7 +63,7 @@ class RequirementExtractionRunner:
         self.version = version
         self.runs = runs
         self.documents = documents or []
-        # Where the `gemini/` (extraction) and `evaluation/` folders live. The
+        # Where the `output/` (extraction) and `evaluation/` folders live. The
         # full pipeline passes its own root so its results never overwrite a
         # stage's standalone runs.
         self.output_root = Path(output_root)
@@ -151,7 +151,7 @@ class RequirementExtractionRunner:
         print(f"Average by-type evaluation saved: {avg_by_type_output_path}")
 
     def extraction_dir(self, file_name: str) -> Path:
-        return self.output_root / "gemini" / self.version.output_subdir / file_name
+        return self.output_root / "output" / self.version.output_subdir / file_name
 
     def evaluation_dir(self, file_name: str) -> Path:
         return self.output_root / "evaluation" / self.version.output_subdir / file_name

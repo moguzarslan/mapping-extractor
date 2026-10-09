@@ -482,7 +482,7 @@ def extract_ispartof_links(file: str, units: list, patterns: list, prompt: str) 
 
 def save_architecture(units: list, connectors: list, patterns: list,
                       output_file_name: str = "architecture",
-                      output_dir: str = "outputs") -> str:
+                      output_dir: str = "result") -> str:
     """Merge the connector pass's records (connectors and the technologies they use)
     into the units, combine with the patterns, and write the single canonical
     architecture file — the ONLY file the architecture pass saves.
@@ -501,7 +501,7 @@ def save_architecture(units: list, connectors: list, patterns: list,
     return str(output_path)
 
 
-def process_chained_prompt(file: str, folder: str, final_prompt: str, output_dir: str = "outputs") -> None:
+def process_chained_prompt(file: str, folder: str, final_prompt: str, output_dir: str = "result") -> None:
 
     print(f"Processing: {folder}")
     requirements_prompt = build_document_prompt(file, Prompts.REQUIREMENT_EXTRACTION_PROMPT_V1, None)
@@ -732,7 +732,7 @@ def extract_concepts(requirements: list) -> tuple[list, list]:
 
 
 def save_requirements(requirements: list, concepts: list, output_file_name: str,
-                      output_dir: str = "outputs") -> tuple[str, str]:
+                      output_dir: str = "result") -> tuple[str, str]:
     """Write the two final requirement-pipeline artifacts — the ONLY files it
     persists: `<output_file_name>_requirements.json` (the requirements, each
     `concept` field pointing at a concept id) and `<output_file_name>_concepts.json`
@@ -987,14 +987,14 @@ def _as_decisions_list(data) -> list:
 
 def save_decisions(decisions: list,
                    output_file_name: str = "decisions",
-                   output_dir: str = "outputs") -> str:
+                   output_dir: str = "result") -> str:
     """Write the single canonical decision file — the ONLY file the decision pass
     saves — in the {architectural_decisions: [...]} shape the evaluator expects."""
     output_path = save_json({"architectural_decisions": decisions}, output_file_name, output_dir)
     return str(output_path)
 
 
-def process_validation_prompt(file: str, input_json_dir: str, prompt:str, output_file_name: str, output_dir: str = "outputs") -> None:
+def process_validation_prompt(file: str, input_json_dir: str, prompt:str, output_file_name: str, output_dir: str = "result") -> None:
 
     print(f"Processing validation prompt: {file}")
     input_json =  extract_json_from_file(input_json_dir)

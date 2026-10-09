@@ -66,7 +66,7 @@ The LLM backend is **Google Gemini on Vertex AI**. Matching during evaluation us
 | `resource/prompts/` | All prompt texts (`prompts.py`) |
 | `resource/docs/<DOC_ID>/` | Input documents, one folder per document (`<DOC_ID>.pdf`) |
 | `resource/groundTruths/<stage>/` | Human-annotated ground-truth workbooks |
-| `outputs/` | Generated extractions and evaluation reports (created on run) |
+| `result/` | Generated extractions and evaluation reports (created on run) |
 | `analysis/` | Scripts that analyse the results across runs and documents |
 | `thesis/` | Final data package that accompanies the thesis |
 
@@ -126,8 +126,8 @@ ARCHITECTURE_RUNS=3
 DECISION_VERSION=v4             # v1 | v2 | v3 | v4
 DECISION_RUNS=3
 # Upstream artifacts the standalone decision stage reads ({file_name} = document ID)
-DECISION_REQUIREMENT_INPUT=outputs/gemini/requirement/validation/gemini-3-5/{file_name}/first/{file_name}_requirements.json
-DECISION_ARCHITECTURE_INPUT=outputs/gemini/architecture/design/v3/{file_name}/run_1/{file_name}_architecture.json
+DECISION_REQUIREMENT_INPUT=result/output/requirement/validation/gemini-3-5/{file_name}/first/{file_name}_requirements.json
+DECISION_ARCHITECTURE_INPUT=result/output/architecture/design/v3/{file_name}/run_1/{file_name}_architecture.json
 ```
 
 | Variable | Required | Default | Description |
@@ -186,7 +186,7 @@ This runs the three stages in order over the documents in `DOCUMENTS`, as one ch
 
 - Each stage runs **once** per document. The `*_RUNS` variables are ignored.
 - The decision stage uses the requirements, concepts and architecture that the first two stages **have just extracted** in this same execution.
-- All results are written under `outputs/pipeline/`, so a pipeline execution never overwrites the results of standalone stage runs.
+- All results are written under `result/pipeline/`, so a pipeline execution never overwrites the results of standalone stage runs.
 
 ### A single stage
 
@@ -212,11 +212,11 @@ When one document fails (for example a missing PDF or a response that can't be p
 
 ## Outputs
 
-Everything lands under `outputs/`, organised by stage, version, document and run:
+Everything lands under `result/`, organised by stage, version, document and run:
 
 ```
-outputs/
-├── gemini/                                   # raw extractions
+result/
+├── output/                                   # raw extractions
 │   └── <stage>/<version>/<DOC_ID>/run_<n>/
 │       ├── <DOC_ID>_requirements.json        # Stage I
 │       ├── <DOC_ID>_concepts.json            # Stage I
@@ -228,7 +228,7 @@ outputs/
         └── <DOC_ID>_<stage>_eval_avg.xlsx       # average over all runs
 ```
 
-Different versions write to different subfolders, so switching versions never overwrites earlier results. A full pipeline execution writes the same structure under `outputs/pipeline/` (`outputs/pipeline/gemini/…` and `outputs/pipeline/evaluation/…`), always with a single `run_1`.
+Different versions write to different subfolders, so switching versions never overwrites earlier results. A full pipeline execution writes the same structure under `result/pipeline/` (`result/pipeline/output/…` and `result/pipeline/evaluation/…`), always with a single `run_1`.
 
 ---
 
