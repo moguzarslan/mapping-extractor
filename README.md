@@ -126,7 +126,7 @@ ARCHITECTURE_RUNS=3
 DECISION_VERSION=v4             # v1 | v2 | v3 | v4
 DECISION_RUNS=3
 # Upstream artifacts the standalone decision stage reads ({file_name} = document ID)
-DECISION_REQUIREMENT_INPUT=result/output/requirement/validation/gemini-3-5/{file_name}/first/{file_name}_requirements.json
+DECISION_REQUIREMENT_INPUT=result/output/requirement/validation/gemini-3-5/{file_name}/run_1/{file_name}_requirements.json
 DECISION_ARCHITECTURE_INPUT=result/output/architecture/design/v3/{file_name}/run_1/{file_name}_architecture.json
 ```
 
